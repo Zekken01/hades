@@ -1,0 +1,74 @@
+/* Port of screens/server_settings/settings.css: the settings page styles (shared
+   settings.rcss) with one page, no tabs, and text inputs. */
+
+.page {
+	top: 6.48vh;
+	height: 65vh;
+}
+
+.backgroundFill {
+	top: 0;
+	height: 100%;
+}
+
+.buttonContainer {
+	padding-bottom: 0;
+}
+
+.tinySetting {
+	width: 7.5vh;
+}
+
+.setting.textInput {
+	background-color: #00000033;
+	text-transform: none;
+	font-weight: 300;
+	line-height: 2.5vh;
+}
+
+textarea.setting {
+	height: 7vh;
+}
+
+.row.tall {
+	height: 7vh;
+}
+
+.show-password-btn {
+	cursor: pointer;
+	margin-left: 1vh;
+}
+
+.show-password-btn:hover {
+	color: white;
+	text-decoration: underline;
+}
+
+#closeButton {
+	position: absolute;
+	top: 1vh;
+	left: 0;
+	height: 4vh;
+	line-height: 3.9vh;
+	font-size: 3vh;
+	font-weight: 100;
+	color: #D8D8D8;
+	background-color: transparent;
+	border-width: 0;
+	text-align: left;
+	padding: 0;
+	cursor: pointer;
+}
+
+#closeButton img {
+	display: block;
+	position: relative;
+	height: 4vh;
+	width: 4vh;
+	float: left;
+}
+
+#closeButton:hover {
+	text-decoration: underline;
+	color: white;
+}

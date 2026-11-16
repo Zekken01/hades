@@ -1,0 +1,306 @@
+<rml>
+<head>
+	<title>Host Settings</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://screens/settings/settings.rcss"/>
+	<link type="text/rcss" href="server_settings.rcss"/>
+	<script src="dew://lib/jq.lua"></script>
+	<script src="dew://lib/input.lua"></script>
+	<script src="server_settings.lua"></script>
+</head>
+<body>
+<div id="overlay"></div>
+    <div id="settingsWindow">
+        <div class="headerFill"></div>
+        <h1 class="header">Host Settings</h1>
+        <div id="page1" class="page active">
+            <div class="buttonContainer">
+                <div class="row">
+                    <h3 class="subHeader">General</h3>
+                </div>
+                <div class="row">
+                    <label for="sNetworkMode">Network Mode</label>
+                    <div class="selectWrap setting" data-control="sNetworkMode"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sNetworkMode" class="inner">
+                        <option value="3">Online</option>
+                        <option value="4">Offline</option>
+                    </select></div>
+                </div>
+                <div class="row">
+                    <label for="sTagMod">Server Default Mod</label>
+                    <div class="selectWrap setting" data-control="sTagMod"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sTagMod" class="inner">
+                        <option value="">None</option>
+                    </select></div>
+                </div>
+                <div class="row">
+                    <label for="sName">Server Name</label>
+                    <input class="setting textInput" type="text" id="sName" placeholder="..."/>
+                </div>
+                <div class="row">
+                    <label for="sPass">Password</label>
+                    <input class="setting textInput" type="password" id="sPass" placeholder="..."/>
+                    <label class="show-password-btn" id="showPasswordBtn">Show</label>
+                </div>
+                <div class="row">
+                    <label for="sMessage">Join Message (\n for new line)</label>
+                    <textarea class="setting textInput" type="text" id="sMessage" placeholder="..."></textarea>
+                </div>
+                <div class="row">
+                    <label for="sShouldAnnounce">Display Server in Browser</label>
+                    <div class="setting toggle" id="sShouldAnnounce" data-state="0">Disabled</div>
+                </div>
+                <div class="row">
+                    <label for="sShouldSubmitStats">Submit Match Stats</label>
+                    <div class="setting toggle" id="sShouldSubmitStats" data-state="0">Disabled</div>
+                </div>
+                <div class="row">
+                    <label for="sUPNP">Universal Plug and Play (UPnP)</label>
+                    <div class="setting toggle" id="sUPNP" data-state="0">Disabled</div>
+                </div>
+                <div class="row" id="firefightHeader">
+                    <h3 class="subHeader">Firefight</h3>
+                </div>    
+                <div class="row FirefightType">
+                    <label for="sFirefightSprint">Sprint</label>
+                    <div class="setting toggle" id="sFirefightSprint" data-state="0">Disabled</div>
+                </div>
+                <div class="row FirefightType">
+                    <label for="sFirefightRepresentation">Player Representation</label>
+                    <div class="selectWrap setting" data-control="sFirefightRepresentation"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sFirefightRepresentation" class="inner">
+                        <option value="1">Campaign</option>
+                        <option value="0">Multiplayer</option>
+                    </select></div>
+                </div>
+                <div class="row" id="campaignHeader">
+                    <h3 class="subHeader">Campaign</h3>
+                </div>    
+                <div class="row CampaignType">
+                    <label for="sCampaignSprint">Sprint</label>
+                    <div class="setting toggle" id="sCampaignSprint" data-state="0">Disabled</div>
+                </div>
+                <div class="row CampaignType">
+                    <label for="sCampaignScoring">Scoring</label>
+                    <div class="selectWrap setting" data-control="sCampaignScoring"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sCampaignScoring" class="inner">
+                        <option value="off">Off</option>
+                        <option value="team">Team</option>
+                        <option value="ffa">Free for All</option>
+                    </select></div>
+                </div>
+                <div class="row CampaignType">
+                    <label for="sCampaignRepresentation">Player Representation</label>
+                    <div class="selectWrap setting" data-control="sCampaignRepresentation"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sCampaignRepresentation" class="inner">
+                        <option value="1">Campaign</option>
+                        <option value="0">Multiplayer</option>
+                    </select></div>
+                </div>
+                <div class="row CampaignType">
+                    <label for="sCampaignRallyPoint">Rally Point</label>
+                    <div class="selectWrap setting" data-control="sCampaignRallyPoint"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sCampaignRallyPoint" class="inner">
+                    </select></div>
+                </div>
+                <div class="row">
+                    <h3 class="subHeader">Gameplay</h3>
+                </div>
+                <div class="row">
+                    <label for="sMaxPlayers">Max Players</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="range" class="setting hasTiny" min="1" max="16" id="sMaxPlayers"/>
+                        <input type="text" class="tinySetting" id="sMaxPlayersText"/>
+                    </div>
+                </div>
+                <div class="row" id="NumberTeamsOption">
+                    <label for="sNumberTeams">Number of teams</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="range" class="setting hasTiny" min="1" max="8" id="sNumberTeams"/>
+                        <input type="text" class="tinySetting" id="sNumberTeamsText"/>
+                    </div>
+                </div>
+                <div class="row" id="TeamShuffleOption">
+                    <label for="sTeamShufflingEnabled">Team Shuffle</label>
+                    <div class="setting voting veto toggle" id="sTeamShufflingEnabled" data-state="0">Disabled</div>
+                </div>
+                <div class="row">
+                    <label for="sCountdown">Match Start Countdown</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sMatchCountdownText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="20" id="sMatchCountdown"/>
+                    </div>
+                </div>
+                <div class="row" id="RoundStartOption">
+                    <label for="sCountdown">Round Start Countdown</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sCountdownText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="20" id="sCountdown"/>
+                    </div>
+                </div>
+                <div class="row" id="DualWieldOption">
+                    <label for="sDualWieldEnabled">Dual Wielding</label>
+                    <div class="setting toggle" id="sDualWieldEnabled" data-state="0">Disabled</div>
+                </div>
+                <div class="row" id="AssassinationsOption">
+                    <label for="sAssassinationEnabled">Assassinations</label>
+                    <div class="setting toggle" id="sAssassinationEnabled" data-state="0">Disabled</div>
+                </div>
+                <div class="row" id="HitmarkersOption">
+                    <label for="sHitmarkersEnabled">Hitmarkers</label>
+                    <div class="setting toggle" id="sHitmarkersEnabled" data-state="0">Disabled</div>
+                </div>
+                <div class="row" id="FallDamageOption">
+                    <label for="sFallDamageEnabled">Fall Damage</label>
+                    <div class="selectWrap setting" data-control="sFallDamageEnabled"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sFallDamageEnabled" class="inner">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                        <option value="2">Terminal Velocity</option>
+                    </select></div>		
+                </div>
+                <div class="row" id="PodiumOption">
+                    <label for="sPodiumEnabled">Podium</label>
+                    <div class="selectWrap setting" data-control="sPodiumEnabled"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sPodiumEnabled" class="inner">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                        <option value="2">Forged maps Only</option>
+                    </select></div>		
+                </div>
+                <div class="row">
+                    <label for="sWaypointType">Waypoint Style</label>
+                    <div class="selectWrap setting" data-control="sWaypointType"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sWaypointType" class="inner">
+                        <option value="0">Halo Online</option>
+                        <option value="1">Halo 3</option>
+                    </select></div>			
+                </div>
+                <div class="row" id="EmotesOption">
+                    <label for="sEmotesEnabled">Player Emotes</label>
+                    <div class="setting toggle" id="sEmotesEnabled" data-state="0">Disabled</div>
+                </div>
+                <div class="row" id="KillCommandOption">
+                    <label for="sKillCommandEnabled">Kill Command</label>
+                    <div class="setting toggle" id="sKillCommandEnabled" data-state="0">Disabled</div>
+                </div>
+                <div class="row" id="EndgameOption">
+                    <label for="sEndGameCommandEnabled">End Game Command</label>
+                    <div class="setting toggle" id="sEndGameCommandEnabled" data-state="0">Disabled</div>
+                </div>
+                <div class="row" id="EndRoundOption">
+                    <label for="sEndRoundCommandEnabled">End Round Command</label>
+                    <div class="setting toggle" id="sEndRoundCommandEnabled" data-state="0">Disabled</div>
+                </div>
+                <div class="row MultiplayerType">
+                    <label for="sSprint">Sprint State</label>
+                    <div class="selectWrap setting" data-control="sSprint"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sSprint" class="inner">
+                        <option value="0">Disabled</option>
+                        <option value="1">Enabled</option>
+                        <option value="2">Inherited</option>
+                    </select></div>
+                </div>
+                <div class="row MultiplayerType">
+                    <label for="sSprintUnlimited">Unlimited Sprint</label>
+                    <div class="setting toggle" id="sSprintUnlimited" data-state="0">Disabled</div>
+                </div>
+                <div class="row" id="DisconnectedPlayersOption">
+                    <label for="sDisconnectedPlayers">Show Disconnected Players on Scoreboard</label>
+                    <div class="setting toggle" id="sDisconnectedPlayers" data-state="0">Disabled</div>
+                </div>				
+				<div class="row" id="votingHeader">
+                    <h3 class="subHeader">Voting</h3>
+                </div>
+				<div class="row" id="votingMode">
+                    <label for="sVotingStyle">Voting Mode</label>
+                    <div class="selectWrap setting" data-control="sVotingStyle"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sVotingStyle" class="inner">
+                        <option value="0">No Voting</option>
+                        <option value="2">Veto</option>
+                        <option value="1">Vote</option>
+                    </select></div>
+                </div>
+                <div class="row VetoType">
+                    <h3 class="subHeader veto">Map Veto Options</h3>
+                </div>
+                <div class="row VetoType">
+                    <label for="sNumOfVetoes">Max Vetos Per Round</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sNumOfVetoesText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sNumOfVetoes"/>
+                    </div>
+                </div>
+                <div class="row VetoType">
+                    <label for="sVetoVoteTime">Veto Countdown</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sVetoVoteTimeText"/>
+                        <input type="range" class="setting hasTiny" min="1" max="100" id="sVetoVoteTime"/>
+                    </div>
+                </div>
+                <div class="row VetoType">
+                    <label for="sVetoWinningShowTime">Winning Vote Display Time</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sVetoWinningShowTimeText"/>
+                        <input type="range" class="setting hasTiny" min="1" max="100" id="sVetoWinningShowTime"/>
+                    </div>
+                </div>
+                <div class="row VetoType">
+                    <label for="sVetoPassPercentage">Veto Pass Percentage</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sVetoPassPercentageText"/>
+                        <input type="range" class="setting hasTiny" min="1" max="100" id="sVetoPassPercentage"/>
+                    </div>
+                </div>
+                <div class="row VetoType">
+                    <label for="sVetoSystemSelectionType">Veto System Selection Type</label>
+                    <div class="selectWrap setting" data-control="sVetoSystemSelectionType"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sVetoSystemSelectionType" class="inner">
+                        <option value="0">Random</option>
+                        <option value="1">Ordered</option>
+                    </select></div>
+                </div>
+                <div class="row VoteType">
+                    <h3 class="subHeader voting">Map Voting Options</h3>
+                </div>
+                <div class="row VoteType">
+                    <label for="sMapVotingTime">Voting Countdown</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sMapVotingTimeText"/>
+                        <input type="range" class="setting hasTiny" min="1" max="100" id="sMapVotingTime"/>
+                    </div>
+                </div>
+                <div class="row VoteType">
+                    <label for="sNumOfRevotes">Revotes</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sNumOfRevotesText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sNumOfRevotes"/>
+                    </div>
+                </div>
+                <div class="row VoteType">
+                    <label for="sNumOfRematches">Rematches</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sNumOfRematchesText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sNumOfRematches"/>
+                    </div>
+                </div>
+                <div class="row VoteType">
+                    <label for="sNumberOfVotingOptions">Voting Options</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sNumberOfVotingOptionsText"/>
+                        <input type="range" class="setting hasTiny" min="1" max="4" id="sNumberOfVotingOptions"/>
+                    </div>
+                </div>
+                <div class="row VoteType">
+                    <label for="sVotingDuplicationLevel">Voting Duplication</label>
+                    <div class="selectWrap setting voting" data-control="sVotingDuplicationLevel"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sVotingDuplicationLevel" class="inner">
+                        <option value="0">Everything Unique</option>
+                        <option value="1">Gametype or Map Can Repeat</option>
+                        <option value="2">Anything Can Repeat</option>
+                    </select></div>
+                </div>
+                <div class="row VoteType">
+                    <label for="sTimeBetweenVoteEndAndGameStart">Winner/Start Time</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sTimeBetweenVoteEndAndGameStartText"/>
+                        <input type="range" class="setting hasTiny" min="4" max="100" id="sTimeBetweenVoteEndAndGameStart"/>
+                    </div>
+                </div>
+            </div>
+            <div class="backgroundFill"></div>
+        </div>
+        <div class="bottomBar">
+            <div class="bottomBarFill"></div>
+            <button id="closeButton"><img class="button"/>Close</button>
+        </div>
+    </div>
+</body>
+</rml>
