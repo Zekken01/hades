@@ -53,61 +53,20 @@
 #include "Web/Ui/Screen.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
 #include "Web/WebRenderer.hpp"
-#include "Web/WebRendererApp.hpp"
-#include "Web/WebRendererRenderHandler.hpp"
-#include "Web/WebRenderHandlerOsr.hpp"
 
 #include "Modules/ModuleServer.hpp"  // hades: added for 0x10980230
 #include <format>  // hades: added for 0x10980230
 #include <shellapi.h>  // hades: added for 0x10980230
 
-#include <base/cef_atomic_ref_count.h>
-#include <base/cef_lock.h>
-#include <base/cef_logging.h>
-#include <base/cef_platform_thread.h>
-#include <base/cef_ref_counted.h>
-#include <base/cef_scoped_refptr.h>
-#include <base/cef_thread_checker.h>
-#include <base/internal/cef_lock_impl.h>
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
 #include <boost/lockfree/queue.hpp>
 #include <boost/parameter/aux_/use_default_tag.hpp>
 #include <boost/throw_exception.hpp>
-#include <cef_app.h>
-#include <cef_audio_handler.h>
-#include <cef_base.h>
-#include <cef_browser_process_handler.h>
-#include <cef_client.h>
-#include <cef_command_handler.h>
-#include <cef_context_menu_handler.h>
-#include <cef_devtools_message_observer.h>
-#include <cef_dialog_handler.h>
-#include <cef_display_handler.h>
-#include <cef_download_handler.h>
-#include <cef_drag_handler.h>
-#include <cef_extension_handler.h>
-#include <cef_find_handler.h>
-#include <cef_focus_handler.h>
-#include <cef_frame_handler.h>
-#include <cef_jsdialog_handler.h>
-#include <cef_keyboard_handler.h>
-#include <cef_life_span_handler.h>
-#include <cef_load_handler.h>
-#include <cef_menu_model_delegate.h>
-#include <cef_print_handler.h>
-#include <cef_render_handler.h>
-#include <cef_render_process_handler.h>
-#include <cef_request_handler.h>
-#include <cef_resource_handler.h>
-#include <cef_resource_request_handler.h>
 #include <d3dx9core.h>
 #include <d3dx9math.h>
 #include <d3dx9math.inl>
-#include <internal/cef_string_wrappers.h>
-#include <internal/cef_types_wrappers.h>
-#include <internal/cef_win.h>
 
 #include <Windows.h>
 #include <boost/align/detail/align_up.hpp>
@@ -215,10 +174,6 @@ namespace base {}
 using namespace ::base;
 namespace base
 {
-	namespace cef_subtle {}
-	using namespace base::cef_subtle;
-	namespace cef_internal {}
-	using namespace base::cef_internal;
 	namespace internal {}
 	using namespace base::internal;
 }
@@ -341,7 +296,6 @@ bool CommandTeleportToCamera(std::vector<std::string> const &Arguments, std::str
 bool CommandReflectionDebug(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandStartRandomTrace(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandStopRandomTrace(std::vector<std::string> const &Arguments, std::string &returnInfo);
-bool CommandCefOpenURL(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandLaunchClient(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandTileWindows(std::vector<std::string> const &Arguments, std::string &returnInfo);
 bool CommandRenderGeoHitTest(std::vector<std::string> const &Arguments, std::string &returnInfo);
@@ -407,7 +361,6 @@ namespace Modules
 		AddCommand("DebugTint", "debug_tint", "Change the shader debug_tint color", eCommandFlagsNone, CommandDebugTint);
 		AddCommand("RasterizerSetZPlanes", "rasterizer_set_z_planes", "Change the near and far z plane values", eCommandFlagsNone, CommandRasterizerSetZPlanes);
 		AddCommand("dialog", "dialog", "", eCommandFlagsNone, CommandDialogTest);
-		AddCommand("CefOpenURL", "cef_open_url", "opens a url in the main frame", eCommandFlagsNone, CommandCefOpenURL);
 		AddCommand("Crash", "crash", "Forces a game crash", eCommandFlagsNone, CommandCrash);
 		AddCommand("Nuke", "nuke", "Exit back to the os (uncleanly)", eCommandFlagsNone, CommandNuke);
 		AddCommand("LaunchClient", "launch_client", "", eCommandFlagsNone, CommandLaunchClient);
@@ -619,20 +572,6 @@ bool CommandStopRandomTrace(std::vector<std::string> const &Arguments, std::stri
 	return true;
 }
 
-bool CommandCefOpenURL(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097F2D0
-{
-
-	if (Arguments.size() < 1)
-		return false;
-	auto webRenderer = Web::Browser::WebRenderer::GetInstance();
-	if (webRenderer)
-	{
-		webRenderer->OpenUrl(Arguments[0]);
-		webRenderer->ShowRenderer(true, true);
-		Web::Ui::ScreenLayer::CaptureInput(true, true);
-	}
-	return true;
-}
 
 bool CommandLaunchClient(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10980230
 {

@@ -69,27 +69,12 @@
 #include "Modules/ModuleSettings.hpp"
 #include "Modules/ModuleVoting.hpp"
 
-#include <base/cef_atomic_ref_count.h>
-#include <base/cef_lock.h>
-#include <base/cef_logging.h>
-#include <base/cef_platform_thread.h>
-#include <base/cef_ref_counted.h>
-#include <base/cef_scoped_refptr.h>
-#include <base/cef_thread_checker.h>
-#include <base/internal/cef_lock_impl.h>
 #include <boost/asio.hpp>
 #include <boost/assert.hpp>
 #include <boost/exception/all.hpp>
 #include <boost/lockfree/queue.hpp>
 #include <boost/parameter/aux_/use_default_tag.hpp>
 #include <boost/throw_exception.hpp>
-#include <cef_base.h>
-#include <cef_devtools_message_observer.h>
-#include <cef_extension_handler.h>
-#include <internal/cef_string_wrappers.h>
-#include <internal/cef_types_wrappers.h>
-#include <internal/cef_win.h>
-#include <wrapper/cef_message_router.h>
 
 #include <Windows.h>
 #include <boost/align/detail/align_up.hpp>

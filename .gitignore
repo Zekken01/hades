@@ -1,1 +1,7 @@
 build/
+libs/_deps_src/
+# built by libs/build_deps.py
+libs/lua-5.4/lib/
+libs/freetype/lib/
+libs/rmlui/lib/
+ElDorito/data/

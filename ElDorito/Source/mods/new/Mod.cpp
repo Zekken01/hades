@@ -27,7 +27,17 @@
 #include "mods/tag_name_dictionary.hpp"
 #include "Patches/CustomPackets.hpp"
 #include "Utils/Singleton.hpp"
-#include "Web/WebRenderHandlerGpu.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
+#include "Download/HttpFileDownload.hpp"
+#include "Forge/Magnets.hpp"
+#include "Player/PlayerEmblemGenerator.hpp"
+#include "Utils/Rectangle.hpp"
+#include "Web/Ui/ScreenLayer.hpp"
+#include <atomic>
+#include <memory>
+#include <vector>
+#include <Windows.h>
 
 #include "Utils/Logger.hpp"  // hades: added for 0x1078D6C0
 

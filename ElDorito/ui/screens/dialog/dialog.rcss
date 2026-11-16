@@ -1,0 +1,282 @@
+/*
+ * Port of screens/dialog/style.css.
+ *  - CSS keyframes with fill-mode "both" become class-triggered transitions (RmlUi drops an
+ *    animation's values when it ends).
+ *  - --center (calc(50vw - 29.3vh)) is done with layout: the sliding blocks are positioned
+ *    at left: 50%, margin-left: -29.3vh; the slide offsets are relative to that.
+ *  - The option hover bar (buttonhover.svg) is drawn with a gradient decorator.
+ */
+
+body {
+	color: #f6f6f6;
+	font-family: "Conduit ITC";
+}
+
+#app, .dialog_container, #dialog_host {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.backdrop {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: #000000b8;
+	opacity: 0;
+	transition: opacity 0.4s quadratic-in-out;
+}
+
+.backdrop.visible {
+	opacity: 1;
+}
+
+#dialog {
+	position: absolute;
+	top: 27.60416vh;
+	left: 0;
+	width: 100%;
+	height: 44.44444vh;
+	overflow: hidden;
+	opacity: 0;
+	transform: scaleY(0);
+	transition: transform 0.375s back-out, opacity 0.425s cubic-out;
+}
+
+#dialog.show {
+	opacity: 1;
+	transform: scaleY(1);
+}
+
+/* blocks that slide to the centre column */
+.slide-left, .slide-right {
+	position: relative;
+	left: 50%;
+	margin-left: -29.3vh;
+	opacity: 0;
+	transition: transform 0.1s 0.4s cubic-out, opacity 0.1s 0.4s linear-in-out;
+}
+
+/* from calc(50vw - 170vh) to the centre: -140.7vh */
+.slide-left {
+	transform: translateX(-140.7vh);
+}
+
+/* from 78.125vw to the centre: 28.125vw + 29.3vh, i.e. about 44.6vw at 16:9 */
+.slide-right {
+	transform: translateX(44.6vw);
+}
+
+#dialog.show .slide-left, #dialog.show .slide-right {
+	opacity: 1;
+	transform: translateX(0px);
+}
+
+.dialog-header {
+	display: block;
+	background-color: #121a21d9;
+	border-top: 0.13889vh #40454ed9;
+	border-bottom: 0.13889vh #40454ed9;
+	height: 6.25vh;
+}
+
+.dialog-title {
+	margin-top: -0.83333vh;
+	/* 0.27778vh from the web UI, plus the -29.3vh that centres .slide-right */
+	margin-left: -29.02222vh;
+	font-size: 6.66667vh;
+	color: #eaeef8;
+	white-space: nowrap;
+}
+
+.dialog-body {
+	position: absolute;
+	top: 6.52778vh;
+	left: 0;
+	padding-left: 0.41667vh;
+	width: 100%;
+	box-sizing: border-box;
+	decorator: linear-gradient(to bottom, #0d254ad9, #061023d9);
+	font-size: 3.19444vh;
+	height: 37.08334vh;
+	padding-top: 0.27778vh;
+	padding-bottom: 0.55556vh;
+	color: #adc4df;
+}
+
+.dialog-content {
+	width: 61.11111vh;
+}
+
+.dialog-message {
+	max-height: 13.88888vh;
+	min-height: 6.94444vh;
+}
+
+.dialog-message-input {
+	height: 9.02778vh;
+}
+
+.dialog-footer {
+	position: absolute;
+	bottom: 0.27778vh;
+	left: -0.55556vh;
+	width: 100%;
+}
+
+.button-key {
+	display: flex;
+	flex-direction: row;
+	white-space: nowrap;
+}
+
+.button-key .button {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin-right: 1.38888vh;
+	font-size: 3.19444vh;
+}
+
+.button-key .button-icon {
+	display: inline-block;
+	width: 3.88888vh;
+	height: 3.88888vh;
+	margin-top: 0.13888vh;
+	margin-right: 0.27778vh;
+}
+
+.button-key .button-label {
+	cursor: pointer;
+}
+
+.button-key .button-label:hover {
+	text-decoration: underline;
+}
+
+.button[data-btn="a_button"] .button-icon { decorator: image(dew://assets/buttons/360_A.png); }
+.button[data-btn="b_button"] .button-icon { decorator: image(dew://assets/buttons/360_B.png); }
+.button[data-btn="x_button"] .button-icon { decorator: image(dew://assets/buttons/360_X.png); }
+.button[data-btn="y_button"] .button-icon { decorator: image(dew://assets/buttons/360_Y.png); }
+
+ul.dialog-list {
+	padding: 1.25vh 0 0 1.25vh;
+	margin: 0;
+}
+
+ul.dialog-list li {
+	display: block;
+	position: relative;
+	font-size: 3.26388vh;
+	text-transform: uppercase;
+	padding-bottom: 0.4vh;
+	margin: 0;
+	cursor: pointer;
+}
+
+ul.dialog-list li.hilite {
+	color: #eaeef8;
+}
+
+/* the hover bar behind the hilited option */
+ul.dialog-list li .focusbar {
+	position: absolute;
+	left: -1.11112vh;
+	top: 0;
+	width: 60.41667vh;
+	height: 3.88888vh;
+	decorator: linear-gradient(to right, #eda46894 0%, #eda46885 70%, #e5b48e5e 100%);
+	opacity: 0;
+	transition: opacity 0.12s linear-in-out;
+	z-index: -1;
+}
+
+ul.dialog-list li.hilite .focusbar {
+	opacity: 1;
+	transition: none;
+}
+
+ul.dialog-list li .option-label {
+	position: relative;
+}
+
+.dialog_input_container {
+	width: 100%;
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	position: relative;
+}
+
+.dialog_input {
+	display: block;
+	background-color: #6d6d6d29;
+	border-radius: 0.55556vh;
+	line-height: 1.0em;
+	width: 61.11111vh;
+	color: #adc4df;
+	padding: 0.69444vh 0.69444vh 0.69444vh 1.11112vh;
+	font-size: 2.77778vh;
+}
+
+.dialog_input:focus {
+	color: #eaeef8;
+	background-color: #d7d7d729;
+}
+
+.charCountInput, .charCountTextarea {
+	position: absolute;
+	right: -1.52778vh;
+	text-align: right;
+	font-size: 1.80556vh;
+	width: 9.72222vh;
+	color: #939393b0;
+}
+
+.charCountTextarea {
+	bottom: 0.69444vh;
+}
+
+.charCountInput {
+	bottom: 0;
+}
+
+.countError {
+	color: #e50000b0;
+}
+
+.dialog_input_error {
+	position: absolute;
+	bottom: -4.30556vh;
+	font-size: 0.6em;
+	color: #ca2f32;
+	font-weight: bold;
+}
+
+.dialog-icon {
+	position: absolute;
+	width: 7.63888vh;
+	height: 7.63888vh;
+	padding-top: 0.69444vh;
+}
+
+.dialog-icon-offset {
+	padding-left: 8.33334vh;
+	margin-bottom: 1.66666vh;
+}
+
+/* links in dialog bodies */
+.link, .linkspan {
+	color: #1e90ff;
+	word-break: break-all;
+}
+
+.link {
+	cursor: pointer;
+}
+
+/* .shake is toggled on invalid input but, as in the web UI, has no style. */

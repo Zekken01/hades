@@ -36,7 +36,17 @@
 #include "mods/tag_name_dictionary.hpp"
 #include "mods/mod_system.hpp"  // hades: added for 0x108C2730
 #include "Patches/CustomPackets.hpp"
-#include "Web/WebRenderHandlerGpu.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
+#include "Download/HttpFileDownload.hpp"
+#include "Forge/Magnets.hpp"
+#include "Player/PlayerEmblemGenerator.hpp"
+#include "Utils/Rectangle.hpp"
+#include "Web/Ui/ScreenLayer.hpp"
+#include <atomic>
+#include <memory>
+#include <vector>
+#include <Windows.h>
 
 #include <Windows.h>
 #include <stdio.h>

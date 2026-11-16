@@ -30,26 +30,9 @@
 #include "Patches/PlayerPropertiesExtension.hpp"
 #include "Utils/Singleton.hpp"
 #include "Utils/String.hpp"
-#include "Web/WebFileReadHandler.hpp"
 
 #include "mods/mod_system.hpp"  // hades: added for 0x1077E970
 
-#include <base/cef_atomic_ref_count.h>
-#include <base/cef_lock.h>
-#include <base/cef_logging.h>
-#include <base/cef_platform_thread.h>
-#include <base/cef_ref_counted.h>
-#include <base/cef_scoped_refptr.h>
-#include <base/cef_thread_checker.h>
-#include <base/internal/cef_lock_impl.h>
-#include <cef_base.h>
-#include <cef_devtools_message_observer.h>
-#include <cef_extension_handler.h>
-#include <cef_resource_handler.h>
-#include <internal/cef_string_wrappers.h>
-#include <internal/cef_types_wrappers.h>
-#include <internal/cef_win.h>
-#include <wrapper/cef_stream_resource_handler.h>
 
 #include <Windows.h>
 #include <stdio.h>

@@ -45,54 +45,13 @@
 #include "Utils/String.hpp"
 #include "Web/Ui/Screen.hpp"
 #include "Web/Ui/WebMods.hpp"
+#include "Web/Rml/Input.hpp"
+#include "Web/Rml/UiRoot.hpp"
 #include "Web/WebRenderer.hpp"
-#include "Web/WebRendererApp.hpp"
-#include "Web/WebRendererHandler.hpp"
-#include "Web/WebRendererRenderHandler.hpp"
-#include "Web/WebRenderHandlerOsr.hpp"
 
-#include <base/cef_atomic_ref_count.h>
-#include <base/cef_lock.h>
-#include <base/cef_logging.h>
-#include <base/cef_platform_thread.h>
-#include <base/cef_ref_counted.h>
-#include <base/cef_scoped_refptr.h>
-#include <base/cef_thread_checker.h>
-#include <base/internal/cef_lock_impl.h>
-#include <cef_app.h>
-#include <cef_audio_handler.h>
-#include <cef_base.h>
-#include <cef_browser_process_handler.h>
-#include <cef_client.h>
-#include <cef_command_handler.h>
-#include <cef_context_menu_handler.h>
-#include <cef_devtools_message_observer.h>
-#include <cef_dialog_handler.h>
-#include <cef_display_handler.h>
-#include <cef_download_handler.h>
-#include <cef_drag_handler.h>
-#include <cef_extension_handler.h>
-#include <cef_find_handler.h>
-#include <cef_focus_handler.h>
-#include <cef_frame_handler.h>
-#include <cef_jsdialog_handler.h>
-#include <cef_keyboard_handler.h>
-#include <cef_life_span_handler.h>
-#include <cef_load_handler.h>
-#include <cef_menu_model_delegate.h>
-#include <cef_print_handler.h>
-#include <cef_render_handler.h>
-#include <cef_render_process_handler.h>
-#include <cef_request_handler.h>
-#include <cef_resource_handler.h>
-#include <cef_resource_request_handler.h>
 #include <d3dx9core.h>
 #include <d3dx9math.h>
 #include <d3dx9math.inl>
-#include <internal/cef_string_wrappers.h>
-#include <internal/cef_types_wrappers.h>
-#include <internal/cef_win.h>
-#include <wrapper/cef_message_router.h>
 
 #include <Windows.h>
 #include <intsafe.h>
@@ -223,10 +182,6 @@ namespace base {}
 using namespace ::base;
 namespace base
 {
-	namespace cef_subtle {}
-	using namespace base::cef_subtle;
-	namespace cef_internal {}
-	using namespace base::cef_internal;
 	namespace internal {}
 	using namespace base::internal;
 }
@@ -398,7 +353,6 @@ void QuickBlockInput();
 void QuickUnblockInput();
 void WindowCreated(HWND__ *window);
 void ShutdownRenderer();
-CefStructBase<CefPlatformEventTraits> MakeCefPlatformEvent(tagMSG *msg);
 void HandleMouseMessage(tagMSG *msg);
 void HandleKeyMessage(tagMSG *msg);
 void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam);
@@ -498,8 +452,8 @@ namespace Web
 
 				if (ElDorito::Instance().IsHeadless())
 					return;
-				std::string js = "if (window.ui) ui.requestScreen('" + screenId + "', " + data + ");";
-				Web::Browser::WebRenderer::GetInstance()->ExecuteJavascript(js, true);
+				if (auto *root = Web::RmlUi::UiRoot::Get())
+					root->RequestScreen(screenId, data);
 			}
 
 			void Hide(Web::Ui::ScreenLayer::ScreenId screenId) // 0x10C93E40
@@ -515,8 +469,8 @@ namespace Web
 
 				if (ElDorito::Instance().IsHeadless())
 					return;
-				std::string js = "if (window.ui) ui.hideScreen('" + screenId + "');";
-				Web::Browser::WebRenderer::GetInstance()->ExecuteJavascript(js, true);
+				if (auto *root = Web::RmlUi::UiRoot::Get())
+					root->HideScreen(screenId);
 				if (auto screen = registeredScreens.find(screenId); screen != registeredScreens.end())
 					screen->second->OnHide();
 			}
@@ -527,8 +481,8 @@ namespace Web
 
 				if (ElDorito::Instance().IsHeadless())
 					return;
-				std::string js = "if (window.ui) ui.notify('" + event + "'," + data + "," + (broadcast ? "true" : "false") + ",true);";
-				Web::Browser::WebRenderer::GetInstance()->ExecuteJavascript(js, true);
+				if (auto *root = Web::RmlUi::UiRoot::Get())
+					root->Notify(event, data, broadcast);
 			}
 
 			void NotifyScreen(Web::Ui::ScreenLayer::ScreenId screenId, std::string const &event, std::string const &data) // 0x10C94A00
@@ -544,8 +498,8 @@ namespace Web
 
 				if (ElDorito::Instance().IsHeadless())
 					return;
-				std::string js = "if (window.ui) ui.notifyScreen('" + screenId + "', '" + event + "'," + data + ");";
-				Web::Browser::WebRenderer::GetInstance()->ExecuteJavascript(js, true);
+				if (auto *root = Web::RmlUi::UiRoot::Get())
+					root->NotifyScreen(screenId, event, data);
 			}
 
 			void NotifyScreenStateChanged(std::string const &screenId, Web::Ui::ScreenLayer::EScreenState state) // 0x10C94AE0
@@ -646,7 +600,8 @@ namespace Web
 #line 715
 
 				#line 713 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\Ui\\ScreenLayer.cpp"
-				LOG_ASSERT(dialogHandler);
+				if (!dialogHandler)
+					return;
 				#line 719 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Web\\Ui\\ScreenLayer.cpp"
 				dialogHandler(params);
 			}
@@ -667,10 +622,10 @@ namespace Web
 				mangled_x86(MANGLED_KNOWN_GOOD, "?CreateScreens@ScreenLayer@Ui@Web@@YAXXZ");
 #line 754
 
-				scoped_refptr<Web::Browser::WebRendererHandler> renderHandler = Web::Browser::WebRenderer::GetInstance()->GetClientHandler();
-				std::shared_ptr<Web::Browser::Bridge::WebRendererQueryHandler> queryHandler = renderHandler->GetQueryHandler();
+				Web::Browser::Bridge::WebRendererQueryHandler *queryHandler = Web::Browser::WebRenderer::GetInstance()->GetQueryHandler();
 				#line 741 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\Ui\\ScreenLayer.cpp"
-				LOG_ASSERT(queryHandler);
+				if (!queryHandler)
+					return;
 				#line 760 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Web\\Ui\\ScreenLayer.cpp"
 				for (auto &screen : registeredScreens)
 					screen.second->OnCreate(*queryHandler);
@@ -776,23 +731,8 @@ void ShutdownRenderer() // 0x10C96D40
 	Web::Browser::WebRenderer::GetInstance()->Shutdown();
 }
 
-CefStructBase<CefPlatformEventTraits> MakeCefPlatformEvent(tagMSG *msg) // 0x10C94230
-{
-
-	CefStructBase<CefPlatformEventTraits> event;
-	event.hwnd = msg->hwnd;
-	event.message = msg->message;
-	event.wParam = (void *)msg->wParam;
-	event.lParam = (void *)msg->lParam;
-	event.time = msg->time;
-	event.pt = { msg->pt.x, msg->pt.y };
-	return event;
-}
-
 void HandleMouseMessage(tagMSG *msg) // 0x10C939D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMouseMessage@@YAXPAUtagMSG@@@Z");
-
 	if (msg->message == WM_MOUSEMOVE)
 	{
 		if (msg->pt.x == g_last_mouse_x && msg->pt.y == g_last_mouse_y)
@@ -802,14 +742,12 @@ void HandleMouseMessage(tagMSG *msg) // 0x10C939D0
 		g_last_mouse_y = msg->pt.y;
 	}
 
-	Web::Browser::WebRenderer::GetInstance()->SendPlatformEvent(MakeCefPlatformEvent(msg));
+	Web::RmlUi::Input::Enqueue(*msg);
 }
 
 void HandleKeyMessage(tagMSG *msg) // 0x10C93890
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleKeyMessage@@YAXPAUtagMSG@@@Z");
-
-	Web::Browser::WebRenderer::GetInstance()->SendPlatformEvent(MakeCefPlatformEvent(msg));
+	Web::RmlUi::Input::Enqueue(*msg);
 }
 
 void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C933A0
@@ -874,26 +812,19 @@ static void OnGameInputUpdated() // 0x10C950F0
 	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF5, Blam::Input::eInputTypeUi) == 1)
 	{
 		BeforeReload.PostEvent();
-		webRenderer->ExecuteJavascript("ui.reload();", true);
+		webRenderer->Reload();
 	}
 	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeAlt, Blam::Input::eInputTypeUi) > 0 && Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF4, Blam::Input::eInputTypeUi) == 1)
 		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("Game.Exit");
 	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF6, Blam::Input::eInputTypeUi) == 1)
 	{
 		BeforeReload.PostEvent();
-		if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeShift, Blam::Input::eInputTypeUi) > 0)
-			webRenderer->OpenUrl("dew://ui");
-		else
-			webRenderer->Reload(true);
+		webRenderer->Reload();
 		CaptureInput(false, false);
 		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("Game.FullScreenBlurLayer reset");
 	}
 	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF7, Blam::Input::eInputTypeUi) == 1)
-	{
-		char url[256];
-		sprintf_s(url, "http://localhost:%d", Utils::Singleton<ElDorito>::Instance().GetWebDebugPort());
-		ShellExecuteA(nullptr, nullptr, "chrome.exe", url, nullptr, SW_SHOWNORMAL);
-	}
+		webRenderer->ToggleDebugger();
 }
 
 void OnUIInputUpdated() // 0x10C95510
@@ -958,8 +889,8 @@ void OnUIInputUpdated() // 0x10C95510
 	writer.Key("RightBumper");
 	writer.Int(Blam::Input::GetActionState(Blam::Input::eGameActionUiRightBumper)->Ticks);
 	writer.EndObject();
-	std::string js = "if (window.ui && window.ui.sendControllerInput) ui.sendControllerInput(" + std::string(buffer.GetString()) + ");";
-	Web::Browser::WebRenderer::GetInstance()->ExecuteJavascript(js, false);
+	if (auto *root = Web::RmlUi::UiRoot::Get())
+		root->SendControllerInput(buffer.GetString());
 	controllerAxes.LeftX = 0;
 	controllerAxes.LeftY = 0;
 	controllerAxes.RightX = 0;

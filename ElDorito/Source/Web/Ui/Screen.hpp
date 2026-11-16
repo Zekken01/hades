@@ -17,7 +17,6 @@
 #include "Web/Bridge/WebRendererQueryHandler.hpp"
 #include "Web/Ui/ScreenLayer.hpp"
 
-#include <boost/lockfree/queue.hpp>
 #include <functional>
 #include <memory>
 #include <string>
@@ -26,7 +25,6 @@
 
 /* ---------- forward declarations */
 
-struct CefStringTraitsUTF16;
 namespace Web
 {
 	namespace Browser
@@ -55,36 +53,43 @@ namespace Web
 	{
 		namespace Bridge
 		{
-			class WebRendererQueryHandler :
-				public CefMessageRouterBrowserSide::Handler
+			// Registry of the methods the UI can call ("command", "show", "sessionInfo", ...).
+			// Formerly the CEF message-router handler; Lua now invokes methods synchronously on
+			// the game thread, so there is no query queue.
+			class WebRendererQueryHandler
 			{
 			public:
-			private:
-				public:
-				struct PendingQuery
-				{
-					rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> m_Json; // 0x0
-					std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> m_Method; // 0x38
-					const rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > * m_Args; // 0x60
-					scoped_refptr<CefMessageRouterBrowserSide::Callback> m_Callback; // 0x64
-					~PendingQuery();
-					PendingQuery() = default; /* compiler_generated() */
-				};
-				public:
-				boost::lockfree::queue<PendingQuery *> m_Queries; // 0x8
-				std::unordered_map<std::string,std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> > m_Methods; // 0x90
-			public:
+				using Method = std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)>;
+
 				WebRendererQueryHandler();
-				virtual bool OnQuery(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, long long queryId, CefStringBase<CefStringTraitsUTF16> const &request, bool persistent, scoped_refptr<CefMessageRouterBrowserSide::Callback> callback);
-				virtual void OnQueryCanceled(scoped_refptr<CefBrowser> browser, scoped_refptr<CefFrame> frame, long long queryId);
-				void AddMethod(std::string const &name, std::function<enum Web::Browser::Bridge::QueryError __cdecl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &,std::string *)> const &method);
+				void AddMethod(std::string const &name, Method const &method);
+				bool HasMethod(std::string const &name) const;
+				// Runs a method; `result` receives the JSON result or the error message.
+				Web::Browser::Bridge::QueryError Invoke(std::string const &name, rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &args, std::string *result);
+				// Parses a {"method":..., "args":{...}} request string the way the CEF bridge did.
+				Web::Browser::Bridge::QueryError InvokeRequest(std::string const &request, std::string *result);
 				void Update();
-				virtual _inline ~WebRendererQueryHandler() = default; /* compiler_generated() */ // 0x10C70170
+				virtual ~WebRendererQueryHandler() = default;
+
+			private:
+				std::unordered_map<std::string, Method> m_Methods;
 			};
-			static_assert(sizeof(Web::Browser::Bridge::WebRendererQueryHandler) == 184, "Invalid Web::Browser::Bridge::WebRendererQueryHandler size");
 		}
 	}
 }
+
+namespace Web
+{
+	namespace Ui
+	{
+		class WebScreen;
+	}
+}
+
+/* ---------- constants */
+
+/* ---------- definitions */
+
 
 namespace Web
 {

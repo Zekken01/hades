@@ -10,7 +10,17 @@
 #include "Common/Http/WinHttp/WinHttpCommon.hpp"
 #include "Common/Http/WinHttp/WinHttpRequest.hpp"
 #include "Patches/CustomPackets.hpp"
-#include "Web/WebRenderHandlerGpu.hpp"
+#include "ChatCommands/ChatCommandMap.hpp"
+#include "Common/Http/HttpHeaders.hpp"
+#include "Download/HttpFileDownload.hpp"
+#include "Forge/Magnets.hpp"
+#include "Player/PlayerEmblemGenerator.hpp"
+#include "Utils/Rectangle.hpp"
+#include "Web/Ui/ScreenLayer.hpp"
+#include <atomic>
+#include <memory>
+#include <vector>
+#include <Windows.h>
 
 #include <boost/algorithm/string.hpp>
 #include <boost/asio.hpp>

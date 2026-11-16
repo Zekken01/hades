@@ -1,0 +1,27 @@
+<rml>
+<head>
+	<title>render test</title>
+	<style>
+		body { width: 100%; height: 100%; font-family: "Conduit ITC"; font-size: 32px; color: white; }
+		#a { position: absolute; left: 0px; top: 0px; width: 200px; height: 100px; background-color: #ff0000; }
+		#b { position: absolute; left: 300px; top: 300px; width: 200px; height: 100px; background-color: #00ff00; }
+		#c { position: absolute; left: 600px; top: 100px; width: 200px; height: 200px; background-color: #0000ff80; transform: rotate(20deg); }
+		#d { position: absolute; left: 900px; top: 400px; width: 300px; height: 200px; decorator: linear-gradient(to bottom, #ffff00, #ff00ff); }
+		#e { position: absolute; left: 50px; top: 500px; width: 300px; height: 100px; overflow: hidden; border-radius: 30px; background-color: #00ffff; }
+		#e div { width: 600px; height: 50px; background-color: #ff8800; }
+		#t { position: absolute; left: 400px; top: 600px; }
+		#img { position: absolute; left: 1100px; top: 50px; width: 128px; height: 128px; decorator: image(dew://assets/buttons/360_A.png); }
+		#s { position: absolute; left: 50px; top: 150px; width: 200px; height: 100px; background-color: #ffffff; transform: scaleY(0.5); }
+	</style>
+</head>
+<body>
+	<div id="a"></div>
+	<div id="b"></div>
+	<div id="c"></div>
+	<div id="d"></div>
+	<div id="e"><div></div></div>
+	<div id="s"></div>
+	<div id="img"></div>
+	<div id="t">Hello RmlUi D3D9</div>
+</body>
+</rml>

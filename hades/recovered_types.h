@@ -31,17 +31,6 @@
 #include <endpointvolume.h>
 #include <discord-rpc.h>
 #include <fmod.h>
-#include <cef_base.h>
-#include <cef_app.h>
-#include <cef_client.h>
-#include <cef_render_handler.h>
-#include <cef_scheme.h>
-#include <cef_v8.h>
-#include <cef_stream.h>
-#include <cef_request_handler.h>
-#include <cef_context_menu_handler.h>
-#include <cef_urlrequest.h>
-#include <wrapper/cef_message_router.h>
 #include <wrl/client.h>
 // DirectXMath's inline functions were not compiled under blamlib's strict GS in the original
 // (its XMMatrix* COMDATs carry no cookie), so the pragma is suspended around the header.

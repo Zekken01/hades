@@ -1,0 +1,17 @@
+<rml>
+<head>
+	<title>dialog</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dialog.rcss"/>
+	<script src="dew://lib/input.lua"></script>
+	<script src="dialog.lua"></script>
+</head>
+<body>
+	<div id="app">
+		<div class="dialog_container">
+			<div id="backdrop" class="backdrop"></div>
+			<div id="dialog_host"></div>
+		</div>
+	</div>
+</body>
+</rml>
