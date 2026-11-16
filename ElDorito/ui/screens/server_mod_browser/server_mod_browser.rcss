@@ -1,0 +1,46 @@
+/* server_mod_browser.css: the mod browser's styles plus the refresh button and the
+   "downloaded" check in front of mods already on this PC. */
+
+.screen_widget_title {
+	display: flex;
+	flex-direction: row;
+}
+.screen_widget_title span {
+	flex: 1;
+}
+
+#refresh {
+	width: 4vh;
+	height: 4vh;
+	padding: 0;
+	margin-top: 1.75vh;
+	border-width: 0;
+	background-color: transparent;
+	decorator: svg(icon-refresh.svg);
+	opacity: 0.8;
+	cursor: pointer;
+}
+#refresh:hover {
+	opacity: 1;
+}
+#refresh.refreshing {
+	opacity: 1;
+	animation: 1s linear infinite refreshing;
+}
+@keyframes refreshing {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
+.mod_details_attr_label {
+	width: 20%;
+}
+
+.mod_selection_list .li .downloadedIcon {
+	position: absolute;
+	left: 0.4vh;
+	top: 50%;
+	margin-top: -1.1vh;
+	width: 2.2vh;
+	height: 2.2vh;
+}
