@@ -1,9 +1,14 @@
 """Build mtndew.dll from this tree.
 
-usage: python build.py [--jobs N] [--out DIR] [--no-link] [--only TEXT] [--force]
+usage: python build.py [--jobs N] [--out DIR] [--no-link] [--only TEXT] [--force] [--no-deps]
 
-Needs Visual Studio with the MSVC v142 (14.29) x86 toolset and a Windows 10/11 SDK; set
-HADES_VS_ROOT if the install is not found. Every .cpp of ElDorito/Source and
+Needs Visual Studio 2022 with the MSVC v142 (14.29) x86 toolset, a Windows 10/11 SDK and
+CMake (Visual Studio's own is used when none is on PATH); set HADES_VS_ROOT if the install
+is not found. Clone with --recursive, or the submodules under libs/src are fetched on the
+first build. Before compiling, the libraries built from those submodules (libs/CMakeLists.txt:
+Lua, FreeType, lunasvg, RmlUi, mbedTLS, Opus, libdatachannel) are built into libs/ through
+CMake when one is missing or the submodules, patches or CMake files changed since the last
+deps build (build/deps); --no-deps skips that check. Every .cpp of ElDorito/Source and
 blamlib/source is compiled with the flags the shipped binary was built with, and the
 objects are linked with the libraries in libs/ into DIR/mtndew.dll (default: build/).
 
@@ -12,13 +17,15 @@ Copy the result over mtndew.dll in an ElDewrito 0.7.2 install to run it.
 Flags (measured from the shipped binary, not chosen - changing them changes the code):
   /Od /Ob0 /ZI /GS /RTC1 /MTd /std:c++20; blamlib also /JMC /sdl and strict GS.
 Link: dbghelp.dll is delay-loaded; Resources/mtndew.res holds the original's resources
-and manifest; Exports.cpp carries its export table. The UI is RmlUi + Lua (static libs
-built by libs/build_deps.py), which replaced the CEF browser of the shipped binary.
+and manifest; Exports.cpp carries its export table. The UI is RmlUi + Lua, which replaced
+the CEF browser of the shipped binary.
 """
 import argparse
 import concurrent.futures
 import glob
+import hashlib
 import os
+import shutil
 import subprocess
 import sys
 
@@ -42,12 +49,14 @@ THIRD_PARTY = ["detours/lib.X86/detours.lib", "discord-rpc/lib/Debug/discord-rpc
                "openssl-1.1.0e/lib/ssleay32MTd.lib", "rmlui/lib/rmlui.lib", "rmlui/lib/rmlui_debugger.lib",
                "rmlui/lib/rmlui_lua.lib", "freetype/lib/freetyped.lib", "lua-5.4/lib/lua.lib",
                "lunasvg/lib/lunasvg.lib", "lunasvg/lib/plutovg.lib",
-               # native VoIP (libs/build_voip_deps.py)
+               # native VoIP
                "voip/lib/datachannel.lib", "voip/lib/juice.lib", "voip/lib/usrsctp.lib", "voip/lib/srtp2.lib",
                "voip/lib/mbedtls.lib", "voip/lib/mbedx509.lib", "voip/lib/mbedcrypto.lib", "voip/lib/everest.lib",
                "voip/lib/p256m.lib", "voip/lib/opus.lib"]
 WINDOWS = ("kernel32 user32 gdi32 advapi32 shell32 ole32 oleaut32 uuid ws2_32 winhttp wininet iphlpapi psapi "
            "shlwapi crypt32 winmm dbghelp version comctl32 bcrypt urlmon synchronization dwmapi").split()
+# THIRD_PARTY entries that libs/CMakeLists.txt builds from the submodules under libs/src.
+BUILT_DEPS = [l for l in THIRD_PARTY if l.split("/")[0] in ("rmlui", "freetype", "lua-5.4", "lunasvg", "voip")]
 # The Windows SDK the matching build uses, when it is installed.
 SDK = "10.0.22621.0" if os.path.isdir(r"C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0") else ""
 
@@ -78,6 +87,61 @@ def run(vcvars, workdir, command):
     return done.returncode, (done.stdout + done.stderr).decode("utf-8", "replace")
 
 
+def find_cmake():
+    found = shutil.which("cmake")
+    if found:
+        return found
+    for vs in glob.glob(r"C:\Program Files*\Microsoft Visual Studio\2022\*"):
+        bundled = os.path.join(vs, "Common7", "IDE", "CommonExtensions", "Microsoft", "CMake", "CMake", "bin", "cmake.exe")
+        if os.path.isfile(bundled):
+            return bundled
+    sys.exit("CMake not found; install it or add it to PATH")
+
+
+def deps_stamp():
+    """What the deps build depends on: the submodule commits, the patches and CMake files."""
+    status = subprocess.run(["git", "submodule", "status", "--recursive", "libs/src"], cwd=HERE,
+                            capture_output=True, text=True, check=True).stdout
+    digest = hashlib.sha1(status.encode())
+    inputs = [os.path.join(HERE, "libs", "CMakeLists.txt")] + sorted(
+        glob.glob(os.path.join(HERE, "libs", "cmake", "**", "*"), recursive=True) +
+        glob.glob(os.path.join(HERE, "libs", "patches", "*")))
+    for path in inputs:
+        if os.path.isfile(path):
+            digest.update(path.encode())
+            with open(path, "rb") as f:
+                digest.update(f.read())
+    return digest.hexdigest()
+
+
+def ensure_deps(jobs):
+    """Build the submodule libraries (libs/CMakeLists.txt) when one is missing or stale."""
+    if not os.path.isfile(os.path.join(HERE, "libs", "src", "rmlui", "CMakeLists.txt")):
+        print("fetching submodules")
+        subprocess.run(["git", "submodule", "update", "--init", "--recursive", "--depth", "1"], cwd=HERE, check=True)
+    bdir = os.path.join(HERE, "build", "deps")
+    stamp_path = os.path.join(bdir, "hades_deps.stamp")
+    stamp = deps_stamp()
+    old = open(stamp_path).read().strip() if os.path.isfile(stamp_path) else None
+    missing = [l for l in BUILT_DEPS if not os.path.isfile(os.path.join(HERE, "libs", l))]
+    if old == stamp and not missing:
+        return
+    if old is not None and old != stamp:
+        # ExternalProject does not notice a moved submodule; start the deps build over.
+        shutil.rmtree(bdir)
+    print("building dependencies -> libs/ (build/deps)")
+    cmake = find_cmake()
+    env = dict(os.environ, CMAKE_BUILD_PARALLEL_LEVEL=str(jobs))
+    subprocess.run([cmake, "-S", os.path.join(HERE, "libs"), "-B", bdir,
+                    "-G", "Visual Studio 17 2022", "-A", "Win32", "-T", "v142"], check=True, env=env)
+    subprocess.run([cmake, "--build", bdir, "--config", "Debug", "--parallel", "4"], check=True, env=env)
+    missing = [l for l in BUILT_DEPS if not os.path.isfile(os.path.join(HERE, "libs", l))]
+    if missing:
+        sys.exit("the deps build did not produce: " + ", ".join(missing))
+    with open(stamp_path, "w") as f:
+        f.write(stamp + "\n")
+
+
 def sources():
     out = []
     for tree, flags in TREES.items():
@@ -98,9 +162,12 @@ def main():
     ap.add_argument("--no-link", action="store_true")
     ap.add_argument("--only", help="compile only sources whose path contains this text (implies --no-link)")
     ap.add_argument("--force", action="store_true", help="recompile even when the object is newer than the source")
+    ap.add_argument("--no-deps", action="store_true", help="do not check or build the submodule libraries")
     args = ap.parse_args()
     if args.only:
         args.no_link = True
+    if not args.no_deps:
+        ensure_deps(args.jobs)
     vcvars = os.path.join(find_vs_root(), "VC", "Auxiliary", "Build", "vcvarsall.bat")
     out = os.path.abspath(args.out)
     objdir = os.path.join(out, "obj")

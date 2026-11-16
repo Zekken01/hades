@@ -1,0 +1,22 @@
+diff --git a/source/svgparser.cpp b/source/svgparser.cpp
+index 399fc9b..c07955c 100644
+--- a/source/svgparser.cpp
++++ b/source/svgparser.cpp
+@@ -499,7 +499,7 @@ static bool parseDeclarations(std::string_view& input, DeclarationList& declarat
+     if(!skipDelimiter(input, '{'))
+         return false;
+     skipOptionalSpaces(input);
+-    do {
++    while(!input.empty() && input.front() != '}') {
+         std::string name;
+         if(!readCSSIdentifier(input, name))
+             return false;
+@@ -527,7 +527,7 @@ static bool parseDeclarations(std::string_view& input, DeclarationList& declarat
+         if(declaration.id != PropertyID::Unknown)
+             declarations.push_back(std::move(declaration));
+         skipOptionalSpacesOrDelimiter(input, ';');
+-    } while(!input.empty() && input.front() != '}');
++    }
+     return skipDelimiter(input, '}');
+ }
+ 

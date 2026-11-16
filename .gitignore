@@ -1,10 +1,8 @@
 build/
-libs/_deps_src/
-# built by libs/build_deps.py
-libs/lua-5.4/lib/
-libs/freetype/lib/
-libs/rmlui/lib/
-ElDorito/data/
+# built by libs/CMakeLists.txt from the submodules under libs/src (build.py runs it)
+libs/lua-5.4/
+libs/freetype/
 libs/lunasvg/
-# built by libs/build_voip_deps.py
+libs/rmlui/
 libs/voip/
+ElDorito/data/

@@ -1,0 +1,261 @@
+diff --git a/Source/Core/ElementStyle.cpp b/Source/Core/ElementStyle.cpp
+index 412f9ba..a8e4f2f 100644
+--- a/Source/Core/ElementStyle.cpp
++++ b/Source/Core/ElementStyle.cpp
+@@ -990,6 +990,8 @@ PropertyIdSet ElementStyle::ComputeValues(Style::ComputedValues& values, const S
+ 			dirty_properties.Insert(id);
+ 
+ 		ComputeValue(values, dp_ratio, vp_dimensions, font_size, document_font_size, dirty_font_face_handle, id, property);
++		if (id == PropertyId::Opacity && parent_values) // hades: multiplied, as in CSS
++			values.opacity(values.opacity() * parent_values->opacity());
+ 	}
+ 
+ 	// The font-face handle is nulled when local font properties are set. In that case we need to retrieve a new handle.
+diff --git a/Source/Core/Elements/WidgetDropDown.cpp b/Source/Core/Elements/WidgetDropDown.cpp
+index 678c0f1..205ba51 100644
+--- a/Source/Core/Elements/WidgetDropDown.cpp
++++ b/Source/Core/Elements/WidgetDropDown.cpp
+@@ -27,7 +27,7 @@ WidgetDropDown::WidgetDropDown(ElementFormControl* element)
+ 	value_element->SetProperty(PropertyId::OverflowY, Property(Style::Overflow::Hidden));
+ 
+ 	selection_element->SetProperty(PropertyId::Visibility, Property(Style::Visibility::Hidden));
+-	selection_element->SetProperty(PropertyId::ZIndex, Property(1.0f, Unit::NUMBER));
++	selection_element->SetProperty(PropertyId::ZIndex, Property(1000000.0f, Unit::NUMBER));
+ 	selection_element->SetProperty(PropertyId::Clip, Property(Style::Clip::Type::None));
+ 	selection_element->SetProperty(PropertyId::OverflowY, Property(Style::Overflow::Auto));
+ 
+@@ -610,6 +610,17 @@ void WidgetDropDown::ShowSelectBox()
+ 	box_opened_since_last_format = true;
+ 	AttachScrollEvent();
+ 
++	ElementDocument* document = parent_element->GetOwnerDocument();
++	for (Element* e = parent_element; e && e != document; e = e->GetParentNode())
++	{
++		if (e->GetComputedValues().z_index().type == Style::ZIndex::Auto)
++			continue;
++		const PropertyMap& local = e->GetLocalStyleProperties();
++		auto it = local.find(PropertyId::ZIndex);
++		raised_ancestors.push_back({e, it != local.end(), it != local.end() ? it->second : Property()});
++		e->SetProperty(PropertyId::ZIndex, Property(1000000.0f, Unit::NUMBER));
++	}
++
+ 	box_visible = true;
+ }
+ 
+@@ -625,6 +636,15 @@ void WidgetDropDown::HideSelectBox()
+ 	button_element->SetPseudoClass("checked", false);
+ 	DetachScrollEvent();
+ 
++	for (auto& raised : raised_ancestors)
++	{
++		if (raised.had_local)
++			raised.element->SetProperty(PropertyId::ZIndex, raised.previous);
++		else
++			raised.element->RemoveProperty(PropertyId::ZIndex);
++	}
++	raised_ancestors.clear();
++
+ 	box_visible = false;
+ }
+ 
+diff --git a/Source/Core/Elements/WidgetDropDown.h b/Source/Core/Elements/WidgetDropDown.h
+index 828d90c..51dbb69 100644
+--- a/Source/Core/Elements/WidgetDropDown.h
++++ b/Source/Core/Elements/WidgetDropDown.h
+@@ -1,6 +1,7 @@
+ #pragma once
+ 
+ #include "../../../Include/RmlUi/Core/EventListener.h"
++#include "../../../Include/RmlUi/Core/Property.h"
+ 
+ namespace Rml {
+ 
+@@ -101,6 +102,9 @@ private:
+ 	bool box_layout_dirty = false;
+ 	bool box_opened_since_last_format = false;
+ 	bool box_visible = false;
++	// hades: ancestors raised while the box is open, with their previous inline z-index
++	struct RaisedAncestor { Element* element; bool had_local; Property previous; };
++	Vector<RaisedAncestor> raised_ancestors;
+ };
+ 
+ } // namespace Rml
+diff --git a/Source/Core/Elements/WidgetTextInput.cpp b/Source/Core/Elements/WidgetTextInput.cpp
+index 1ff0750..1a91e70 100644
+--- a/Source/Core/Elements/WidgetTextInput.cpp
++++ b/Source/Core/Elements/WidgetTextInput.cpp
+@@ -254,7 +254,9 @@ void WidgetTextInput::OnValueAttributeChanged(String value)
+ 	if (initial_size != value.size())
+ 	{
+ 		// Sanitizer changed the value. Set the attribute with the new value, the current function will be re-entered.
++		hades_internal_value = true;
+ 		parent->SetAttribute("value", value);
++		hades_internal_value = false;
+ 		DispatchChangeEvent();
+ 		return;
+ 	}
+@@ -267,6 +269,13 @@ void WidgetTextInput::OnValueAttributeChanged(String value)
+ 	ime_composition_begin_index = 0;
+ 	ime_composition_end_index = 0;
+ 
++	if (!hades_internal_value)
++	{
++		absolute_cursor_index = (int)value.size();
++		cursor_wrap_down = true;
++		UpdateSelection(false);
++	}
++
+ 	SetValueOrPlaceholder(value, GetAttributePlaceholder());
+ }
+ 
+@@ -305,7 +314,9 @@ void WidgetTextInput::SetMaxLength(int _max_length)
+ 
+ 		String value = GetValue();
+ 		if (ClampValue(value, max_length))
++			hades_internal_value = true;
+ 			GetElement()->SetAttribute("value", value);
++			hades_internal_value = false;
+ 	}
+ }
+ 
+@@ -636,8 +647,8 @@ void WidgetTextInput::ProcessEvent(Event& event)
+ 		default: break;
+ 		}
+ 
+-		if (shift || ctrl || !out_of_bounds || selection_changed)
+-			event.StopPropagation();
++		// hades: keydown keeps bubbling, like in a browser (was: stopped when handled here).
++		(void)out_of_bounds;
+ 		if (selection_changed)
+ 			FormatText();
+ 	}
+@@ -756,7 +767,9 @@ bool WidgetTextInput::AddCharacters(String string)
+ 
+ 	const int new_cursor_attribute_index = AttributeIndexToDisplayIndex(attribute_insert_index + (int)string.size(), value);
+ 	absolute_cursor_index = new_cursor_attribute_index;
++	hades_internal_value = true;
+ 	parent->SetAttribute("value", value);
++	hades_internal_value = false;
+ 
+ 	if (UpdateSelection(false))
+ 		FormatText();
+@@ -1552,7 +1565,9 @@ void WidgetTextInput::DeleteSelection()
+ 		// Move the cursor to the beginning of the old selection.
+ 		absolute_cursor_index = selection_begin_index;
+ 
++		hades_internal_value = true;
+ 		GetElement()->SetAttribute("value", new_value);
++		hades_internal_value = false;
+ 
+ 		// Erase our record of the selection.
+ 		if (UpdateSelection(false))
+diff --git a/Source/Core/Elements/WidgetTextInput.h b/Source/Core/Elements/WidgetTextInput.h
+index ff04868..2e15855 100644
+--- a/Source/Core/Elements/WidgetTextInput.h
++++ b/Source/Core/Elements/WidgetTextInput.h
+@@ -252,6 +252,7 @@ private:
+ 
+ 	// Absolute cursor index. Byte index into the text field's value.
+ 	int absolute_cursor_index;
++	bool hades_internal_value = false; // hades: the value is being set by the widget itself
+ 	// When the cursor is located at the very end of a word-wrapped line there are two valid positions for the same absolute index: at the end of the
+ 	// line and at the beginning of the next line. This state determines which of these lines the cursor is placed on visually.
+ 	bool cursor_wrap_down;
+diff --git a/Source/Core/Factory.cpp b/Source/Core/Factory.cpp
+index 4690e35..a352645 100644
+--- a/Source/Core/Factory.cpp
++++ b/Source/Core/Factory.cpp
+@@ -337,8 +337,10 @@ bool Factory::InstanceElementText(Element* parent, const String& in_text)
+ 
+ 	// If this text node only contains white-space we don't want to construct it.
+ 	const bool only_white_space = std::all_of(text.begin(), text.end(), &StringUtilities::IsWhitespace);
+-	if (only_white_space)
+-		return true;
++	if (only_white_space && (parent->GetNumChildren() == 0 || text.find('\n') != String::npos || text.find('\r') != String::npos))
++		return true; // hades: keep same-line gaps between inline siblings
++	if (only_white_space) // hades: a whitespace-only run vanishes in layout; lead with a zero-width space
++		text = "\xE2\x80\x8B" + text; // U+200B: no width, not whitespace, so the run is laid out
+ 
+ 	// See if we need to parse it as RML, and whether the text contains data expressions (curly brackets).
+ 	bool parse_as_rml = false;
+diff --git a/Source/Core/FontEngineDefault/FontProvider.cpp b/Source/Core/FontEngineDefault/FontProvider.cpp
+index 94f9733..4df0909 100644
+--- a/Source/Core/FontEngineDefault/FontProvider.cpp
++++ b/Source/Core/FontEngineDefault/FontProvider.cpp
+@@ -194,6 +194,12 @@ bool FontProvider::LoadFontFace(Span<const byte> data, int face_index, bool fall
+ 
+ 		const FontWeight variation_weight = (variation.weight == FontWeight::Auto ? weight : variation.weight);
+ 		const String font_face_description = GetFontFaceDescription(font_family, style, variation_weight);
++		{
++			FontWeight file_weight = FontWeight::Normal;
++			FreeType::GetFaceStyle(ft_face, nullptr, nullptr, &file_weight);
++			if ((int)variation_weight >= 600 && (int)file_weight < 600)
++				FreeType::SetSyntheticBold(ft_face);
++		}
+ 
+ 		const FontFaceLoadResult result = AddFace(ft_face, font_family, style, variation_weight, fallback_face, std::move(face_memory));
+ 		switch (result)
+diff --git a/Source/Core/FontEngineDefault/FreeTypeInterface.cpp b/Source/Core/FontEngineDefault/FreeTypeInterface.cpp
+index a46ce1d..6c7f8be 100644
+--- a/Source/Core/FontEngineDefault/FreeTypeInterface.cpp
++++ b/Source/Core/FontEngineDefault/FreeTypeInterface.cpp
+@@ -9,10 +9,17 @@
+ #include FT_FREETYPE_H
+ #include FT_MULTIPLE_MASTERS_H
+ #include FT_TRUETYPE_TABLES_H
++#include FT_SYNTHESIS_H
+ 
+ namespace Rml {
+ 
+ static FT_Library ft_library = nullptr;
++static char synthetic_bold_tag;
++
++void FreeType::SetSyntheticBold(FontFaceHandleFreetype face)
++{
++	reinterpret_cast<FT_Face>(face)->generic.data = &synthetic_bold_tag;
++}
+ 
+ static bool BuildGlyph(FT_Face ft_face, Character character, FontGlyphMap& glyphs, float bitmap_scaling_factor);
+ static void BuildGlyphMap(FT_Face ft_face, int size, FontGlyphMap& glyphs, float bitmap_scaling_factor, bool load_default_glyphs);
+@@ -306,6 +313,9 @@ static bool BuildGlyph(FT_Face ft_face, const Character character, FontGlyphMap&
+ #endif
+ 	}
+ 
++	if (ft_face->generic.data == &synthetic_bold_tag && ft_face->glyph->format == FT_GLYPH_FORMAT_OUTLINE)
++		FT_GlyphSlot_Embolden(ft_face->glyph);
++
+ 	error = FT_Render_Glyph(ft_face->glyph, FT_RENDER_MODE_NORMAL);
+ 	if (error != 0)
+ 	{
+@@ -452,6 +462,17 @@ static void GenerateMetrics(FT_Face ft_face, FontMetrics& metrics, float bitmap_
+ 	metrics.ascent = ft_face->size->metrics.ascender * bitmap_scaling_factor / float(1 << 6);
+ 	metrics.descent = -ft_face->size->metrics.descender * bitmap_scaling_factor / float(1 << 6);
+ 	metrics.line_spacing = ft_face->size->metrics.height * bitmap_scaling_factor / float(1 << 6);
++	if (const TT_OS2* os2 = static_cast<TT_OS2*>(FT_Get_Sfnt_Table(ft_face, FT_SFNT_OS2));
++		os2 && os2->version != 0xFFFF && (os2->fsSelection & (1 << 7)) == 0 && os2->usWinAscent + os2->usWinDescent > 0)
++	{
++		const float scale = bitmap_scaling_factor / float(1 << 6);
++		const float win_ascent = FT_MulFix(os2->usWinAscent, ft_face->size->metrics.y_scale) * scale;
++		const float win_descent = FT_MulFix(os2->usWinDescent, ft_face->size->metrics.y_scale) * scale;
++		const float hhea_height = metrics.line_spacing;
++		metrics.ascent = win_ascent;
++		metrics.descent = win_descent;
++		metrics.line_spacing = win_ascent + win_descent + Math::Max(0.f, hhea_height - (win_ascent + win_descent));
++	}
+ 
+ 	metrics.underline_position = FT_MulFix(-ft_face->underline_position, ft_face->size->metrics.y_scale) * bitmap_scaling_factor / float(1 << 6);
+ 	metrics.underline_thickness = FT_MulFix(ft_face->underline_thickness, ft_face->size->metrics.y_scale) * bitmap_scaling_factor / float(1 << 6);
+diff --git a/Source/Core/FontEngineDefault/FreeTypeInterface.h b/Source/Core/FontEngineDefault/FreeTypeInterface.h
+index 68a3a72..8b384e8 100644
+--- a/Source/Core/FontEngineDefault/FreeTypeInterface.h
++++ b/Source/Core/FontEngineDefault/FreeTypeInterface.h
+@@ -16,6 +16,9 @@ namespace FreeType {
+ 	bool GetFaceVariations(Span<const byte> data, Vector<FaceVariation>& out_face_variations, int face_index);
+ 
+ 	// Loads a FreeType face from memory, 'source' is only used for logging.
++	// hades: embolden this face's glyphs when they are built (synthetic bold).
++	void SetSyntheticBold(FontFaceHandleFreetype face);
++
+ 	FontFaceHandleFreetype LoadFace(Span<const byte> data, const String& source, int face_index, int named_instance_index = 0);
+ 
+ 	// Releases the FreeType face.

@@ -1,0 +1,28 @@
+[submodule "libs/src/lua"]
+	path = libs/src/lua
+	url = https://github.com/lua/lua.git
+	shallow = true
+[submodule "libs/src/freetype"]
+	path = libs/src/freetype
+	url = https://github.com/freetype/freetype.git
+	shallow = true
+[submodule "libs/src/lunasvg"]
+	path = libs/src/lunasvg
+	url = https://github.com/sammycage/lunasvg.git
+	shallow = true
+[submodule "libs/src/rmlui"]
+	path = libs/src/rmlui
+	url = https://github.com/mikke89/RmlUi.git
+	shallow = true
+[submodule "libs/src/mbedtls"]
+	path = libs/src/mbedtls
+	url = https://github.com/Mbed-TLS/mbedtls.git
+	shallow = true
+[submodule "libs/src/opus"]
+	path = libs/src/opus
+	url = https://github.com/xiph/opus.git
+	shallow = true
+[submodule "libs/src/libdatachannel"]
+	path = libs/src/libdatachannel
+	url = https://github.com/paullouisageneau/libdatachannel.git
+	shallow = true
