@@ -57,6 +57,11 @@ WINDOWS = ("kernel32 user32 gdi32 advapi32 shell32 ole32 oleaut32 uuid ws2_32 wi
            "shlwapi crypt32 winmm dbghelp version comctl32 bcrypt urlmon synchronization dwmapi").split()
 # THIRD_PARTY entries that libs/CMakeLists.txt builds from the submodules under libs/src.
 BUILT_DEPS = [l for l in THIRD_PARTY if l.split("/")[0] in ("rmlui", "freetype", "lua-5.4", "lunasvg", "voip")]
+# One installed header per install prefix; older trees tracked some of these, so checking out
+# a newer one deletes them while the .lib files stay.
+BUILT_HEADERS = ["rmlui/include/RmlUi/Core.h", "freetype/include/freetype2/ft2build.h", "lua-5.4/include/lua.h",
+                 "lunasvg/include/lunasvg/lunasvg.h", "voip/include/rtc/rtc.hpp", "voip/include/opus/opus.h",
+                 "voip/include/mbedtls/ssl.h"]
 # The Windows SDK the matching build uses, when it is installed.
 SDK = "10.0.22621.0" if os.path.isdir(r"C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0") else ""
 
@@ -127,19 +132,23 @@ def ensure_deps(jobs):
     stamp_path = os.path.join(bdir, "hades_deps.stamp")
     stamp = deps_stamp()
     old = open(stamp_path).read().strip() if os.path.isfile(stamp_path) else None
-    missing = [l for l in BUILT_DEPS if not os.path.isfile(os.path.join(HERE, "libs", l))]
+    missing = [l for l in BUILT_DEPS + BUILT_HEADERS if not os.path.isfile(os.path.join(HERE, "libs", l))]
     if old == stamp and not missing:
         return
     if old is not None and old != stamp:
         # ExternalProject does not notice a moved submodule; start the deps build over.
         shutil.rmtree(bdir)
+    elif missing:
+        # Installed files were deleted behind ExternalProject's back; redo every install step.
+        for done in glob.glob(os.path.join(bdir, "*-prefix", "src", "*-stamp", "*", "*-install")):
+            os.remove(done)
     print("building dependencies -> libs/ (build/deps)")
     cmake = find_cmake()
     env = dict(os.environ, CMAKE_BUILD_PARALLEL_LEVEL=str(jobs))
     subprocess.run([cmake, "-S", os.path.join(HERE, "libs"), "-B", bdir,
                     "-G", "Visual Studio 17 2022", "-A", "Win32", "-T", "v142"], check=True, env=env)
     subprocess.run([cmake, "--build", bdir, "--config", "Debug", "--parallel", "4"], check=True, env=env)
-    missing = [l for l in BUILT_DEPS if not os.path.isfile(os.path.join(HERE, "libs", l))]
+    missing = [l for l in BUILT_DEPS + BUILT_HEADERS if not os.path.isfile(os.path.join(HERE, "libs", l))]
     if missing:
         sys.exit("the deps build did not produce: " + ", ".join(missing))
     with open(stamp_path, "w") as f:
