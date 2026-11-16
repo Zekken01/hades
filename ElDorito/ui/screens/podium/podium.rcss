@@ -1,0 +1,323 @@
+/*
+ * Port of screens/podium/podium.css (px -> dp inside the scaled .page_content).
+ *
+ * The web page ran its slides with "animation ... forwards"; RmlUi drops a keyframe
+ * animation's values when it ends, so each element has three states driven by Lua:
+ *   (no state class)  the start of the "In" animation
+ *   .in               the end of "In"   (transition)
+ *   .out              the end of "Out"  (transition)
+ * position: fixed inside the transformed page meant "relative to the page"; absolute here.
+ * filter: brightness(10) on the stat boxes is not available (no render layers): they fade only.
+ */
+
+body {
+	color: #DCDADB;
+	font-family: "Conduit ITC";
+}
+
+.page_content {
+	overflow: hidden;
+}
+
+/* ---- third place */
+
+.third_placeImg {
+	height: 108dp;
+	margin-left: -19.2dp;
+	margin-top: -18dp;
+	position: absolute;
+}
+
+.second_placeImg {
+	height: 108dp;
+	margin-left: 19.2dp;
+	margin-top: -18dp;
+	position: absolute;
+}
+
+.first_placeImg {
+	opacity: 0;
+	position: absolute;
+	height: 115.2dp;
+	margin-left: -10.24dp;
+	margin-top: -7.2dp;
+}
+#player1.in .first_placeImg {
+	opacity: 1;
+	transition: opacity 0.1s 2.1s linear-in-out;
+}
+
+.first_placeglow {
+	opacity: 0;
+	position: absolute;
+	height: 151.2dp;
+	margin-left: -32.64dp;
+	margin-top: -18dp;
+}
+#player1.in .first_placeglow {
+	animation: 3s cubic-in-out 2s infinite glow;
+}
+
+@keyframes glow {
+	0% { opacity: 0; }
+	30% { opacity: 1; }
+	70% { opacity: 1; }
+	100% { opacity: 0; }
+}
+
+#player3 {
+	display: none;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	width: 332.8dp;
+	height: 100.8dp;
+	bottom: 16.56dp;
+	left: 40%;
+	opacity: 0;
+}
+#player3.in {
+	left: 25%;
+	opacity: 1;
+	transition: left opacity 1.5s cubic-in-out;
+}
+#player3.out {
+	left: 40%;
+	opacity: 0;
+	transition: left opacity 1.5s cubic-in-out;
+}
+
+#third_background {
+	width: 100%;
+	height: 147%;
+	position: absolute;
+}
+
+#third_place {
+	width: 100%;
+	height: 100%;
+}
+
+#third_emblem {
+	position: absolute;
+	margin-left: 102.4dp;
+	margin-top: 14.4dp;
+	width: 102.4dp;
+}
+
+#player3_name {
+	position: absolute;
+	font-size: 19.2dp;
+	right: 57.6dp;
+	top: 2dp;
+}
+
+#player3_score {
+	position: absolute;
+	font-size: 25.6dp;
+	bottom: 3.6dp;
+	right: 57.6dp;
+	color: #62CDFD;
+}
+
+/* ---- second place */
+
+#player2 {
+	display: none;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	width: 332.8dp;
+	height: 100.8dp;
+	bottom: 16.56dp;
+	left: 60%;
+	opacity: 0;
+}
+#player2.in {
+	left: 75%;
+	opacity: 1;
+	transition: left opacity 1.5s cubic-in-out;
+}
+#player2.out {
+	left: 60%;
+	opacity: 0;
+	transition: left opacity 1.5s cubic-in-out;
+}
+
+#second_background {
+	width: 100%;
+	height: 147%;
+	position: absolute;
+}
+
+#second_place {
+	width: 100%;
+	height: 100%;
+}
+
+#second_emblem {
+	position: absolute;
+	margin-left: 140.8dp;
+	margin-top: 14.4dp;
+	width: 102.4dp;
+}
+
+#player2_name {
+	position: absolute;
+	font-size: 19.2dp;
+	right: 19.2dp;
+	top: 2dp;
+}
+
+#player2_score {
+	position: absolute;
+	font-size: 25.6dp;
+	bottom: 3.6dp;
+	right: 23.04dp;
+	color: #62CDFD;
+}
+
+/* ---- first place */
+
+#player1 {
+	display: none;
+	position: absolute;
+	transform: translate(-50%, -50%);
+	left: 50%;
+	bottom: 4.176dp;
+	width: 409.6dp;
+	height: 144dp;
+	opacity: 0;
+}
+#player1.in {
+	width: 384dp;
+	height: 129.6dp;
+	opacity: 1;
+	transition: width height opacity 1s cubic-in-out;
+}
+#player1.out {
+	width: 358.4dp;
+	height: 115.2dp;
+	opacity: 0;
+	transition: width height opacity 1s cubic-in-out;
+}
+
+#first_background {
+	width: 100%;
+	height: 131%;
+	position: absolute;
+}
+
+#first_place {
+	width: 100%;
+	height: 100%;
+}
+
+#first_emblem {
+	position: absolute;
+	margin-left: -51.2dp;
+	left: 50%;
+	width: 102.4dp;
+	top: 14.5%;
+}
+
+#player1_name {
+	opacity: 0;
+	position: absolute;
+	font-size: 21.76dp;
+	right: 128dp;
+	top: 2.88dp;
+}
+
+#player1_score {
+	opacity: 0;
+	position: absolute;
+	font-size: 44.8dp;
+	bottom: 3.6dp;
+	right: 128dp;
+	color: #72d3ff;
+	font-effect: glow(0px 6px 6px 7px black); /* text-shadow 6px 7px 11px; font effects take px only */
+}
+
+#player1.in #player1_name, #player1.in #player1_score {
+	right: 23.04dp;
+	opacity: 1;
+	transition: right opacity 0.15s 1.6s cubic-in-out;
+}
+
+#player1_scoreslide {
+	opacity: 0;
+	position: absolute;
+	bottom: 3.6dp;
+	right: 128dp;
+	width: 192dp;
+	margin-right: -28.8dp;
+}
+/* ends invisible, so a plain (non-persistent) keyframe animation matches */
+#player1.in #player1_scoreslide {
+	animation: 0.8s cubic-in-out 1.6s 1 text_slide_score;
+}
+
+@keyframes text_slide_score {
+	0% { opacity: 0; right: 128dp; }
+	15% { right: 23.04dp; opacity: 0.9; }
+	100% { right: 23.04dp; opacity: 0; }
+}
+
+/* ---- stats */
+
+.stat_background {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+.statsContainer {
+	display: none;
+	width: 275dp;
+	height: 70dp;
+	right: 23dp;
+	position: absolute;
+	opacity: 0;
+}
+
+#kills { top: 58dp; }
+#assists { top: 129dp; }
+#deaths { top: 200dp; }
+#streak { top: 271dp; }
+
+.statName {
+	margin-top: 23dp;
+	color: #aaefff;
+	font-size: 19.5dp;
+	float: right;
+	right: 93.5dp;
+	position: relative;
+	text-transform: uppercase;
+	opacity: 0.65;
+	letter-spacing: 1.8dp;
+}
+
+.stats {
+	color: #ffffff;
+	margin-top: 23dp;
+	font-size: 19.5dp;
+	right: 6dp;
+	position: absolute;
+	text-align: center;
+	width: 64dp;
+}
+
+.statsContainer.in {
+	opacity: 1;
+}
+.statsContainer.out {
+	opacity: 0;
+	right: 0dp;
+}
+#kills.in { transition: opacity 0.4s 0s cubic-in-out; }
+#assists.in { transition: opacity 0.4s 0.15s cubic-in-out; }
+#deaths.in { transition: opacity 0.4s 0.25s cubic-in-out; }
+#streak.in { transition: opacity 0.4s 0.35s cubic-in-out; }
+#kills.out { transition: opacity right 0.4s 0s cubic-in-out; }
+#assists.out { transition: opacity right 0.4s 0.15s cubic-in-out; }
+#deaths.out { transition: opacity right 0.4s 0.25s cubic-in-out; }
+#streak.out { transition: opacity right 0.4s 0.35s cubic-in-out; }
