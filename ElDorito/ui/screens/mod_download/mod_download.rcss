@@ -1,0 +1,188 @@
+/* Port of screens/mod_download/style.css on top of the dialog screen's styles: this dialog is
+   33.33vh tall (44.33vh with details), centred at 45vw with an 80vh content column. */
+
+#dialog {
+	height: 33.33vh;
+	top: 33.1935vh;
+}
+#dialog.details {
+	height: 44.33vh;
+}
+
+.dialog-body {
+	height: 25.972vh;
+}
+#dialog.details .dialog-body {
+	height: 44.33vh;
+}
+
+.slide-left, .slide-right {
+	left: 45%;
+}
+
+.dialog-content {
+	width: 80vh;
+	margin-top: 0.5vh;
+	position: relative;
+}
+
+.alertButtonContainerBottom {
+	display: flex;
+	flex-direction: row;
+}
+
+.screen {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	opacity: 0;
+	transform: translateX(-3vh);
+	transition: transform opacity 0.2s cubic-in-out;
+	pointer-events: none;
+}
+
+.screen.active {
+	opacity: 1;
+	transform: translateX(0px);
+	pointer-events: auto;
+}
+
+.progress_bar {
+	width: 100%;
+	border: 1px #ffffff3d;
+	height: 1.5vh;
+	margin-top: 1.5vh;
+	margin-bottom: 1.5vh;
+}
+
+.progress_bar .progress {
+	width: 50%;
+	background-color: #ffffffd1;
+	height: 1.5vh;
+}
+
+.mod_information {
+	font-size: 0.8em;
+}
+
+.progress_info {
+	margin-top: 1vh;
+	font-size: 0.8em;
+	color: white;
+}
+
+#download_count {
+	float: right;
+}
+
+#download_website {
+	overflow: hidden;
+	max-height: 5.8vh;
+}
+
+.collapsed {
+	display: none;
+}
+
+.detail {
+	display: block;
+	height: 17vh;
+	overflow-y: auto;
+	font-size: 2vh;
+	background-color: rgb(6, 10, 19);
+	white-space: pre-wrap;
+	padding: 0.6vh;
+	border: 2px #626f7961;
+}
+
+.detail.collapsed {
+	display: none;
+}
+
+.detail scrollbarvertical {
+	width: 1vh;
+}
+.detail scrollbarvertical slidertrack {
+	border: 1px grey;
+}
+.detail scrollbarvertical sliderbar {
+	background-color: grey;
+}
+.detail scrollbarvertical sliderarrowdec, .detail scrollbarvertical sliderarrowinc {
+	height: 0;
+}
+
+.security_description {
+	margin-top: 1vh;
+	color: hsl(0, 70%, 50%);
+	font-size: 2.4vh;
+}
+
+#finished_description {
+	font-size: 0.85em;
+	white-space: pre-wrap;
+}
+
+#mod_website {
+	color: #1e90ff;
+	cursor: pointer;
+}
+
+#mod_website:hover {
+	text-decoration: underline;
+}
+
+/* ---- compact window */
+
+.window-compact {
+	width: 42vh;
+	position: absolute;
+	right: 5%;
+	bottom: 5%;
+	font-size: 1.75vh;
+	box-sizing: border-box;
+	overflow: hidden;
+	height: 6.5vh;
+	border-radius: 0.5vh;
+	padding: 1vh 1vh 0.7vh 1vh;
+	decorator: linear-gradient(to right, #0b1933 0%, #0e192d 70%, #09162e 100%);
+	opacity: 0.8;
+	cursor: pointer;
+}
+
+.window-compact.active:hover {
+	decorator: linear-gradient(to right, #99612d, #99612d);
+	opacity: 1;
+}
+
+.window-compact .right {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+}
+
+.compact_progress_info {
+	font-size: 2.5vh;
+	right: 1.389vh;
+	position: absolute;
+	color: white;
+	top: 0.111vh;
+}
+
+.compact_mod_information {
+	font-size: 1.9vh;
+	color: white;
+}
+
+.compact_progress_bar {
+	border: 2px #ffffff3d;
+	height: 0.694vh;
+	margin-top: 1.042vh;
+}
+
+.compact_progress_bar .compact_progress {
+	width: 50%;
+	background-color: #ffffffd1;
+	height: 0.694vh;
+}
