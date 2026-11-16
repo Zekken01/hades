@@ -272,6 +272,7 @@ namespace Patches { namespace Animation { extern void ApplyAll(); } }  // hades:
 namespace Patches { namespace Sprint { extern void ApplyAll(); } }  // hades: added for 0x10968240
 namespace Patches { namespace geometry_sampler_patches { extern void ApplyAll(); } }  // hades: added for 0x10968240
 extern void render_patches_apply();  // hades: added for 0x10968240
+extern void bink_patches_apply();  // hades: added, play_bink_movie_from_tag
 extern void render_postprocess_patches_apply();  // hades: added for 0x10968240
 extern void physics_patches_apply();  // hades: added for 0x10968240
 namespace Patches { namespace campaign_patches { extern void ApplyAll(); } }  // hades: added for 0x10968240
@@ -384,6 +385,7 @@ namespace Patches
 		Sprint::ApplyAll();
 		geometry_sampler_patches::ApplyAll();
 		render_patches_apply();
+		bink_patches_apply();
 		render_postprocess_patches_apply();
 		physics_patches_apply();
 		campaign_patches::ApplyAll();
