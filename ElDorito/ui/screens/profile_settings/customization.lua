@@ -148,6 +148,10 @@ local function setChosenClass(id)
 end
 
 -- setRadioList(ElementID, ArrayVar, radioType, shouldReset, path)
+-- armor asset path -> resolved url, so a list rebuilt on a race change has its images in
+-- its first frame instead of after dew.getAssetUrl answers
+local armorImageUrls = {}
+
 local function setRadioList(id, list, kind, path)
 	local form = newForm(id, kind)
 	form.items = {}
@@ -156,6 +160,8 @@ local function setRadioList(id, list, kind, path)
 		if kind == "emblem" then
 			item.img = entry[3]
 			item[3] = nil
+		elseif kind == "armor" then
+			item.img = armorImageUrls[path .. "/" .. tostring(item[4]) .. "/" .. item[2]]
 		end
 		form.items[i] = item
 	end
@@ -163,8 +169,10 @@ local function setRadioList(id, list, kind, path)
 	if kind == "armor" then
 		for _, item in ipairs(form.items) do
 			local imgId = id .. "_" .. item[2]
-			dew.getAssetUrl(path .. "/" .. tostring(item[4]) .. "/" .. item[2], { pak = "mainmenu", fileTypes = { "jpg", "png" } }):next(function(url)
+			local asset = path .. "/" .. tostring(item[4]) .. "/" .. item[2]
+			dew.getAssetUrl(asset, { pak = "mainmenu", fileTypes = { "jpg", "png" } }):next(function(url)
 				if url ~= "" then
+					armorImageUrls[asset] = url
 					item.img = url
 					local tile = el(imgId)
 					local img = tile and tile:QuerySelector("img")
@@ -596,7 +604,7 @@ local function setRepresentation()
 		local buttonRml, formRml = {}, {}
 		for r, region in ipairs(obj.regions or {}) do
 			local formId = "armor" .. (r - 1)
-			buttonRml[#buttonRml + 1] = string.format('<div class="row dynamicItem"><div class="setting baseNav button-list" data-action="armor" data-arg="%s" data-region="%s"><label>%s</label></div></div>',
+			buttonRml[#buttonRml + 1] = string.format('<div class="setting baseNav button-list" data-action="armor" data-arg="%s" data-region="%s"><label>%s</label></div>',
 				formId, dew.escape(tostring(region.type)), dew.escape(tostring(region.name)))
 			formRml[#formRml + 1] = string.format('<div class="armorForm form hide tile-button tile-large dynamicItem" id="%s"></div>', formId)
 			local permutations = {}
@@ -605,12 +613,30 @@ local function setRepresentation()
 			end
 			regionList[#regionList + 1] = { formId, permutations, region.type }
 		end
-		buttonRml[#buttonRml + 1] = '<div class="row dynamicItem"><div class="setting baseNav button-list" data-action="armor" data-arg="gender" data-region="gender"><label>Gender</label></div></div>'
-		buttons.inner_rml = buttons.inner_rml .. table.concat(buttonRml)
+		buttonRml[#buttonRml + 1] = '<div class="setting baseNav button-list" data-action="armor" data-arg="gender" data-region="gender"><label>Gender</label></div>'
+		-- appended, not `buttons.inner_rml = buttons.inner_rml .. rows`: serialising the
+		-- column drops the classes set at run time (the open list's clickedElement)
+		for _, rml in ipairs(buttonRml) do
+			local row = buttons:AppendChild(document:CreateElement("div"))
+			row:SetClass("row", true)
+			row:SetClass("dynamicItem", true)
+			row.inner_rml = rml
+		end
+		-- The original kept the gender and race lists (it only moved them to the end); they
+		-- are rebuilt here, so one that is open (a race was just picked) stays open.
 		local side = el("armorSideList")
+		local open = {}
+		for _, id in ipairs({ "gender", "races" }) do
+			local form = el(id)
+			open[id] = form ~= nil and not form:IsClassSet("hide")
+		end
+		local scroll = side.scroll_top
 		side.inner_rml = table.concat(formRml)
 			.. '<div class="armorForm form hide tile-button tile-large" id="gender"></div>'
 			.. '<div class="armorForm form hide tile-button tile-large" id="races"></div>'
+		for id, isOpen in pairs(open) do
+			if isOpen then el(id):SetClass("hide", false) end
+		end
 
 		setRadioList("gender", genderList, "armor", "assets/armor")
 		setRadioList("races", characters, "armor", "assets/armor")
@@ -620,6 +646,7 @@ local function setRepresentation()
 		end
 		wireButtons()
 		setControlValues()
+		side.scroll_top = scroll
 		dew.command("Player.PreferredCharacter", {}):next(function(current)
 			setDivValue("races", current, true)
 		end)

@@ -88,12 +88,26 @@
 
 /* ---- armor tiles */
 
+/* the original's .armorForm img is 251x141 whatever the list width (with or without a
+   scrollbar), and the tile shrinks to it */
 .armorForm span.tile {
+	box-sizing: content-box;
+	width: 251dp;
 	height: 141dp;
 }
 .armorForm img {
-	width: 100%;
+	width: 251dp;
 	height: 141dp;
+}
+/* customization.css: img:not([src]) { visibility: hidden }.  RmlUi draws an image without
+   a texture as a plain white quad. */
+img:not([src]) {
+	visibility: hidden;
+}
+/* the chosen/selected ring is a box-shadow outside the tile in the original: put the
+   border outside the image and take it back out of the layout */
+.armorForm span.tile.selectedElement, .armorForm span.tile.chosenElement {
+	margin: -3dp -3dp 5dp -3dp;
 }
 .armorForm label, .emblemForm label {
 	position: absolute;
