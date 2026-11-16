@@ -22,5 +22,6 @@
 	margin-top: -360dp;
 	box-sizing: border-box;
 	overflow: hidden;
+	clip: always;
 	font-size: 16dp;
 }

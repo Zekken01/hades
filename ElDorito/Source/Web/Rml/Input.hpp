@@ -31,6 +31,8 @@ namespace Web
 			::Rml::Input::KeyIdentifier ConvertKey(int win32_key_code);
 			void Enqueue(const MSG &msg);
 			void Clear();
+			// Last position fed to the context; false while the mouse is outside the window.
+			bool GetMousePosition(int *x, int *y);
 			// Feeds every queued message to the context; returns true if the UI consumed any.
 			bool Drain(::Rml::Context *context);
 		}

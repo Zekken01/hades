@@ -43,6 +43,8 @@ body {
 
 #stats table {
 	width: 100%;
+	gap: 0;
+	padding: 0; /* border-spacing: 0 */
 }
 
 #stats th {

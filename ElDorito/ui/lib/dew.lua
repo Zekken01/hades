@@ -561,5 +561,22 @@ return function(screenId, document)
 		}))
 	end
 
+	-- HTML puts a range input without a value at its midpoint; RmlUi at its minimum.  This
+	-- listener is registered before any screen script's, so it runs first.
+	if document then
+		document:AddEventListener("load", function()
+			for _, input in ipairs(document:QuerySelectorAll("input")) do
+				if input:GetAttribute("type") == "range" and input:GetAttribute("value") == nil then
+					local min = tonumber(input:GetAttribute("min")) or 0
+					local max = tonumber(input:GetAttribute("max")) or 100
+					local step = tonumber(input:GetAttribute("step")) or 1
+					local mid = min + (max - min) / 2
+					if step > 0 then mid = min + math.floor((mid - min) / step + 0.5) * step end
+					input:SetAttribute("value", string.format("%g", mid))
+				end
+			end
+		end)
+	end
+
 	return dew
 end

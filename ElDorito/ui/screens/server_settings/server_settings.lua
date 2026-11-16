@@ -103,11 +103,7 @@ local function rowOf(element)
 end
 
 local function isVisible(element)
-	while element and element.tag_name ~= "body" do
-		if element.style.display == "none" then return false end
-		element = element.parent_node
-	end
-	return true
+	return dew_core.isDisplayed(element)
 end
 
 -- ---- applying

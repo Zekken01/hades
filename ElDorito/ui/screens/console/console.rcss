@@ -58,6 +58,7 @@ body {
 	margin-right: 10px;
 	white-space: nowrap;
 	overflow: hidden;
+	clip: always;
 }
 
 .console .box.input {

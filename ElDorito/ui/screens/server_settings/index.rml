@@ -15,7 +15,7 @@
         <h1 class="header">Host Settings</h1>
         <div id="page1" class="page active">
             <div class="buttonContainer">
-                <div class="row">
+                <div class="row subRow">
                     <h3 class="subHeader">General</h3>
                 </div>
                 <div class="row">
@@ -56,7 +56,7 @@
                     <label for="sUPNP">Universal Plug and Play (UPnP)</label>
                     <div class="setting toggle" id="sUPNP" data-state="0">Disabled</div>
                 </div>
-                <div class="row" id="firefightHeader">
+                <div class="row subRow" id="firefightHeader">
                     <h3 class="subHeader">Firefight</h3>
                 </div>    
                 <div class="row FirefightType">
@@ -70,7 +70,7 @@
                         <option value="0">Multiplayer</option>
                     </select></div>
                 </div>
-                <div class="row" id="campaignHeader">
+                <div class="row subRow" id="campaignHeader">
                     <h3 class="subHeader">Campaign</h3>
                 </div>    
                 <div class="row CampaignType">
@@ -97,17 +97,17 @@
                     <div class="selectWrap setting" data-control="sCampaignRallyPoint"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sCampaignRallyPoint" class="inner">
                     </select></div>
                 </div>
-                <div class="row">
+                <div class="row subRow">
                     <h3 class="subHeader">Gameplay</h3>
                 </div>
-                <div class="row">
+                <div class="row rangeRow">
                     <label for="sMaxPlayers">Max Players</label>
                     <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
                         <input type="range" class="setting hasTiny" min="1" max="16" id="sMaxPlayers"/>
                         <input type="text" class="tinySetting" id="sMaxPlayersText"/>
                     </div>
                 </div>
-                <div class="row" id="NumberTeamsOption">
+                <div class="row rangeRow" id="NumberTeamsOption">
                     <label for="sNumberTeams">Number of teams</label>
                     <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
                         <input type="range" class="setting hasTiny" min="1" max="8" id="sNumberTeams"/>
@@ -118,14 +118,14 @@
                     <label for="sTeamShufflingEnabled">Team Shuffle</label>
                     <div class="setting voting veto toggle" id="sTeamShufflingEnabled" data-state="0">Disabled</div>
                 </div>
-                <div class="row">
+                <div class="row rangeRow">
                     <label for="sCountdown">Match Start Countdown</label>
                     <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
                         <input type="text" class="tinySetting" id="sMatchCountdownText"/>
                         <input type="range" class="setting hasTiny" min="0" max="20" id="sMatchCountdown"/>
                     </div>
                 </div>
-                <div class="row" id="RoundStartOption">
+                <div class="row rangeRow" id="RoundStartOption">
                     <label for="sCountdown">Round Start Countdown</label>
                     <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
                         <input type="text" class="tinySetting" id="sCountdownText"/>
@@ -199,7 +199,7 @@
                     <label for="sDisconnectedPlayers">Show Disconnected Players on Scoreboard</label>
                     <div class="setting toggle" id="sDisconnectedPlayers" data-state="0">Disabled</div>
                 </div>				
-				<div class="row" id="votingHeader">
+				<div class="row subRow" id="votingHeader">
                     <h3 class="subHeader">Voting</h3>
                 </div>
 				<div class="row" id="votingMode">

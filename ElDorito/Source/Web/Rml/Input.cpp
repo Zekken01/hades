@@ -21,6 +21,9 @@ namespace
 	std::deque<MSG> g_queue;
 	wchar_t g_highSurrogate = 0;
 	bool g_consumedAny = false;
+	bool g_mouseActive = false;
+	int g_mouseX = 0;
+	int g_mouseY = 0;
 }
 
 /* ---------- public code */
@@ -61,6 +64,15 @@ namespace Web
 				g_highSurrogate = 0;
 			}
 
+			bool GetMousePosition(int *x, int *y)
+			{
+				if (!g_mouseActive)
+					return false;
+				*x = g_mouseX;
+				*y = g_mouseY;
+				return true;
+			}
+
 			bool Drain(::Rml::Context *context)
 			{
 				std::deque<MSG> messages;
@@ -78,6 +90,9 @@ namespace Web
 					switch (msg.message)
 					{
 					case WM_MOUSEMOVE:
+						g_mouseActive = true;
+						g_mouseX = GET_X_LPARAM(msg.lParam);
+						g_mouseY = GET_Y_LPARAM(msg.lParam);
 						consumed |= !context->ProcessMouseMove(GET_X_LPARAM(msg.lParam), GET_Y_LPARAM(msg.lParam), GetKeyModifierState());
 						break;
 					case WM_LBUTTONDOWN:
@@ -108,6 +123,7 @@ namespace Web
 						consumed |= !context->ProcessMouseWheel(::Rml::Vector2f((float)GET_WHEEL_DELTA_WPARAM(msg.wParam) / (float)WHEEL_DELTA, 0.f), GetKeyModifierState());
 						break;
 					case WM_MOUSELEAVE:
+						g_mouseActive = false;
 						context->ProcessMouseLeave();
 						break;
 					case WM_KEYDOWN:

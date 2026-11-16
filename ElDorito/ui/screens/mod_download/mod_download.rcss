@@ -78,6 +78,7 @@
 
 #download_website {
 	overflow: hidden;
+	clip: always;
 	max-height: 5.8vh;
 }
 
@@ -143,6 +144,7 @@
 	font-size: 1.75vh;
 	box-sizing: border-box;
 	overflow: hidden;
+	clip: always;
 	height: 6.5vh;
 	border-radius: 0.5vh;
 	padding: 1vh 1vh 0.7vh 1vh;
@@ -160,6 +162,7 @@
 	position: relative;
 	height: 100%;
 	overflow: hidden;
+	clip: always;
 }
 
 .compact_progress_info {

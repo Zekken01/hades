@@ -27,12 +27,15 @@ body {
 	width: 100%;
 }
 
+/* The row colour is set on each cell (scoreboard.lua spreadRowColor): a <tr> background in the
+   browser paints only behind its cells, so the 2px border-spacing between them shows through.
+   The cell tints are decorators over that colour. */
 #window table tbody tr td {
-	background-color: #fafafa1f;
+	decorator: linear-gradient(to bottom, #fafafa1f, #fafafa1f);
 }
 
 #header {
-	background-color: #000000cc;
+	background-color: transparent; /* on the cells (see #header th) */
 	height: 25dp;
 	font-size: 15dp;
 	line-height: 23dp;
@@ -41,7 +44,7 @@ body {
 
 #header th {
 	font-weight: normal;
-	text-align: center;
+	background-color: #000000cc;
 }
 
 #winnerText, #roundText {
@@ -56,7 +59,7 @@ body {
 
 .player {
 	text-align: center;
-	height: 22dp;
+	height: 24dp; /* 22px cells + their 1px padding */
 	font-size: 18dp;
 	line-height: 22dp;
 	font-effect: outline(1px #00000099);
@@ -70,12 +73,12 @@ body {
 
 /* .clickable:hover / .selected: inset box-shadow 22px white 20% over the row */
 #window table tbody tr.clickable:hover td, #window table tbody tr.clickable.selected td, #window table tbody tr.clickable.gpselected td {
-	background-color: #ffffff4b;
+	decorator: linear-gradient(to bottom, #ffffff4b, #ffffff4b);
 }
 #window table tbody tr.clickable:hover td.score, #window table tbody tr.clickable:hover td.playerRank, #window table tbody tr.clickable:hover td.serviceTag,
 #window table tbody tr.clickable.selected td.score, #window table tbody tr.clickable.selected td.playerRank, #window table tbody tr.clickable.selected td.serviceTag,
 #window table tbody tr.clickable.gpselected td.score, #window table tbody tr.clickable.gpselected td.playerRank, #window table tbody tr.clickable.gpselected td.serviceTag {
-	background-color: #ffffff33;
+	decorator: linear-gradient(to bottom, #ffffff33, #ffffff33);
 }
 
 .teamName {
@@ -83,11 +86,11 @@ body {
 }
 
 #window table tbody tr td.score, #window table tbody tr td.playerRank, #window table tbody tr td.serviceTag {
-	background-color: transparent;
+	decorator: none;
 }
 
 .serviceTag {
-	width: 58dp;
+	width: 68dp; /* 58px, widened to fit a 4-letter tag as the browser table did */
 }
 
 .playerRank {
@@ -369,6 +372,8 @@ td.score {
 
 #killedMost, #killedMostBy {
 	width: 40%;
+	gap: 0;
+	padding: 0; /* border-collapse: collapse */
 	margin-bottom: 4dp;
 }
 

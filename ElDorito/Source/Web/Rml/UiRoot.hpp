@@ -166,6 +166,8 @@ namespace Web
 			static int L_setToastActive(lua_State *L);
 			static int L_getTime(lua_State *L);
 			static int L_setSelectionRange(lua_State *L);
+			static int L_debugBox(lua_State *L);
+			static int L_isDisplayed(lua_State *L);
 
 			LuaState &m_lua;
 			::Rml::Context *m_context;

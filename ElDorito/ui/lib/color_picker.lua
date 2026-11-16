@@ -61,23 +61,13 @@ local function clamp(value, min, max)
 	return value
 end
 
--- the element's position in context pixels (offsets up the offset_parent chain)
-local function absolutePosition(element)
-	local x, y = 0, 0
-	local current = element
-	while current do
-		x = x + (current.offset_left or 0)
-		y = y + (current.offset_top or 0)
-		current = current.offset_parent
+-- the element's on-screen box (transforms and scrolling applied)
+local function screenBox(element)
+	local box = dew_core.debugBox(element)
+	if box and box.w > 0 and box.h > 0 then
+		return box.x, box.y, box.w, box.h
 	end
-	-- scrolled containers between the element and the document
-	local parent = element.parent_node
-	while parent and parent.tag_name ~= "body" do
-		x = x - (parent.scroll_left or 0)
-		y = y - (parent.scroll_top or 0)
-		parent = parent.parent_node
-	end
-	return x, y
+	return 0, 0, element.client_width, element.client_height
 end
 
 function dew.makeColorPicker(container)
@@ -106,6 +96,7 @@ function dew.makeColorPicker(container)
 	local palette = container:QuerySelector(".ed-color-picker__palette")
 	local thumb = container:QuerySelector(".ed-color-picker__palette-thumb")
 	local hueSlider = container:QuerySelector(".ed-color-picker__hue-slider")
+	local hueWrapper = container:QuerySelector(".ed-color-picker__hue-slider-wrapper")
 	local hexInput = container:QuerySelector(".ed-color-picker__detail_hex-input")
 	local outputs = container:QuerySelectorAll(".ed-color-picker_rgb_output div")
 
@@ -119,10 +110,9 @@ function dew.makeColorPicker(container)
 		local color = state.selectedColor
 		local hueRgb = ColorUtil.hsvToRgb(color.h, 1, 1)
 		palette.style["background-color"] = string.format("#%02x%02x%02x", hueRgb[1], hueRgb[2], hueRgb[3])
-		local width, height = wrapper.client_width, wrapper.client_height
-		local radius = thumb.offset_height * 0.5
-		thumb.style.left = string.format("%.1fpx", color.s * width - radius)
-		thumb.style.top = string.format("%.1fpx", (1 - color.v) * height - radius)
+		-- percentages, centred by the thumb's negative margins: right even before layout
+		thumb.style.left = string.format("%.3f%%", color.s * 100)
+		thumb.style.top = string.format("%.3f%%", (1 - color.v) * 100)
 		writtenHue = tostring(math.floor(color.h + 0.5))
 		hueSlider:SetAttribute("value", writtenHue)
 		writtenHue = hueSlider:GetAttribute("value")
@@ -145,27 +135,34 @@ function dew.makeColorPicker(container)
 		end
 	end
 
-	local function handleDragging(event)
-		local x0, y0 = absolutePosition(wrapper)
-		local width, height = wrapper.client_width, wrapper.client_height
-		if width <= 0 or height <= 0 then return end
+	-- Palette and hue bar follow the mouse with RmlUi's drag events, which stay with the element
+	-- the drag started on until the button is released (like the browser's pointer capture);
+	-- `drag: drag` on both in style-global.rcss.
+	local function mouseFraction(element, event)
+		local x0, y0, width, height = screenBox(element)
 		local x = clamp((tonumber(event.parameters.mouse_x) or 0) - x0, 0, width)
 		local y = clamp((tonumber(event.parameters.mouse_y) or 0) - y0, 0, height)
-		setColorInternal({ s = x / width, v = 1 - y / height }, true)
+		return x / width, y / height
 	end
 
-	wrapper:AddEventListener("mousedown", function(event)
-		if tonumber(event.parameters.button) == 0 then
-			state.isDragging = true
-			handleDragging(event)
-		end
-	end)
-	container.owner_document:AddEventListener("mousemove", function(event)
-		if state.isDragging then handleDragging(event) end
-	end)
-	container.owner_document:AddEventListener("mouseup", function()
-		state.isDragging = false
-	end)
+	local function paletteAt(event)
+		local fx, fy = mouseFraction(wrapper, event)
+		setColorInternal({ s = fx, v = 1 - fy }, true)
+	end
+
+	local function hueAt(event)
+		local fx = mouseFraction(hueWrapper, event)
+		setColorInternal({ h = fx * 360 }, true)
+	end
+
+	local function isLeft(event)
+		return (tonumber(event.parameters.button) or 0) == 0
+	end
+
+	wrapper:AddEventListener("mousedown", function(event) if isLeft(event) then paletteAt(event) end end)
+	wrapper:AddEventListener("drag", paletteAt)
+	hueWrapper:AddEventListener("mousedown", function(event) if isLeft(event) then hueAt(event) end end)
+	hueWrapper:AddEventListener("drag", hueAt)
 
 	hueSlider:AddEventListener("change", function()
 		local value = hueSlider:GetAttribute("value")
@@ -185,13 +182,18 @@ function dew.makeColorPicker(container)
 	end)
 
 	render()
+	-- the first render runs before layout (no size yet): place the thumb again once laid out
+	dew.requestAnimationFrame(function() render() end)
 
 	return {
 		on = function(eventName, callback)
 			callbacks[eventName] = callbacks[eventName] or {}
 			table.insert(callbacks[eventName], callback)
 		end,
-		setColor = function(color) setColorInternal(color or {}, false) end,
+		setColor = function(color)
+			setColorInternal(color or {}, false)
+			dew.requestAnimationFrame(function() render() end)
+		end,
 		getColor = function() return state.selectedColor end,
 		controllerInput = function(data)
 			local axisThreshold, paletteSpeed, hueSliderSpeed = 0.08, 0.02, 2

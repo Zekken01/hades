@@ -96,7 +96,11 @@ namespace Utils
 			if (!SemanticVersion::TryParse(versionString, version))
 				return false;
 			SemanticVersion minVersion = SemanticVersion::Parse(GetCompatibleVersionString());
-			SemanticVersion maxVersion = SemanticVersion::Parse(GetVersionString());
+			// hades: GetVersionString() is "0.7.1.1", which is not a semantic version; Parse threw on
+			// the server-query job thread and std::terminate killed the game on every join.
+			SemanticVersion maxVersion(0, 0, 0, "", "");
+			if (!SemanticVersion::TryParse(GetVersionString(), maxVersion))
+				maxVersion = SemanticVersion::Parse(GetCompatibleVersionString());
 			return version >= minVersion && version <= maxVersion;
 		}
 	}

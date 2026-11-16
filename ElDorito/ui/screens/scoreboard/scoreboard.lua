@@ -30,6 +30,7 @@ local settingsOrder = { "Settings.Gamepad" }
 
 -- KI values
 local KI_TAB, KI_T, KI_Y, KI_OEM_3, KI_F1, KI_OEM_8, KI_ESCAPE, KI_SNAPSHOT = 70, 31, 36, 44, 107, 49, 81, 97
+local KI_F19 = 125
 
 -- ----------- constants
 
@@ -242,6 +243,14 @@ local function rowClasses(row, base)
 	return table.concat(classes, " ")
 end
 
+-- A <tr> background in the browser paints only behind its cells (the border-spacing gaps stay
+-- clear); RmlUi paints the whole row.  Move the row's inline colour onto its cells.
+local function spreadRowColor(rml)
+	local attrs, color, rest = rml:match('^<tr([^>]-) style="background%-color: ([^;"]+);">(.*)$')
+	if not color then return rml end
+	return '<tr' .. attrs .. '>' .. (rest:gsub('<td', '<td style="background-color: ' .. color .. ';"'))
+end
+
 local function renderTeamRow(row)
 	local parts = {}
 	parts[#parts + 1] = string.format('<tr class="%s" style="background-color: %s;">', rowClasses(row, "player teamHeader"), row.color)
@@ -297,9 +306,9 @@ local function renderPlayerRow(row, clickIndex)
 	local speakerClass = "emblem speaker"
 	if hasSpoken(row.name) then
 		speakerClass = speakerClass .. " talking"
-		if row.hasObjective then
-			speakerClass = "hasSpokenObjective " .. speakerClass
-		end
+	end
+	if row.hasObjective then
+		speakerClass = "hasSpokenObjective " .. speakerClass
 	end
 	parts[#parts + 1] = string.format('<img class="%s" data-name="%s" src="%s"/>', speakerClass, esc(row.name),
 		esc(voip and voip.speaker or "dew://assets/emblems/speaker-off.png"))
@@ -357,10 +366,23 @@ local function renderWindow()
 			parts[#parts + 1] = string.format('<div id="roundText"><span class="round">Round %s of %s</span></div>', esc(appState.currentRound), esc(appState.roundCount))
 		end
 	end
-	-- column widths: RmlUi takes them from <col>s (the header's first cells span columns)
-	parts[#parts + 1] = '<table class="scoreboard"><col style="width: 25dp;"/><col style="width: 264dp;"/><col style="width: 58dp;"/><col style="width: 30dp;"/>'
+	-- column widths: RmlUi takes them from <col>s (the header's first cells span columns); the
+	-- CSS widths were content widths, + the 1px cell padding on each side.  An HTML table widens
+	-- a column to fit its content (a 4-letter service tag needs ~68px); RmlUi's do not, so the
+	-- service tag column takes 10dp from the name column.  A row without a rank image spans
+	-- its name over the service tag column and puts the tag in the rank column, so when no row
+	-- has a rank that column is the tag's.
+	local anyRank = false
+	for _, row in ipairs(appState.rows) do
+		if row.type ~= 1 and row.rank ~= -1 then anyRank = true end
+	end
+	if anyRank then
+		parts[#parts + 1] = '<table class="scoreboard"><col style="width: 27dp;"/><col style="width: 256dp;"/><col style="width: 70dp;"/><col style="width: 32dp;"/>'
+	else
+		parts[#parts + 1] = '<table class="scoreboard"><col style="width: 27dp;"/><col style="width: 254dp;"/><col style="width: 0dp;"/><col style="width: 70dp;"/>'
+	end
 	if showStats() then
-		parts[#parts + 1] = string.rep('<col style="width: 70dp;"/>', #statColumns())
+		parts[#parts + 1] = string.rep('<col style="width: 72dp;"/>', #statColumns())
 	end
 	parts[#parts + 1] = '<thead><tr id="header"><th class="rank"></th>'
 	parts[#parts + 1] = string.format('<th class="headerText name" colspan="3" style="padding-left: 5dp;">Players (%s/%s)</th>', esc(appState.playerCount), esc(appState.maxPlayers))
@@ -378,9 +400,9 @@ local function renderWindow()
 	parts[#parts + 1] = '</tr></thead><tbody id="playerList">'
 	for _, row in ipairs(appState.rows) do
 		if row.type == 1 then
-			parts[#parts + 1] = renderTeamRow(row)
+			parts[#parts + 1] = spreadRowColor(renderTeamRow(row))
 		else
-			parts[#parts + 1] = renderPlayerRow(row)
+			parts[#parts + 1] = spreadRowColor(renderPlayerRow(row))
 		end
 	end
 	parts[#parts + 1] = "</tbody></table>"
@@ -663,8 +685,8 @@ playerBreakdown = function(name)
 			local medal = medals[i]
 			if medal and (tonumber(medal.value) or 0) ~= 0 then
 				count = count + 1
-				rml[#rml + 1] = string.format('<div class="medal" data-medal="%s"><img class="medalImage" data-pak="game" data-url="assets/medals/%s"/><span class="medalCount">x %s</span></div>',
-					esc(medal.key), esc(medal.key), esc(medal.value))
+				rml[#rml + 1] = string.format('<div class="medal" data-medal="%s"><span class="medalCount">x %s</span><img class="medalImage" data-pak="game" data-url="assets/medals/%s"/></div>',
+					esc(medal.key), esc(medal.value), esc(medal.key))
 			end
 		end
 		for _ = 1, 10 - count do
@@ -846,7 +868,7 @@ local function handleUpdate(update, animate)
 
 	appState.gameId = session.gameId
 	appState.gameType = tonumber(session.gameType) or 0
-	appState.lobbyType = tonumber(session.lobbyType) or 0
+	appState.lobbyType = tonumber(session.lobbyType) -- nil when missing: not a lobby, as in the JS
 	appState.multiround = (tonumber(session.numRounds) or 0) > 1
 	appState.roundCount = session.numRounds
 	appState.currentRound = session.currentRound
@@ -1096,8 +1118,9 @@ local function onControllerConnect()
 	jq("#previousPlayer .button"):attr("src", "dew://assets/buttons/360_LB.png")
 	jq("#nextPlayer .button"):attr("src", "dew://assets/buttons/360_RB.png")
 	jq("#windowClose .button"):attr("src", "dew://assets/buttons/360_B.png")
-	jq("#closeButton"):css({ ["padding-left"] = "1.5%", width = "4%" })
-	jq("#modInfoButton"):css({ ["padding-left"] = "1.8%", right = "11.7%", width = "5%" })
+	-- 0.8vw / 0.95vw of the 1280-wide page the original scaled
+	jq("#closeButton"):css({ ["padding-left"] = "10.24dp", width = "4%" })
+	jq("#modInfoButton"):css({ ["padding-left"] = "12.16dp", right = "11.7%", width = "5%" })
 	jq(".button"):show()
 end
 
@@ -1342,7 +1365,6 @@ local function updateSpeaker(name, url)
 			if speaker:GetAttribute("src") ~= url then
 				speaker:SetAttribute("src", url)
 			end
-			speaker:SetClass("talking", hasSpoken(name))
 		end
 	end
 end
@@ -1433,9 +1455,9 @@ document:AddEventListener("keydown", function(event)
 	local key = tonumber(event.parameters.key_identifier)
 	if key == KI_TAB then
 		event:StopPropagation()
-		if not initalKeyboardKey then
-			hideScoreboard()
-		end
+	end
+	if (key == KI_TAB and not initalKeyboardKey) or key == KI_F19 then -- F19: keyCode 130
+		hideScoreboard()
 	end
 	if key == KI_T or key == KI_Y then
 		dew.show("chat", { captureInput = true, teamChat = key == KI_Y })

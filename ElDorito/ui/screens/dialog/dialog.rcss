@@ -42,6 +42,7 @@ body {
 	width: 100%;
 	height: 44.44444vh;
 	overflow: hidden;
+	clip: always;
 	opacity: 0;
 	transform: scaleY(0);
 	transition: transform 0.375s back-out, opacity 0.425s cubic-out;

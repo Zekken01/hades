@@ -33,6 +33,7 @@ body {
 
 .no-scrollbar {
 	overflow-y: hidden;
+	clip: always;
 }
 
 scrollbarvertical {
@@ -293,11 +294,13 @@ scrollbarvertical sliderarrowdec, scrollbarvertical sliderarrowinc {
 	padding: 15dp;
 	box-sizing: border-box;
 	overflow: hidden;
+	clip: always;
 }
 .ed-color-picker__palette-wrapper {
 	position: relative;
 	height: 200dp;
 	cursor: pointer;
+	drag: drag; /* color_picker.lua follows the mouse with drag events */
 }
 .ed-color-picker__palette, .ed-color-picker__palette-white, .ed-color-picker__palette-black {
 	position: absolute;
@@ -316,6 +319,8 @@ scrollbarvertical sliderarrowdec, scrollbarvertical sliderarrowinc {
 	position: absolute;
 	width: 20dp;
 	height: 20dp;
+	margin-left: -10dp; /* left/top are the colour's position in %; centre the ring on it */
+	margin-top: -10dp;
 	border: 2dp white;
 	border-radius: 12dp;
 	box-sizing: border-box;
@@ -323,24 +328,32 @@ scrollbarvertical sliderarrowdec, scrollbarvertical sliderarrowinc {
 	z-index: 999;
 }
 .ed-color-picker__hue-slider-wrapper {
+	drag: drag;
+	cursor: pointer;
 	position: relative;
 	margin-top: 20dp;
 	height: 25dp;
 	decorator: linear-gradient(to right, #ff0000, #ffff00, #00ff00, #00ffff, #0000ff, #ff00ff, #ff0000);
 }
-.ed-color-picker__hue-slider {
+/* shows the hue; the wrapper takes the mouse (press anywhere on the bar and drag, as in the browser) */
+input.range.ed-color-picker__hue-slider {
+	pointer-events: none;
 	display: block;
 	width: 100%;
 	height: 100%;
 }
-.ed-color-picker__hue-slider slidertrack {
+/* input.range: above html.rcss's default input.range track/progress/bar */
+input.range.ed-color-picker__hue-slider slidertrack {
 	background-color: transparent;
 	height: 100%;
+	margin-top: 0;
 }
-.ed-color-picker__hue-slider sliderprogress {
+input.range.ed-color-picker__hue-slider sliderprogress {
 	height: 0;
+	margin-top: 0;
+	background-color: transparent;
 }
-.ed-color-picker__hue-slider sliderbar {
+input.range.ed-color-picker__hue-slider sliderbar {
 	width: 7dp;
 	height: 30dp;
 	margin-top: -2.5dp;
@@ -365,7 +378,10 @@ scrollbarvertical sliderarrowdec, scrollbarvertical sliderarrowinc {
 	display: inline-block;
 	width: 72dp;
 }
+/* the page never styled this input's font: Chromium's form-control font (13.33px system font) */
 .ed-color-picker__detail_hex-input {
+	font-family: Arial;
+	font-size: 13.33dp;
 	display: inline-block;
 	background-color: transparent;
 	border-width: 0;

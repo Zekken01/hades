@@ -283,14 +283,9 @@ local function rowOf(element)
 	return element
 end
 
+-- jQuery :visible (fresh styles: called right after the page's `active` class changes)
 local function isVisible(element)
-	while element and element.tag_name ~= "body" do
-		if element.style.display == "none" then
-			return false
-		end
-		element = element.parent_node
-	end
-	return true
+	return dew_core.isDisplayed(element)
 end
 
 ------------------------------------------------------------------------------------------

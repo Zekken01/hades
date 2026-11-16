@@ -35,6 +35,8 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <Windows.h>
+#include <DbgHelp.h>
+#include <crtdbg.h>
 
 #include <chrono>
 #include <cstdio>
@@ -244,6 +246,15 @@ namespace
 			{
 				if (root) root->SendControllerInput(Rest(in));
 			}
+			else if (op == "mousedown" || op == "mouseup")
+			{
+				// hold / release the left button at x y (drags: mousedown, mouse..., mouseup)
+				int x = 0, y = 0;
+				in >> x >> y;
+				LPARAM lp = MAKELPARAM(x, y);
+				PostInput(WM_MOUSEMOVE, op == "mousedown" ? 0 : MK_LBUTTON, lp);
+				PostInput(op == "mousedown" ? WM_LBUTTONDOWN : WM_LBUTTONUP, op == "mousedown" ? MK_LBUTTON : 0, lp);
+			}
 			else if (op == "mouse" || op == "click" || op == "rclick")
 			{
 				int x = 0, y = 0;
@@ -353,8 +364,39 @@ namespace
 	}
 }
 
+// Debug CRT asserts (heap checks and the like) print the failing stack instead of opening a
+// dialog nobody sees.
+static int __cdecl ReportHook(int type, char *message, int *returnValue)
+{
+	if (type == _CRT_WARN)
+		return FALSE;
+	printf("[harness] CRT %s: %s\n", type == _CRT_ASSERT ? "assert" : "error", message ? message : "");
+	HANDLE process = GetCurrentProcess();
+	SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES);
+	SymInitialize(process, nullptr, TRUE);
+	void *frames[48];
+	USHORT count = CaptureStackBackTrace(0, 48, frames, nullptr);
+	for (USHORT i = 0; i < count; i++)
+	{
+		char buffer[sizeof(SYMBOL_INFO) + 256] = {};
+		auto *symbol = reinterpret_cast<SYMBOL_INFO *>(buffer);
+		symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+		symbol->MaxNameLen = 255;
+		DWORD64 displacement = 0;
+		IMAGEHLP_LINE64 line = { sizeof(line) };
+		DWORD lineDisplacement = 0;
+		const bool named = SymFromAddr(process, (DWORD64)frames[i], &displacement, symbol);
+		const bool lined = SymGetLineFromAddr64(process, (DWORD64)frames[i], &lineDisplacement, &line);
+		printf("  %s  %s:%lu\n", named ? symbol->Name : "?", lined ? line.FileName : "", lined ? line.LineNumber : 0);
+	}
+	fflush(stdout);
+	TerminateProcess(process, 3);
+	return TRUE;
+}
+
 int main(int argc, char **argv)
 {
+	_CrtSetReportHook2(_CRT_RPTHOOK_INSTALL, ReportHook);
 	if (argc < 3)
 	{
 		printf("usage: ui-harness <ui root dir> <script> [--verbose] [--size WxH]\n");

@@ -121,6 +121,7 @@ body {
 	max-height: 100.8dp;
 	word-break: break-word;
 	overflow: hidden;
+	clip: always;
 }
 
 .serverMessage {
@@ -236,6 +237,7 @@ body {
 	bottom: 0;
 	height: 0%;
 	overflow: hidden;
+	clip: always;
 }
 
 .genericLoader .logoclip img {

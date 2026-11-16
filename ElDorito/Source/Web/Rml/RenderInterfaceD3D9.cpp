@@ -20,7 +20,9 @@
 #include <lunasvg/lunasvg.h>
 
 #include <algorithm>
+#include <array>
 #include <cmath>
+#include <vector>
 #include <cstdio>
 #include <cstring>
 
@@ -76,6 +78,10 @@ namespace
 		}
 	}
 }
+
+
+// Glyph coverage curve (see GenerateTexture): out = in^(1/gamma), fitted to Chromium.
+static constexpr double GlyphCoverageGamma = 2.2;
 
 namespace Web
 {
@@ -600,8 +606,34 @@ namespace Web
 		::Rml::TextureHandle RenderInterfaceD3D9::GenerateTexture(::Rml::Span<const ::Rml::byte> source, ::Rml::Vector2i source_dimensions)
 		{
 			// RmlUi hands us premultiplied RGBA8 (glyph atlases, generated decorator textures).
+			// A glyph atlas is white coverage (r == g == b == a everywhere).  Chromium draws text
+			// with a contrast boost (DirectWrite/Skia gamma), which the CEF UI was designed with;
+			// raw FreeType coverage looks thin and pale next to it.  Lift the coverage with the
+			// curve measured against Chromium's rendering of the same Conduit ITC text.
+			const ::Rml::byte *pixels = source.data();
+			std::vector<::Rml::byte> boosted;
+			const size_t count = (size_t)source_dimensions.x * source_dimensions.y;
+			bool coverage = count > 0 && source.size() >= count * 4;
+			for (size_t i = 0; coverage && i < count; i++)
+			{
+				const ::Rml::byte *p = source.data() + i * 4;
+				coverage = p[0] == p[3] && p[1] == p[3] && p[2] == p[3];
+			}
+			if (coverage)
+			{
+				static const auto curve = []() {
+					std::array<::Rml::byte, 256> lut {};
+					for (int i = 0; i < 256; i++)
+						lut[i] = (::Rml::byte)std::lround(std::pow(i / 255.0, 1.0 / GlyphCoverageGamma) * 255.0);
+					return lut;
+				}();
+				boosted.resize(count * 4);
+				for (size_t i = 0; i < count * 4; i++)
+					boosted[i] = curve[source[i]];
+				pixels = boosted.data();
+			}
 			TextureSlot *slot = CreateSlot("", source_dimensions);
-			if (!LoadRgbaIntoSlot(*slot, source.data(), source_dimensions, true))
+			if (!LoadRgbaIntoSlot(*slot, pixels, source_dimensions, true))
 			{
 				DestroySlot(slot);
 				return 0;

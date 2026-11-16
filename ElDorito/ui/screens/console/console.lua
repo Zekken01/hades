@@ -274,7 +274,9 @@ local function getSuggestedCommands(partial)
 		for _, suggestion in ipairs(suggestions) do
 			parts[#parts + 1] = dew.escape(suggestion)
 		end
-		appendRml("debug-line suggestion", '<span class="command"><b>' .. table.concat(parts, '</b></span>       <span class="command"><b>') .. "</b></span>")
+		-- the gaps were 7 spaces in a <pre>; RML drops whitespace-only text between tags, so
+		-- non-breaking spaces (the last one a normal space, where a long list may wrap)
+		appendRml("debug-line suggestion", '<span class="command"><b>' .. table.concat(parts, '</b></span>&#160;&#160;&#160;&#160;&#160;&#160; <span class="command"><b>') .. "</b></span>")
 	end
 end
 

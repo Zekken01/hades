@@ -35,10 +35,11 @@ hr { height: 1dp; background-color: #ffffff33; margin: 6dp 0; }
 li { display: block; }
 a { cursor: pointer; }
 
-table { display: table; box-sizing: border-box; }
+/* the browser default border-spacing: 2px (between the cells and around them) */
+table { display: table; box-sizing: border-box; gap: 2dp; padding: 2dp; }
 tr { display: table-row; box-sizing: border-box; }
-td, th { display: table-cell; box-sizing: border-box; }
-th { font-weight: bold; }
+td, th { display: table-cell; box-sizing: border-box; padding: 1dp; } /* UA default padding */
+th { font-weight: bold; text-align: center; }
 thead, tbody, tfoot { display: table-row-group; }
 col { display: table-column; }
 colgroup { display: table-column-group; }
@@ -49,8 +50,13 @@ textarea { white-space: pre-wrap; }
 input.text, input.password, textarea { cursor: text; }
 
 /* <select> internals */
-select selectvalue { display: block; }
-select selectbox { background-color: #0a1724f2; }
+/* one line, clipped, like the browser's select (a long audio device name wrapped onto the next row);
+   options stay on one line and the open list grows to the longest one */
+select selectvalue { display: block; white-space: nowrap; overflow: hidden; }
+select selectbox { width: auto; min-width: 100%; }
+select selectbox option { white-space: nowrap; }
+/* the open list is a popup: above later rows (z-index) and never cut by a scrolling page (clip) */
+select selectbox { background-color: #0a1724f2; z-index: 1000; clip: none; }
 select selectbox option { display: block; padding: 2dp 6dp; }
 select selectbox option:hover, select selectbox option:checked { background-color: #2b6390; }
 
@@ -78,3 +84,8 @@ scrollbarhorizontal sliderarrowdec, scrollbarhorizontal sliderarrowinc { width: 
 /* helpers used by the ported scripts */
 .hidden { display: none; }
 .fade-hidden { opacity: 0; }
+
+/* CSS line-height: normal (the browser default the screens were written against).  RCSS has no
+   "normal" and defaults to 1.2; for Conduit ITC Chromium on Windows uses the OS/2 win metrics:
+   (917 + 236) / 1000. */
+body { line-height: 1.153; }

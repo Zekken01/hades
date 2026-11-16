@@ -89,12 +89,14 @@
 .item-list .item {
 	height: 40dp;
 	overflow: hidden;
+	clip: always;
 }
 
 .item-list .item .title {
 	display: block;
 	max-width: 280dp;
 	overflow: hidden;
+	clip: always;
 	white-space: nowrap;
 	margin-right: auto;
 }
@@ -246,6 +248,7 @@
 	height: 0dp;
 	padding: 0 10dp;
 	overflow: hidden;
+	clip: always;
 	opacity: 0;
 	transform: translateX(-200dp);
 	transition: height transform opacity 0.25s quadratic-in-out;

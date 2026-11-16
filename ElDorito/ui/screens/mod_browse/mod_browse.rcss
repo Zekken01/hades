@@ -140,6 +140,7 @@ body {
 	flex: 1;
 	white-space: nowrap;
 	overflow: hidden;
+	clip: always;
 	text-transform: uppercase;
 }
 
@@ -171,6 +172,7 @@ body {
 	font-size: 2.2vh;
 	decorator: linear-gradient(to bottom, #64646400, #96969612);
 	overflow: hidden;
+	clip: always;
 }
 
 .mod_details_head {
@@ -246,6 +248,7 @@ body {
 .mod_source {
 	white-space: nowrap;
 	overflow: hidden;
+	clip: always;
 }
 
 a {

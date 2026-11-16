@@ -28,6 +28,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
+	clip: always;
 	width: 420dp;
 	border-radius: 4dp;
 	decorator: linear-gradient(to bottom, #1b2946f2 0%, #182745e6 20%, #182745e6 20%, #061025e6 100%);
@@ -71,6 +72,7 @@ body {
 .window-subtitle {
 	display: block;
 	font-size: 1em;
+	vertical-align: text-bottom;
 	color: #c8c8c880;
 	margin-top: 5dp;
 	text-transform: uppercase;
@@ -100,6 +102,7 @@ body {
 	background-color: #00000033;
 	color: #77879a;
 	overflow: hidden;
+	clip: always;
 }
 .window-info-box .hline {
 	top: 1dp;
@@ -166,6 +169,7 @@ body {
 	justify-content: center;
 	text-transform: uppercase;
 	font-size: 1em;
+	vertical-align: text-bottom;
 	background-color: #0000004c;
 }
 
@@ -302,6 +306,7 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	overflow: hidden;
+	clip: always;
 	width: 300dp;
 	border-radius: 4dp;
 	padding: 25dp;
@@ -341,4 +346,12 @@ body {
 
 .toast.toast-show .toast-content {
 	opacity: 1;
+}
+
+/* forge-shared.css reset every element (all: unset), so the colour picker's hex input inherits
+   the "HEX:" label font here instead of Chromium's form-control font. */
+.ed-color-picker__detail_hex-input {
+	font-family: "Conduit ITC";
+	font-size: 1em;
+	vertical-align: text-bottom;
 }

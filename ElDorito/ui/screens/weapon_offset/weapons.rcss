@@ -34,7 +34,7 @@ body {
 	display: block;
 	position: relative;
 	z-index: 0;
-	width: 424dp;
+	width: 452dp; /* display: table stretched to the window */
 	height: 30dp;
 	margin-left: -10dp;
 	padding: 0dp 14dp;
@@ -46,7 +46,7 @@ body {
 .item .hoverbar {
 	position: absolute;
 	top: 0;
-	left: 0;
+	left: 14dp; /* ::before's static position: the 14px padding edge */
 	width: 100%;
 	height: 100%;
 	margin-left: -15dp;
@@ -86,10 +86,17 @@ input.range.setting {
 	margin-left: 3dp;
 }
 
+/* number input / select: unstyled fonts, so Chromium's form-control font (13.33px system font,
+   no inherited text-transform) and its 1px 2px padding */
 .tinySetting {
+	font-family: Arial;
+	font-size: 13.33dp;
+	text-transform: none;
+	box-sizing: border-box;
+	padding: 1dp 2dp 1dp 4dp;
 	float: right;
-	width: 60dp;
-	height: 18dp;
+	width: 66dp;
+	height: 20dp;
 	margin-top: 4dp;
 	margin-bottom: -2dp;
 	background-color: transparent;
@@ -97,8 +104,13 @@ input.range.setting {
 	font-weight: 300;
 	color: #98b3d3;
 	border-width: 0;
-	padding-left: 4dp;
 	line-height: 18dp;
+}
+
+select.setting {
+	font-family: Arial;
+	font-size: 13.33dp;
+	text-transform: none;
 }
 
 /* range: a 0.4vh track and a 0.6vh x 1.2vh thumb */
@@ -134,9 +146,13 @@ select selectvalue {
 	color: #98b3d3;
 	line-height: 20dp;
 }
+/* the native drop-down arrow */
 select selectarrow {
-	width: 0;
-	height: 0;
+	width: 8dp;
+	height: 8dp;
+	margin-top: 6dp;
+	margin-right: 4dp;
+	decorator: svg(dew://assets/ux/arrow_down.svg);
 }
 select selectbox {
 	background-color: #141c28;
@@ -147,7 +163,11 @@ select selectbox option {
 	line-height: 22dp;
 }
 
+/* the page never set a font on its buttons: Chromium's own button style applies (the system
+   font, no inherited text-transform) */
 button {
+	font-family: Arial;
+	text-transform: none;
 	position: relative;
 	height: 35dp;
 	line-height: 35dp;
@@ -159,8 +179,7 @@ button {
 	text-align: left;
 	vertical-align: middle;
 	box-sizing: border-box;
-	padding: 0;
-	padding-right: 4dp;
+	padding: 1dp 6dp; /* the page's "padding: none" was invalid: the browser default stayed */
 	cursor: pointer;
 }
 
@@ -187,6 +206,7 @@ button img {
 #weaponTypeName {
 	text-align: center;
 	overflow: hidden;
+	clip: always;
 }
 
 .disabled {

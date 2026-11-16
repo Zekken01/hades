@@ -246,7 +246,7 @@ local function navItems(page)
 	local items = {}
 	if list then
 		for _, item in ipairs(list:QuerySelectorAll(".baseNav")) do
-			if item.style.display ~= "none" and item.parent_node.style.display ~= "none" then
+			if dew_core.isDisplayed(item) then
 				items[#items + 1] = item
 			end
 		end
@@ -347,6 +347,11 @@ local function setEmblemPreview(url)
 		for _, id in ipairs({ "emblemPreviewBig", "nameplateEmblem" }) do
 			if el(id) then el(id):SetAttribute("src", src) end
 		end
+	end
+	-- the endpoint is normally emblems://emblem, rendered by the game (AsyncTextures)
+	if tostring(url):match("^emblems://") then
+		apply(url)
+		return
 	end
 	if not tostring(url):match("^https?://") then
 		apply("dew://assets/emblems/generic.png")

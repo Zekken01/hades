@@ -27,6 +27,9 @@
 #include <RmlUi/Core/Core.h>
 #include <RmlUi/Core/ElementDocument.h>
 #include <RmlUi/Core/Elements/ElementFormControlInput.h>
+#include <RmlUi/Core/ComputedValues.h>
+#include <RmlUi/Core/ElementUtilities.h>
+#include <RmlUi/Core/ElementText.h>
 #include <RmlUi/Lua/LuaType.h>
 #include <RmlUi/Core/Factory.h>
 #include <RmlUi/Debugger/Debugger.h>
@@ -212,6 +215,18 @@ namespace Web
 				}
 			}
 			m_context->Update();
+			// Context::Update re-checks the hover chain before it lays out, so elements created
+			// this frame (a list rebuilt from Lua) cannot be hit yet and lose :hover for a frame:
+			// the scoreboard highlight flickered on every update.  Re-check after layout and
+			// restyle if the hovered element changed.
+			int mouseX, mouseY;
+			if (Input::GetMousePosition(&mouseX, &mouseY))
+			{
+				::Rml::Element *hovered = m_context->GetHoverElement();
+				m_context->ProcessMouseMove(mouseX, mouseY, Input::GetKeyModifierState());
+				if (m_context->GetHoverElement() != hovered)
+					m_context->Update();
+			}
 			m_lua.CollectGarbageStep();
 		}
 
@@ -794,6 +809,8 @@ namespace Web
 				{ "setToastActive", L_setToastActive },
 				{ "getTime", L_getTime },
 				{ "setSelectionRange", L_setSelectionRange },
+				{ "debugBox", L_debugBox },
+				{ "isDisplayed", L_isDisplayed },
 				{ nullptr, nullptr },
 			};
 			luaL_newlib(L, functions);
@@ -1320,6 +1337,61 @@ namespace Web
 			if (input)
 				input->SetSelectionRange((int)luaL_checkinteger(L, 2), (int)luaL_optinteger(L, 3, luaL_checkinteger(L, 2)));
 			lua_pushboolean(L, input != nullptr);
+			return 1;
+		}
+
+		// dew_core.debugBox(element) -- for parity checks against the CEF UI: the element's
+		// on-screen border box (transforms applied), whether it is visible, and its computed
+		// font size / weight / colour.  Returns nil for a null element.
+		int UiRoot::L_debugBox(lua_State *L)
+		{
+			auto *element = ::Rml::Lua::LuaType<::Rml::Element>::check(L, 1);
+			if (!element)
+				return 0;
+			::Rml::Rectanglef box;
+			if (!::Rml::ElementUtilities::GetBoundingBox(box, element, ::Rml::BoxArea::Border))
+				box = ::Rml::Rectanglef::FromPositionSize(element->GetAbsoluteOffset(::Rml::BoxArea::Border), element->GetBox().GetSize(::Rml::BoxArea::Border));
+			::Rml::Vector2f corners[2] = { box.TopLeft(), box.BottomRight() };
+			const ::Rml::ComputedValues &values = element->GetComputedValues();
+			const ::Rml::Colourb colour = values.color();
+			lua_createtable(L, 0, 8);
+			lua_pushnumber(L, corners[0].x); lua_setfield(L, -2, "x");
+			lua_pushnumber(L, corners[0].y); lua_setfield(L, -2, "y");
+			lua_pushnumber(L, corners[1].x - corners[0].x); lua_setfield(L, -2, "w");
+			lua_pushnumber(L, corners[1].y - corners[0].y); lua_setfield(L, -2, "h");
+			lua_pushboolean(L, element->IsVisible(true) && values.opacity() > 0.05f); lua_setfield(L, -2, "visible");
+			lua_pushnumber(L, values.font_size()); lua_setfield(L, -2, "size");
+			lua_pushinteger(L, (int)values.font_weight()); lua_setfield(L, -2, "weight");
+			char rgba[32];
+			sprintf_s(rgba, "%d,%d,%d,%d", colour.red, colour.green, colour.blue, colour.alpha);
+			lua_pushstring(L, rgba); lua_setfield(L, -2, "color");
+			lua_pushstring(L, values.font_family().c_str()); lua_setfield(L, -2, "family");
+			lua_pushstring(L, values.text_transform() == ::Rml::Style::TextTransform::Uppercase ? "uppercase" : values.text_transform() == ::Rml::Style::TextTransform::None ? "none" : "other"); lua_setfield(L, -2, "transform");
+			if (auto *text = dynamic_cast<::Rml::ElementText *>(element))
+			{
+				lua_pushstring(L, text->GetText().c_str());
+				lua_setfield(L, -2, "text");
+			}
+			return 1;
+		}
+
+		// dew_core.isDisplayed(element) -- jQuery's :visible: neither the element nor an ancestor
+		// has display: none.  Styles are brought up to date first; reading element.style.display
+		// right after SetClass returns the value from before the class change.
+		int UiRoot::L_isDisplayed(lua_State *L)
+		{
+			auto *element = ::Rml::Lua::LuaType<::Rml::Element>::check(L, 1);
+			if (!element)
+			{
+				lua_pushboolean(L, false);
+				return 1;
+			}
+			if (auto *document = element->GetOwnerDocument())
+				document->UpdateDocument();
+			bool displayed = true;
+			for (auto *e = element; e && displayed; e = e->GetParentNode())
+				displayed = e->GetComputedValues().display() != ::Rml::Style::Display::None;
+			lua_pushboolean(L, displayed);
 			return 1;
 		}
 	}

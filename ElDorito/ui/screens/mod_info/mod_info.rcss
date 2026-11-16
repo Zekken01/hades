@@ -80,6 +80,7 @@ body {
 	flex-direction: column;
 	font-size: 2.2vh;
 	overflow: hidden;
+	clip: always;
 }
 
 .mod_details_top {
@@ -90,7 +91,7 @@ body {
 	display: inline-block;
 	width: 64.583vh;
 	height: 21.388vh;
-	margin-top: 1.2vh;
+	margin-top: 2.489vh; /* 2% of the 124.444vh row (RmlUi resolves % margins of inline/float boxes against the wrong width) */
 	border: 0.2vh #00000080;
 }
 
@@ -99,7 +100,7 @@ body {
 	font-size: 1.98vh;
 	float: right;
 	width: 47%;
-	margin-top: 1.8%;
+	margin-top: 2.24vh; /* 1.8% of the 124.444vh row */
 }
 
 .mod_details_author {
@@ -130,6 +131,7 @@ body {
 .mod_source {
 	white-space: nowrap;
 	overflow: hidden;
+	clip: always;
 }
 
 .mod_details_body {

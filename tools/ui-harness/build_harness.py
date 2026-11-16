@@ -24,7 +24,7 @@ TREE_SOURCES = [
 HARNESS_SOURCES = ["tools/ui-harness/harness_main.cpp", "tools/ui-harness/harness_stubs.cpp"]
 LIBS = ["rmlui/lib/rmlui.lib", "rmlui/lib/rmlui_debugger.lib", "rmlui/lib/rmlui_lua.lib",
         "freetype/lib/freetyped.lib", "lua-5.4/lib/lua.lib", "lunasvg/lib/lunasvg.lib", "lunasvg/lib/plutovg.lib"]
-WINDOWS = "kernel32 user32 gdi32 advapi32 shell32 ole32 psapi d3d9".split()
+WINDOWS = "kernel32 user32 gdi32 advapi32 shell32 ole32 psapi d3d9 dbghelp".split()
 
 
 def main():

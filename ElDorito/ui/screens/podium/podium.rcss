@@ -17,6 +17,7 @@ body {
 
 .page_content {
 	overflow: hidden;
+	clip: always;
 }
 
 /* ---- third place */

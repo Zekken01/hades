@@ -1,6 +1,8 @@
 /* ---------- headers */
 
 #include "Voip/VoipClient.hpp"
+#include <csignal>
+#include <exception>
 #include "ElDorito.hpp"
 #include "hades/hades.h"
 
@@ -829,8 +831,45 @@ long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo) // 0x
 	return EXCEPTION_EXECUTE_HANDLER;
 }
 
+// hades: abort() (std::terminate, uncaught C++ exceptions) skipped the exception filter, so it
+// left no crash_dump.json; report it with the current stack and the in-flight exception text.
+static void __cdecl AbortSignalHandler(int)
+{
+	if (handling)
+		_exit(3);
+	handling = true;
+	std::string what = "abort() called";
+	try
+	{
+		if (std::exception_ptr current = std::current_exception())
+			std::rethrow_exception(current);
+	}
+	catch (const std::exception &e)
+	{
+		what = std::string("abort() called - uncaught exception: ") + e.what();
+	}
+	catch (...)
+	{
+		what = "abort() called - uncaught non-std exception";
+	}
+	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Error, what);
+	Utils::Singleton<Utils::Logger>::Instance().Flush();
+	CONTEXT context = {};
+	RtlCaptureContext(&context);
+	Debug::CrashReporting::s_crash_info crashInfo;
+	crashInfo.ctx = &context;
+	crashInfo.info = what;
+	crashInfo.exception.address = context.Eip;
+	crashInfo.exception.code = 0;
+	crashInfo.exception.flags = 0;
+	crashInfo.exception.msg = what;
+	Debug::CrashReporting::ReportCrash(crashInfo);
+	_exit(3);
+}
+
 __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevInstance, char *lpCmdLine, __int32 nCmdShow) // 0x109671A0
 {
+	signal(SIGABRT, AbortSignalHandler);
 	__int32 (__stdcall *const WinMainPtr)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32) = (__int32(__stdcall *const)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32))0x42eb10;
 
 	SetUnhandledExceptionFilter(TopLevelExceptionFilter);

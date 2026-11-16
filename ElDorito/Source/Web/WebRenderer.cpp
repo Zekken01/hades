@@ -209,11 +209,12 @@ namespace Web
 					}
 				}
 			}
-			// The console uses Consolas, a Windows system font the browser found by name.
+			// System fonts the pages reached by name: Consolas (the console's monospace) and Arial
+			// (Chromium's default for form controls a page left unstyled, e.g. weapon_offset).
 			char windows[MAX_PATH] = {};
 			if (GetWindowsDirectoryA(windows, MAX_PATH))
 			{
-				for (const char *file : { "consola.ttf", "consolab.ttf", "consolai.ttf", "consolaz.ttf" })
+				for (const char *file : { "consola.ttf", "consolab.ttf", "consolai.ttf", "consolaz.ttf", "arial.ttf", "arialbd.ttf", "ariali.ttf", "arialbi.ttf" })
 				{
 					const std::filesystem::path path = std::filesystem::path(windows) / "Fonts" / file;
 					if (!std::filesystem::exists(path, ec) || !::Rml::LoadFontFace(path.string(), false))
@@ -225,6 +226,15 @@ namespace Web
 							(face->style_flags & FT_STYLE_FLAG_ITALIC) != 0, (face->style_flags & FT_STYLE_FLAG_BOLD) != 0 });
 						FT_Done_Face(face);
 					}
+				}
+				// Fallback faces for characters the UI fonts lack (emoji and symbols in server
+				// names, chat, CJK): what Chromium falls back to on Windows.  Segoe UI Emoji is a
+				// colour (COLR) font; RmlUi loads glyphs with FT_LOAD_COLOR.
+				for (const char *file : { "seguiemj.ttf", "segoeui.ttf", "seguisym.ttf", "msyh.ttc", "YuGothM.ttc", "malgun.ttf" })
+				{
+					const std::filesystem::path path = std::filesystem::path(windows) / "Fonts" / file;
+					if (std::filesystem::exists(path, ec) && !::Rml::LoadFontFace(path.string(), true))
+						LogRenderer(Utils::LogLevel::Warning, std::string("failed to load fallback font ") + file);
 				}
 			}
 

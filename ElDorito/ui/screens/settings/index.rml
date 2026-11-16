@@ -78,7 +78,7 @@
                 </div>
 				<div class="row">
                     <label for="cHideHUD">Show HUD</label>
-                    <div class="setting inverted-checkbox toggle" id="cHideHUD" data-state="0">Disabled</div>
+                    <div class="setting inverted-checkbox toggle" id="cHideHUD" data-state="0">Enabled</div>
                 </div>
 				<div class="row">
                     <label for="sPlayerMarkerColors">Player Marker Colors</label>
@@ -90,11 +90,11 @@
                 </div>
 				<div class="row">
                     <label for="tDisableHitmarkers">Hitmarkers</label>
-                    <div class="setting inverted-checkbox toggle" id="tDisableHitmarkers" data-state="0">Disabled</div>
+                    <div class="setting inverted-checkbox toggle" id="tDisableHitmarkers" data-state="0">Enabled</div>
                 </div>
 				<div class="row">
                     <label for="tDisableWeapOutline">Item Outlines</label>
-                    <div class="setting inverted-checkbox toggle" id="tDisableWeapOutline" data-state="0">Disabled</div>
+                    <div class="setting inverted-checkbox toggle" id="tDisableWeapOutline" data-state="0">Enabled</div>
                 </div>
 				<div class="row">
                     <label for="sCenteredHudScaling">Centered HUD Scaling</label>
@@ -109,7 +109,7 @@
                 </div>
 				<div class="row">
                     <label for="gHideChat">Show Chat</label>
-                    <div class="setting inverted-checkbox toggle" id="gHideChat" data-state="0">Disabled</div>
+                    <div class="setting inverted-checkbox toggle" id="gHideChat" data-state="0">Enabled</div>
                 </div>
 				<div class="row">
                     <label for="sChatMessageLimit">Chat message history limit</label>
@@ -120,7 +120,7 @@
                 </div>
 				<div class="row">
                     <label for="sSkipTitleSplash">Show Title Splash Screen</label>
-                    <div class="setting inverted-checkbox toggle" id="sSkipTitleSplash" data-state="0">Disabled</div>
+                    <div class="setting inverted-checkbox toggle" id="sSkipTitleSplash" data-state="0">Enabled</div>
                 </div>
 				<div class="row">
                     <h3 class="subHeader">Discord</h3>
@@ -233,7 +233,7 @@
                 </div>
 				<div class="row">
                     <label for="sFullscreen">Windowed Mode</label>
-                    <div class="setting inverted-checkbox toggle" id="sFullscreen" data-state="0">Disabled</div>
+                    <div class="setting inverted-checkbox toggle" id="sFullscreen" data-state="0">Enabled</div>
                 </div>
 				<div class="row">
                     <label for="sScreenResolution">Screen Resolution</label>

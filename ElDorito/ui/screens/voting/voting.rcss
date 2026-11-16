@@ -14,6 +14,7 @@ body {
 	margin-left: 81dp;
 	box-sizing: border-box;
 	overflow: hidden;
+	clip: always;
 }
 
 .top {
@@ -356,6 +357,7 @@ button:hover {
 	padding: 3dp 10dp 3dp 10dp;
 	box-sizing: border-box;
 	overflow: hidden;
+	clip: always;
 	height: 35dp;
 }
 
@@ -373,6 +375,7 @@ button:hover {
 	align-items: center;
 	height: 100%;
 	overflow: hidden;
+	clip: always;
 }
 
 .window-compact button {

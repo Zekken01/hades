@@ -167,7 +167,9 @@ body.gamepad-enabled .server-list {
 .server-list-head {
 	display: flex;
 	flex-direction: row;
-	width: 100%;
+	/* thead: width calc(100% - 8px), clear of the list's scrollbar */
+	width: auto;
+	margin-right: 5.3dp;
 	color: #858d96;
 	text-transform: uppercase;
 	decorator: linear-gradient(to right, #06090c00 0%, #06090c14 6%, #06090c7d 50%, #06090c80 51%, #06090c14 93%, #06090c00 100%);
@@ -178,6 +180,10 @@ body.gamepad-enabled .server-list {
 	cursor: pointer;
 	text-align: left;
 }
+/* a flex item never shrinks below its content (min-width: auto in the browser; RmlUi uses 0):
+   the 5% PLAYERS / VERSION headers are wider than 5% */
+.server-list-head .th.c7 { min-width: 70dp; }
+.server-list-head .th.c8 { min-width: 58dp; }
 .server-list-head .th:hover {
 	color: #bbc8d8;
 }
@@ -188,6 +194,7 @@ body.gamepad-enabled .server-list {
 	height: 480dp;
 	overflow-y: auto;
 	overflow-x: hidden;
+	clip: always;
 }
 body.gamepad-enabled .server-list-body {
 	height: 413.3dp;
@@ -213,6 +220,7 @@ body.gamepad-enabled .server-list-body {
 	text-transform: capitalize;
 	white-space: nowrap;
 	overflow: hidden;
+	clip: always;
 }
 
 .c1 { width: 40%; }

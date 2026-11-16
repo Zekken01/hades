@@ -154,6 +154,7 @@ body {
 .buttonContainer {
 	overflow-y: auto;
 	overflow-x: hidden;
+	clip: always;
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
@@ -190,9 +191,10 @@ body {
 	padding-left: 1.8vh;
 	padding-right: 3.96vh;
 	box-sizing: border-box;
-	margin-top: 0.5vh;
-	margin-bottom: 0.5vh;
-	min-height: 2.5vh;
+	/* the CEF span was display: table around 18 px controls in a ~24.6 px line box, with the
+	   label 3.6 px down */
+	padding-top: 0.5vh;
+	min-height: 3.42vh;
 }
 
 /* span::before, the hover bar */
@@ -208,7 +210,7 @@ body {
 	text-transform: uppercase;
 	text-align: center;
 	color: #D8D8D8;
-	font-weight: 300;
+	font-weight: bold; /* h3 default */
 }
 
 label, .setting {
@@ -223,13 +225,16 @@ label {
 	display: inline-block;
 }
 
+/* calc(50% - 3.96vh) without calc: half the row, minus a transparent 3.96vh left border */
 .setting {
 	display: block;
-	width: 53.16vh;
+	width: 50%;
 	float: right;
 	padding: 0 2vh;
 	margin: 0;
 	border-width: 0;
+	border-left-width: 3.96vh;
+	border-left-color: transparent;
 	background-color: transparent;
 	box-sizing: border-box;
 }
@@ -292,11 +297,12 @@ select selectbox option:hover, select selectbox option:checked {
 	position: absolute;
 	top: 50%;
 	margin-top: -0.6vh;
-	width: 1.2vh;
+	/* the svg (41.1 x 51.85) fits a 1.2vh square keeping its aspect: 0.95vh wide, centred */
+	width: 0.95vh;
 	height: 1.2vh;
 }
-.arrow.left { left: 0; }
-.arrow.right { right: 0; }
+.arrow.left { left: 0.125vh; }
+.arrow.right { right: 0.125vh; }
 .selectedElement .arrow {
 	display: block;
 }
@@ -306,7 +312,9 @@ select selectbox option:hover, select selectbox option:checked {
 .rangeSetting {
 	position: relative;
 	display: block;
-	width: 53.16vh;
+	width: 50%;
+	border-left-width: 3.96vh;
+	border-left-color: transparent;
 	height: 2.5vh;
 	padding: 0 2vh;
 	margin: 0;
@@ -337,7 +345,15 @@ input.tinySetting {
 	position: absolute;
 	right: 1vh;
 	top: 0;
-	width: 43.16vh;
+	/* right: 1vh; width: calc(100% - 10vh).  A range input keeps its intrinsic width with
+	   left + right, and lays its track out from its border edge: left 9vh, full width with
+	   a transparent 10vh right border taking the rest */
+	left: 9vh;
+	width: 100%;
+	border-left-width: 0;
+	border-right-width: 10vh;
+	border-color: transparent;
+	float: none;
 	height: 100%;
 	margin: 0;
 	padding: 0;
@@ -350,17 +366,24 @@ input.tinySetting {
 }
 
 /* lists with an edit button */
+/* width: calc(50% - 13.3vh) with right: 10.4vh => left edge at 50% + 2.9vh */
 .selectWrap.hasEdit.wheelable {
 	position: absolute;
-	width: 43.82vh;
+	left: 50%;
+	margin-left: 2.9vh;
+	width: auto; /* not .setting's 50% + left border, or its float (absolute positioning */
+	border-left-width: 0; /* drops float in CSS; RmlUi then shrink-wraps the box) */
+	float: none;
 	height: 2.5vh;
 	right: 10.4vh;
-	top: 0;
+	/* CSS: height 100% of the row, and the select centres its text; here the 2.5vh box is centred */
+	top: 50%;
+	margin-top: -1.25vh;
 	z-index: 2;
 }
 
 .looksensitivity .rangeSetting {
-	width: 44.52vh;
+	border-left-width: 12.6vh; /* width: calc(50% - 12.6vh) */
 	left: -4vh;
 }
 

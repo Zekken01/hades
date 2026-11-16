@@ -9,6 +9,7 @@
 	line-height: 19.5dp;
 	color: white;
 	overflow: hidden;
+	clip: always;
 	height: 37.5%;
 	display: none;
 }
