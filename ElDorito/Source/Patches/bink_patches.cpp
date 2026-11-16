@@ -82,16 +82,16 @@ namespace
 
 	struct s_streamed_bink
 	{
-		long tag_index;
-		long resource_handle;
-		void *buffer;
-		unsigned long buffer_size;
+		long tag_index = -1;
+		long resource_handle = -1;
+		void *buffer = nullptr;
+		unsigned long buffer_size = 0;
 		c_async_completion_flag completion;
-		bool streaming;
-		bool ready;
-		bool play_when_ready;
-		bool used;
-		s_bink_resource_stand_in stand_in;
+		bool streaming = false;
+		bool ready = false;
+		bool play_when_ready = false;
+		bool used = false;
+		s_bink_resource_stand_in stand_in = {};
 	};
 }
 
@@ -167,7 +167,10 @@ namespace eldorado
 
 namespace
 {
-	s_streamed_bink g_streamed_bink = { -1, -1 };
+	// A movie being replaced keeps its buffer until the engine has closed it, so the movie
+	// replacing it, and any predicted ones, need slots of their own.
+	long const k_streamed_bink_count = 4;
+	s_streamed_bink g_streamed_binks[k_streamed_bink_count];
 	void *g_bink_memory_pool = nullptr;
 }
 
@@ -247,56 +250,90 @@ namespace
 		return globals && globals[k_render_texture_camera_active_offset] && globals[k_render_texture_camera_bink_is_active_offset];
 	}
 
-	bool streamed_bink_matches(void const *resource)
+	s_streamed_bink *streamed_bink_find(long resource_handle)
 	{
-		return g_streamed_bink.ready && resource && bink_resource_handle(resource) == g_streamed_bink.resource_handle;
+		for (s_streamed_bink &streamed_bink : g_streamed_binks)
+		{
+			if ((streamed_bink.streaming || streamed_bink.ready) && streamed_bink.resource_handle == resource_handle)
+				return &streamed_bink;
+		}
+		return nullptr;
 	}
 
-	bool streamed_bink_in_use()
+	s_streamed_bink *streamed_bink_ready(void const *resource)
+	{
+		s_streamed_bink *streamed_bink = resource ? streamed_bink_find(bink_resource_handle(resource)) : nullptr;
+		return streamed_bink && streamed_bink->ready ? streamed_bink : nullptr;
+	}
+
+	// Whether the engine has the movie open or is about to open it.
+	bool streamed_bink_in_use(s_streamed_bink const &streamed_bink)
 	{
 		s_bink_globals *bink_globals = s_bink_globals::get();
-		return bink_globals->playing
-			|| bink_globals->bink_runtime.bink_h
-			|| bink_globals->pending_prediction_message.queued_state
-			|| bink_globals->bink_runtime.prediction_message.queued_state;
+		if ((bink_globals->playing || bink_globals->bink_runtime.bink_h) && bink_globals->bink_tag_index == streamed_bink.tag_index)
+			return true;
+		if (bink_globals->pending_prediction_message.queued_state && bink_globals->pending_prediction_message.bink_tag_index == streamed_bink.tag_index)
+			return true;
+		return bink_globals->bink_runtime.prediction_message.queued_state && bink_globals->bink_runtime.prediction_message.bink_tag_index == streamed_bink.tag_index;
 	}
 
-	void streamed_bink_release()
+	void streamed_bink_release(s_streamed_bink &streamed_bink)
 	{
-		if (g_streamed_bink.buffer)
-			VirtualFree(g_streamed_bink.buffer, 0, MEM_RELEASE);
-		g_streamed_bink.tag_index = -1;
-		g_streamed_bink.resource_handle = -1;
-		g_streamed_bink.buffer = nullptr;
-		g_streamed_bink.buffer_size = 0;
-		g_streamed_bink.streaming = false;
-		g_streamed_bink.ready = false;
-		g_streamed_bink.play_when_ready = false;
-		g_streamed_bink.used = false;
-		g_streamed_bink.stand_in = {};
+		if (streamed_bink.buffer)
+			VirtualFree(streamed_bink.buffer, 0, MEM_RELEASE);
+		streamed_bink.tag_index = -1;
+		streamed_bink.resource_handle = -1;
+		streamed_bink.buffer = nullptr;
+		streamed_bink.buffer_size = 0;
+		streamed_bink.streaming = false;
+		streamed_bink.ready = false;
+		streamed_bink.play_when_ready = false;
+		streamed_bink.used = false;
+		streamed_bink.stand_in = {};
+	}
+
+	// An empty slot, or failing that a streamed movie nothing is about to use, unplayed
+	// predictions first.
+	s_streamed_bink *streamed_bink_free_slot()
+	{
+		s_streamed_bink *evictable = nullptr;
+		for (s_streamed_bink &streamed_bink : g_streamed_binks)
+		{
+			if (!streamed_bink.streaming && !streamed_bink.ready)
+				return &streamed_bink;
+			if (streamed_bink.ready && !streamed_bink.play_when_ready && !streamed_bink_in_use(streamed_bink) && (!evictable || (evictable->used && !streamed_bink.used)))
+				evictable = &streamed_bink;
+		}
+		if (evictable)
+			streamed_bink_release(*evictable);
+		return evictable;
+	}
+
+	// The latest play_bink_movie_from_tag wins, as with the engine's own.
+	void streamed_bink_cancel_pending_plays()
+	{
+		for (s_streamed_bink &streamed_bink : g_streamed_binks)
+			streamed_bink.play_when_ready = false;
 	}
 
 	// Starts streaming a bink tag's resource. The movie is the resource's whole page.
 	void streamed_bink_begin(long tag_index, void const *resource, bool play_when_ready)
 	{
 		long resource_handle = bink_resource_handle(resource);
-		if (g_streamed_bink.resource_handle == resource_handle && (g_streamed_bink.streaming || g_streamed_bink.ready))
+		if (play_when_ready)
+			streamed_bink_cancel_pending_plays();
+		if (s_streamed_bink *streamed_bink = streamed_bink_find(resource_handle))
 		{
-			g_streamed_bink.tag_index = tag_index;
-			g_streamed_bink.play_when_ready |= play_when_ready;
+			streamed_bink->tag_index = tag_index;
+			streamed_bink->play_when_ready |= play_when_ready;
 			return;
 		}
-		if (g_streamed_bink.streaming)
+		s_streamed_bink *streamed_bink = streamed_bink_free_slot();
+		if (!streamed_bink)
 		{
-			log_error("cannot stream bink tag 0x%lX while tag 0x%lX is still streaming", tag_index, g_streamed_bink.tag_index);
+			log_error("cannot stream bink tag 0x%lX: %ld other bink tags are streaming or playing", tag_index, k_streamed_bink_count);
 			return;
 		}
-		if (g_streamed_bink.ready && g_streamed_bink.used && streamed_bink_in_use())
-		{
-			log_error("cannot stream bink tag 0x%lX while tag 0x%lX is playing", tag_index, g_streamed_bink.tag_index);
-			return;
-		}
-		streamed_bink_release();
 
 		void *resource_runtime_manager = *reinterpret_cast<void **>(0x23916C8);
 		s_cache_file_tag_resource_table_runtime *resource_table = *reinterpret_cast<s_cache_file_tag_resource_table_runtime **>(static_cast<char *>(resource_runtime_manager) + 0x24);
@@ -313,29 +350,29 @@ namespace
 			log_error("cannot allocate %lu bytes for bink tag 0x%lX", buffer_size, tag_index);
 			return;
 		}
-		g_streamed_bink.tag_index = tag_index;
-		g_streamed_bink.resource_handle = resource_handle;
-		g_streamed_bink.buffer = buffer;
-		g_streamed_bink.buffer_size = buffer_size;
-		g_streamed_bink.play_when_ready = play_when_ready;
-		g_streamed_bink.streaming = true;
-		if (tag_resource_stream_async(resource_handle, buffer, buffer_size, &g_streamed_bink.completion) == -1)
+		streamed_bink->tag_index = tag_index;
+		streamed_bink->resource_handle = resource_handle;
+		streamed_bink->buffer = buffer;
+		streamed_bink->buffer_size = buffer_size;
+		streamed_bink->play_when_ready = play_when_ready;
+		streamed_bink->streaming = true;
+		if (tag_resource_stream_async(resource_handle, buffer, buffer_size, &streamed_bink->completion) == -1)
 		{
 			log_error("cannot stream the resource of bink tag 0x%lX (handle 0x%lX)", tag_index, resource_handle);
-			streamed_bink_release();
+			streamed_bink_release(*streamed_bink);
 		}
 	}
 
 	// The movie should open the page; a bink file starts with BIK or KB2.
-	bool streamed_bink_find_movie()
+	bool streamed_bink_find_movie(s_streamed_bink &streamed_bink)
 	{
-		unsigned char const *data = static_cast<unsigned char const *>(g_streamed_bink.buffer);
-		unsigned long limit = g_streamed_bink.buffer_size < 0x1000 ? g_streamed_bink.buffer_size : 0x1000;
+		unsigned char const *data = static_cast<unsigned char const *>(streamed_bink.buffer);
+		unsigned long limit = streamed_bink.buffer_size < 0x1000 ? streamed_bink.buffer_size : 0x1000;
 		for (unsigned long offset = 0; offset + 3 <= limit; offset += 4)
 		{
 			if (memcmp(data + offset, "BIK", 3) == 0 || memcmp(data + offset, "KB2", 3) == 0)
 			{
-				g_streamed_bink.stand_in.address = data + offset;
+				streamed_bink.stand_in.address = data + offset;
 				return true;
 			}
 		}
@@ -344,6 +381,7 @@ namespace
 
 	void play_bink_movie_from_tag_now(long tag_index)
 	{
+		streamed_bink_cancel_pending_plays();
 		eldorado::play_bink_movie_from_tag(tag_index);
 		// Scripted tag movies cover the screen like play_bink_movie's do.
 		s_bink_globals *bink_globals = s_bink_globals::get();
@@ -356,21 +394,22 @@ namespace
 		void *data = eldorado::tag_resource_try_to_get(resource);
 		if (data)
 			return data;
-		if (!streamed_bink_matches(resource))
+		s_streamed_bink *streamed_bink = streamed_bink_ready(resource);
+		if (!streamed_bink)
 			return nullptr;
-		g_streamed_bink.used = true;
-		return &g_streamed_bink.stand_in;
+		streamed_bink->used = true;
+		return &streamed_bink->stand_in;
 	}
 
 	bool bink_tag_resource_available(void *resource)
 	{
-		return eldorado::tag_resource_available(resource) || streamed_bink_matches(resource);
+		return eldorado::tag_resource_available(resource) || streamed_bink_ready(resource);
 	}
 
 	void play_bink_movie_from_tag_hook(long tag_index)
 	{
 		void *resource = bink_tag_get_resource(tag_index);
-		if (!resource || eldorado::tag_resource_available(resource) || streamed_bink_matches(resource))
+		if (!resource || eldorado::tag_resource_available(resource) || streamed_bink_ready(resource))
 			play_bink_movie_from_tag_now(tag_index);
 		else
 			streamed_bink_begin(tag_index, resource, true);
@@ -379,7 +418,7 @@ namespace
 	void predict_bink_movie_from_tag_hook(long tag_index)
 	{
 		void *resource = bink_tag_get_resource(tag_index);
-		if (!resource || eldorado::tag_resource_available(resource) || streamed_bink_matches(resource))
+		if (!resource || eldorado::tag_resource_available(resource) || streamed_bink_ready(resource))
 			eldorado::predict_bink_movie_from_tag(tag_index);
 		else
 			streamed_bink_begin(tag_index, resource, false);
@@ -387,34 +426,39 @@ namespace
 
 	void bink_playback_update_hook()
 	{
-		if (g_streamed_bink.streaming && g_streamed_bink.completion.is_done())
+		long play_tag_index = -1;
+		for (s_streamed_bink &streamed_bink : g_streamed_binks)
 		{
-			g_streamed_bink.streaming = false;
-			if (g_streamed_bink.completion.get_internal_data())
+			if (!streamed_bink.streaming || !streamed_bink.completion.is_done())
+				continue;
+			streamed_bink.streaming = false;
+			if (streamed_bink.completion.get_internal_data())
 			{
-				log_error("streaming bink tag 0x%lX failed (%ld)", g_streamed_bink.tag_index, g_streamed_bink.completion.get_internal_data());
-				streamed_bink_release();
+				log_error("streaming bink tag 0x%lX failed (%ld)", streamed_bink.tag_index, streamed_bink.completion.get_internal_data());
+				streamed_bink_release(streamed_bink);
 			}
-			else if (!streamed_bink_find_movie())
+			else if (!streamed_bink_find_movie(streamed_bink))
 			{
-				log_error("bink tag 0x%lX's resource does not hold a bink movie", g_streamed_bink.tag_index);
-				streamed_bink_release();
+				log_error("bink tag 0x%lX's resource does not hold a bink movie", streamed_bink.tag_index);
+				streamed_bink_release(streamed_bink);
 			}
 			else
 			{
-				g_streamed_bink.ready = true;
-				if (g_streamed_bink.play_when_ready)
-				{
-					g_streamed_bink.play_when_ready = false;
-					play_bink_movie_from_tag_now(g_streamed_bink.tag_index);
-				}
+				streamed_bink.ready = true;
+				if (streamed_bink.play_when_ready)
+					play_tag_index = streamed_bink.tag_index;
 			}
 		}
+		if (play_tag_index != -1)
+			play_bink_movie_from_tag_now(play_tag_index);
 		eldorado::bink_playback_update();
-		// A played movie's buffer goes once the movie is closed; a predicted one waits for
-		// its play_bink_movie_from_tag.
-		if (g_streamed_bink.ready && g_streamed_bink.used && !streamed_bink_in_use())
-			streamed_bink_release();
+		// A played movie's buffer goes once the engine has closed it; a predicted one waits
+		// for its play_bink_movie_from_tag.
+		for (s_streamed_bink &streamed_bink : g_streamed_binks)
+		{
+			if (streamed_bink.ready && streamed_bink.used && !streamed_bink_in_use(streamed_bink))
+				streamed_bink_release(streamed_bink);
+		}
 	}
 
 	// The engine's, except that a tag movie is drawn too unless it is the shop video,
