@@ -60,6 +60,7 @@ using namespace ::Player;
 /* ---------- prototypes */
 
 namespace Scripting { namespace HS { namespace Methods { namespace Player { extern void RegisterMethods(Scripting::HS::ScriptMethodMap &methods); } namespace PlayerPodium { extern void RegisterMethods(Scripting::HS::ScriptMethodMap &methods); } namespace Multiplayer { extern void RegisterMethods(Scripting::HS::ScriptMethodMap &methods); } namespace Object { extern void RegisterMethods(Scripting::HS::ScriptMethodMap &methods); } } } }  // hades: added for 0x106ECC30
+namespace Scripting { namespace HS { namespace Methods { namespace Render { extern void RegisterMethods(Scripting::HS::ScriptMethodMap &methods); } } } }  // hades: added, Methods/HsRenderMethods.cpp
 
 namespace Scripting
 {
@@ -86,6 +87,7 @@ namespace Scripting
 			Methods::PlayerPodium::RegisterMethods(methods);
 			Methods::Multiplayer::RegisterMethods(methods);
 			Methods::Object::RegisterMethods(methods);
+			Methods::Render::RegisterMethods(methods);  // hades: added
 			methods.Finalize();
 		}
 	}

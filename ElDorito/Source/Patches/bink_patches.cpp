@@ -5,6 +5,8 @@
 #include "Blam/async/async.hpp"
 #include "Blam/bink/bink.hpp"
 #include "Blam/cache/cache_file_tag_resources.hpp"
+#include "Blam/math/integer_math_definitions.hpp"
+#include "Blam/memory/tls.hpp"
 #include "Blam/tag_files/tag_resource_internals.hpp"
 #include "Patch.hpp"
 #include "Pointer.hpp"
@@ -29,6 +31,14 @@
 // Tag movies (flag 0x1000) were also never drawn fullscreen, since bink_playback_render
 // left them to the shop video's render-to-texture view, and in-game the bink memory pool
 // is 4 MB, too small for a movie's frame buffers.
+//
+// Halo 3's render texture camera could also show the playing movie instead of its camera
+// view, putting it on an in-game surface. Saber stripped the flag that chose this
+// (s_render_texture_camera_globals::bink_is_active), the script function that set it and
+// the branch of c_player_view::create_frame_textures that drew it. The flag is back in the
+// byte the structure still leaves free after dynamic_lights, set by the texture_camera_bink
+// script function (Scripting/HaloScript/Methods/HsRenderMethods.cpp), and the branch is
+// restored here.
 
 /* ---------- constants */
 
@@ -38,6 +48,11 @@ namespace
 	unsigned long const k_bink_flag_fill_screen = 0x10;
 	unsigned long const k_bink_flag_from_tag = 0x1000;
 	unsigned long const k_main_menu_bink_memory_size = 0x2200000;
+	long const k_render_target_type_texture_camera = 1;
+	long const k_texture_camera_render_target_width = 512;  // c_dynamic_render_targets::allocate_global_temporary_buffers
+	long const k_texture_camera_render_target_height = 288;
+	unsigned long const k_render_texture_camera_active_offset = 0x0;
+	unsigned long const k_render_texture_camera_bink_is_active_offset = 0x2;  // free byte after dynamic_lights (0x1)
 }
 
 /* ---------- definitions */
@@ -83,6 +98,7 @@ namespace
 /* ---------- prototypes */
 
 extern void bink_patches_apply();
+extern void render_texture_camera_set_bink(bool bink_is_active);
 
 namespace
 {
@@ -95,6 +111,37 @@ namespace
 	void bink_playback_grab_memory_hook();
 	void bink_playback_return_memory_hook();
 	bool bink_allocate_frame_plane_buffers(IDirect3DTexture9 **textures, BINKFRAMEPLANESET *planes, bool allocate_all, void *allocation, void *out_base, void *out_size);
+	void __fastcall c_player_view_create_frame_textures_hook(void *player_view, void *, long player_window_index);
+}
+
+namespace eldorado
+{
+	// Functions in eldorado.exe used by the texture camera's bink branch, named from the
+	// game's own symbols.
+	static auto const c_player_view_create_frame_textures = reinterpret_cast<void (__thiscall *)(void *, long)>(0xA38D70);
+	static auto const c_rasterizer_set_gprs_allocation = reinterpret_cast<long (*)(long)>(0xA228C0);
+	static auto const c_dynamic_render_targets_idle = reinterpret_cast<void (*)()>(0xA75020);
+	static auto const c_dynamic_render_targets_target_allocated = reinterpret_cast<bool (*)(long)>(0xA75100);
+	static auto const c_dynamic_render_targets_get_target_index_from_type = reinterpret_cast<long (*)(long)>(0xA75010);
+	static auto const c_dynamic_render_targets_allocate_target = reinterpret_cast<long (*)(long, long, long, long, long, char const *)>(0xA74E70);
+	static auto const c_dynamic_render_targets_get_target = reinterpret_cast<void *(*)(unsigned short)>(0xA74FC0);  // s_dynamic_render_target; accumulation_surface at 0xC
+	static auto const c_render_globals_get_frame_index = reinterpret_cast<long (*)()>(0xA29590);
+	static auto const interface_get_current_display_settings = reinterpret_cast<void (*)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)>(0xA9FAA0);
+	static auto const c_view_begin = reinterpret_cast<void (*)(void *)>(0xA289D0);
+	static auto const c_view_end = reinterpret_cast<void (*)()>(0xA28B10);
+	static auto const c_rasterizer_begin = reinterpret_cast<void (*)(short_rectangle2d, short_rectangle2d)>(0xA1F7E0);
+	static auto const c_rasterizer_set_render_target_texture = reinterpret_cast<void (*)(long, long, long, long)>(0xA48DD0);  // (index, c_rasterizer_texture_ref, face, level)
+	static auto const c_rasterizer_set_render_target_surface = reinterpret_cast<void (*)(long, long, unsigned long)>(0xA48E40);  // (index, e_surface, force_is_srgb)
+	static auto const c_rasterizer_set_depth_stencil_surface = reinterpret_cast<void (*)(long)>(0xA48CB0);
+	static auto const c_rasterizer_clear = reinterpret_cast<void (*)(unsigned long, unsigned long, float, unsigned char)>(0xA213F0);
+	static auto const c_rasterizer_enable_clip_planes = reinterpret_cast<void (*)(long)>(0xA22B50);
+	static auto const c_rasterizer_set_scissor_rect = reinterpret_cast<void (*)(short_rectangle2d const *)>(0xA239B0);
+	static auto const c_rasterizer_set_color_write_enable = reinterpret_cast<void (*)(long, long)>(0xA231E0);
+	static auto const c_rasterizer_set_z_buffer_mode = reinterpret_cast<void (*)(long)>(0xA247E0);
+	static auto const c_rasterizer_set_cull_mode = reinterpret_cast<void (*)(long)>(0xA232D0);
+	static auto const c_rasterizer_set_srgbwrite = reinterpret_cast<void (*)(bool)>(0xA48EB0);
+	void const *const c_bink_texture_view_vftable = reinterpret_cast<void const *>(0x1681F1C);  // the shop video's view; every member does nothing
+	void *&c_player_view_x_current_player_view = *reinterpret_cast<void **>(0x50DEDF0);
 }
 
 namespace eldorado
@@ -136,11 +183,22 @@ void bink_patches_apply()
 	Hook(0x105DBE, bink_playback_update_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();  // main_loop_body_main_part
 	Hook(0x216CC0, bink_playback_render_hook).Apply();
 	Hook(0x218733, bink_allocate_frame_plane_buffers, static_cast<__int32>(HookFlags::IsCall)).Apply();  // prepare_bink_movie_for_playback_async
+	Hook(0x204707, c_player_view_create_frame_textures_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();  // main_render_game
+	Hook(0x204D98, c_player_view_create_frame_textures_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();  // main_render_view
 	DetourTransactionBegin();
 	DetourUpdateThread(GetCurrentThread());
 	DetourAttach(&reinterpret_cast<PVOID &>(eldorado::bink_playback_grab_memory), reinterpret_cast<PVOID>(bink_playback_grab_memory_hook));
 	DetourAttach(&reinterpret_cast<PVOID &>(eldorado::bink_playback_return_memory), reinterpret_cast<PVOID>(bink_playback_return_memory_hook));
 	DetourTransactionCommit();
+}
+
+// Halo 3's texture_camera_bink. The texture camera still has to be on (texture_camera_on)
+// for the movie to be drawn to it.
+void render_texture_camera_set_bink(bool bink_is_active)
+{
+	unsigned char *globals = reinterpret_cast<unsigned char *>(tls_getd().render_texture_globals);
+	if (globals)
+		globals[k_render_texture_camera_bink_is_active_offset] = bink_is_active;
 }
 
 /* ---------- private code */
@@ -179,6 +237,14 @@ namespace
 	long bink_resource_handle(void const *resource)
 	{
 		return *static_cast<long const *>(resource);
+	}
+
+	// Read through the calling thread's copy: the main thread's for scripts, the render
+	// thread's mirror while drawing.
+	bool render_texture_camera_bink_active()
+	{
+		unsigned char const *globals = reinterpret_cast<unsigned char const *>(tls_getd().render_texture_globals);
+		return globals && globals[k_render_texture_camera_active_offset] && globals[k_render_texture_camera_bink_is_active_offset];
 	}
 
 	bool streamed_bink_matches(void const *resource)
@@ -352,13 +418,14 @@ namespace
 	}
 
 	// The engine's, except that a tag movie is drawn too unless it is the shop video,
-	// which goes to its render-to-texture view (c_bink_texture_view).
+	// which goes to its render-to-texture view (c_bink_texture_view), or the texture camera
+	// is showing it (texture_camera_bink).
 	void bink_playback_render_hook()
 	{
 		s_bink_globals *bink_globals = s_bink_globals::get();
 		if (!bink_globals->initialized || !bink_globals->playing)
 			return;
-		if ((bink_playback_flags() & k_bink_flag_from_tag) && *reinterpret_cast<long *>(0x504C834) != -1)
+		if ((bink_playback_flags() & k_bink_flag_from_tag) && (*reinterpret_cast<long *>(0x504C834) != -1 || render_texture_camera_bink_active()))
 			return;
 		if (bink_globals_field<unsigned char>(0x13C) || bink_globals_field<unsigned char>(0x140))  // movie finished, stopping
 			return;
@@ -429,5 +496,64 @@ namespace
 			descriptions[i] = { &plane->Buffer, 1, size, size + 4095, 12 };
 		}
 		return eldorado::allocate_aligned_buffers(allocation, 4, descriptions, "bink!", out_base, out_size);
+	}
+
+	// Halo 3's bink branch of c_player_view::create_frame_textures: the movie goes into the
+	// texture camera's target in place of the camera's view. It is set up as the shop
+	// video's render-to-texture view does it: binding the target resets the viewport to the
+	// target's size, and bink_display_frame maps the screen-sized rectangle onto it.
+	void render_bink_to_texture_camera()
+	{
+		long target_index = eldorado::c_dynamic_render_targets_target_allocated(k_render_target_type_texture_camera)
+			? eldorado::c_dynamic_render_targets_get_target_index_from_type(k_render_target_type_texture_camera)
+			: eldorado::c_dynamic_render_targets_allocate_target(k_render_target_type_texture_camera, k_texture_camera_render_target_width, k_texture_camera_render_target_height, -1, eldorado::c_render_globals_get_frame_index(), "texture camera");
+		if (target_index == -1)
+			return;
+		void *target = eldorado::c_dynamic_render_targets_get_target(static_cast<unsigned short>(target_index));
+		long accumulation_surface = *reinterpret_cast<long *>(static_cast<char *>(target) + 0xC);
+
+		short_rectangle2d frame_bounds;
+		eldorado::interface_get_current_display_settings(&frame_bounds, nullptr, nullptr, nullptr);
+		struct { void const *vftable; unsigned char data[0x290]; } view = { eldorado::c_bink_texture_view_vftable };
+		eldorado::c_view_begin(&view);
+		eldorado::c_rasterizer_begin(frame_bounds, frame_bounds);
+		eldorado::c_rasterizer_set_render_target_texture(0, accumulation_surface, 0, 0);
+		for (long target_slot = 1; target_slot <= 3; target_slot++)
+			eldorado::c_rasterizer_set_render_target_surface(target_slot, 0, 0xFFFFFFFF);  // _surface_none
+		eldorado::c_rasterizer_set_depth_stencil_surface(0);  // _surface_none
+		eldorado::c_rasterizer_clear(1, 0xFF000000, 1.0f, 0);
+		eldorado::c_rasterizer_enable_clip_planes(0);
+		eldorado::c_rasterizer_set_scissor_rect(nullptr);
+		eldorado::c_rasterizer_set_color_write_enable(0, 0xF);
+		eldorado::c_rasterizer_set_z_buffer_mode(2);  // off
+		eldorado::c_rasterizer_set_cull_mode(1);  // off
+		eldorado::c_rasterizer_clear_sampler_textures(0xF);  // sRGB reads off, see bink_playback_render_hook
+		// The target holds the movie as it is, gamma and all; it is read through sRGB.
+		eldorado::c_rasterizer_set_srgbwrite(false);
+		// bink_display_frame maps the rectangle against the current player view's window
+		// when there is one; against the full screen here, as frame_bounds is.
+		void *player_view = eldorado::c_player_view_x_current_player_view;
+		eldorado::c_player_view_x_current_player_view = nullptr;
+		bink_display_frame(&frame_bounds);
+		eldorado::c_player_view_x_current_player_view = player_view;
+		eldorado::c_rasterizer_set_srgbwrite(true);
+		eldorado::c_view_end();
+	}
+
+	// Replaces both calls of c_player_view::create_frame_textures (0xA38D70). Of its three
+	// frame texture types only the texture camera ever has a source in this build
+	// (frame_texture_get_source), so while the camera shows the movie the engine's
+	// function, which would draw the camera's view into the same target, is skipped.
+	void __fastcall c_player_view_create_frame_textures_hook(void *player_view, void *, long player_window_index)
+	{
+		if (!render_texture_camera_bink_active())
+		{
+			eldorado::c_player_view_create_frame_textures(player_view, player_window_index);
+			return;
+		}
+		eldorado::c_rasterizer_set_gprs_allocation(3);  // _gpr_max_to_vertex_shader
+		if (player_window_index == 0)
+			eldorado::c_dynamic_render_targets_idle();
+		render_bink_to_texture_camera();
 	}
 }
