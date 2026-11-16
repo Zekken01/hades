@@ -1,0 +1,323 @@
+/* Port of screens/mod_browse/mod_browse.css (unscaled page: vh units as on the web page).
+   Also used by the server mod browser. */
+
+body {
+	width: 100%;
+	height: 100%;
+	font-family: "Conduit ITC";
+}
+
+#overlay {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #00000080;
+	opacity: 0;
+}
+
+#container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+#screen_widget {
+	width: 100%;
+	height: 75vh;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	opacity: 0;
+	color: #D8D8D8;
+}
+
+.screen_widget_header, .screen_widget_footer {
+	position: relative;
+	width: 100%;
+	background-color: #0a0e14cc;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	border-top: 0.208vh #ffffff33;
+	border-bottom: 0.208vh #ffffff1f;
+	box-sizing: border-box;
+}
+
+.screen_widget_header {
+	height: 6.388vh;
+}
+
+.screen_widget_title {
+	width: 124.444vh;
+	height: 100%;
+	font-size: 6.32vh;
+	line-height: 6.4vh;
+	margin-top: -0.694vh;
+}
+
+.screen_widget_body {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	position: relative;
+	flex: 1;
+	decorator: linear-gradient(to bottom, #445e8dbd, #11203bd9);
+}
+
+.screen_widget_row {
+	width: 124.444vh;
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+
+/* ---- list */
+
+/* 65% + 75% in a flex row: both shrink in proportion (46.4% / 53.6%) */
+.col1 {
+	display: flex;
+	flex-direction: column;
+	width: 46.4%;
+	margin-top: 0.555vh;
+	margin-bottom: 0.555vh;
+}
+
+#searchbox {
+	display: block;
+	margin-left: 2.777vh;
+	margin-right: 1.388vh;
+	padding: 0.555vh 0;
+	font-size: 2.916vh;
+	height: 4.2vh;
+	background-color: transparent;
+	border-width: 0;
+	border-bottom: 0.208vh #ffffff80;
+	color: #D8D8D8;
+	text-transform: uppercase;
+	box-sizing: border-box;
+}
+
+#searchbox:focus {
+	color: #e8edf7;
+}
+
+.mod_selection_list {
+	display: block;
+	width: 100%;
+	font-size: 2.777vh;
+	position: relative;
+	flex: 1;
+	margin-top: 0.694vh;
+	overflow-y: auto;
+}
+
+.mod_selection_list .li {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	position: relative;
+	margin-top: 0.3%;
+	margin-bottom: 0.3%;
+	color: #aac0da;
+	width: 100%;
+	padding: 0.5% 2% 0.5% 5%;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+/* li::before: the selection bar */
+.mod_selection_list .li.selected {
+	color: #e8edf7;
+	decorator: svg(dew://assets/ux/buttonhover.svg);
+}
+
+.mod_selection_list .li .name {
+	flex: 1;
+	white-space: nowrap;
+	overflow: hidden;
+	text-transform: uppercase;
+}
+
+.mod_selection_list .li .version {
+	font-size: 0.7em;
+	opacity: 0.5;
+}
+
+.mod_selection_list scrollbarvertical, .mod_details_body scrollbarvertical {
+	width: 1.388vh;
+}
+.mod_selection_list scrollbarvertical sliderbar, .mod_details_body scrollbarvertical sliderbar {
+	background-color: #dddddd22;
+}
+.mod_selection_list scrollbarvertical sliderbar:hover, .mod_details_body scrollbarvertical sliderbar:hover {
+	background-color: #dddddd55;
+}
+.mod_selection_list scrollbarvertical sliderarrowdec, .mod_selection_list scrollbarvertical sliderarrowinc,
+.mod_details_body scrollbarvertical sliderarrowdec, .mod_details_body scrollbarvertical sliderarrowinc {
+	height: 0;
+}
+
+/* ---- details */
+
+.mod_details {
+	width: 53.6%;
+	display: flex;
+	flex-direction: column;
+	font-size: 2.2vh;
+	decorator: linear-gradient(to bottom, #64646400, #96969612);
+	overflow: hidden;
+}
+
+.mod_details_head {
+	display: block;
+	padding-left: 2%;
+	padding-right: 1%;
+}
+
+.mod_details img#mod_preview_img {
+	display: block;
+	width: 64.583vh;
+	height: 21.388vh;
+	margin-top: 2%;
+	border: 0.2vh #00000080;
+	box-sizing: border-box;
+}
+
+.mod_details_title {
+	font-size: 3.3vh;
+	margin-top: 2%;
+	padding-bottom: 1%;
+	margin-bottom: 0;
+}
+
+.mod_details_body {
+	color: #aac0da;
+	overflow-y: auto;
+	margin-bottom: 1%;
+	flex: 1 1 0;
+	height: 0;
+}
+
+.mod_details_body_desc {
+	display: block;
+	padding-left: 2%;
+	padding-right: 1%;
+	padding-top: 1.2%;
+	margin: 0;
+}
+
+.mod_details_footer {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	font-size: 1.98vh;
+}
+
+.mod_details_author {
+	width: 100%;
+	background-color: #0000001a;
+	border-top: 0.138vh #ffffff26;
+	border-bottom: 0.138vh #ffffff26;
+	display: flex;
+	padding: 0.8% 2%;
+	flex-direction: row;
+	box-sizing: border-box;
+}
+
+.mod_details_size {
+	width: 100%;
+	padding: 0.3%;
+	padding-left: 2%;
+	display: flex;
+	flex-direction: row;
+	box-sizing: border-box;
+}
+
+.mod_details_attr_label {
+	color: #aac0da;
+	width: 35%;
+}
+
+.mod_source {
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+a {
+	color: #77879A;
+	cursor: pointer;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* ---- filter selector and footer */
+
+#screen_widget_mod_type {
+	width: 14.583vh;
+}
+
+.screen_filter_selector {
+	position: absolute;
+	right: 50%;
+	margin-right: -62.222vh;
+	top: 0.8vh;
+	height: 100%;
+	font-size: 3.333vh;
+	text-align: center;
+	display: flex;
+	flex-direction: row;
+}
+
+.screen_filter_selector img {
+	margin-left: 0.694vh;
+	margin-right: 0.694vh;
+	cursor: pointer;
+	transition: transform 0.05s quadratic-in;
+}
+
+.screen_filter_selector img:hover {
+	transform: scale(1.1);
+}
+
+.ctrlr img {
+	width: 4.444vh;
+	height: 4.444vh;
+}
+
+.kbm img {
+	width: 2.5vh;
+	height: 4.166vh;
+}
+
+.button_key {
+	width: 124.444vh;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	font-size: 2.9vh;
+}
+
+.button_key_button {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 0.694vh;
+	cursor: pointer;
+}
+
+.button_key_button:hover {
+	text-decoration: underline;
+}
+
+.button_icon {
+	width: 3.888vh;
+	height: 3.888vh;
+	margin: 0 0.277vh;
+}

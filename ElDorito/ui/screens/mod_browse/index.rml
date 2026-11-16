@@ -1,0 +1,59 @@
+<rml>
+<head>
+	<title>Mod Browser</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="mod_browse.rcss"/>
+	<script src="dew://lib/jq.lua"></script>
+	<script src="dew://lib/input.lua"></script>
+	<script src="mod_browse.lua"></script>
+</head>
+<body>
+	<div id="overlay"></div>
+	<div id="container">
+		<div id="screen_widget" class="screen_widget_select_map">
+			<div class="screen_widget_header">
+				<div class="screen_widget_title">SELECT MOD</div>
+				<div id="mod_filter" class="screen_filter_selector kbm">
+					<img class="button_left" id="filterLeft" src="dew://assets/ux/arrow_left.svg"/>
+					<div id="screen_widget_mod_type"></div>
+					<img class="button_right" id="filterRight" src="dew://assets/ux/arrow_right.svg"/>
+				</div>
+			</div>
+			<div class="screen_widget_body">
+				<div class="screen_widget_row">
+					<div class="col1">
+						<input type="text" id="searchbox" placeholder="SEARCH..." value=""/>
+						<div class="mod_selection_list" id="mod_selection_list"></div>
+					</div>
+					<div class="mod_details">
+						<div class="mod_details_head">
+							<img id="mod_preview_img" src="dew://assets/maps/small/placeholder.jpg"/>
+							<h3 class="mod_details_title" id="mod_name"></h3>
+						</div>
+						<div class="mod_details_body">
+							<p class="mod_details_body_desc" id="mod_description"></p>
+						</div>
+						<div class="mod_details_footer">
+							<div class="mod_details_author"><span class="mod_details_attr_label">AUTHOR:</span><span class="mod_details_attr_value" id="mod_author"></span></div>
+							<div class="mod_details_size"><span class="mod_details_attr_label">VERSION:</span><span class="mod_details_attr_value" id="mod_version">0.0.0</span></div>
+							<div class="mod_details_size"><span class="mod_details_attr_label">SIZE:</span><span class="mod_details_attr_value" id="mod_filesize">0.00 GB</span></div>
+							<div class="mod_details_size"><span class="mod_details_attr_label">DOWNLOADED:</span><span class="mod_details_attr_value" id="mod_dowloaddate">01/01/1970</span></div>
+							<div class="mod_details_size"><span class="mod_details_attr_label">LAST USED:</span><span class="mod_details_attr_value" id="mod_lastuseddate">Never</span></div>
+							<div class="mod_details_size"><span class="mod_details_attr_label">SOURCE:</span><span class="mod_details_attr_value mod_source" id="mod_source">Halo Online Server</span></div>
+							<div class="mod_details_size"><span class="mod_details_attr_label">WEBSITE:</span><span class="mod_details_attr_value"><a id="mod_website">http://www.YourDomain.com</a></span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="screen_widget_footer">
+				<div class="button_key">
+					<span class="button_key_button" id="button_key_select"><img class="button_icon" src="dew://assets/buttons/360_A.png"/><span>Select</span></span>
+					<span class="button_key_button" id="button_key_back"><img class="button_icon" src="dew://assets/buttons/360_B.png"/><span>Back</span></span>
+					<span class="button_key_button" id="button_key_options"><img class="button_icon" src="dew://assets/buttons/360_X.png"/><span>Options</span></span>
+					<span class="button_key_button" id="button_key_display"><img class="button_icon" src="dew://assets/buttons/360_Y.png"/><span id="current_display_filter"></span></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>
