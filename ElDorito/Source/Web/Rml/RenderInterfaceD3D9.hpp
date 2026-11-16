@@ -64,6 +64,9 @@ namespace Web
 			bool IsSlotAlive(TextureSlot *slot) const { return m_slots.count(slot) != 0; }
 			// Decodes PNG/JPG/BMP/TGA/DDS bytes with D3DX, premultiplies, and installs the result.
 			bool LoadImageIntoSlot(TextureSlot &slot, const void *data, size_t size);
+			// Rasterises SVG text with lunasvg at `scale` x its size (layout size stays 1x).
+			bool LoadSvgIntoSlot(TextureSlot &slot, const std::string &svg, float scale);
+			static bool IsSvgSource(const std::string &source);
 			// Installs straight RGBA8 pixels (premultiplied on the way in unless already so).
 			bool LoadRgbaIntoSlot(TextureSlot &slot, const uint8_t *rgba, ::Rml::Vector2i size, bool alreadyPremultiplied);
 

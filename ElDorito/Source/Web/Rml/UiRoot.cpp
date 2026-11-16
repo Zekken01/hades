@@ -762,6 +762,7 @@ namespace Web
 				{ "openUrl", L_openUrl },
 				{ "log", L_log },
 				{ "readFile", L_readFile },
+				{ "fileExists", L_fileExists },
 				{ "storageGet", L_storageGet },
 				{ "storageSet", L_storageSet },
 				{ "getMemoryStats", L_getMemoryStats },
@@ -1109,6 +1110,14 @@ namespace Web
 				lua_pushlstring(L, data.data(), data.size());
 			else
 				lua_pushnil(L);
+			return 1;
+		}
+
+		// bool = dew_core.fileExists(url)   (dew://, pak://, plain paths)
+		int UiRoot::L_fileExists(lua_State *L)
+		{
+			FileInterface::Resolved resolved;
+			lua_pushboolean(L, Get()->m_files.Resolve(CheckString(L, 1), resolved));
 			return 1;
 		}
 

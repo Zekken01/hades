@@ -31,10 +31,10 @@ TREES = {
 }
 COMMON = ["/nologo", "/c", "/W0", "/MTd", "/Od", "/Ob0", "/ZI", "/GS", "/RTC1", "/EHsc", "/std:c++20", "/permissive-"]
 DEFINES = ["_WINDOWS", "_USRDLL", "WIN32", "_DEBUG", "MINIUPNP_STATICLIB", "NOMINMAX", "_CRT_SECURE_NO_WARNINGS",
-           "_WINSOCK_DEPRECATED_NO_WARNINGS", "MATCHING", "RMLUI_STATIC_LIB", "RMLUI_LUA_AS_CXX"]
+           "_WINSOCK_DEPRECATED_NO_WARNINGS", "MATCHING", "RMLUI_STATIC_LIB", "LUNASVG_BUILD_STATIC", "RMLUI_LUA_AS_CXX"]
 INCLUDES = ["", "ElDorito/Source", "blamlib/source", "libs/boost-1.76/include", "libs/detours/include", "libs/directx/Include", "libs/discord-rpc/include", "libs/fmod/inc",
             "libs/miniupnpc/include", "libs/oggvorbis/include", "libs/openssl-1.1.0e/include", "libs/steam/Include",
-            "libs/websocketpp/include", "libs/rmlui/include", "libs/lua-5.4/include", "libs/freetype/include/freetype2"]
+            "libs/websocketpp/include", "libs/rmlui/include", "libs/lunasvg/include", "libs/lua-5.4/include", "libs/freetype/include/freetype2"]
 THIRD_PARTY = ["detours/lib.X86/detours.lib", "discord-rpc/lib/Debug/discord-rpc.lib",
                "miniupnpc/lib/miniupnpc.lib", "oggvorbis/lib/Debug/ogg.lib", "oggvorbis/lib/Debug/vorbis.lib",
                "oggvorbis/lib/Debug/vorbisfile.lib", "openssl-1.1.0e/lib/libeay32MTd.lib",

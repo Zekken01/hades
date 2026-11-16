@@ -151,6 +151,7 @@ namespace Web
 			static int L_openUrl(lua_State *L);
 			static int L_log(lua_State *L);
 			static int L_readFile(lua_State *L);
+			static int L_fileExists(lua_State *L);
 			static int L_storageGet(lua_State *L);
 			static int L_storageSet(lua_State *L);
 			static int L_getMemoryStats(lua_State *L);

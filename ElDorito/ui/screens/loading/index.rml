@@ -1,0 +1,60 @@
+<rml>
+<head>
+	<title>Loading</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://lib/window-resize.rcss"/>
+	<link type="text/rcss" href="loading.rcss"/>
+	<script src="dew://lib/jq.lua"></script>
+	<script src="dew://lib/pak_aware.lua"></script>
+	<script src="loading.lua"></script>
+</head>
+<body>
+	<div id="container">
+		<div class="page_content">
+			<div class="container">
+				<!-- Generic loading screen -->
+				<div class="genericLoader">
+					<img class="background" data-pak="mainmenu" data-url="assets/haloonline/loading_bg" data-fallback="dew://assets/haloonline/loading_bg.jpg"/>
+					<div class="logobox">
+						<img class="eldorito" data-pak="mainmenu" data-url="assets/ed/EldoritoLogoFinalSmall" data-fallback="dew://assets/ed/EldoritoLogoFinalSmall.png"/>
+						<div class="logoclip" id="logoclip">
+							<img class="eldorito loading" data-pak="mainmenu" data-url="assets/ed/EldoritoLogoFinalBlueSmall" data-fallback="dew://assets/ed/EldoritoLogoFinalBlueSmall.png"/>
+						</div>
+					</div>
+				</div>
+				<!-- Map loading screen -->
+				<div id="blackLayer"></div>
+				<div class="mapLoader">
+					<img id="mapImage" data-pak="game" data-url="" data-fallback="dew://assets/maps/large/unknown.jpg"/>
+					<div class="header">
+						<img id="logo" data-pak="game" data-url="assets/ed/logo" data-fallback="dew://assets/ed/logo.png"/>
+						<div class="serverName"></div>
+						<img id="gametypeicon"/>
+						<div id="gametype"></div>
+						<div class="gamerounds">Rounds: <span id="gamerounds"></span></div>
+						<div class="gamescore">Score to Win: <span id="gamescore"></span></div>
+						<div class="timelimit">Time Limit: <span id="timelimit"></span></div>
+						<div id="skulls"></div>
+					</div>
+					<div class="loadingContainer">
+						<div class="serverMessage"></div>
+						<div class="progress" id="progressbar"><div class="value" id="progressvalue"></div></div>
+					</div>
+					<div class="footer">
+						<img id="difficulty"/>
+						<div id="map">
+							<div id="title"></div>
+							<div id="point"></div>
+							<div id="author">Map Author: <span id="mapauthor"></span></div>
+							<div class="modname">Mod Name: <span id="modname"></span></div>
+							<div class="modauthor">Mod Author: <span id="modauthor"></span></div>
+						</div>
+						<div id="desc"></div>
+						<div id="pointdesc"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>

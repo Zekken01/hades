@@ -1,0 +1,20 @@
+<rml>
+<head>
+	<style>
+		body { width: 100%; height: 100%; font-family: "Conduit ITC"; font-size: 18px; color: white; }
+		div { display: block; }
+		.a { position: absolute; top: 20px; right: 36px; background-color: #ff000080; }
+		.b { position: absolute; top: 120px; left: 36px; background-color: #00ff0080; }
+		.c { position: absolute; top: 220px; left: 36px; max-width: 400px; background-color: #0000ff80; }
+		.d { position: absolute; top: 320px; left: 36px; max-width: 40%; background-color: #ffff0080; }
+		.e { position: absolute; top: 420px; left: 36px; display: inline-block; background-color: #ff00ff80; }
+	</style>
+</head>
+<body>
+	<div class="a">A: right anchored, no max-width, short.</div>
+	<div class="b">B: left anchored, no max-width.</div>
+	<div class="c">C: max-width 400px. Millennia of tending has produced trees as ancient as the Forerunner structures they have grown around.</div>
+	<div class="d">D: max-width 40%. Millennia of tending has produced trees as ancient as the Forerunner structures.</div>
+	<div class="e">E: inline-block.</div>
+</body>
+</rml>

@@ -17,7 +17,10 @@
 
 #include <d3dx9.h>
 
+#include <lunasvg/lunasvg.h>
+
 #include <algorithm>
+#include <cmath>
 #include <cstdio>
 #include <cstring>
 
@@ -528,6 +531,19 @@ namespace Web
 				LogError("cannot read texture \"" + source + "\"");
 				return 0;
 			}
+			if (IsSvgSource(source))
+			{
+				// <img src="x.svg"> and image(x.svg): rasterised by lunasvg at 4x so it stays
+				// sharp when scaled up; RmlUi gets the SVG's own size for layout (UVs are 0..1).
+				TextureSlot *slot = CreateSlot(source, { 0, 0 });
+				if (!LoadSvgIntoSlot(*slot, data, 4.f))
+				{
+					DestroySlot(slot);
+					return 0;
+				}
+				texture_dimensions = slot->size;
+				return reinterpret_cast<::Rml::TextureHandle>(slot);
+			}
 			TextureSlot *slot = CreateSlot(source, { 0, 0 });
 			if (!LoadImageIntoSlot(*slot, data.data(), data.size()))
 			{
@@ -536,6 +552,49 @@ namespace Web
 			}
 			texture_dimensions = slot->size;
 			return reinterpret_cast<::Rml::TextureHandle>(slot);
+		}
+
+		bool RenderInterfaceD3D9::IsSvgSource(const std::string &source)
+		{
+			std::string path = source.substr(0, source.find_first_of("?#"));
+			return path.size() > 4 && _stricmp(path.c_str() + path.size() - 4, ".svg") == 0;
+		}
+
+		bool RenderInterfaceD3D9::LoadSvgIntoSlot(TextureSlot &slot, const std::string &svg, float scale)
+		{
+			auto document = lunasvg::Document::loadFromData(svg.data(), svg.size());
+			if (!document)
+			{
+				LogError("invalid SVG \"" + slot.source + "\"");
+				return false;
+			}
+			const int layoutWidth = std::max(1, (int)std::ceil(document->width()));
+			const int layoutHeight = std::max(1, (int)std::ceil(document->height()));
+			const int width = std::min(4096, (int)std::ceil(layoutWidth * scale));
+			const int height = std::min(4096, (int)std::ceil(layoutHeight * scale));
+			lunasvg::Bitmap bitmap = document->renderToBitmap(width, height);
+			if (bitmap.isNull())
+				return false;
+			// lunasvg renders premultiplied ARGB32, i.e. the bytes of D3DFMT_A8R8G8B8.
+			IDirect3DTexture9 *staging = nullptr;
+			if (FAILED(m_device->CreateTexture(bitmap.width(), bitmap.height(), 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_SYSTEMMEM, &staging, nullptr)))
+				return false;
+			D3DLOCKED_RECT locked = {};
+			if (SUCCEEDED(staging->LockRect(0, &locked, nullptr, 0)))
+			{
+				for (int y = 0; y < bitmap.height(); y++)
+					std::memcpy(static_cast<uint8_t *>(locked.pBits) + y * locked.Pitch, bitmap.data() + y * bitmap.stride(), (size_t)bitmap.width() * 4);
+				staging->UnlockRect(0);
+			}
+			IDirect3DTexture9 *gpu = CreateGpuTextureFromStaging(staging, bitmap.width(), bitmap.height());
+			SafeRelease(staging);
+			if (!gpu)
+				return false;
+			SafeRelease(slot.texture);
+			slot.texture = gpu;
+			slot.size = { layoutWidth, layoutHeight };
+			slot.pending = false;
+			return true;
 		}
 
 		::Rml::TextureHandle RenderInterfaceD3D9::GenerateTexture(::Rml::Span<const ::Rml::byte> source, ::Rml::Vector2i source_dimensions)

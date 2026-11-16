@@ -1,0 +1,304 @@
+/* Port of screens/loading/loading.css (px -> dp inside the scaled 1280x720 page). */
+
+body {
+	font-size: 24dp;
+	background-color: black;
+	cursor: default;
+}
+
+.page_content {
+	font-size: 24dp;
+}
+
+/* Map loading screen */
+
+.mapLoader {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	color: white;
+}
+
+#mapImage {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* <progress> */
+.progress {
+	position: absolute;
+	height: 6dp;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: #000000bf;
+}
+
+.progress .value {
+	height: 100%;
+	width: 0%;
+	background-color: white;
+}
+
+.header {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 108dp;
+	background-color: black;
+	opacity: 0.9;
+	border-bottom: 1dp #7fa4c5;
+}
+
+.header img {
+	position: absolute;
+	top: 25.2dp;
+	height: 57.6dp;
+	padding: 0;
+}
+
+#logo {
+	left: 28.8dp;
+}
+
+#gametypeicon {
+	height: 64.8dp;
+	top: 21.6dp;
+	right: 36dp;
+}
+
+#gametype, .gamerounds, .gamescore, .timelimit {
+	position: absolute;
+	right: 122.4dp;
+	color: #ffffffbf;
+	font-size: 14.4dp;
+	text-align: right;
+	white-space: nowrap;
+}
+
+#gametype span, .gamerounds span, .gamescore span, .timelimit span {
+	display: inline-block;
+	padding-left: 5.4dp;
+	font-weight: bold;
+}
+
+#gametype {
+	top: 16.2dp;
+	color: white;
+	font-size: 23.4dp;
+	font-weight: bold;
+}
+
+.gamerounds { top: 43.38dp; }
+.gamescore { top: 58.32dp; }
+.timelimit { top: 72dp; }
+
+.loadingContainer {
+	position: absolute;
+	top: 108dp;
+	left: 0;
+	width: 100%;
+	height: 504dp;
+}
+
+.serverName {
+	position: relative;
+	margin-left: auto;
+	margin-right: auto;
+	top: 50%;
+	transform: translateY(-50%);
+	font-size: 25.2dp;
+	line-height: 28.8dp;
+	width: 576dp;
+	text-align: center;
+	max-height: 100.8dp;
+	word-break: break-word;
+	overflow: hidden;
+}
+
+.serverMessage {
+	position: relative;
+	top: 0;
+	max-height: 80%;
+	max-width: 45%;
+	left: 0;
+	margin: 36.72dp 36.72dp 36.72dp 0;
+	font-size: 25.2dp;
+	padding: 19.2dp;
+	background-color: #00000099;
+	display: none;
+}
+
+.serverMessage .link {
+	color: white;
+	cursor: pointer;
+}
+
+.serverMessage .link:hover {
+	text-decoration: underline;
+}
+
+.footer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 108dp;
+	background-color: black;
+	opacity: 0.9;
+	border-top: 1dp #7fa4c5;
+}
+
+.title {
+	font-size: 50.4dp;
+	top: 14.4dp;
+}
+
+.titleMod {
+	font-size: 50.4dp;
+	margin-top: -14.4dp;
+	left: 25.6dp;
+}
+
+#point {
+	font-size: 21.6dp;
+	top: 66.96dp;
+	left: 25.6dp;
+	color: #7fa4c5;
+}
+
+#desc {
+	position: absolute;
+	top: 25.2dp;
+	right: 36dp;
+	font-size: 18dp;
+	text-align: left;
+	color: #7fa4c5;
+	max-width: 512dp; /* 40% of the 1280dp footer: RmlUi resolves % max-width to 0 in shrink-to-fit boxes */
+}
+
+#pointdesc {
+	position: absolute;
+	top: 50.4dp;
+	right: 36dp;
+	font-size: 18dp;
+	text-align: left;
+	color: #7fa4c5;
+	max-width: 512dp; /* 40% of the 1280dp footer: RmlUi resolves % max-width to 0 in shrink-to-fit boxes */
+}
+
+/* Generic loading screen */
+
+.genericLoader {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.genericLoader .background {
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+/* the logo box: 20% of the page height, centred */
+.genericLoader .logobox {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 144dp;
+}
+
+.genericLoader .logobox img {
+	display: block;
+	height: 144dp;
+}
+
+/* clip-path: inset(p% 0 0 0) on the blue logo: a bottom-anchored window of (100-p)% */
+.genericLoader .logoclip {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 0%;
+	overflow: hidden;
+}
+
+.genericLoader .logoclip img {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+
+.skulls {
+	float: right;
+	padding-right: 15dp;
+}
+
+#skulls {
+	float: right;
+	margin-top: 23.04dp;
+	margin-right: 21.6dp;
+}
+
+#difficulty {
+	padding: 20dp 0dp 20dp 20dp;
+	margin-right: -14.4dp;
+	float: left;
+	max-width: 79.2dp;
+}
+
+#map {
+	float: left;
+	padding-left: 28.8dp;
+	padding-top: 14.4dp;
+}
+
+.modname, .moddesc, .modauthor, #author {
+	position: absolute;
+	left: 28.8dp;
+	color: #ffffffbf;
+	font-size: 14.4dp;
+	text-align: right;
+	white-space: nowrap;
+}
+
+.modname span, .moddesc span, .modauthor span, #author span {
+	display: inline-block;
+	padding-left: 5.4dp;
+	font-weight: bold;
+}
+
+.modname { top: 72dp; }
+.modauthor { top: 86.4dp; }
+.mapauthor { top: 75.6dp; }
+.mapauthorMod { top: 57.6dp; }
+
+#blackLayer {
+	position: absolute;
+	background-color: black;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 1;
+	z-index: 10000;
+}
+
+img:not([src]), img[src=""] {
+	visibility: hidden;
+}

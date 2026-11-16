@@ -214,7 +214,7 @@ console = {
 	error = function(...) core.log("error", joinArgs(...)) end,
 }
 
-json = json
+_G.json = json
 
 ------------------------------------------------------------------------------------------
 -- The per-screen `dew` table
@@ -495,6 +495,7 @@ return function(screenId, document)
 
 	dew.openUrl = core.openUrl
 	dew.readFile = core.readFile
+	dew.fileExists = core.fileExists
 	dew.getMemoryStats = core.getMemoryStats
 	dew.enumerateAudioInputs = core.enumerateAudioInputs
 
