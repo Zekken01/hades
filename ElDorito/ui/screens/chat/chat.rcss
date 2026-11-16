@@ -67,14 +67,23 @@
 	width: 100%;
 	box-sizing: border-box;
 	display: none;
+	font-family: Arial; /* a browser input does not inherit the page font */
 	font-size: 11.25dp;
-	height: 18.75dp;
+	height: 20.25dp; /* 19px content + 2px padding + 2px border, as content-box in the original */
 	padding: 1.5dp;
+	/* the content box's height: a browser input centres its line whatever the inherited
+	   line-height; the chat's 19.5dp pushed the text down and cut it off */
+	line-height: 14.25dp;
 	cursor: text;
 }
 
 #chatBox:focus {
 	color: white;
+}
+
+/* ::placeholder */
+#chatBox:placeholder-shown {
+	color: #7a859b;
 }
 
 .nameCard {
