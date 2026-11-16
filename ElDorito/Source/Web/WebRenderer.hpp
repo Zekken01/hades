@@ -8,6 +8,7 @@
 
 #include <d3d9.h>
 
+#include <atomic>
 #include <memory>
 #include <string>
 
@@ -102,6 +103,11 @@ namespace Web
 			unsigned __int32 m_Width = 0;
 			unsigned __int32 m_Height = 0;
 			unsigned long m_RenderThread = 0;
+			std::atomic<unsigned __int32> m_PendingWidth{ 0 };
+			std::atomic<unsigned __int32> m_PendingHeight{ 0 };
+			std::atomic<bool> m_ResizePending{ false };
+			std::atomic<bool> m_ReloadPending{ false };
+			std::atomic<bool> m_DebuggerTogglePending{ false };
 		};
 	}
 }

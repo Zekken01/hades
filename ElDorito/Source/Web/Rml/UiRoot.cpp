@@ -151,6 +151,14 @@ namespace Web
 			m_ready = false;
 			m_timers.ClearAll();
 			m_http.CancelAll();
+			{
+				std::lock_guard<std::mutex> lock(m_gameTaskMutex);
+				m_gameTasks.clear();
+			}
+			{
+				std::lock_guard<std::mutex> lock(m_uiTaskMutex);
+				m_uiTasks.clear();
+			}
 			m_lua.ClearDeferred();
 			for (auto &screen : m_screens)
 				UnloadScreen(*screen);
@@ -173,6 +181,7 @@ namespace Web
 				return;
 			m_now = now;
 			ProcessCommands();
+			RunUiTasks();
 			Input::Drain(m_context);
 			m_textures.Pump();
 			m_http.Pump(now);
@@ -479,7 +488,12 @@ namespace Web
 		{
 			screen.state = state;
 			if (!screen.overlayOnly)
-				Web::Ui::ScreenLayer::NotifyScreenStateChanged(screen.id, (Web::Ui::ScreenLayer::EScreenState)state);
+			{
+				// OnShow/OnHide are game code: run them on the game thread.
+				PostToGameThread([id = screen.id, state]() {
+					Web::Ui::ScreenLayer::NotifyScreenStateChanged(id, (Web::Ui::ScreenLayer::EScreenState)state);
+				});
+			}
 		}
 
 		void UiRoot::ShowScreen(Screen &screen, bool show)
@@ -532,12 +546,14 @@ namespace Web
 				capturePointer = true;
 			}
 			const bool overlayVisible = visible > 0 || m_toastActive;
-			if (overlayVisible != m_lastOverlayVisible)
-			{
-				m_lastOverlayVisible = overlayVisible;
-				Web::Ui::ScreenLayer::Show(overlayVisible);
-			}
-			Web::Ui::ScreenLayer::CaptureInput(capture, capturePointer);
+			const bool showChanged = overlayVisible != m_lastOverlayVisible;
+			m_lastOverlayVisible = overlayVisible;
+			// CaptureInput pushes game input contexts: game thread only.
+			PostToGameThread([showChanged, overlayVisible, capture, capturePointer]() {
+				if (showChanged)
+					Web::Ui::ScreenLayer::Show(overlayVisible);
+				Web::Ui::ScreenLayer::CaptureInput(capture, capturePointer);
+			});
 			// ui.js focused the topmost capturing iframe, which keeps the element focused inside
 			// it; only move focus when it is not already in that document.
 			if (topmost && topmost->document && !IsDebuggerVisible())
@@ -788,23 +804,38 @@ namespace Web
 			const std::string argsJson = ArgJson(L, 3);
 			const int onSuccess = lua_isfunction(L, 4) ? self->m_lua.Ref(4) : 0;
 			const int onFailure = lua_isfunction(L, 5) ? self->m_lua.Ref(5) : 0;
-			std::string result;
-			Web::Browser::Bridge::QueryError error = Web::Browser::Bridge::QueryError_NotAvailable;
-			if (auto *handler = QueryHandler())
-			{
-				rapidjson::Document args;
-				args.Parse(argsJson.c_str(), argsJson.size());
-				if (args.HasParseError() || !args.IsObject())
+			// The handlers are game code (the CEF bridge ran them from ScreenLayer::Tick):
+			// invoke on the game thread, deliver the callbacks back on the UI thread.
+			self->PostToGameThread([method, argsJson, onSuccess, onFailure]() {
+				std::string result;
+				Web::Browser::Bridge::QueryError error = Web::Browser::Bridge::QueryError_NotAvailable;
+				if (auto *handler = QueryHandler())
 				{
-					error = Web::Browser::Bridge::QueryError_BadQuery;
-					result = "Bad query: \"args\" must be an object";
+					rapidjson::Document args;
+					args.Parse(argsJson.c_str(), argsJson.size());
+					if (args.HasParseError() || !args.IsObject())
+					{
+						error = Web::Browser::Bridge::QueryError_BadQuery;
+						result = "Bad query: \"args\" must be an object";
+					}
+					else
+						error = handler->Invoke(method, args, &result);
 				}
 				else
-					error = handler->Invoke(method, args, &result);
-			}
-			else
-				result = "Unsupported method: the bridge is not available";
-			self->m_lua.Defer([error, result, onSuccess, onFailure, method](lua_State *L) {
+					result = "Unsupported method: the bridge is not available";
+				if (auto *root = Get())
+					root->PostToUiThread([error, result, onSuccess, onFailure, method]() {
+						if (auto *self = Get())
+							self->DeliverMethodResult(error, result, onSuccess, onFailure, method);
+					});
+			});
+			return 0;
+		}
+
+		void UiRoot::DeliverMethodResult(int error_, const std::string &result, int onSuccess, int onFailure, const std::string &method)
+		{
+			const auto error = (Web::Browser::Bridge::QueryError)error_;
+			m_lua.Defer([error, result, onSuccess, onFailure, method](lua_State *L) {
 				auto *self = Get();
 				if (!self)
 					return;
@@ -834,10 +865,45 @@ namespace Web
 				self->m_lua.Unref(ok);
 				self->m_lua.Unref(fail);
 			});
-			return 0;
+		}
+
+		void UiRoot::PostToGameThread(std::function<void()> task)
+		{
+			std::lock_guard<std::mutex> lock(m_gameTaskMutex);
+			m_gameTasks.push_back(std::move(task));
+		}
+
+		void UiRoot::PostToUiThread(std::function<void()> task)
+		{
+			std::lock_guard<std::mutex> lock(m_uiTaskMutex);
+			m_uiTasks.push_back(std::move(task));
+		}
+
+		void UiRoot::PumpGameThread()
+		{
+			std::deque<std::function<void()>> tasks;
+			{
+				std::lock_guard<std::mutex> lock(m_gameTaskMutex);
+				tasks.swap(m_gameTasks);
+			}
+			for (auto &task : tasks)
+				task();
+		}
+
+		void UiRoot::RunUiTasks()
+		{
+			std::deque<std::function<void()>> tasks;
+			{
+				std::lock_guard<std::mutex> lock(m_uiTaskMutex);
+				tasks.swap(m_uiTasks);
+			}
+			for (auto &task : tasks)
+				task();
 		}
 
 		// ok, resultOrError, code = dew_core.callMethodSync(screenId, method, args)
+		// Runs the handler on the calling (UI) thread; only for handlers that do not touch
+		// game state.  Screens use the asynchronous callMethod.
 		int UiRoot::L_callMethodSync(lua_State *L)
 		{
 			const std::string method = CheckString(L, 2);

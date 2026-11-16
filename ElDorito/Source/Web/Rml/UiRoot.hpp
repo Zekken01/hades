@@ -60,8 +60,13 @@ namespace Web
 			bool Init(const std::filesystem::path &uiDirectory, bool debugging);
 			void Shutdown();
 			// Processes queued commands, input, timers, HTTP and texture completions, then
-			// updates the context.  Game/render thread only.
+			// updates the context.  UI thread (the EndScene thread) only: RmlUi and Lua are
+			// not thread-safe and must never be touched from another thread.
 			void Update(double now);
+			// Game thread (ElDorito::Tick): runs the bridge calls and ScreenLayer callbacks
+			// the UI queued, the way the CEF query handler did; results go back to the UI
+			// thread for the next Update.
+			void PumpGameThread();
 			void OnResize(int width, int height);
 			void ReloadAll();
 			void ToggleDebugger();
@@ -171,6 +176,15 @@ namespace Web
 			std::vector<std::unique_ptr<Screen>> m_screens; // sorted by zIndex ascending
 			std::mutex m_commandMutex;
 			std::deque<Command> m_commands;
+			// UI thread -> game thread work, and game thread -> UI thread completions.
+			std::mutex m_gameTaskMutex;
+			std::deque<std::function<void()>> m_gameTasks;
+			std::mutex m_uiTaskMutex;
+			std::deque<std::function<void()>> m_uiTasks;
+			void PostToGameThread(std::function<void()> task);
+			void PostToUiThread(std::function<void()> task);
+			void RunUiTasks();
+			void DeliverMethodResult(int error, const std::string &result, int onSuccess, int onFailure, const std::string &method);
 			int m_dewFactoryRef = 0;
 			bool m_ready = false;
 			bool m_debugging = false;

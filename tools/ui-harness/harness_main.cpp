@@ -92,10 +92,8 @@ namespace
 		g_device->BeginScene();
 		if (renderer->Initialized())
 		{
-			if (renderer->IsRendering())
-				renderer->Render(g_device);
-			else
-				renderer->Update();
+			renderer->Update(); // game tick: bridge calls
+			renderer->Render(g_device);
 		}
 		g_device->EndScene();
 		g_device->PresentEx(nullptr, nullptr, nullptr, nullptr, 0);

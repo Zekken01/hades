@@ -293,7 +293,8 @@ HRESULT __stdcall EndSceneHook(IDirect3DDevice9 *device) // 0x109610E0
 
 	// Update the web renderer
 	auto webRenderer = WebRenderer::GetInstance();
-	if (webRenderer->Initialized() && webRenderer->IsRendering())
+	// Runs every frame (the UI updates while hidden); draws only while rendering.
+	if (webRenderer->Initialized())
 		webRenderer->Render(device);
 
 	Utils::Singleton<Player::PlayerEmblemDownload>::Instance().OnEndScene(device);

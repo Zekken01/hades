@@ -95,7 +95,6 @@ namespace Web
 		{
 			if (!device || m_RmlInitialised)
 				return m_RmlInitialised;
-			m_RenderThread = GetCurrentThreadId();
 			SetState(RendererState_Startup);
 
 			m_RenderInterface = std::make_unique<Web::RmlUi::RenderInterfaceD3D9>(device);
@@ -271,25 +270,41 @@ namespace Web
 			return true;
 		}
 
+		// Every EndScene, drawing or not: the EndScene thread is the only thread that touches
+		// RmlUi and Lua (the game ticks on another thread; two threads laying out the same
+		// documents corrupted RmlUi's layout pools).
 		bool WebRenderer::Render(IDirect3DDevice9 *)
 		{
 			if (!Initialized() || !m_RenderInterface)
 				return false;
+			m_RenderThread = GetCurrentThreadId();
+			if (m_ResizePending.exchange(false))
+			{
+				m_Width = std::max<unsigned __int32>(m_PendingWidth.load(), 1);
+				m_Height = std::max<unsigned __int32>(m_PendingHeight.load(), 1);
+				m_RenderInterface->SetViewport((int)m_Width, (int)m_Height);
+				m_UiRoot->OnResize((int)m_Width, (int)m_Height);
+			}
+			if (m_ReloadPending.exchange(false))
+				m_UiRoot->ReloadAll();
+			if (m_DebuggerTogglePending.exchange(false))
+				m_UiRoot->ToggleDebugger();
 			m_UiRoot->Update(Now());
+			if (!IsRendering())
+				return true;
 			m_RenderInterface->BeginFrame();
 			m_Context->Render();
 			m_RenderInterface->EndFrame();
 			return true;
 		}
 
+		// Per game tick (game thread): runs the bridge calls and ScreenLayer callbacks the UI
+		// queued.  Never touches RmlUi or Lua.
 		bool WebRenderer::Update()
 		{
-			// The render path drives the UI while it is drawing; keep it alive when hidden so
-			// screens finish loading and queued events are delivered.
 			if (!Initialized())
 				return false;
-			if (!IsRendering() && GetCurrentThreadId() == m_RenderThread)
-				m_UiRoot->Update(Now());
+			m_UiRoot->PumpGameThread();
 			return true;
 		}
 
@@ -322,11 +337,10 @@ namespace Web
 		{
 			if (!m_RenderInterface)
 				return false;
-			m_Width = std::max<unsigned __int32>(width, 1);
-			m_Height = std::max<unsigned __int32>(height, 1);
-			m_RenderInterface->SetViewport((int)m_Width, (int)m_Height);
-			if (m_UiRoot)
-				m_UiRoot->OnResize((int)m_Width, (int)m_Height);
+			// Applied by the next Render on the UI thread.
+			m_PendingWidth = width;
+			m_PendingHeight = height;
+			m_ResizePending = true;
 			return true;
 		}
 
@@ -334,14 +348,14 @@ namespace Web
 		{
 			if (!m_UiRoot)
 				return false;
-			m_UiRoot->ReloadAll();
+			m_ReloadPending = true;
 			return true;
 		}
 
 		void WebRenderer::ToggleDebugger()
 		{
 			if (m_UiRoot)
-				m_UiRoot->ToggleDebugger();
+				m_DebuggerTogglePending = true;
 		}
 
 		bool WebRenderer::PreReset()
