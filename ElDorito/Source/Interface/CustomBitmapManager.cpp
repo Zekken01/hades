@@ -173,15 +173,12 @@ using namespace hades_file_local;
 
 CustomBitmapManager *CustomBitmapManager::Get() // 0x10784CB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Get@CustomBitmapManager@@SAPAV1@XZ");
-
 	return &g_customBitmapManager;
 }
 
 #line 182
 __int32 CustomBitmapManager::FindOrAllocateBitmap(std::string const &path) // 0x10784900
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindOrAllocateBitmap@CustomBitmapManager@@QAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 #line 193
 
 	std::scoped_lock<std::shared_mutex> lock(m_lock);
@@ -211,8 +208,6 @@ __int32 CustomBitmapManager::FindOrAllocateBitmap(std::string const &path) // 0x
 
 void CustomBitmapManager::BitmapAddRef(__int32 handle) // 0x107841B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BitmapAddRef@CustomBitmapManager@@QAEXH@Z");
-
 	std::scoped_lock<std::shared_mutex> lock(m_lock);
 	StorageItem *item = GetStorageItem(handle);
 	if (item)
@@ -221,8 +216,6 @@ void CustomBitmapManager::BitmapAddRef(__int32 handle) // 0x107841B0
 
 void CustomBitmapManager::BitmapRelease(__int32 handle) // 0x10784720
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BitmapRelease@CustomBitmapManager@@QAEXH@Z");
-
 	std::scoped_lock<std::shared_mutex> lock(m_lock);
 	StorageItem *item = GetStorageItem(handle);
 	if (item && item->refCount > 0)
@@ -233,8 +226,6 @@ void CustomBitmapManager::BitmapRelease(__int32 handle) // 0x10784720
 
 void CustomBitmapManager::BitmapLoadFromFileAsync(__int32 handle, std::string path, std::string fallbackPath) // 0x10784400
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BitmapLoadFromFileAsync@CustomBitmapManager@@QAEXHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 	std::scoped_lock<std::shared_mutex> lock(m_lock);
 	std::string currentModHash = c_mod_system::get_current_package_hash();
 	StorageItem *item = GetStorageItem(handle);
@@ -270,8 +261,6 @@ void CustomBitmapManager::BitmapLoadFromFileAsync(__int32 handle, std::string pa
 
 IDirect3DTexture9 *CustomBitmapManager::BitmapGetTexture(__int32 handle) // 0x107842C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BitmapGetTexture@CustomBitmapManager@@QAEPAUIDirect3DTexture9@@H@Z");
-
 	std::shared_lock<std::shared_mutex> lock(m_lock);
 	StorageItem *item = GetStorageItem(handle);
 	if (!item)
@@ -282,8 +271,6 @@ IDirect3DTexture9 *CustomBitmapManager::BitmapGetTexture(__int32 handle) // 0x10
 
 void CustomBitmapManager::UpdateRender() // 0x10785BD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateRender@CustomBitmapManager@@QAEXXZ");
-
 	auto currentTime = std::chrono::steady_clock::now();
 	unsigned __int32 updateDeltaMS = (unsigned __int32)std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - m_lastUpdateRenderTime).count();
 	m_lastUpdateRenderTime = currentTime;
@@ -318,35 +305,24 @@ void CustomBitmapManager::UpdateRender() // 0x10785BD0
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0CustomBitmapManager@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0StorageItem@CustomBitmapManager@@QAE@XZ"); no body to assert in
-
 namespace Utils
 {
 	namespace Uri
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??0UriComponents@Uri@Utils@@QAE@XZ"); no body to assert in
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1CustomBitmapManager@@QAE@XZ"); no body to assert in
 _inline CustomBitmapManager::~CustomBitmapManager() = default; // 0x10783710
 
-// mangled_x86(MANGLED_DEFAULT, "??1StorageItem@CustomBitmapManager@@QAE@XZ"); no body to assert in
 _inline CustomBitmapManager::StorageItem::~StorageItem() = default; // 0x10783780
 
 __int32 CustomBitmapManager::MakeHandle(unsigned short salt, unsigned short index) // 0x10785AA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?MakeHandle@CustomBitmapManager@@AAEHGG@Z");
-
 	return (salt << 16) | index;
 }
 
 unsigned short CustomBitmapManager::NextSalt() // 0x10785AD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?NextSalt@CustomBitmapManager@@AAEGXZ");
-
 	if (m_nextSalt++ == 0xFFFF)
 		m_nextSalt = 1;
 	return m_nextSalt;
@@ -354,8 +330,6 @@ unsigned short CustomBitmapManager::NextSalt() // 0x10785AD0
 
 __int32 CustomBitmapManager::FindStorageItemWithPath(std::string const &path) // 0x10784B90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindStorageItemWithPath@CustomBitmapManager@@AAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	for (unsigned __int32 i = 0; i < m_storageItems.size(); i++)
 	{
 		if (m_storageItems[i].InUse() && m_storageItems[i].path == path)
@@ -366,8 +340,6 @@ __int32 CustomBitmapManager::FindStorageItemWithPath(std::string const &path) //
 
 __int32 CustomBitmapManager::GetFreeStorageItem() // 0x10784D30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFreeStorageItem@CustomBitmapManager@@AAEHXZ");
-
 	for (unsigned __int32 i = 0; i < m_storageItems.size(); i++)
 	{
 		if (!m_storageItems[i].InUse())
@@ -379,8 +351,6 @@ __int32 CustomBitmapManager::GetFreeStorageItem() // 0x10784D30
 
 CustomBitmapManager::StorageItem *CustomBitmapManager::GetStorageItem(__int32 handle) // 0x10784DE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetStorageItem@CustomBitmapManager@@AAEPAUStorageItem@1@H@Z");
-
 	if (handle == -1)
 		return nullptr;
 
@@ -398,8 +368,6 @@ CustomBitmapManager::StorageItem *CustomBitmapManager::GetStorageItem(__int32 ha
 
 bool CustomBitmapManager::LoadFileIntoBufferBlocking(std::string const &url, std::vector<unsigned char> &buffer) // 0x107850A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadFileIntoBufferBlocking@CustomBitmapManager@@AAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV?$vector@EV?$allocator@E@std@@@3@@Z");
-
 	long long fileOffset = 0;
 	long long fileSize = 0;
 	std::filesystem::path fpath;
@@ -447,8 +415,6 @@ bool CustomBitmapManager::LoadFileIntoBufferBlocking(std::string const &url, std
 
 void CustomBitmapManager::DeleteStorageItem(__int32 index) // 0x10784840
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?DeleteStorageItem@CustomBitmapManager@@AAEXH@Z");
-
 	StorageItem *item = &m_storageItems[index];
 	item->loadState = ELoadState::kNone;
 	item->refCount = 0;

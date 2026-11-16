@@ -82,8 +82,6 @@ namespace Blam
 
 std::shared_ptr<CModPackageFileSystemView> CModPackageFileSystemViewManager::GetView(std::string const &identifier) // 0x10886210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetView@CModPackageFileSystemViewManager@@QAE?AV?$shared_ptr@VCModPackageFileSystemView@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z");
-
 	std::scoped_lock<std::mutex> lock(m_mutex);
 	if (auto it = m_views.find(identifier); it != std::end(m_views))
 		return it->second;
@@ -101,8 +99,6 @@ std::shared_ptr<CModPackageFileSystemView> CModPackageFileSystemViewManager::Get
 
 bool CModPackageFileSystemViewManager::ViewExists(std::string const &identifier) // 0x10886600
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ViewExists@CModPackageFileSystemViewManager@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	std::scoped_lock<std::mutex> lock(m_mutex);
 	if (auto it = m_views.find(identifier); it != std::end(m_views))
 		return true;
@@ -118,13 +114,10 @@ bool CModPackageFileSystemViewManager::ViewExists(std::string const &identifier)
 	return true;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1CModPackageFileSystemView@@QAE@XZ"); no body to assert in
 _inline CModPackageFileSystemView::~CModPackageFileSystemView() = default; // 0x108859F0
 
 void CModPackageFileSystemViewManager::Flush() // 0x10886170
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Flush@CModPackageFileSystemViewManager@@QAEXXZ");
-
 	std::scoped_lock<std::mutex> lock(m_mutex);
 	m_views.clear();
 }

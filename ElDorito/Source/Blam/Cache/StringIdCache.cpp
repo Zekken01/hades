@@ -92,16 +92,12 @@ namespace Blam
 		StringIDCache::StringIDCache() :
 			Header() // 0x1092D090
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0StringIDCache@Cache@Blam@@QAE@XZ");
-
 			Data = nullptr;
 			Strings = nullptr;
 		}
 
 		StringIDCache::~StringIDCache() // 0x1092D0E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1StringIDCache@Cache@Blam@@QAE@XZ");
-
 			if (Strings)
 			{
 				delete[] Strings;
@@ -116,8 +112,6 @@ namespace Blam
 
 		bool StringIDCache::Load(std::string const &path, long long baseOffset) // 0x1092D5E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Load@StringIDCache@Cache@Blam@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J@Z");
-
 			std::ifstream stream;
 			stream.open(path, std::ios::binary);
 			if (!stream.good())
@@ -147,8 +141,6 @@ namespace Blam
 
 		_inline __int32 GetIndex(unsigned __int32 stringId) // 0x1092D210
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetIndex@Cache@Blam@@YAHI@Z");
-
 			if (stringId >> 31 == 1)
 			{
 				return stringId & 0x7FFFFFFF;
@@ -161,8 +153,6 @@ namespace Blam
 
 		_inline __int32 GetSet(unsigned __int32 stringId) // 0x1092D250
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSet@Cache@Blam@@YAHI@Z");
-
 			if (stringId >> 31 == 1)
 			{
 				return 0;
@@ -175,8 +165,6 @@ namespace Blam
 
 		__int32 GetStringIndex(unsigned __int32 StringId) // 0x1092D3E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStringIndex@Cache@Blam@@YAHI@Z");
-
 			__int32 set = Blam::Cache::GetSet(StringId);
 			__int32 index = Blam::Cache::GetIndex(StringId);
 			if (set == 0 && (index < setMin || index > setMax))
@@ -196,8 +184,6 @@ namespace Blam
 
 		char *StringIDCache::GetString(unsigned __int32 const StringID) const // 0x1092D290
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetString@StringIDCache@Cache@Blam@@QBEPADI@Z");
-
 			int index = GetStringIndex(StringID);
 			if (index < 0 || index >= Header.StringCount)
 				return nullptr;
@@ -206,8 +192,6 @@ namespace Blam
 
 		unsigned __int32 StringIDCache::GetStringId(std::string_view str) const // 0x1092D310
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStringId@StringIDCache@Cache@Blam@@QBEIV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
-
 			for (__int32 i = 0; i < Header.StringCount; i++)
 			{
 				if (Strings[i] && str == Strings[i])
@@ -219,7 +203,6 @@ namespace Blam
 #line 238
 		unsigned __int32 MakeStringId(__int32 set, __int32 index) // 0x1092D9F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?MakeStringId@Cache@Blam@@YAIHH@Z");
 #line 242
 
 			if (index > 0xFFFF)
@@ -242,8 +225,6 @@ namespace Blam
 
 		unsigned __int32 StringIDCache::IndexToStringID(__int32 index) const // 0x1092D4B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IndexToStringID@StringIDCache@Cache@Blam@@ABEIH@Z");
-
 			if (index < setMin || index > setMax)
 				return MakeStringId(0, index);
 			__int32 set = 0;
@@ -266,8 +247,6 @@ namespace Blam
 
 		void StringIDCache::SetCurrent(std::shared_ptr<Blam::Cache::StringIDCache> cache) // 0x1092DB20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetCurrent@StringIDCache@Cache@Blam@@SAXV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@@Z");
-
 			m_current = cache;
 		}
 	}
@@ -280,8 +259,6 @@ namespace Blam
 	{
 		std::shared_ptr<Blam::Cache::StringIDCache> StringIDCache::GetCurrent() // 0x1092D1A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetCurrent@StringIDCache@Cache@Blam@@SA?AV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@XZ");
-
 			return m_current;
 		}
 	}

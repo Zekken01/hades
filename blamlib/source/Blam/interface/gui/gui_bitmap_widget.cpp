@@ -57,15 +57,11 @@ class c_gui_bitmap_widget;
 
 short c_gui_bitmap_widget::get_sprite_frame_count() // 0x10F1C4F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_sprite_frame_count@c_gui_bitmap_widget@@QAEFXZ");
-
 	return ((short(__thiscall *)(c_gui_bitmap_widget *))0xb16e10)(this);
 }
 
 void c_gui_bitmap_widget::set_sprite_frame_index(long frame_index) // 0x10F1C560
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_sprite_frame_index@c_gui_bitmap_widget@@QAEXJ@Z");
-
 	bitmap_index = frame_index;
 }
 

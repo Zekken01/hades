@@ -70,8 +70,6 @@ namespace Http
 {
 	bool ParseSize(std::string_view s, long long &value) // 0x10802510
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ParseSize@Http@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@AA_J@Z");
-
 		if (s.empty())
 			return false;
 		auto [_, ec] = std::from_chars(&*s.begin(), &*(s.end() - 1) + 1, value, 10);
@@ -80,8 +78,6 @@ namespace Http
 
 	bool ParseContentRangeHeader(std::string_view header, Http::SContentRangeHeader &parsedHeader) // 0x10801F40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ParseContentRangeHeader@Http@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAUSContentRangeHeader@1@@Z");
-
 		auto it = header.begin();
 		auto end = header.end();
 		auto start = it;

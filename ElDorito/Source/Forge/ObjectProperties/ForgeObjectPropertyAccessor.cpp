@@ -130,25 +130,15 @@ namespace Forge
 {
 	CDefaultPropertyAccessor::CDefaultPropertyAccessor(long playerIndex, long objectIndex) // 0x1083AD10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CDefaultPropertyAccessor@Forge@@QAE@JJ@Z");
-
 		m_objectIndex = objectIndex;
 		m_playerIndex = playerIndex;
 	}
-
-	// mangled_x86(MANGLED_DEFAULT, "??0CObjectPropertyAccessor@Forge@@QAE@XZ"); no body to assert in
 }
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_map_variant_placement_properties@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_simulation_queue_sandbox_event_data@@QAE@XZ"); no body to assert in
 
 namespace Forge
 {
 	::Forge::SPropertyValue CDefaultPropertyAccessor::GetPropertyValue(::Forge::EObjectProperty property) // 0x1083DE60
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetPropertyValue@CDefaultPropertyAccessor@Forge@@UAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		switch (property)
 		{
 		case General_OnMapAtStart:
@@ -259,8 +249,6 @@ namespace Forge
 
 	void CDefaultPropertyAccessor::SetPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x108407C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetPropertyValue@CDefaultPropertyAccessor@Forge@@UAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		switch (property)
 		{
 		case General_OnMapAtStart:
@@ -382,8 +370,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetGeneralPropertyValue(::Forge::EObjectProperty property) // 0x1083D110
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetGeneralPropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_multiplayer_object_properties *properties = object_get_multiplayer(m_objectIndex);
 
 		if (!properties)
@@ -430,8 +416,6 @@ namespace Forge
 
 	_inline void CDefaultPropertyAccessor::SetGeneralPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x1083FA30
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetGeneralPropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_map_variant_placement_properties properties;
 		if (!GetMapVariantObjectProperties(m_objectIndex, &properties))
 			throw std::runtime_error("failed get placement properties");
@@ -512,8 +496,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetReforgePropertyValue(::Forge::EObjectProperty property) // 0x1083E370
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetReforgePropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_multiplayer_object_properties *properties = object_get_multiplayer(m_objectIndex);
 
 		if (!properties)
@@ -556,8 +538,6 @@ namespace Forge
 
 	_inline void CDefaultPropertyAccessor::SetReforgePropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x10840BF0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetReforgePropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_map_variant_placement_properties properties;
 
 		GetMapVariantObjectProperties(m_objectIndex, &properties);
@@ -635,8 +615,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetForgeLightPropertyValue(::Forge::EObjectProperty property) // 0x1083C880
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetForgeLightPropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_multiplayer_object_properties *properties = object_get_multiplayer(m_objectIndex);
 
 		if (!properties)
@@ -677,8 +655,6 @@ namespace Forge
 
 	_inline void CDefaultPropertyAccessor::SetForgeLightPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x1083F1D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetForgeLightPropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_map_variant_placement_properties properties;
 
 		GetMapVariantObjectProperties(m_objectIndex, &properties);
@@ -729,8 +705,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetForgeFxPropertyValue(::Forge::EObjectProperty property) // 0x1083C420
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetForgeFxPropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_multiplayer_object_properties *properties = object_get_multiplayer(m_objectIndex);
 
 		if (!properties)
@@ -777,8 +751,6 @@ namespace Forge
 
 	_inline void CDefaultPropertyAccessor::SetForgeFxPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x1083EE90
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetForgeFxPropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_map_variant_placement_properties properties;
 
 		GetMapVariantObjectProperties(m_objectIndex, &properties);
@@ -838,8 +810,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetKillVolumePropertyValue(::Forge::EObjectProperty property) // 0x1083D520
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetKillVolumePropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_multiplayer_object_properties *properties = object_get_multiplayer(m_objectIndex);
 
 		if (!properties)
@@ -864,8 +834,6 @@ namespace Forge
 
 	_inline void CDefaultPropertyAccessor::SetKillVolumePropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x1083FE10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetKillVolumePropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_map_variant_placement_properties properties;
 
 		GetMapVariantObjectProperties(m_objectIndex, &properties);
@@ -902,8 +870,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetGarbageVolumePropertyValue(::Forge::EObjectProperty property) // 0x1083CD70
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetGarbageVolumePropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_multiplayer_object_properties *properties = object_get_multiplayer(m_objectIndex);
 
 		if (!properties)
@@ -936,8 +902,6 @@ namespace Forge
 
 	_inline void CDefaultPropertyAccessor::SetGarbageVolumePropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x1083F600
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetGarbageVolumePropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_map_variant_placement_properties properties;
 
 		GetMapVariantObjectProperties(m_objectIndex, &properties);
@@ -1006,8 +970,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetMapModifierPropertyValue(::Forge::EObjectProperty property) // 0x1083D700
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapModifierPropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_multiplayer_object_properties *properties = object_get_multiplayer(m_objectIndex);
 
 		if (!properties)
@@ -1062,8 +1024,6 @@ namespace Forge
 
 	_inline void CDefaultPropertyAccessor::SetMapModifierPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x10840020
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetMapModifierPropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_map_variant_placement_properties properties;
 		GetMapVariantObjectProperties(m_objectIndex, &properties);
 		Forge::ForgeMapModifierProperties *mapModifierProperties = (Forge::ForgeMapModifierProperties *)&properties.boundry_width;
@@ -1147,8 +1107,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetBudgetPropertyValue(::Forge::EObjectProperty property) // 0x1083BEB0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetBudgetPropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_variant_quota entry;
 
 		GetMapVariantBudgetForObject(m_objectIndex, &entry);
@@ -1165,8 +1123,6 @@ namespace Forge
 
 	_inline void CDefaultPropertyAccessor::SetBudgetPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x1083E930
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetBudgetPropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_variant_quota entry;
 
 		GetMapVariantBudgetForObject(m_objectIndex, &entry);
@@ -1187,8 +1143,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetForgeDevicePropertyValue(::Forge::EObjectProperty property) // 0x1083C260
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetForgeDevicePropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_multiplayer_object_properties *properties = object_get_multiplayer(m_objectIndex);
 
 		if (!properties)
@@ -1215,8 +1169,6 @@ namespace Forge
 
 	_inline void CDefaultPropertyAccessor::SetForgeDevicePropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x1083ECE0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetForgeDevicePropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_map_variant_placement_properties properties;
 
 		GetMapVariantObjectProperties(m_objectIndex, &properties);
@@ -1246,8 +1198,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetForgeSceneryPropertyValue(::Forge::EObjectProperty property) // 0x1083CC40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetForgeSceneryPropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_multiplayer_object_properties *multiplayerProperties = object_get_multiplayer(m_objectIndex);
 
 		if (!multiplayerProperties)
@@ -1270,8 +1220,6 @@ namespace Forge
 
 	void CDefaultPropertyAccessor::SetForgeSceneryPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x1083F4E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetForgeSceneryPropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_map_variant_placement_properties properties;
 
 		GetMapVariantObjectProperties(m_objectIndex, &properties);
@@ -1289,8 +1237,6 @@ namespace Forge
 
 	_inline ::Forge::SPropertyValue CDefaultPropertyAccessor::GetForgeChangeColorsPropertyValue(::Forge::EObjectProperty property) // 0x1083C080
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetForgeChangeColorsPropertyValue@CDefaultPropertyAccessor@Forge@@AAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		s_multiplayer_object_properties *properties = object_get_multiplayer(m_objectIndex);
 
 		if (!properties)
@@ -1315,8 +1261,6 @@ namespace Forge
 
 	_inline void CDefaultPropertyAccessor::SetForgeChangeColorsPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x1083EB60
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetForgeChangeColorsPropertyValue@CDefaultPropertyAccessor@Forge@@AAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		s_map_variant_placement_properties properties;
 
 		GetMapVariantObjectProperties(m_objectIndex, &properties);
@@ -1343,15 +1287,11 @@ namespace Forge
 
 	void CDeferredPropertySetter::SetPropertyValue(::Forge::EObjectProperty property, ::Forge::SPropertyValue value) // 0x10840B70
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetPropertyValue@CDeferredPropertySetter@Forge@@UAEXW4EObjectProperty@2@USPropertyValue@2@@Z");
-
 		m_values[property] = value;
 	}
 
 	::Forge::SPropertyValue CDeferredPropertySetter::GetPropertyValue(::Forge::EObjectProperty property) // 0x1083E200
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetPropertyValue@CDeferredPropertySetter@Forge@@UAE?AUSPropertyValue@2@W4EObjectProperty@2@@Z");
-
 		if (auto it = m_values.find(property); it != m_values.end())
 			return it->second;
 		return ::Forge::SPropertyValue();
@@ -1359,15 +1299,11 @@ namespace Forge
 
 	void CDeferredPropertySetter::Reset() // 0x1083E8E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@CDeferredPropertySetter@Forge@@QAEXXZ");
-
 		m_values.clear();
 	}
 
 	void CDeferredPropertySetter::Apply(long playerIndex, long objectIndex) // 0x1083BD00
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Apply@CDeferredPropertySetter@Forge@@QAEXJJ@Z");
-
 		CDefaultPropertyAccessor accessor(playerIndex, objectIndex);
 		for (auto &value : m_values)
 			accessor.SetPropertyValue(value.first, value.second);
@@ -1379,8 +1315,6 @@ namespace Forge
 
 _inline bool GetMapVariantObjectProperties(long objectIndex, s_map_variant_placement_properties *outProperties) // 0x1083DD90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapVariantObjectProperties@@YA_NJPAUs_map_variant_placement_properties@@@Z");
-
 	s_object_data *object = object_get(objectIndex);
 	if (!object)
 	{
@@ -1399,8 +1333,6 @@ _inline bool GetMapVariantObjectProperties(long objectIndex, s_map_variant_place
 
 _inline bool SetMapVariantObjectProperties(long playerIndex, long objectIndex, s_map_variant_placement_properties &properties) // 0x108406A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMapVariantObjectProperties@@YA_NJJAAUs_map_variant_placement_properties@@@Z");
-
 	void (__cdecl *const SetMapVariantObjectPropertiesInternal)(long, long, s_map_variant_placement_properties *) = (void(__cdecl *const)(long, long, s_map_variant_placement_properties *))0x59b720;
 
 	s_object_data *object = object_get(objectIndex);
@@ -1416,8 +1348,6 @@ _inline bool SetMapVariantObjectProperties(long playerIndex, long objectIndex, s
 
 _inline bool GetMapVariantBudgetForObject(long objectIndex, s_variant_quota *outEntry) // 0x1083DCA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapVariantBudgetForObject@@YA_NJPAUs_variant_quota@@@Z");
-
 	s_object_data *object = object_get(objectIndex);
 	if (!object)
 	{
@@ -1442,8 +1372,6 @@ _inline bool GetMapVariantBudgetForObject(long objectIndex, s_variant_quota *out
 
 _inline bool SetMapVariantBudgetForObject(long playerIndex, long objectIndex, s_variant_quota &entry) // 0x10840500
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMapVariantBudgetForObject@@YA_NJJAAUs_variant_quota@@@Z");
-
 	s_object_data *object = object_get(objectIndex);
 	if (!object)
 		return false;

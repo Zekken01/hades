@@ -180,8 +180,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A82A90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@LoadingScreen@Patches@@YAXXZ");
-
 			Hook(0x166FB3, ShowLoadingScreenHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x161E1E, BeginLoadingHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x2EBA07, UpdateLoadingProgressHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -190,12 +188,9 @@ namespace Patches
 
 		void SetUi(std::shared_ptr<Patches::LoadingScreen::LoadingScreenUi> ui) // 0x10A840A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetUi@LoadingScreen@Patches@@YAXV?$shared_ptr@VLoadingScreenUi@LoadingScreen@Patches@@@std@@@Z");
-
 			ActiveUi = ui;
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??1LoadingScreenShowInfo@LoadingScreen@Patches@@QAE@XZ"); no body to assert in
 		// _inline LoadingScreenShowInfo::~LoadingScreenShowInfo() = default; // 0x10A827C0 hades: implicit
 	}
 }
@@ -204,8 +199,6 @@ namespace Patches
 
 bool ShowLoadingScreenHook(s_game_options &options) // 0x10A84100
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ShowLoadingScreenHook@@YA_NAAUs_game_options@@@Z");
-
 	if (strcmp(options.scenario_path, "maps\\mainmenu") == 0 && Patches::LoadingScreen::firstRun)
 	{
 		bool HasIntroBinks = std::filesystem::exists("bink\\intro.bik") || std::filesystem::exists("bink\\logo_343.bik") || std::filesystem::exists("bink\\logo_microsoft.bik");
@@ -227,8 +220,6 @@ bool ShowLoadingScreenHook(s_game_options &options) // 0x10A84100
 
 void BeginLoadingHook(unsigned __int32 totalBytes) // 0x10A82EA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BeginLoadingHook@@YAXI@Z");
-
 	if (ActiveUi)
 	{
 		ActiveUi->Begin(totalBytes);
@@ -237,8 +228,6 @@ void BeginLoadingHook(unsigned __int32 totalBytes) // 0x10A82EA0
 
 void UpdateLoadingProgressHook(unsigned __int32 bytes) // 0x10A84590
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateLoadingProgressHook@@YAXI@Z");
-
 	if (ActiveUi)
 	{
 		ActiveUi->UpdateProgress(bytes);
@@ -247,8 +236,6 @@ void UpdateLoadingProgressHook(unsigned __int32 bytes) // 0x10A84590
 
 void HideLoadingScreenHook() // 0x10A84000
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HideLoadingScreenHook@@YAXXZ");
-
 	void (__cdecl *HideLoadingScreen)() = (void(__cdecl *)())0x52ee20;
 
 	HideLoadingScreen();
@@ -272,8 +259,6 @@ std::vector<std::string> GetActiveSkullsForDisplay(unsigned long primarySkulls, 
 
 std::vector<std::string> GetActiveSkullsForDisplay() // 0x10A83ED0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetActiveSkullsForDisplay@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@XZ");
-
 	unsigned long primarySkulls = 0;
 	unsigned long secondarySkulls = 0;
 	((void (__cdecl *)(unsigned long *))0x434F40)(&primarySkulls);
@@ -284,8 +269,6 @@ std::vector<std::string> GetActiveSkullsForDisplay() // 0x10A83ED0
 
 std::string camapgin_difficulty_level_to_string(long level) // 0x10A84770
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??$const_formatter@$$BY03D@algorithm@boost@@YA?AU?$const_formatF@V?$iterator_range@PBD@boost@@@detail@01@AAY03$$CBD@Z");
-
 	switch (level)
 	{
 	case 0:
@@ -302,8 +285,6 @@ std::string camapgin_difficulty_level_to_string(long level) // 0x10A84770
 
 bool BuildLoadingScreenShowInfo(s_game_options &gameOptions, Patches::LoadingScreen::LoadingScreenShowInfo &outInfo) // 0x10A82F40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildLoadingScreenShowInfo@@YA_NAAUs_game_options@@AAULoadingScreenShowInfo@LoadingScreen@Patches@@@Z");
-
 	Modules::ModuleServer const &moduleServer = Utils::Singleton<Modules::ModuleServer>::Instance();
 	outInfo.GameMode = (long)gameOptions.game_mode;
 	outInfo.MapPath = gameOptions.scenario_path;

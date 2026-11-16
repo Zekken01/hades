@@ -72,8 +72,6 @@ using namespace hades_file_local;
 
 void bink_display_frame(short_rectangle2d *rect) // 0x10F18130
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?bink_display_frame@@YAXPAUshort_rectangle2d@@@Z");
-
 	bool (*const sub_42E2C0)() = (bool (*)())0x42E2C0;
 	void (*const sub_52C5A0)(__int32) = (void (*)(__int32))0x52C5A0;
 	void (*const sub_52C580)(__int32) = (void (*)(__int32))0x52C580;
@@ -142,16 +140,12 @@ void bink_display_frame(short_rectangle2d *rect) // 0x10F18130
 
 bool bink_prediction_queued_and_not_active() // 0x10F18760
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?bink_prediction_queued_and_not_active@@YA_NXZ");
-
 	s_bink_globals *bink_globals = s_bink_globals::get();
 	return bink_globals->pending_prediction_message.queued_state == 1;
 }
 
 s_bink_globals *s_bink_globals::get() // 0x10F187F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get@s_bink_globals@@SAPAU1@XZ");
-
 	return (s_bink_globals *)0x244E298;
 }
 

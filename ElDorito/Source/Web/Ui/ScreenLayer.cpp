@@ -401,8 +401,6 @@ namespace Web
 		{
 			void Init() // 0x10C93FE0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@ScreenLayer@Ui@Web@@YAXXZ");
-
 				Patches::Ui::OnCreateWindow(WindowCreated);
 				Patches::Core::OnShutdown(ShutdownRenderer);
 				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
@@ -411,8 +409,6 @@ namespace Web
 
 			void Tick() // 0x10C96F00
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ScreenLayer@Ui@Web@@YAXXZ");
-
 				Web::Browser::WebRenderer::GetInstance()->Update();
 				NotifyVariablesUpdated();
 				for (auto &screen : registeredScreens)
@@ -421,16 +417,12 @@ namespace Web
 
 			void Resize() // 0x10C96130
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Resize@ScreenLayer@Ui@Web@@YAXXZ");
-
 				auto *windowResolution = reinterpret_cast<int *>(0x19106E4);
 				WebRenderer::GetInstance()->Resize(windowResolution[0], windowResolution[1]);
 			}
 
 			void Show(bool show) // 0x10C966B0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@ScreenLayer@Ui@Web@@YAX_N@Z");
-
 				if (ElDorito::Instance().IsHeadless())
 					return;
 				auto webRenderer = WebRenderer::GetInstance();
@@ -441,15 +433,11 @@ namespace Web
 
 			void Show(Web::Ui::ScreenLayer::ScreenId screenId, std::string const &data) // 0x10C965D0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 				Show(ScreenIdString[screenId], data);
 			}
 
 			void Show(std::string const &screenId, std::string const &data) // 0x10C96350
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 				if (ElDorito::Instance().IsHeadless())
 					return;
 				if (auto *root = Web::RmlUi::UiRoot::Get())
@@ -458,15 +446,11 @@ namespace Web
 
 			void Hide(Web::Ui::ScreenLayer::ScreenId screenId) // 0x10C93E40
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@@Z");
-
 				Web::Ui::ScreenLayer::Hide(ScreenIdString[screenId]);
 			}
 
 			void Hide(std::string const &screenId) // 0x10C93B60
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 				if (ElDorito::Instance().IsHeadless())
 					return;
 				if (auto *root = Web::RmlUi::UiRoot::Get())
@@ -477,8 +461,6 @@ namespace Web
 
 			void Notify(std::string const &event, std::string const &data, bool broadcast) // 0x10C943A0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Notify@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0_N@Z");
-
 				if (ElDorito::Instance().IsHeadless())
 					return;
 				if (auto *root = Web::RmlUi::UiRoot::Get())
@@ -487,15 +469,11 @@ namespace Web
 
 			void NotifyScreen(Web::Ui::ScreenLayer::ScreenId screenId, std::string const &event, std::string const &data) // 0x10C94A00
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyScreen@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@1@Z");
-
 				NotifyScreen(ScreenIdString[screenId], event, data);
 			}
 
 			void NotifyScreen(std::string const &screenId, std::string const &event, std::string const &data) // 0x10C946E0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyScreen@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00@Z");
-
 				if (ElDorito::Instance().IsHeadless())
 					return;
 				if (auto *root = Web::RmlUi::UiRoot::Get())
@@ -504,8 +482,6 @@ namespace Web
 
 			void NotifyScreenStateChanged(std::string const &screenId, Web::Ui::ScreenLayer::EScreenState state) // 0x10C94AE0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyScreenStateChanged@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4EScreenState@123@@Z");
-
 				std::shared_ptr<Web::Ui::WebScreen> screen = GetScreen(screenId);
 				if (!screen)
 					return;
@@ -522,8 +498,6 @@ namespace Web
 
 			void CaptureInput(bool capture, bool pointerCapture) // 0x10C92B20
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?CaptureInput@ScreenLayer@Ui@Web@@YAX_N0@Z");
-
 				if ((InputCaptured == capture && PointerCaptured == pointerCapture) || (capture && !Web::Browser::WebRenderer::GetInstance()->IsRendering()))
 					return;
 				InputCaptured = capture;
@@ -538,8 +512,6 @@ namespace Web
 
 			void ShowAlert(std::string const &title, std::string body, Web::Ui::ScreenLayer::AlertIcon icon, float height) // 0x10C96800
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowAlert@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V45@W4AlertIcon@123@M@Z");
-
 				Utils::String::ReplaceString(body, "\r\n", "|r|n");
 				Utils::String::ReplaceString(body, "\n", "|r|n");
 				SDialogShowParams params;
@@ -553,8 +525,6 @@ namespace Web
 
 			void RegisterScreen(std::string const &screenId, std::shared_ptr<Web::Ui::WebScreen> const &screen) // 0x10C95DE0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterScreen@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV?$shared_ptr@VWebScreen@Ui@Web@@@5@@Z");
-
 				if (registeredScreens.find(screenId) != registeredScreens.end())
 					throw std::runtime_error("screen already registered");
 				registeredScreens.insert(std::make_pair(screenId, screen));
@@ -562,8 +532,6 @@ namespace Web
 
 			void RegisterScreen(Web::Ui::ScreenLayer::ScreenId id, std::shared_ptr<Web::Ui::WebScreen> const &screen) // 0x10C95FE0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterScreen@ScreenLayer@Ui@Web@@YAXW4ScreenId@123@ABV?$shared_ptr@VWebScreen@Ui@Web@@@std@@@Z");
-
 				RegisterScreen(ScreenIdString[id], screen);
 			}
 		}
@@ -579,8 +547,6 @@ namespace Web
 		{
 			std::shared_ptr<Web::Ui::WebScreen> GetScreen(std::string const &stringId) // 0x10C93690
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?GetScreen@ScreenLayer@Ui@Web@@YA?AV?$shared_ptr@VWebScreen@Ui@Web@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@5@@Z");
-
 				if (auto it = registeredScreens.find(stringId); it != std::end(registeredScreens))
 					return it->second;
 				return nullptr;
@@ -588,15 +554,12 @@ namespace Web
 
 			void SetDialogHandler(std::function<void __cdecl(Web::Ui::ScreenLayer::SDialogShowParams const &)> const &handler) // 0x10C96300
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?SetDialogHandler@ScreenLayer@Ui@Web@@YAXABV?$function@$$A6AXABUSDialogShowParams@ScreenLayer@Ui@Web@@@Z@std@@@Z");
-
 				dialogHandler = handler;
 			}
 
 #line 711
 			void ShowDialog(Web::Ui::ScreenLayer::SDialogShowParams const &params) // 0x10C96A60
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowDialog@ScreenLayer@Ui@Web@@YAXABUSDialogShowParams@123@@Z");
 #line 715
 
 				#line 713 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Web\\Ui\\ScreenLayer.cpp"
@@ -608,8 +571,6 @@ namespace Web
 
 			void ShowDialog(std::string const &templateName, std::function<void __cdecl(std::string const &)> callback) // 0x10C96C00
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowDialog@ScreenLayer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$function@$$A6AXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z@5@@Z");
-
 				SDialogShowParams params;
 				params.templateName = templateName;
 				params.callback = callback;
@@ -619,7 +580,6 @@ namespace Web
 #line 737
 			void CreateScreens() // 0x10C92DF0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?CreateScreens@ScreenLayer@Ui@Web@@YAXXZ");
 #line 754
 
 				Web::Browser::Bridge::WebRendererQueryHandler *queryHandler = Web::Browser::WebRenderer::GetInstance()->GetQueryHandler();
@@ -638,7 +598,6 @@ namespace Patches
 {
 	namespace Input
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??0InputContext@Input@Patches@@QAE@XZ"); no body to assert in
 	}
 }
 
@@ -646,18 +605,14 @@ namespace Patches
 
 _inline void WebOverlayInputContext::Activated() // 0x10C92B00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Activated@WebOverlayInputContext@hades_file_local@@UAEXXZ");
 }
 
 _inline void WebOverlayInputContext::Deactivated() // 0x10C93180
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Deactivated@WebOverlayInputContext@hades_file_local@@UAEXXZ");
 }
 
 _inline bool WebOverlayInputContext::GameInputTick() // 0x10C931A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GameInputTick@WebOverlayInputContext@hades_file_local@@UAE_NXZ");
-
 	OnGameInputUpdated();
 	if (!WebRenderer::GetInstance()->IsRendering())
 		InputCaptured = false;
@@ -666,8 +621,6 @@ _inline bool WebOverlayInputContext::GameInputTick() // 0x10C931A0
 
 _inline bool WebOverlayInputContext::UiInputTick() // 0x10C970D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UiInputTick@WebOverlayInputContext@hades_file_local@@UAE_NXZ");
-
 	if (!Web::Browser::WebRenderer::GetInstance()->IsRendering())
 		InputCaptured = false;
 	if (InputCaptured)
@@ -682,8 +635,6 @@ _inline bool WebOverlayInputContext::UiInputTick() // 0x10C970D0
 
 _inline void WebOverlayInputContext::InputBlock() // 0x10C94110
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InputBlock@WebOverlayInputContext@hades_file_local@@UAEXXZ");
-
 	if (!InputCaptured && PointerCaptured)
 	{
 		QuickUnblockInput();
@@ -694,29 +645,21 @@ _inline void WebOverlayInputContext::InputBlock() // 0x10C94110
 
 _inline void WebOverlayInputContext::InputUnblock() // 0x10C941E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InputUnblock@WebOverlayInputContext@hades_file_local@@UAEXXZ");
-
 	QuickUnblockInput();
 }
 
 void QuickBlockInput() // 0x10C95D40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?QuickBlockInput@@YAXXZ");
-
 	memset((void *)0x238DBEB, 1, 3);
 }
 
 void QuickUnblockInput() // 0x10C95D90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?QuickUnblockInput@@YAXXZ");
-
 	memset((bool *)0x238DBEB, 0, 3);
 }
 
 void WindowCreated(HWND__ *window) // 0x10C972C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?WindowCreated@@YAXPAUHWND__@@@Z");
-
 	Web::Ui::ScreenLayer::Resize();
 	unsigned int threadId = GetWindowThreadProcessId(window, nullptr);
 	MessageHook = SetWindowsHookExA(WH_GETMESSAGE, GetMsgHook, nullptr, threadId);
@@ -724,8 +667,6 @@ void WindowCreated(HWND__ *window) // 0x10C972C0
 
 void ShutdownRenderer() // 0x10C96D40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ShutdownRenderer@@YAXXZ");
-
 	for (auto &screen : registeredScreens)
 		screen.second->OnDestroy();
 	Web::Browser::WebRenderer::GetInstance()->Shutdown();
@@ -752,8 +693,6 @@ void HandleKeyMessage(tagMSG *msg) // 0x10C93890
 
 void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C933A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMsgHookImpl@@YAXHIJ@Z");
-
 	// Ignore messages not sent to a window
 	auto msg = reinterpret_cast<LPMSG>(lParam);
 	if (!msg->hwnd)
@@ -792,8 +731,6 @@ void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C
 
 long __stdcall GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C93310
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMsgHook@@YGJHIJ@Z");
-
 	if (code >= 0)
 		GetMsgHookImpl(code, wParam, lParam);
 
@@ -802,8 +739,6 @@ long __stdcall GetMsgHook(__int32 code, unsigned __int32 wParam, long lParam) //
 
 static void OnGameInputUpdated() // 0x10C950F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
-
 	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF4, Blam::Input::eInputTypeUi) == 1 && Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeAlt, Blam::Input::eInputTypeUi) > 0)
 		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("Game.Exit");
 	if (!Utils::Singleton<ElDorito>::Instance().IsWebDebuggingEnabled())
@@ -829,8 +764,6 @@ static void OnGameInputUpdated() // 0x10C950F0
 
 void OnUIInputUpdated() // 0x10C95510
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIInputUpdated@@YAXXZ");
-
 	Modules::ModuleSettings &moduleSettings = Modules::ModuleSettings::Instance();
 	Modules::ModuleInput &moduleInput = Modules::ModuleInput::Instance();
 	struct ControllerAxes
@@ -904,15 +837,11 @@ void OnUIInputUpdated() // 0x10C95510
 
 void OnVariableUpdate(Modules::Command const *command) // 0x10C95CF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnVariableUpdate@@YAXPBUCommand@Modules@@@Z");
-
 	lastVariableUpdates.push_back(command);
 }
 
 void NotifyVariablesUpdated() // 0x10C94C80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyVariablesUpdated@@YAXXZ");
-
 	if (lastVariableUpdates.size() < 1)
 		return;
 	if (game_ticks_to_seconds((float)lastVariableUpdateTicks++) < 0.25f)
@@ -959,7 +888,6 @@ void NotifyVariablesUpdated() // 0x10C94C80
 	Web::Ui::ScreenLayer::Notify("variable_update", buffer.GetString(), true);
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0WebOverlayInputContext@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline WebOverlayInputContext::WebOverlayInputContext() = default; // 0x10C91390  // hades: defaulted on its declaration
 
 /* ---------- data definitions */

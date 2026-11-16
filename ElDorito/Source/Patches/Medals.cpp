@@ -122,8 +122,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A89990
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Medals@Patches@@YAXXZ");
-
 			Patches::Events::OnEvent(::OnEvent);
 			Patch::NopFill(Pointer::Base(0x697680), 5);
 			Patch::NopFill(Pointer::Base(0x697687), 4);
@@ -139,8 +137,6 @@ namespace Patches
 
 static void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10A89ED0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
-
 	if (definition->medal_award && definition->medal_award != -1)
 	{
 		if (player != ((unsigned long(*)(long))0x589C30)(0))
@@ -156,13 +152,10 @@ static void OnEvent(unsigned long player, s_game_engine_event_data const *event,
 
 void __fastcall chud_update_saber_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_update_saber_medal_animation_hook@@YIXHPAXH@Z");
 }
 
 void __fastcall chud_update_h3_medal_animation_hook(__int32 thisptr, void *unused, __int32 a2) // 0x10A8A270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_update_h3_medal_animation_hook@@YIXHPAXH@Z");
-
 	struct s_chud_h3_medal_state
 	{
 		char Active;
@@ -201,8 +194,6 @@ void __fastcall chud_update_h3_medal_animation_hook(__int32 thisptr, void *unuse
 
 void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 delayTicks) // 0x10A8A460
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?sound_enqueue_announcer_sound_hook@@YAXIH@Z");
-
 	void (__cdecl *const sound_enqueue_announcer_sound)(unsigned __int32, __int32) = (void(__cdecl *const)(unsigned __int32, __int32))0x6e4630;
 
 	sound_enqueue_announcer_sound(sndTagIndex, delayTicks);
@@ -210,8 +201,6 @@ void sound_enqueue_announcer_sound_hook(unsigned __int32 sndTagIndex, __int32 de
 
 __declspec(naked) void HeadshotHook() // 0x10A89EA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HeadshotHook@@YAXXZ");
-
 	__asm
 	{
 		cmp eax, 1

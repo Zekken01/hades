@@ -55,8 +55,6 @@ namespace Steam
 {
 	SteamAPI::SteamAPI() // 0x10C51C30
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0SteamAPI@Steam@@QAE@XZ");
-
 		m_Client = nullptr;
 		m_SteamUser = 0;
 		m_SteamPipe = 0;
@@ -80,8 +78,6 @@ namespace Steam
 
 	bool SteamAPI::InitPublicAPI() // 0x10C51F20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?InitPublicAPI@SteamAPI@Steam@@AAE_NXZ");
-
 		if (!m_SteamLoader.IsSteamRunning(true))
 			return false;
 		auto createInterface = m_SteamLoader.GetCreateInterfaceFunc();
@@ -105,8 +101,6 @@ namespace Steam
 {
 	ISteamFriends *SteamAPI::GetIFriendsInterface() // 0x10C51DC0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetIFriendsInterface@SteamAPI@Steam@@QAEPAVISteamFriends@@XZ");
-
 		if (m_Client)
 		{
 			return m_Client->GetISteamFriends(m_SteamUser, m_SteamPipe, "SteamFriends015");
@@ -123,8 +117,6 @@ namespace Steam
 {
 	ISteamUser *SteamAPI::GetISteamUserInterface() // 0x10C51E70
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetISteamUserInterface@SteamAPI@Steam@@QAEPAVISteamUser@@XZ");
-
 		if (m_Client)
 		{
 			return m_Client->GetISteamUser(m_SteamUser, m_SteamPipe, "SteamUser019");

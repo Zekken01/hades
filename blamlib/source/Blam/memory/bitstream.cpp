@@ -65,8 +65,6 @@ namespace eldorado
 
 c_bitstream::c_bitstream() // 0x10F00F80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_bitstream@@QAE@XZ");
-
 	m_data = nullptr;
 	m_data_max = nullptr;
 	m_data_size_bytes = 0;
@@ -75,99 +73,72 @@ c_bitstream::c_bitstream() // 0x10F00F80
 
 c_bitstream::c_bitstream(unsigned char *data, long data_length) // 0x10F00EF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_bitstream@@QAE@PAEJ@Z");
-
 	m_data_size_alignment_bits = 1;
 	set_data(data, data_length);
 }
 
 c_bitstream::~c_bitstream() // 0x10F01010
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_bitstream@@QAE@XZ");
 }
 
 bool c_bitstream::writing() const // 0x10F02910
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?writing@c_bitstream@@QBE_NXZ");
-
 	return m_state == _state_writing;
 }
 
 bool c_bitstream::reading() const // 0x10F01F90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?reading@c_bitstream@@QBE_NXZ");
-
 	return m_state == _state_reading;
 }
 
 bool c_bitstream::read_only_for_consistency() const // 0x10F019F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_only_for_consistency@c_bitstream@@QBE_NXZ");
-
 	return m_state == _state_consistency_check;
 }
 
 bool c_bitstream::overflowed() const // 0x10F016B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?overflowed@c_bitstream@@QBE_NXZ");
-
 	return m_bitstream_data.stream_bit_position > 8 * m_data_size_bytes;
 }
 
 bool c_bitstream::would_overflow(long size_bits) const // 0x10F02100
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?would_overflow@c_bitstream@@QBE_NJ@Z");
-
 	return m_bitstream_data.memory_bit_position + size_bits > 8 * m_data_size_bytes;
 }
 
 bool c_bitstream::error_occured() const // 0x10F012B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?error_occured@c_bitstream@@QBE_NXZ");
-
 	return m_error_occured || overflowed();
 }
 
 long c_bitstream::get_space_used_in_bits() const // 0x10F015E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_space_used_in_bits@c_bitstream@@QBEJXZ");
-
 	return m_bitstream_data.accumulator_bits_used + m_bitstream_data.memory_bit_position;
 }
 
 long c_bitstream::get_space_used_in_bytes() const // 0x10F01640
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_space_used_in_bytes@c_bitstream@@QBEJXZ");
-
 	return (get_space_used_in_bits() + 7) / 8;
 }
 
 long c_bitstream::get_space_left_in_bits() const // 0x10F01570
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_space_left_in_bits@c_bitstream@@QBEJXZ");
-
 	return 8 * m_data_size_bytes - get_space_used_in_bits();
 }
 
 long c_bitstream::get_current_stream_bit_position() const // 0x10F014A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_stream_bit_position@c_bitstream@@QBEJXZ");
-
 	return m_bitstream_data.stream_bit_position;
 }
 
 unsigned char const *c_bitstream::get_data(long *data_length) const // 0x10F01500
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_data@c_bitstream@@QBEPBEPAJ@Z");
-
 	*data_length = m_data_size_bytes;
 	return m_data;
 }
 
 void c_bitstream::set_data(unsigned char *data, long data_length) // 0x10F02080
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_data@c_bitstream@@QAEXPAEJ@Z");
-
 	m_data = data;
 	m_data_max = &data[data_length];
 	m_data_size_bytes = data_length;
@@ -176,64 +147,47 @@ void c_bitstream::set_data(unsigned char *data, long data_length) // 0x10F02080
 
 void c_bitstream::begin_reading() // 0x10F01160
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_reading@c_bitstream@@QAEXXZ");
-
 	eldorado::c_bitstream_begin_reading(this);
 }
 
 void c_bitstream::begin_consistency_check() // 0x10F010F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_consistency_check@c_bitstream@@QAEXXZ");
-
 	eldorado::c_bitstream_begin_consistency_check(this);
 }
 
 void c_bitstream::begin_writing(long data_size_alignment) // 0x10F011D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_writing@c_bitstream@@QAEXJ@Z");
-
 	eldorado::c_bitstream_begin_writing(this, data_size_alignment);
 }
 
 void c_bitstream::finish_reading() // 0x10F013C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_reading@c_bitstream@@QAEXXZ");
-
 	eldorado::c_bitstream_finish_reading(this);
 }
 
 void c_bitstream::finish_consistency_check() // 0x10F01350
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_consistency_check@c_bitstream@@QAEXXZ");
-
 	eldorado::c_bitstream_finish_reading(this);
 }
 
 void c_bitstream::finish_writing(long *out_size) // 0x10F01430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?finish_writing@c_bitstream@@QAEXPAJ@Z");
-
 	eldorado::c_bitstream_finish_writing(this, out_size);
 }
 
 void c_bitstream::discard_remaining_data() // 0x10F01240
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?discard_remaining_data@c_bitstream@@QAEXXZ");
-
 	eldorado::c_bitstream_discard_remaining_data(this);
 }
 
 void c_bitstream::reset(c_bitstream::e_state state) // 0x10F02010
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?reset@c_bitstream@@QAEXW4e_state@1@@Z");
-
 	eldorado::c_bitstream_reset(this, state);
 }
 
 #line 229
 void c_bitstream::write_integer(char const *name, unsigned long value, long size_in_bits) // 0x10F02210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_integer@c_bitstream@@QAEXPBDKJ@Z");
 #line 234
 
 	#line 231 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
@@ -244,7 +198,6 @@ void c_bitstream::write_integer(char const *name, unsigned long value, long size
 
 void c_bitstream::write_signed_integer(char const *name, long value, long size_in_bits) // 0x10F02570
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_signed_integer@c_bitstream@@QAEXPBDJJ@Z");
 #line 248
 
 	long const maximum = (1 << (size_in_bits - 1)) - 1;
@@ -260,7 +213,6 @@ void c_bitstream::write_signed_integer(char const *name, long value, long size_i
 
 void c_bitstream::write_qword(unsigned long long value, long size_in_bits) // 0x10F02400
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_qword@c_bitstream@@QAEX_KJ@Z");
 #line 265
 
 	#line 262 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
@@ -271,155 +223,112 @@ void c_bitstream::write_qword(unsigned long long value, long size_in_bits) // 0x
 
 void c_bitstream::write_bool(char const *name, bool value) // 0x10F02190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_bool@c_bitstream@@QAEXPBD_N@Z");
-
 	eldorado::c_bitstream_write_bool(this, name, value);
 }
 
 void c_bitstream::write_raw_data(char const *name, void const *data, long data_length) // 0x10F024F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_raw_data@c_bitstream@@QAEXPBDPBXJ@Z");
-
 	eldorado::c_bitstream_write_bits_internal(this, (unsigned char const *)data, data_length, false);
 }
 
 void c_bitstream::write_string(char const *name, char const *str, long max_string_size) // 0x10F02670
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_string@c_bitstream@@QAEXPBD0J@Z");
-
 	eldorado::c_bitstream_write_string(this, name, str, max_string_size);
 }
 
 void c_bitstream::write_string_utf8(char const *name, utf8 const *str, long max_string_size) // 0x10F026F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_string_utf8@c_bitstream@@QAEXPBDPBUutf8@@J@Z");
-
 	eldorado::c_bitstream_write_string_utf8(this, name, str, max_string_size);
 }
 
 void c_bitstream::write_string_wchar(char const *name, wchar_t const *str, long max_string_size) // 0x10F02770
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_string_wchar@c_bitstream@@QAEXPBDPB_WJ@Z");
-
 	eldorado::c_bitstream_write_string_wchar(this, name, str, max_string_size);
 }
 
 void c_bitstream::write_vector(char const *name, real_vector3d const *vector, float magnitude_min, float magnitude_max, __int32 size_in_bits_min, __int32 size_in_bits_max) // 0x10F02870
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_vector@c_bitstream@@QAEXPBDPBUreal_vector3d@@MMHH@Z");
-
 	((void(__thiscall *)(c_bitstream *, char const *, real_vector3d const *, float, float, __int32, __int32))0x55a7b0)(this, name, vector, magnitude_min, magnitude_max, size_in_bits_min, size_in_bits_max);
 }
 
 void c_bitstream::write_unit_vector(char const *name, real_vector3d const *vector, __int32 size_in_bits) // 0x10F027F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_unit_vector@c_bitstream@@QAEXPBDPBUreal_vector3d@@H@Z");
-
 	eldorado::c_bitstream_write_unit_vector(this, name, vector, size_in_bits);
 }
 
 void c_bitstream::write_point3d(char const *name, real_point3d const *point, long axis_encoding_size_in_bits) // 0x10F022D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_point3d@c_bitstream@@QAEXPBDPBUreal_point3d@@J@Z");
-
 	eldorado::c_bitstream_write_point3d(this, name, point, axis_encoding_size_in_bits);
 }
 
 void c_bitstream::write_quantized_real(char const *name, float value, float min_value, float max_value, __int32 size_in_bits, bool exact_midpoint, bool unknown) // 0x10F02350
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_quantized_real@c_bitstream@@QAEXPBDMMMH_N1@Z");
-
 	eldorado::c_bitstream_write_quantized_real(this, name, value, min_value, max_value, size_in_bits, exact_midpoint, unknown);
 }
 
 unsigned long c_bitstream::read_integer(char const *name, long size_in_bits) // 0x10F01980
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_integer@c_bitstream@@QAEKPBDJ@Z");
-
 	return eldorado::c_bitstream_read_dword_internal(this, size_in_bits);
 }
 
 long c_bitstream::read_signed_integer(char const *name, long size_in_bits) // 0x10F01C80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_signed_integer@c_bitstream@@QAEJPBDJ@Z");
-
 	return eldorado::c_bitstream_read_dword_internal(this, size_in_bits);
 }
 
 unsigned long long c_bitstream::read_qword(char const *name, long size_in_bits) // 0x10F01B90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_qword@c_bitstream@@QAE_KPBDJ@Z");
-
 	return eldorado::c_bitstream_read_qword_internal(this, size_in_bits);
 }
 
 bool c_bitstream::read_bool(char const *name) // 0x10F01910
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_bool@c_bitstream@@QAE_NPBD@Z");
-
 	return eldorado::c_bitstream_read_bool(this);
 }
 
 void c_bitstream::read_raw_data(char const *name, void *buffer, long size_in_bits) // 0x10F01C00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_raw_data@c_bitstream@@QAEXPBDPAXJ@Z");
-
 	eldorado::c_bitstream_read_bits_internal(this, buffer, size_in_bits);
 }
 
 void c_bitstream::read_string(char const *name, char *buffer, long max_string_size) // 0x10F01CF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_string@c_bitstream@@QAEXPBDPADJ@Z");
-
 	eldorado::c_bitstream_read_string(this, name, buffer, max_string_size);
 }
 
 void c_bitstream::read_string_utf8(char const *name, utf8 *buffer, long max_string_size) // 0x10F01D70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_string_utf8@c_bitstream@@QAEXPBDPAUutf8@@J@Z");
-
 	eldorado::c_bitstream_read_string_utf8(this, name, buffer, max_string_size);
 }
 
 void c_bitstream::read_string_wchar(char const *name, wchar_t *buffer, long max_string_size) // 0x10F01DF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_string_wchar@c_bitstream@@QAEXPBDPA_WJ@Z");
-
 	eldorado::c_bitstream_read_string_wchar(this, name, buffer, max_string_size);
 }
 
 void c_bitstream::read_vector(char const *name, real_vector3d *vector, float magnitude_min, float magnitude_max, long size_in_bits_min, long size_in_bits_max) // 0x10F01EF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_vector@c_bitstream@@QAEXPBDPAUreal_vector3d@@MMJJ@Z");
-
 	eldorado::c_bitstream_read_vector(this, name, vector, magnitude_min, magnitude_max, size_in_bits_min, size_in_bits_max);
 }
 
 float c_bitstream::read_quantized_real(char const *name, float min_value, float max_value, __int32 size_in_bits, bool exact_midpoint, bool unknown) // 0x10F01AF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_quantized_real@c_bitstream@@QAEMPBDMMH_N1@Z");
-
 	return eldorado::c_bitstream_read_quantized_real(this, name, min_value, max_value, size_in_bits, exact_midpoint, unknown);
 }
 
 void c_bitstream::read_unit_vector(char const *name, real_vector3d *vector, long size_in_bits) // 0x10F01E70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_unit_vector@c_bitstream@@QAEXPBDPAUreal_vector3d@@J@Z");
-
 	eldorado::c_bitstream_read_unit_vector(this, name, vector, size_in_bits);
 }
 
 void c_bitstream::read_point3d(char const *name, real_point3d *point, long axis_encoding_size_in_bits) // 0x10F01A70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_point3d@c_bitstream@@QAEXPBDPAUreal_point3d@@J@Z");
-
 	eldorado::c_bitstream_read_point3d(this, name, point, axis_encoding_size_in_bits);
 }
 
 #line 461
 void c_bitstream::push_position() // 0x10F01810
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?push_position@c_bitstream@@QAEXXZ");
 #line 465
 
 	#line 463 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"
@@ -434,7 +343,6 @@ void c_bitstream::push_position() // 0x10F01810
 
 void c_bitstream::pop_position(bool restore) // 0x10F01740
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?pop_position@c_bitstream@@QAEX_N@Z");
 #line 480
 
 	#line 478 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\memory\\bitstream.cpp"

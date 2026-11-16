@@ -156,8 +156,6 @@ namespace Modules
 {
 	ModuleCampaign::ModuleCampaign() : ModuleBase("Campaign") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x108C38A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleCampaign@Modules@@QAE@XZ");
-
 		AddCommand("DifficultyLevel", "campaign_difficulty_level", "Sets the campaign difficulty level. (easy, normal, heroic, legendary)", eCommandFlagsNone, CommandCampaignDifficultyLevel);
 		AddCommand("InsertionPoint", "campaign_insertion_point", "Changes the current insertion point.", eCommandFlagsNone, CommandCampaignInsertionPoint);
 		AddCommand("MetagameScoring", "campaign_metagame_scoring", "Changes the metagame scoring options. (off, team, ffa)", eCommandFlagsNone, CommandCampaginMetagameScoring);
@@ -187,8 +185,6 @@ namespace Modules
 
 static std::string camapgin_difficulty_level_to_string(long level) // 0x108C68E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?camapgin_difficulty_level_to_string@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@J@Z");
-
 	switch (level)
 	{
 	case 0:
@@ -206,8 +202,6 @@ static std::string camapgin_difficulty_level_to_string(long level) // 0x108C68E0
 
 long camapgin_difficulty_level_from_string(std::string const &str) // 0x108C6800
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?camapgin_difficulty_level_from_string@@YAJABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	if (str == "easy")
 	{
 		return 0;
@@ -229,8 +223,6 @@ long camapgin_difficulty_level_from_string(std::string const &str) // 0x108C6800
 
 std::string camapgin_metagame_scoring_option_to_string(long level) // 0x108C6AF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?camapgin_metagame_scoring_option_to_string@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@J@Z");
-
 	switch (level)
 	{
 	case 0:
@@ -246,8 +238,6 @@ std::string camapgin_metagame_scoring_option_to_string(long level) // 0x108C6AF0
 
 long camapgin_metagame_scoring_option_from_string(std::string const &str) // 0x108C6A40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?camapgin_metagame_scoring_option_from_string@@YAJABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	if (str == "off")
 	{
 		return 0;
@@ -266,8 +256,6 @@ long camapgin_metagame_scoring_option_from_string(std::string const &str) // 0x1
 
 bool CommandCampaignInsertionPoint(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C51A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignInsertionPoint@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session))
 	{
@@ -303,8 +291,6 @@ bool CommandCampaignInsertionPoint(std::vector<std::string> const &arguments, st
 
 bool CommandCampaignDifficultyLevel(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C4E00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignDifficultyLevel@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session))
 	{
@@ -334,8 +320,6 @@ bool CommandCampaignDifficultyLevel(std::vector<std::string> const &arguments, s
 
 bool CommandCampaginMetagameScoring(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C49E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaginMetagameScoring@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session))
 	{
@@ -371,8 +355,6 @@ bool CommandCampaginMetagameScoring(std::vector<std::string> const &arguments, s
 
 std::string GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long secondarySkulls) // 0x108C6140
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetActiveSkullsForDisplay@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@KK@Z");
-
 	std::vector<std::string> skulls;
 	for (__int32 i = 0; i < _countof(kCampaignSkullNames); i++)
 	{
@@ -393,8 +375,6 @@ std::string GetActiveSkullsForDisplay(unsigned long primarySkulls, unsigned long
 
 std::string GetActiveSkullsForDisplay() // 0x108C6390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetActiveSkullsForDisplay@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 	unsigned long primarySkulls = 0;
 	unsigned long secondarySkulls = 0;
 	((void (__cdecl *)(unsigned long *))0x434F40)(&primarySkulls);
@@ -405,8 +385,6 @@ std::string GetActiveSkullsForDisplay() // 0x108C6390
 
 bool CommandCampaignListRallyPoints(std::vector<std::string> const &arguments, std::string &returninfo) // 0x108C56D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignListRallyPoints@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	long campaignId;
 	long mapId;
 	if (reinterpret_cast<bool (*)(long *, long *)>(0x4354D0)(&campaignId, &mapId))
@@ -440,8 +418,6 @@ bool CommandCampaignListRallyPoints(std::vector<std::string> const &arguments, s
 
 bool CommandCampaignSkulls(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C5B70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignSkulls@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (arguments.size() < 1)
 	{
 		returnInfo = GetActiveSkullsForDisplay();
@@ -479,8 +455,6 @@ bool CommandCampaignSkulls(std::vector<std::string> const &arguments, std::strin
 
 bool CommandCampaignSave(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C5AE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignSave@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (!game_is_campaign())
 	{
 		returnInfo = "Not in campaign";
@@ -495,8 +469,6 @@ bool CommandCampaignSave(std::vector<std::string> const &arguments, std::string 
 
 bool CommandCampaignRevert(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C5A50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignRevert@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (!game_is_campaign())
 	{
 		returnInfo = "Not in campaign";
@@ -511,8 +483,6 @@ bool CommandCampaignRevert(std::vector<std::string> const &arguments, std::strin
 
 bool CommandCampaignKillEnemies(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x108C55D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCampaignKillEnemies@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	static void (*const actor_kill)(long, bool, bool) = reinterpret_cast<void (*)(long, bool, bool)>(0x142C900);
 	static char (*const game_team_is_enemy)(long, long) = reinterpret_cast<char (*)(long, long)>(0x670B80);
 

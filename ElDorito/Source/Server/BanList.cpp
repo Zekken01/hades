@@ -110,8 +110,6 @@ namespace Server
 {
 	void TempBanList::AddIp(std::string const ip) // 0x10AFAF10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AddIp@TempBanList@Server@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		auto it = ipAddresses.find(ip);
 		if (it != ipAddresses.end())
 			it->second += Utils::Singleton<Modules::ModuleServer>::Instance().VarTempBanDuration->ValueInt;
@@ -121,8 +119,6 @@ namespace Server
 
 	void TempBanList::decrementDuration() // 0x10AFC1B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?decrementDuration@TempBanList@Server@@QAEXXZ");
-
 		auto it = ipAddresses.begin();
 		while (it != ipAddresses.end())
 		{
@@ -141,16 +137,12 @@ namespace Server
 
 	BanList::BanList(std::string const &path) // 0x10AFA740
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0BanList@Server@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::ifstream stream(path);
 		Read(stream);
 	}
 
 	void BanList::Read(std::istream &stream) // 0x10AFB320
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Read@BanList@Server@@AAEXAAV?$basic_istream@DU?$char_traits@D@std@@@std@@@Z");
-
 		while (true)
 		{
 			std::string line;
@@ -179,8 +171,6 @@ namespace Server
 
 	void BanList::Save(std::ostream &stream) const // 0x10AFB6E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Save@BanList@Server@@QBEXAAV?$basic_ostream@DU?$char_traits@D@std@@@std@@@Z");
-
 		stream << "# ElDewrito server ban list\n";
 		stream << "# Players matching the filters in this file will not be allowed to connect to your server.\n\n";
 		stream << "# Name bans\n";
@@ -199,16 +189,12 @@ namespace Server
 
 	void BanList::Save(std::string const &path) const // 0x10AFBC20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Save@BanList@Server@@QBEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::ofstream stream(path, std::ios::trunc);
 		Save(stream);
 	}
 
 	Server::BanList LoadDefaultBanList() // 0x10AFB1A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadDefaultBanList@Server@@YA?AVBanList@1@XZ");
-
 		std::ifstream file(DefaultBanListPath);
 		if (file)
 			return BanList(file);
@@ -217,8 +203,6 @@ namespace Server
 
 	void SaveDefaultBanList(Server::BanList const &list) // 0x10AFBD30
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SaveDefaultBanList@Server@@YAXABVBanList@1@@Z");
-
 		list.Save(DefaultBanListPath);
 	}
 }

@@ -75,13 +75,10 @@ namespace Patches
 	{
 		inline RawPacketHandler::~RawPacketHandler() // 0x10AFF8B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1RawPacketHandler@CustomPackets@Patches@@UAE@XZ");
 		}
 
 		inline PacketBase::PacketBase(unsigned __int32 guid) // 0x10AFF1F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PacketBase@CustomPackets@Patches@@QAE@I@Z");
-
 			reinterpret_cast<Blam::Network::PacketHeader *>(Header)->PacketHeader::PacketHeader();
 			TypeGuid = guid;
 		}

@@ -167,16 +167,12 @@ namespace Forge
 	{
 		void ApplyPatches() // 0x109766D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyPatches@SelectionRenderer@Forge@@YAXXZ");
-
 			Hook(0x62E760, SpecialWeaponHUDHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x63B409, RasterizeImplicitGeometryHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 
 		void Update() // 0x10977300
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@SelectionRenderer@Forge@@YAXXZ");
-
 			if (s_RendererType == eRendererImplicit)
 			{
 				s_NumActiveItems = 0;
@@ -210,8 +206,6 @@ namespace Forge
 
 		void SetEnabled(bool enabled) // 0x10976F60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetEnabled@SelectionRenderer@Forge@@YAX_N@Z");
-
 			s_Enabled = enabled;
 
 			if (!enabled)
@@ -222,15 +216,11 @@ namespace Forge
 
 		void SetRendererType(Forge::SelectionRenderer::RendererImplementationType type) // 0x10976FA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetRendererType@SelectionRenderer@Forge@@YAXW4RendererImplementationType@12@@Z");
-
 			s_RendererType = type;
 		}
 
 		void Initialize() // 0x10976940
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@SelectionRenderer@Forge@@YAXXZ");
-
 			auto *forge_globals = forge_globals_get_definition();
 			if (forge_globals)
 				s_VisionMaskBitmap = tag_find_by_name(0x6269746D, "shaders\\default_bitmaps\\bitmaps\\alpha_white");
@@ -238,8 +228,6 @@ namespace Forge
 
 		void Dispose() // 0x10976910
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@SelectionRenderer@Forge@@YAXXZ");
-
 			s_NumActiveItems = 0;
 		}
 	}
@@ -249,8 +237,6 @@ namespace Forge
 
 void SpecialWeaponHUDHook(__int32 a1, unsigned __int32 unitObjectIndex, __int32 a3, unsigned __int32 *objectsInCluster, short objectcount, unsigned char *activeSpecialChudTypes) // 0x10976FD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SpecialWeaponHUDHook@@YAXHIHPAIFPAE@Z");
-
 	static void (*sub_A2CAA0)(__int32, unsigned __int32, __int32, unsigned __int32 *, short, unsigned char *) = reinterpret_cast<void (*)(__int32, unsigned __int32, __int32, unsigned __int32 *, short, unsigned char *)>(0xA2CAA0);
 	static void (*sub_686FD0)() = reinterpret_cast<void (*)()>(0x686FD0);
 	static void (*sub_A78230)() = reinterpret_cast<void (*)()>(0xA78230);
@@ -297,8 +283,6 @@ void SpecialWeaponHUDHook(__int32 a1, unsigned __int32 unitObjectIndex, __int32 
 
 void RenderImplicit() // 0x10976A10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RenderImplicit@@YAXXZ");
-
 	Forge::Magnets::Render();
 	if (s_RendererType != eRendererImplicit)
 		return;
@@ -349,8 +333,6 @@ void RenderImplicit() // 0x10976A10
 
 void RasterizeImplicitGeometryHook() // 0x109769B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RasterizeImplicitGeometryHook@@YAXXZ");
-
 	((void (*)())0xa743b0)();
 
 	if (!s_Enabled)

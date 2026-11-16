@@ -431,8 +431,6 @@ extern _inline tls_data &tls_getd();
 
 inline tls_data &tls_getd() // 0x1067CE40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?tls_getd@@YAAAUtls_data@@XZ");
-
 	return *(tls_data *)tls_get(0);
 }
 

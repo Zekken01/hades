@@ -213,8 +213,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10858520
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Chud@Patches@@YAXXZ");
-
 			Hook(0x68F598, c_chud_update_user_data__get_sound_flags_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x6C59F0, sub_AC59F0_hook).Apply();
 			Hook(0x6C80F0, chud_draw_begin_hook).Apply();
@@ -237,11 +235,8 @@ namespace Patches
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_widget_geometry_properties@@QAE@XZ"); no body to assert in
 _inline s_widget_geometry_properties::s_widget_geometry_properties() // 0x10858300
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0s_widget_geometry_properties@@QAE@XZ");
-
 	reinterpret_cast<c_rasterizer_texture_ref *>(texture_ref)->c_rasterizer_texture_ref::c_rasterizer_texture_ref(-1);
 }
 
@@ -249,8 +244,6 @@ _inline s_widget_geometry_properties::s_widget_geometry_properties() // 0x108583
 
 void __fastcall c_chud_persistent_user_data__update_from_update_data_hook(void *thisptr, void *__formal, long output_user_index, c_chud_update_user_data *hudData) // 0x1085AAB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_chud_persistent_user_data__update_from_update_data_hook@@YIXPAX0JPAUc_chud_update_user_data@@@Z");
-
 	long (__thiscall *const c_chud_persistent_user_data__update_from_update_data)(void *, long, c_chud_update_user_data *) = reinterpret_cast<long (__thiscall *)(void *, long, c_chud_update_user_data *)>(0xA901E0);
 	c_chud_persistent_user_data__update_from_update_data(thisptr, output_user_index, hudData);
 	s_chud_shared_persistent_user_data *(*const chud_shared_persistent_user_data_get)(long) = reinterpret_cast<s_chud_shared_persistent_user_data *(*)(long)>(0xA8A570);
@@ -266,8 +259,6 @@ void __fastcall c_chud_persistent_user_data__update_from_update_data_hook(void *
 
 void __fastcall c_chud_persistent_user_data__reset_hook(void *thisptr) // 0x1085A9E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_chud_persistent_user_data__reset_hook@@YIXPAX@Z");
-
 	void (__thiscall *const c_chud_persistent_user_data__reset)(void *) = (void (__thiscall *)(void *))0xA8DD60;
 	c_chud_persistent_user_data__reset(thisptr);
 
@@ -280,8 +271,6 @@ void __fastcall c_chud_persistent_user_data__reset_hook(void *thisptr) // 0x1085
 
 unsigned long __fastcall c_chud_update_user_data__get_sound_flags_hook(c_chud_update_user_data *thisptr) // 0x1085ACC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_chud_update_user_data__get_sound_flags_hook@@YIKPAUc_chud_update_user_data@@@Z");
-
 	unsigned long (__thiscall *const get_sound_flags)(c_chud_update_user_data *) = reinterpret_cast<unsigned long (__thiscall *)(c_chud_update_user_data *)>(0xA8C810);
 	bool (*const game_skull_active)(long) = reinterpret_cast<bool (*)(long)>(0x60AE20);
 	bool (*const player_shields_recharge)(long) = reinterpret_cast<bool (*)(long)>(0x551EA0);
@@ -323,8 +312,6 @@ unsigned long __fastcall c_chud_update_user_data__get_sound_flags_hook(c_chud_up
 
 bool sub_AC59F0_hook(s_hud_shader_info *a1, bool fancy) // 0x1085DD50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_AC59F0_hook@@YA_NPAUs_hud_shader_info@@_N@Z");
-
 	if (a1->pixel_shader != -1 && a1->vertex_shader != -1)
 	{
 		long vertex_type = fancy ? 14 : 13;
@@ -350,8 +337,6 @@ bool sub_AC59F0_hook(s_hud_shader_info *a1, bool fancy) // 0x1085DD50
 
 bool chud_draw_begin_hook(long output_user_index, float alpha, bool a3, bool curve_flag) // 0x1085BBC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_draw_begin_hook@@YA_NJM_N0@Z");
-
 	bool (*const bitmap_group_try_get_texture)(long, long, c_rasterizer_texture_ref *) = reinterpret_cast<bool (*)(long, long, c_rasterizer_texture_ref *)>(0x718D10);
 	long (*const chud_globals_from_output_user)(long) = reinterpret_cast<long (*)(long)>(0xA895C0);
 	s_chud_globals_attributes *(*const chud_get_global_attributes_from_output_user)(long, long) = reinterpret_cast<s_chud_globals_attributes *(*)(long, long)>(0xAC78D0);
@@ -599,8 +584,6 @@ bool chud_draw_begin_hook(long output_user_index, float alpha, bool a3, bool cur
 
 bool chud_bitmap_widget_compute_geometry_hook(s_chud_draw_widget_data *draw_data, s_chud_widget_geometry<s_widget_geometry_quad_simple> *geometry) // 0x1085AFC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_bitmap_widget_compute_geometry_hook@@YA_NPAUs_chud_draw_widget_data@@PAU?$s_chud_widget_geometry@Us_widget_geometry_quad_simple@@@@@Z");
-
 	bool (*const chud_bitmap_widget_compute_bitmap_info)(long, long, long, s_chud_bitmap_info *) = reinterpret_cast<bool (*)(long, long, long, s_chud_bitmap_info *)>(0xAC6220);
 	bool (*const bitmap_group_try_get_texture)(long, long, c_rasterizer_texture_ref *) = reinterpret_cast<bool (*)(long, long, c_rasterizer_texture_ref *)>(0x718D10);
 	void (*const chud_widget_build_quads_from_bounds)(real_rectangle2d const *, real_rectangle2d const *, real_rectangle2d const *, s_chud_widget_geometry<s_widget_geometry_quad_simple> *, float, float) = reinterpret_cast<void (*)(real_rectangle2d const *, real_rectangle2d const *, real_rectangle2d const *, s_chud_widget_geometry<s_widget_geometry_quad_simple> *, float, float)>(0xACAD00);
@@ -701,8 +684,6 @@ bool chud_bitmap_widget_compute_geometry_hook(s_chud_draw_widget_data *draw_data
 
 void __fastcall c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *thisptr, void *__formal, long output_user_index) // 0x10859B30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_chud_navpoint_manager__draw_hook@@YIXPAUc_chud_navpoint_manager@@PAXJ@Z");
-
 	float scale;
 	wchar_t *v17;
 	real_rectangle2d *v19;
@@ -856,8 +837,6 @@ void __fastcall c_chud_navpoint_manager__draw_hook(c_chud_navpoint_manager *this
 
 void __fastcall c_chud_update_user_data__compute_weapon_update_hook(void *thisptr, void *unused, long weapon_index, long interface_index, s_aim_assist_targeting_result *targeting_result) // 0x1085ABE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_chud_update_user_data__compute_weapon_update_hook@@YIXPAX0JJPAUs_aim_assist_targeting_result@@@Z");
-
 	void (__thiscall *const c_chud_update_user_data__compute_weapon_update)(void *, long, long, s_aim_assist_targeting_result *) = (void (__thiscall *)(void *, long, long, s_aim_assist_targeting_result *))0xA8AED0;
 	c_chud_update_user_data__compute_weapon_update(thisptr, weapon_index, interface_index, targeting_result);
 	if (weapon_has_bottomless_clip(weapon_index))
@@ -871,8 +850,6 @@ void __fastcall c_chud_update_user_data__compute_weapon_update_hook(void *thispt
 
 void chud_get_target_tracking_render_point_hook(c_aim_target_object *aim_target_object, real_point3d *point) // 0x1085D9F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_get_target_tracking_render_point_hook@@YAXPAUc_aim_target_object@@PAUreal_point3d@@@Z");
-
 	void (__thiscall *const c_aim_target_object__get_target_point)(c_aim_target_object *, real_point3d *) = reinterpret_cast<void (__thiscall *)(c_aim_target_object *, real_point3d *)>(0x588E60);
 	s_model_target *(__thiscall *const get_targeted_model_targets_block)(c_aim_target_object *) = reinterpret_cast<s_model_target *(__thiscall *)(c_aim_target_object *)>(0x588DB0);
 	void (*const get_tracking_point_fallback)(long, real_point3d *) = reinterpret_cast<void (*)(long, real_point3d *)>(0xB2E620);

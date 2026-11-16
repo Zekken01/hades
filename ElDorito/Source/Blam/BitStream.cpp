@@ -39,8 +39,6 @@ namespace Blam
 {
 	void BitStream::SetData(unsigned char *data, __int32 sizeBytes) // 0x1092A3E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetData@BitStream@Blam@@QAEXPAEH@Z");
-
 		m_dataStart = data;
 		m_dataEnd = data + sizeBytes;
 		m_dataSizeBytes = sizeBytes;
@@ -49,8 +47,6 @@ namespace Blam
 
 	void BitStream::Reset(Blam::BitStream::State state) // 0x1092A370
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@BitStream@Blam@@AAEXW4State@12@@Z");
-
 		void (__thiscall *const Reset)(Blam::BitStream *, Blam::BitStream::State) = (void(__thiscall *const)(Blam::BitStream *, Blam::BitStream::State))0x559be0;
 
 		Reset(this, state);
@@ -58,16 +54,12 @@ namespace Blam
 
 	void BitStream::BeginWriting(__int32 alignmentsBits) // 0x10929F40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?BeginWriting@BitStream@Blam@@QAEXH@Z");
-
 		m_dataAlignmentBits = alignmentsBits;
 		Reset(Writing);
 	}
 
 	void BitStream::FinishWriting(__int32 *bitsWritten) // 0x1092A150
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?FinishWriting@BitStream@Blam@@QAEXPAH@Z");
-
 		void (__thiscall *const FinishWriting)(Blam::BitStream *, __int32 *) = (void(__thiscall *const)(Blam::BitStream *, __int32 *))0x5580d0;
 
 		FinishWriting(this, bitsWritten);
@@ -75,15 +67,11 @@ namespace Blam
 
 	void BitStream::BeginReading(__int32 alignmentsBits) // 0x10929EF0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?BeginReading@BitStream@Blam@@QAEXH@Z");
-
 		Reset(Reading);
 	}
 
 	void BitStream::FinishReading() // 0x1092A0E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?FinishReading@BitStream@Blam@@QAEXXZ");
-
 		void (__thiscall *const FinishReading)(Blam::BitStream *) = (void(__thiscall *const)(Blam::BitStream *))0x5580c0;
 
 		FinishReading(this);
@@ -91,16 +79,12 @@ namespace Blam
 
 	bool BitStream::BeginConsistencyCheck(__int32 alignmentsBits) // 0x10929E90
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?BeginConsistencyCheck@BitStream@Blam@@QAE_NH@Z");
-
 		Reset(ConsistencyCheck);
 		return true;
 	}
 
 	void BitStream::FinishConsistencyCheck() // 0x1092A070
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?FinishConsistencyCheck@BitStream@Blam@@QAEXXZ");
-
 		void (__thiscall *const FinishConistencyCheck)(Blam::BitStream *) = (void(__thiscall *const)(Blam::BitStream *))0x5580b0;
 
 		FinishConistencyCheck(this);
@@ -108,8 +92,6 @@ namespace Blam
 
 	void BitStream::DiscardRemainingData() // 0x1092A020
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?DiscardRemainingData@BitStream@Blam@@QAEXXZ");
-
 		m_currentMemoryBitPosition = m_dataSizeBytes * 8;
 		m_accumulator = 0;
 		m_accumulatorBitsUsed = 0;
@@ -117,8 +99,6 @@ namespace Blam
 
 	bool BitStream::ReadBit() // 0x1092A1F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadBit@BitStream@Blam@@AAE_NXZ");
-
 		bool (__thiscall *const ReadBit)(Blam::BitStream *) = (bool(__thiscall *const)(Blam::BitStream *))0x558570;
 
 		return ReadBit(this);
@@ -126,8 +106,6 @@ namespace Blam
 
 	unsigned long long BitStream::ReadBits(__int32 bits) // 0x1092A260
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadBits@BitStream@Blam@@AAE_KH@Z");
-
 		if (bits <= 32)
 		{
 			unsigned long (__thiscall *const ReadBitsImpl)(BitStream *, __int32) = (unsigned long (__thiscall *)(BitStream *, __int32))0x5589A0;
@@ -140,8 +118,6 @@ namespace Blam
 
 	void BitStream::WriteBits(unsigned long long val, __int32 bits) // 0x1092A460
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?WriteBits@BitStream@Blam@@AAEX_KH@Z");
-
 		unsigned long long masked = val & ~(-1LL << bits);
 		if (BitsAvailable(bits))
 		{
@@ -159,8 +135,6 @@ namespace Blam
 
 	void BitStream::ReadBlock(unsigned __int32 bits, unsigned char *out) // 0x1092A300
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadBlock@BitStream@Blam@@QAEXIPAE@Z");
-
 		void (__thiscall *const ReadBlock)(Blam::BitStream *, unsigned char *, unsigned __int32) = (void(__thiscall *const)(Blam::BitStream *, unsigned char *, unsigned __int32))0x558740;
 
 		ReadBlock(this, out, bits);
@@ -168,8 +142,6 @@ namespace Blam
 
 	void BitStream::WriteBlock(unsigned __int32 bits, unsigned char const *data) // 0x1092A580
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?WriteBlock@BitStream@Blam@@QAEXIPBE@Z");
-
 		void (__thiscall *const WriteBlockImpl)(BitStream *, unsigned char const *, unsigned __int32, __int32) = (void(__thiscall *const)(BitStream *, unsigned char const *, unsigned __int32, __int32))0x55a000;
 
 		WriteBlockImpl(this, data, bits, 0);

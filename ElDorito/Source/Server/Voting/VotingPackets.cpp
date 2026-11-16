@@ -209,31 +209,23 @@ namespace Server
 	{
 		VotingMessage::VotingMessage(Server::Voting::VotingMessageType type) // 0x10C47FC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingMessage@Voting@Server@@QAE@W4VotingMessageType@12@@Z");
-
 			memset(this, 0, sizeof(VotingMessage));
 			Type = type;
 		}
 
 		void AddMessageHandler(std::shared_ptr<Server::Voting::VotingMessageHandler> handler) // 0x10C48740
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?AddMessageHandler@Voting@Server@@YAXV?$shared_ptr@VVotingMessageHandler@Voting@Server@@@std@@@Z");
-
 			votingMessageHandlers.push_back(handler);
 		}
 
 		void InitializePackets() // 0x10C48D70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializePackets@Voting@Server@@YAXXZ");
-
 			auto handler = std::make_shared<VotingMessagePacketHandler>();
 			VotingPacketSender = Patches::CustomPackets::RegisterPacket<VotingMessage>("eldewrito-voting-message", handler);
 		}
 
 		bool BroadcastVotingMessage(Server::Voting::VotingMessage &message) // 0x10C487E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?BroadcastVotingMessage@Voting@Server@@YA_NAAUVotingMessage@12@@Z");
-
 			auto session = Blam::Network::GetActiveSession();
 			auto membership = &session->MembershipInfo;
 			for (auto peer = membership->FindFirstPeer(); peer >= 0; peer = membership->FindNextPeer(peer))
@@ -246,16 +238,12 @@ namespace Server
 
 		bool SendVotingMessageToPeer(Server::Voting::VotingMessage &message, __int32 peer) // 0x10C49400
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendVotingMessageToPeer@Voting@Server@@YA_NAAUVotingMessage@12@H@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			return SendVotingMessagePacket(session, peer, message);
 		}
 
 		bool SendVoteToHost(__int32 const vote) // 0x10C491C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendVoteToHost@Voting@Server@@YA_NH@Z");
-
 			auto session = Blam::Network::GetActiveSession();
 			if (!session)
 				return false;
@@ -271,8 +259,6 @@ namespace Server
 
 _inline void VotingMessagePacketHandler::Serialize(Blam::BitStream *stream, Server::Voting::VotingMessage const *data) // 0x10C49460
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@VotingMessagePacketHandler@hades_file_local@@UAEXPAVBitStream@Blam@@PBUVotingMessage@Voting@Server@@@Z");
-
 	stream->WriteUnsigned<unsigned __int32>(data->Type, 0, Server::Voting::Count);
 	if (data->Type == Server::Voting::VotingOptions || data->Type == Server::Voting::VetoOption)
 	{
@@ -310,8 +296,6 @@ _inline void VotingMessagePacketHandler::Serialize(Blam::BitStream *stream, Serv
 
 _inline bool VotingMessagePacketHandler::Deserialize(Blam::BitStream *stream, Server::Voting::VotingMessage *data) // 0x10C48890
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@VotingMessagePacketHandler@hades_file_local@@UAE_NPAVBitStream@Blam@@PAUVotingMessage@Voting@Server@@@Z");
-
 	memset(data, 0, sizeof(Server::Voting::VotingMessage));
 	data->Type = static_cast<Server::Voting::VotingMessageType>(stream->ReadUnsigned<unsigned __int32>(0, Server::Voting::Count));
 	if (data->Type >= Server::Voting::Count)
@@ -353,8 +337,6 @@ _inline bool VotingMessagePacketHandler::Deserialize(Blam::BitStream *stream, Se
 
 _inline void VotingMessagePacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<Server::Voting::VotingMessage> const *packet) // 0x10C48C70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacket@VotingMessagePacketHandler@hades_file_local@@UAEXPAUObserverChannel@Network@Blam@@PBU?$Packet@UVotingMessage@Voting@Server@@@CustomPackets@Patches@@@Z");
-
 	auto session = Blam::Network::GetActiveSession();
 	if (!session)
 		return;
@@ -365,8 +347,6 @@ _inline void VotingMessagePacketHandler::HandlePacket(Blam::Network::ObserverCha
 
 void ReceivedVotingMessage(Blam::Network::Session *session, __int32 peer, Server::Voting::VotingMessage const &message) // 0x10C48F50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ReceivedVotingMessage@@YAXPAUSession@Network@Blam@@HABUVotingMessage@Voting@Server@@@Z");
-
 	if (message.Type == Server::Voting::Vote && peer >= 0)
 	{
 		auto &membership = session->MembershipInfo;
@@ -383,8 +363,6 @@ void ReceivedVotingMessage(Blam::Network::Session *session, __int32 peer, Server
 
 bool SendVotingMessagePacket(Blam::Network::Session *session, __int32 peer, Server::Voting::VotingMessage const &message) // 0x10C492B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SendVotingMessagePacket@@YA_NPAUSession@Network@Blam@@HABUVotingMessage@Voting@Server@@@Z");
-
 	if (peer < 0)
 		return false;
 	if (peer == session->MembershipInfo.LocalPeerIndex)
@@ -398,10 +376,8 @@ bool SendVotingMessagePacket(Blam::Network::Session *session, __int32 peer, Serv
 	return true;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0VotingMessagePacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline VotingMessagePacketHandler::VotingMessagePacketHandler() = default; // 0x10C48030  // hades: defaulted on its declaration
 
-// mangled_x86(MANGLED_DEFAULT, "??1VotingMessagePacketHandler@hades_file_local@@UAE@XZ"); no body to assert in
 // hades: VotingMessagePacketHandler::~VotingMessagePacketHandler() is defaulted in the class (0x10C48430)
 
 /* ---------- explicit instantiations */

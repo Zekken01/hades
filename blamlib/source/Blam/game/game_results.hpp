@@ -335,8 +335,6 @@ extern _inline c_game_results *game_results_get_current_results();
 
 inline c_game_results *game_results_get_current_results() // 0x10B2D590
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_results_get_current_results@@YAPAUc_game_results@@XZ");
-
 	return (c_game_results *)0x23DAEA8;
 }
 

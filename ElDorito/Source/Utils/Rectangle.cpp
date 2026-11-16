@@ -42,15 +42,11 @@ namespace Utils
 {
 	bool Rectangle::IsEmpty() const // 0x10C5CF40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?IsEmpty@Rectangle@Utils@@QBE_NXZ");
-
 		return Width == 0 || Height == 0;
 	}
 
 	bool Rectangle::Intersects(Utils::Rectangle const &other) const // 0x10C5CE20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Intersects@Rectangle@Utils@@QBE_NABU12@@Z");
-
 		if (IsEmpty() || other.IsEmpty())
 		{
 			return false;
@@ -66,8 +62,6 @@ namespace Utils
 
 	Utils::Rectangle Rectangle::Intersect(Utils::Rectangle const &other) const // 0x10C5CC20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Intersect@Rectangle@Utils@@QBE?AU12@ABU12@@Z");
-
 		if (IsEmpty() || other.IsEmpty())
 			return Utils::Rectangle();
 
@@ -86,22 +80,16 @@ namespace Utils
 
 	Utils::Rectangle Rectangle::Translate(__int32 x, __int32 y) const // 0x10C5CFA0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Translate@Rectangle@Utils@@QBE?AU12@HH@Z");
-
 		return Rectangle(X + x, Y + y, Width, Height);
 	}
 
 	Utils::Rectangle Rectangle::Add(__int32 x, __int32 y, __int32 width, __int32 height) const // 0x10C5CA70
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Add@Rectangle@Utils@@QBE?AU12@HHHH@Z");
-
 		return Add(Utils::Rectangle(x, y, width, height));
 	}
 
 	Utils::Rectangle Rectangle::Add(Utils::Rectangle const &other) const // 0x10C5C850
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Add@Rectangle@Utils@@QBE?AU12@ABU12@@Z");
-
 		if (IsEmpty())
 			return other;
 		if (other.IsEmpty())
@@ -119,8 +107,6 @@ namespace Utils
 
 	void Rectangle::Copy(void *dest, __int32 destX, __int32 destY, unsigned __int32 destStride, void const *source, Utils::Rectangle const &sourceRect, unsigned __int32 sourceStride, unsigned __int32 elementSize) // 0x10C5CAF0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Copy@Rectangle@Utils@@SAXPAXHHIPBXABU12@II@Z");
-
 		unsigned __int32 srcOffset = sourceStride * sourceRect.Y + sourceRect.X * elementSize;
 		unsigned __int32 destOffset = destStride * destY + destX * elementSize;
 		unsigned char const *srcBytes = (unsigned char const *)source + srcOffset;

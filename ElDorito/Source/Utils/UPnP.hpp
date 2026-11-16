@@ -49,8 +49,6 @@ namespace Utils
 {
 	inline UPnPResult::UPnPResult(Utils::UPnPErrorType type, __int32 code) // 0x10A232C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0UPnPResult@Utils@@QAE@W4UPnPErrorType@1@H@Z");
-
 		ErrorType = type;
 		ErrorCode = code;
 	}

@@ -163,8 +163,6 @@ bool __fastcall c_character_physics_mode_ground_datum__calculate_ground_contact_
 
 void physics_patches_apply() // 0x10AAB7B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?physics_patches_apply@@YAXXZ");
-
 	Hook(0x365300, havok_broadphase_collidables_test).Apply();
 	Pointer(0x167C474).Write(hkCollidableCollidableFilte__isCollisionEnabled);
 	Pointer(0x14EA9F5).Write<int>(0x1000);
@@ -194,8 +192,6 @@ void physics_patches_apply() // 0x10AAB7B0
 
 bool havok_broadphase_reforge_barrier_object_test(long havok_component_index_a, long havok_component_index_b) // 0x10AAB080
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_broadphase_reforge_barrier_object_test@@YA_NJJ@Z");
-
 	long unit_index = -1;
 	long barrier_object_index = -1;
 	c_havok_component *havok_component_a = havok_component_get(havok_component_index_a);
@@ -227,8 +223,6 @@ bool havok_broadphase_reforge_barrier_object_test(long havok_component_index_a, 
 
 bool havok_broadphase_collidables_test(hkpCollidable *collidable_a, hkpCollidable *collidable_b) // 0x10AAAEB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_broadphase_collidables_test@@YA_NPAUhkpCollidable@@0@Z");
-
 	hkpEntity *entity_a = nullptr;
 	hkpEntity *entity_b = nullptr;
 	if (collidable_a->m_broadPhaseHandle.m_type == 1)
@@ -249,8 +243,6 @@ bool havok_broadphase_collidables_test(hkpCollidable *collidable_a, hkpCollidabl
 
 hkpEntity *havok_collidable_get_entity(hkpCollidable *collidable) // 0x10AAB250
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_collidable_get_entity@@YAPAUhkpEntity@@PAUhkpCollidable@@@Z");
-
 	hkpEntity *entity = nullptr;
 	if (collidable->m_broadPhaseHandle.m_type == 1)
 		entity = (hkpEntity *)offset_pointer(collidable, collidable->m_ownerOffset);
@@ -261,8 +253,6 @@ hkpEntity *havok_collidable_get_entity(hkpCollidable *collidable) // 0x10AAB250
 
 bool *__fastcall hkCollidableCollidableFilte__isCollisionEnabled(void *thisptr, void *unused, bool *a2, hkpCollidable *collidable_a, hkpCollidable *collidable_b) // 0x10AAB3F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hkCollidableCollidableFilte__isCollisionEnabled@@YIPA_NPAX0PA_NPAUhkpCollidable@@2@Z");
-
 	bool *(__thiscall *const isCollisionEnabled)(void *, bool *, hkpCollidable *, hkpCollidable *) = reinterpret_cast<bool *(__thiscall *)(void *, bool *, hkpCollidable *, hkpCollidable *)>(0x764F10);
 	a2 = isCollisionEnabled(thisptr, a2, collidable_a, collidable_b);
 	hkpEntity *entity_a = havok_collidable_get_entity(collidable_a);
@@ -279,8 +269,6 @@ bool *__fastcall hkCollidableCollidableFilte__isCollisionEnabled(void *thisptr, 
 
 bool c_environment_surface_shape__is_key_alive_hook(long structure_bsp_index, long a2, bool a3, unsigned __int32 key) // 0x10AAA1E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_environment_surface_shape__is_key_alive_hook@@YA_NJJ_NI@Z");
-
 	bool (*const c_environment_surface_shape__is_key_alive)(long, long, bool, unsigned __int32) = reinterpret_cast<bool (*)(long, long, bool, unsigned __int32)>(0x75FC50);
 	if (key >> 29 == 3)
 	{
@@ -295,8 +283,6 @@ bool c_environment_surface_shape__is_key_alive_hook(long structure_bsp_index, lo
 
 hkpShape const *__fastcall c_environment_surface_shape__getChildShape_hook(hkShapeContainer *thisptr, void *__formal, unsigned __int32 key, char (&buffer)[512]) // 0x10AA9E80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_environment_surface_shape__getChildShape_hook@@YIPBUhkpShape@@PAUhkShapeContainer@@PAXIAAY0CAA@D@Z");
-
 	hkpShape *(__thiscall *const c_environment_surface_shape__getChildShape)(hkShapeContainer *, unsigned __int32, char (&)[512]) = (hkpShape *(__thiscall *)(hkShapeContainer *, unsigned __int32, char (&)[512]))0x75F1B0;
 	hkpConvexTransformShape *(__thiscall *const hkpConvexTransformShape__ctor)(hkpConvexTransformShape *, hkpShape const *, hkTransform const *) = (hkpConvexTransformShape *(__thiscall *)(hkpConvexTransformShape *, hkpShape const *, hkTransform const *))0xC4E7B0;
 	void (__thiscall *const hkReferencedObject__removeReference)(hkpShape *) = (void (__thiscall *)(hkpShape *))0x5C2E00;
@@ -335,8 +321,6 @@ hkpShape const *__fastcall c_environment_surface_shape__getChildShape_hook(hkSha
 
 short get_structure_global_material_type(s_scenario_structure_bsp const *structure, long material_index) // 0x10AAAE30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_structure_global_material_type@@YAFPBUs_scenario_structure_bsp@@J@Z");
-
 	if (material_index < 0 || material_index >= structure->collision_materials.count)
 	{
 		return 0;
@@ -347,8 +331,6 @@ short get_structure_global_material_type(s_scenario_structure_bsp const *structu
 
 void calculate_havok_shape_properties_hook(hkpShape *shape, hkpEntity *body, real_vector3d *position, long shape_key, float *out_friction, float *out_restitution, unsigned short *out_global_material_type) // 0x10AAA960
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?calculate_havok_shape_properties_hook@@YAXPAUhkpShape@@PAUhkpEntity@@PAUreal_vector3d@@JPAM3PAG@Z");
-
 	long (*const havok_entity_get_structure_bsp_index)(hkpEntity *) = reinterpret_cast<long (*)(hkpEntity *)>(0x5EA980);
 	void (*const calculate_havok_shape_properties)(hkpShape *, hkpEntity *, real_vector3d *, long, float *, float *, unsigned short *) = reinterpret_cast<void (*)(hkpShape *, hkpEntity *, real_vector3d *, long, float *, float *, unsigned short *)>(0x714A20);
 	c_convex_vertices_shape_with_material *unwrapped_shape = (c_convex_vertices_shape_with_material *)havok_transform_wrapper_shape_get_child_shape(shape);
@@ -378,8 +360,6 @@ void calculate_havok_shape_properties_hook(hkpShape *shape, hkpEntity *body, rea
 
 s_physics_model_primitive *physics_model_primitive_get(hkpShape *shape) // 0x10AAB6F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?physics_model_primitive_get@@YAPAUs_physics_model_primitive@@PAUhkpShape@@@Z");
-
 	if (shape == nullptr)
 	{
 		return nullptr;
@@ -407,8 +387,6 @@ s_physics_model_primitive *physics_model_primitive_get(hkpShape *shape) // 0x10A
 
 _inline hkpCdBody *havok_get_root_cdbody(hkpCdBody *body) // 0x10AAB2F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_get_root_cdbody@@YAPAUhkpCdBody@@PAU1@@Z");
-
 	while (body->m_parent)
 	{
 		body = body->m_parent;
@@ -419,8 +397,6 @@ _inline hkpCdBody *havok_get_root_cdbody(hkpCdBody *body) // 0x10AAB2F0
 
 bool __fastcall c_group_filter__collidable_b_evalulate_primitive_collision_group_hook(void *this_, void *__formal, hkpCollidable *body_a, hkpCollidable *body_b, hkpShape *shape_b, bool *out_is_enabled) // 0x10AAA300
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_group_filter__collidable_b_evalulate_primitive_collision_group_hook@@YI_NPAX0PAUhkpCollidable@@1PAUhkpShape@@PA_N@Z");
-
 	bool *(__thiscall *const hkpGroupFilter__isCollisionEnabled)(void *, bool *, unsigned __int32, unsigned __int32) = reinterpret_cast<bool *(__thiscall *)(void *, bool *, unsigned __int32, unsigned __int32)>(0xC57120);
 	s_physics_model_primitive *primitive_a = physics_model_primitive_get(body_a->m_shape);
 	s_physics_model_primitive *primitive_b = physics_model_primitive_get(shape_b);
@@ -442,8 +418,6 @@ bool __fastcall c_group_filter__collidable_b_evalulate_primitive_collision_group
 
 short *__fastcall c_havok_contact_point__calculate_global_material_type_b_hook(c_havok_contact_point *this_, void *__formal, short *global_material_type) // 0x10AAA4C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_havok_contact_point__calculate_global_material_type_b_hook@@YIPAFPAUc_havok_contact_point@@PAXPAF@Z");
-
 	short *(*const collision_calculate_structure_global_material_type)(short *, long, real_point3d const *, long, long) = reinterpret_cast<short *(*)(short *, long, real_point3d const *, long, long)>(0x6D3110);
 	short *(*const global_material_resolve_underwater_material_proxy)(short *, short, real_point3d const *) = reinterpret_cast<short *(*)(short *, short, real_point3d const *)>(0x5CA820);
 	*global_material_type = this_->material_type_b;
@@ -485,8 +459,6 @@ short *__fastcall c_havok_contact_point__calculate_global_material_type_b_hook(c
 
 void __fastcall c_havok_contact_point__get_surface_normal_hook(c_havok_contact_point *this_, void *__formal, real_vector3d *out_normal) // 0x10AAA7F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_havok_contact_point__get_surface_normal_hook@@YIXPAUc_havok_contact_point@@PAXPAUreal_vector3d@@@Z");
-
 	void (__thiscall *const c_havok_contact_point__get_surface_normal)(c_havok_contact_point *, real_vector3d *) = reinterpret_cast<void (__thiscall *)(c_havok_contact_point *, real_vector3d *)>(0x5EA160);
 	*out_normal = this_->separating_normal;
 	if (this_->shape_key == -1)
@@ -505,8 +477,6 @@ void __fastcall c_havok_contact_point__get_surface_normal_hook(c_havok_contact_p
 
 void __fastcall c_character_physics_mode_ground_datum__update_internal_hook(void *thisptr, void *__formal, char *output, char *input, bool a4, real_vector3d *a5) // 0x10AA9D50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_character_physics_mode_ground_datum__update_internal_hook@@YIXPAX0PAD1_NPAUreal_vector3d@@@Z");
-
 	void (__thiscall *const c_character_physics_mode_ground_datum__update_internal)(void *, char *, char *, bool, real_vector3d *) = (void (__thiscall *const)(void *, char *, char *, bool, real_vector3d *))0x724BB0;
 
 	float *value = (float *)(input + 0xAC);
@@ -525,8 +495,6 @@ void __fastcall c_character_physics_mode_ground_datum__update_internal_hook(void
 
 void __fastcall hkpWorld_ctor_hook(hkpkWorld *thisptr, void *__formal, hkpWorldCinfo *info, unsigned __int32 sdkVersion) // 0x10AAB570
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hkpWorld_ctor_hook@@YIXPAUhkpkWorld@@PAXPAUhkpWorldCinfo@@I@Z");
-
 	void (__thiscall *const hkpWorld_ctor)(hkpkWorld *, hkpWorldCinfo *, unsigned __int32) = (void (__thiscall *)(hkpkWorld *, hkpWorldCinfo *, unsigned __int32))0xC7C0E0;
 	float scale = 30.0f / game_tick_rate();
 
@@ -538,8 +506,6 @@ void __fastcall hkpWorld_ctor_hook(hkpkWorld *thisptr, void *__formal, hkpWorldC
 
 bool __fastcall c_character_physics_mode_ground_datum__calculate_ground_contact_hook(c_character_physics_mode_ground_datum *thisptr, void *__formal, s_character_physics_move_input_datum *physics_input, bool a3, real_vector3d *linear_velocity_input, real_vector3d *out_ground_plane, s_havok_contact_point_reference *out_contact_point, float *out_landing_velocity, long *out_contact_object_index) // 0x10AA9BF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_character_physics_mode_ground_datum__calculate_ground_contact_hook@@YI_NPAUc_character_physics_mode_ground_datum@@PAXPAUs_character_physics_move_input_datum@@_NPAUreal_vector3d@@4PAUs_havok_contact_point_reference@@PAMPAJ@Z");
-
 	bool (__thiscall *const c_character_physics_mode_ground_datum__calculate_ground_contact)(c_character_physics_mode_ground_datum *, s_character_physics_move_input_datum *, bool, real_vector3d const *, real_vector3d *, s_havok_contact_point_reference *, float *, long *) = reinterpret_cast<bool (__thiscall *)(c_character_physics_mode_ground_datum *, s_character_physics_move_input_datum *, bool, real_vector3d const *, real_vector3d *, s_havok_contact_point_reference *, float *, long *)>(0x7221F0);
 	c_havok_component const *havok_component = havok_component_get(*(unsigned long *)offset_pointer(physics_input, 0x58));
 	s_unit_data const *unit = (s_unit_data const *)object_try_and_get_and_verify_type(havok_component->get_object_index(), 1);

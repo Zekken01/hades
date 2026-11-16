@@ -163,8 +163,6 @@ namespace PersistentMemory
 {
 	PersistentMemory::SPersistentMemoryDB LoadPersistentMemory(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > &value) // 0x106B58F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadPersistentMemory@PersistentMemory@@YA?AUSPersistentMemoryDB@1@AAV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@@Z");
-
 		PersistentMemory::SPersistentMemoryDB persistentMemory;
 		if (value.HasMember("lastAnnoucementViewedDate"))
 		{
@@ -218,21 +216,14 @@ namespace PersistentMemory
 		return persistentMemory;
 	}
 
-	// mangled_x86(MANGLED_DEFAULT, "??0SPersistantMute@SPersistentMemoryDB@PersistentMemory@@QAE@$$QAU012@@Z"); no body to assert in
 	// _inline SPersistentMemoryDB::SPersistantMute::SPersistantMute(PersistentMemory::SPersistentMemoryDB::SPersistantMute &&__that) = default; // 0x106AF9A0  // hades: left implicit
 
-	// mangled_x86(MANGLED_DEFAULT, "??0SPersistantMute@SPersistentMemoryDB@PersistentMemory@@QAE@ABU012@@Z"); no body to assert in
 	// _inline SPersistentMemoryDB::SPersistantMute::SPersistantMute(PersistentMemory::SPersistentMemoryDB::SPersistantMute const &__that) = default; // 0x106AFA30  // hades: left implicit
 
-	// mangled_x86(MANGLED_DEFAULT, "??0SPersistentMemoryDB@PersistentMemory@@QAE@$$QAU01@@Z"); no body to assert in
 	// _inline SPersistentMemoryDB::SPersistentMemoryDB(PersistentMemory::SPersistentMemoryDB &&__that) = default; // 0x106AFB00  // hades: left implicit
-
-	// mangled_x86(MANGLED_DEFAULT, "??0SPersistentMemoryDB@PersistentMemory@@QAE@XZ"); no body to assert in
 
 	bool Load(std::string const &filename) // 0x106B5600
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Load@PersistentMemory@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		persistentMemoryPath = filename;
 		std::ifstream stream(std::filesystem::absolute(filename));
 		rapidjson::IStreamWrapper isw(stream);
@@ -247,22 +238,16 @@ namespace PersistentMemory
 		return true;
 	}
 
-	// mangled_x86(MANGLED_DEFAULT, "??1SPersistantMute@SPersistentMemoryDB@PersistentMemory@@QAE@XZ"); no body to assert in
 	// _inline SPersistentMemoryDB::SPersistantMute::~SPersistantMute() = default; // 0x106B0E30  // hades: left implicit
 
-	// mangled_x86(MANGLED_DEFAULT, "??1SPersistentMemoryDB@PersistentMemory@@QAE@XZ"); no body to assert in
 	// _inline SPersistentMemoryDB::~SPersistentMemoryDB() = default; // 0x106B0E90  // hades: left implicit
 
-	// mangled_x86(MANGLED_DEFAULT, "??4SPersistantMute@SPersistentMemoryDB@PersistentMemory@@QAEAAU012@$$QAU012@@Z"); no body to assert in
 	// _inline PersistentMemory::SPersistentMemoryDB::SPersistantMute &SPersistentMemoryDB::SPersistantMute::operator=(PersistentMemory::SPersistentMemoryDB::SPersistantMute &&__that) = default; // 0x106B1300  // hades: left implicit
 
-	// mangled_x86(MANGLED_DEFAULT, "??4SPersistentMemoryDB@PersistentMemory@@QAEAAU01@$$QAU01@@Z"); no body to assert in
 	// _inline PersistentMemory::SPersistentMemoryDB &SPersistentMemoryDB::operator=(PersistentMemory::SPersistentMemoryDB &&__that) = default; // 0x106B1370  // hades: left implicit
 
 	void Save() // 0x106B75E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Save@PersistentMemory@@YAXXZ");
-
 		std::ofstream stream(std::filesystem::absolute(persistentMemoryPath), std::ios::out);
 		rapidjson::OStreamWrapper isw(stream);
 		rapidjson::PrettyWriter<rapidjson::OStreamWrapper> writer(isw);
@@ -298,8 +283,6 @@ namespace PersistentMemory
 
 	void Init() // 0x106B4BC0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@PersistentMemory@@YAXXZ");
-
 		if (Utils::Singleton<ElDorito>::Instance().IsDedicated())
 			return;
 		std::string prefsName = "persistent_memory.json";
@@ -318,29 +301,21 @@ namespace PersistentMemory
 {
 	std::string GetLastAnnoucementViewedDate() // 0x106B4570
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastAnnoucementViewedDate@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		return persistentMemoryDB.lastAnnoucementViewedDate;
 	}
 
 	void SetLastAnnoucementViewedDate(std::string annoucementViewedDate) // 0x106B7C00
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastAnnoucementViewedDate@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		persistentMemoryDB.lastAnnoucementViewedDate = annoucementViewedDate;
 	}
 
 	__int32 GetLastMapID() // 0x106B4730
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastMapID@PersistentMemory@@YAHXZ");
-
 			return persistentMemoryDB.lastMapID;
 	}
 
 	void SetLastMapID(__int32 mapID) // 0x106B7E80
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastMapID@PersistentMemory@@YAXH@Z");
-
 		persistentMemoryDB.lastMapID = mapID;
 	}
 }
@@ -350,15 +325,11 @@ namespace PersistentMemory
 {
 	std::string GetLastMapName() // 0x106B4750
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastMapName@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		return persistentMemoryDB.lastMapName;
 	}
 
 	void SetLastMapName(std::string mapName) // 0x106B7EB0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastMapName@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		persistentMemoryDB.lastMapName = mapName;
 	}
 }
@@ -368,15 +339,11 @@ namespace PersistentMemory
 {
 	std::string GetLastGameType() // 0x106B46C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastGameType@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		return persistentMemoryDB.lastGameType;
 	}
 
 	void SetLastGameType(std::string gameType) // 0x106B7DE0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastGameType@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		persistentMemoryDB.lastGameType = gameType;
 	}
 }
@@ -386,15 +353,11 @@ namespace PersistentMemory
 {
 	std::string GetLastMultiplayerMod() // 0x106B47C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastMultiplayerMod@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		return persistentMemoryDB.lastMultiplayerMod;
 	}
 
 	void SetLastMultiplayerMod(std::string multiplayerMod) // 0x106B7F50
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastMultiplayerMod@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		persistentMemoryDB.lastMultiplayerMod = multiplayerMod;
 	}
 }
@@ -404,15 +367,11 @@ namespace PersistentMemory
 {
 	std::string GetLastCampaignMod() // 0x106B45E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastCampaignMod@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		return persistentMemoryDB.lastCampaignMod;
 	}
 
 	void SetLastCampaignMod(std::string campaignMod) // 0x106B7CA0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastCampaignMod@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		persistentMemoryDB.lastCampaignMod = campaignMod;
 	}
 }
@@ -422,30 +381,22 @@ namespace PersistentMemory
 {
 	std::string GetLastFirefightMod() // 0x106B4650
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastFirefightMod@PersistentMemory@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		return persistentMemoryDB.lastFirefightMod;
 	}
 
 	void SetLastFirefightMod(std::string firefightMod) // 0x106B7D40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetLastFirefightMod@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		persistentMemoryDB.lastFirefightMod = firefightMod;
 	}
 
 	void AddMutedVoipPlayer(std::string name, std::string uid) // 0x106B2B50
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AddMutedVoipPlayer@PersistentMemory@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 		PersistentMemory::SPersistentMemoryDB::SPersistantMute muted = { name, uid };
 		persistentMemoryDB.mutedVoipPlayers.push_back(muted);
 	}
 
 	bool RemoveMutedVoipPlayer(std::string uid) // 0x106B7410
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveMutedVoipPlayer@PersistentMemory@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		for (auto it = persistentMemoryDB.mutedVoipPlayers.begin(); it != persistentMemoryDB.mutedVoipPlayers.end(); ++it)
 		{
 			if (it->player_uid == uid)
@@ -459,8 +410,6 @@ namespace PersistentMemory
 
 	bool PlayerIsVoipMuted(std::string uid) // 0x106B6A70
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerIsVoipMuted@PersistentMemory@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		for (std::vector<PersistentMemory::SPersistentMemoryDB::SPersistantMute>::iterator it = persistentMemoryDB.mutedVoipPlayers.begin(); it != persistentMemoryDB.mutedVoipPlayers.end(); ++it)
 		{
 			if (it->player_uid == uid)

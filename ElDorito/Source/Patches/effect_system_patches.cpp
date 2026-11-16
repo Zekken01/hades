@@ -240,8 +240,6 @@ using namespace hades_file_local;
 
 void effect_system_patches_apply() // 0x10911EE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?effect_system_patches_apply@@YAXXZ");
-
 	Hook(0x357367, c_contrail_gpu__render_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 	Hook(0x1BBE36, beam_gpu_vertex_stream_submit_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 	Hook(0x1BBE3B, contrail_gpu_vertex_stream_submit_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -260,8 +258,6 @@ void effect_system_patches_apply() // 0x10911EE0
 
 void effect_system_patches_tick() // 0x10912BB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?effect_system_patches_tick@@YAXXZ");
-
 	auto &graphics_module = Utils::Singleton<Modules::ModuleGraphics>::Instance();
 
 	set_effect_message_filter(_effect_message_type_create_contrail_system, graphics_module.VarContrailsEnabled->ValueInt == 0);
@@ -273,8 +269,6 @@ void effect_system_patches_tick() // 0x10912BB0
 
 void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, void *unused, s_contrail_states *states) // 0x10910260
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_contrail_gpu__render_hook@@YIXPAUs_contrail_gpu_datum@@PAXPAUs_contrail_states@@@Z");
-
 	if (!*(bool *)0x18F3A8C)
 		return;
 	eldorado::sub_5BBE10();
@@ -378,8 +372,6 @@ void __fastcall c_contrail_gpu__render_hook(s_contrail_gpu_datum *gpu_datum, voi
 
 void gpu_vertex_stream_submit(c_rasterizer_vertex_buffer *vertex_buffer, s_gpu_vertex_stream *stream) // 0x10913080
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?gpu_vertex_stream_submit@@YAXPAVc_rasterizer_vertex_buffer@@PAUs_gpu_vertex_stream@hades_file_local@@@Z");
-
 	unsigned int vertex_data_size;
 	void *data;
 
@@ -408,36 +400,26 @@ void gpu_vertex_stream_submit(c_rasterizer_vertex_buffer *vertex_buffer, s_gpu_v
 
 void beam_gpu_vertex_stream_submit_hook() // 0x10910210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?beam_gpu_vertex_stream_submit_hook@@YAXXZ");
-
 	gpu_vertex_stream_submit((c_rasterizer_vertex_buffer *)0x1916754, (s_gpu_vertex_stream *)0x510F99C);
 }
 
 void contrail_gpu_vertex_stream_submit_hook() // 0x10911650
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?contrail_gpu_vertex_stream_submit_hook@@YAXXZ");
-
 	gpu_vertex_stream_submit((c_rasterizer_vertex_buffer *)0x191736C, (s_gpu_vertex_stream *)0x510FD48);
 }
 
 void light_volume_gpu_vertex_stream_submit_hook() // 0x10913D40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?light_volume_gpu_vertex_stream_submit_hook@@YAXXZ");
-
 	gpu_vertex_stream_submit((c_rasterizer_vertex_buffer *)0x19177AC, (s_gpu_vertex_stream *)0x5115A90);
 }
 
 void particle_emitter_gpu_vertex_stream_submit_hook() // 0x10913D90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?particle_emitter_gpu_vertex_stream_submit_hook@@YAXXZ");
-
 	gpu_vertex_stream_submit((c_rasterizer_vertex_buffer *)0x1916194, (s_gpu_vertex_stream *)0x510ED80);
 }
 
 void event_add_particle_system_location_hook(s_effect_message *message) // 0x10912CB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?event_add_particle_system_location_hook@@YAXPAUs_effect_message@@@Z");
-
 	s_effect_datum *effect = effects_get()->try_and_get(message->effect_index);
 	if ((effect && message->field_14 == 1) || (effect && effect->particle_index != -1 && effect->object_index == -1))
 	{
@@ -452,8 +434,6 @@ void event_add_particle_system_location_hook(s_effect_message *message) // 0x109
 
 void render_visible_decals_hook(long pass) // 0x10913E60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_visible_decals_hook@@YAXJ@Z");
-
 	struct c_decal
 	{
 		short identifier;
@@ -503,8 +483,6 @@ void render_visible_decals_hook(long pass) // 0x10913E60
 
 void __fastcall c_effect_messaging_queue__post_message_hook(void *queue, void *unused, s_effect_message const *message) // 0x10910B40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_effect_messaging_queue__post_message_hook@@YIXPAX0PBUs_effect_message@@@Z");
-
 	if (g_effect_message_filter & (1 << (unsigned char)message->type))
 		return;
 	if (message->type == _effect_message_type_create_particle_system)
@@ -518,8 +496,6 @@ void __fastcall c_effect_messaging_queue__post_message_hook(void *queue, void *u
 
 void set_effect_message_filter(e_effect_message_type type, bool filtered) // 0x10914170
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_effect_message_filter@@YAXW4e_effect_message_type@@_N@Z");
-
 	if (filtered)
 	{
 		g_effect_message_filter |= 1 << type;
@@ -532,8 +508,6 @@ void set_effect_message_filter(e_effect_message_type type, bool filtered) // 0x1
 
 void s_gpu_storage_2x16un__pack_call_hook(char *buffer_dblptr, real_vector4d *data) // 0x10914050
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?s_gpu_storage_2x16un__pack_call_hook@@YAXPADPAUreal_vector4d@@@Z");
-
 	short *buffer = *(short **)buffer_dblptr;
 	*buffer = (short)(data->i * 65535.0f - 32767.0f);
 	*(buffer + 1) = (short)(data->j * 65535.0f - 32767.0f);
@@ -542,8 +516,6 @@ void s_gpu_storage_2x16un__pack_call_hook(char *buffer_dblptr, real_vector4d *da
 
 void s_gpu_storage_2x16un__unpack_call_hook(char *buffer_dblptr, real_vector4d *data) // 0x109140E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?s_gpu_storage_2x16un__unpack_call_hook@@YAXPADPAUreal_vector4d@@@Z");
-
 	short *buffer = *(short **)buffer_dblptr;
 	data->i = (*buffer + 32767.0f) / 65535.0f;
 	data->j = (*(buffer + 1) + 32767.0f) / 65535.0f;
@@ -552,15 +524,11 @@ void s_gpu_storage_2x16un__unpack_call_hook(char *buffer_dblptr, real_vector4d *
 
 bool lens_flare_is_constant(s_effect_event const *event_definition) // 0x10913CD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?lens_flare_is_constant@@YA_NPBUs_effect_event@@@Z");
-
 	return event_definition->duration_bounds_min == 0.033333335f && event_definition->duration_bounds_max == 0.033333335f;
 }
 
 void effect_render(unsigned long effect_index, long output_user_index) // 0x109116A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?effect_render@@YAXKJ@Z");
-
 	float (*const transition_function_evaluate)(short, float) = (float (*)(short, float))0x601950;
 	void (*const effect_get_node_matrix)(s_effect_datum *, short, real_matrix4x3 *) = (void (*)(s_effect_datum *, short, real_matrix4x3 *))0x5B6B40;
 	void (*const lens_flares_create)(__int32, __int32, __int32, __int32, real_point3d *, real_vector3d *, real_vector3d *, float, float, float, char, __int32) = (void (*)(__int32, __int32, __int32, __int32, real_point3d *, real_vector3d *, real_vector3d *, float, float, float, char, __int32))0xA5A250;
@@ -639,8 +607,6 @@ void effect_render(unsigned long effect_index, long output_user_index) // 0x1091
 
 void c_particle_emitter_definition__initialize_particle_initial(s_particle_system_emitter *_this, void *state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system) // 0x10911520
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_particle_emitter_definition__initialize_particle_initial@@YAXPAUs_particle_system_emitter@@PAXPAUc_particle@@PAUc_particle_emitter@@PAUc_particle_system@@@Z");
-
 	float (__thiscall *const c_editable_property__c_particle_state_list__evaluate)(c_editable_property *, void *) = (float(__thiscall *const)(c_editable_property *, void *))0x9ecc00;
 
 	emitter->particle_lifespan = c_editable_property__c_particle_state_list__evaluate(&_this->particle_lifespan, state_list);
@@ -657,8 +623,6 @@ void c_particle_emitter_definition__initialize_particle_initial(s_particle_syste
 
 _inline void initialize_particle_cube(s_particle_system_emitter *_this, void *state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system) // 0x10913210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_particle_cube@@YAXPAUs_particle_system_emitter@@PAXPAUc_particle@@PAUc_particle_emitter@@PAUc_particle_system@@@Z");
-
 	c_particle_emitter_definition__initialize_particle_initial(_this, state_list, particle, emitter, system);
 	float emission_radius = emitter->emission_radius;
 	float z = real_random_local() * 2.0f * emission_radius - emission_radius;
@@ -670,8 +634,6 @@ _inline void initialize_particle_cube(s_particle_system_emitter *_this, void *st
 
 _inline void initialize_particle_cylinder(s_particle_system_emitter *_this, void *state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system) // 0x109133F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_particle_cylinder@@YAXPAUs_particle_system_emitter@@PAXPAUc_particle@@PAUc_particle_emitter@@PAUc_particle_system@@@Z");
-
 	c_particle_emitter_definition__initialize_particle_initial(_this, state_list, particle, emitter, system);
 	float x = real_random_local() * 2.0f - 1.0f;
 	float random_circular = real_random_local() * 6.2831855f;
@@ -684,8 +646,6 @@ _inline void initialize_particle_cylinder(s_particle_system_emitter *_this, void
 
 _inline void initialize_particle_unweighted_line(s_particle_system_emitter *_this, void *state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system) // 0x109139B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_particle_unweighted_line@@YAXPAUs_particle_system_emitter@@PAXPAUc_particle@@PAUc_particle_emitter@@PAUc_particle_system@@@Z");
-
 	c_particle_emitter_definition__initialize_particle_initial(_this, state_list, particle, emitter, system);
 	float random_circular = system->real_internal_random_range(0.0f, 6.2831855f);
 	float random_angle = system->real_internal_random_range(0.0f, emitter->emission_angle * 0.017453292f);
@@ -696,8 +656,6 @@ _inline void initialize_particle_unweighted_line(s_particle_system_emitter *_thi
 
 _inline void initialize_particle_planar_orbit(s_particle_system_emitter *_this, void *state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system) // 0x10913610
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_particle_planar_orbit@@YAXPAUs_particle_system_emitter@@PAXPAUc_particle@@PAUc_particle_emitter@@PAUc_particle_system@@@Z");
-
 	c_particle_emitter_definition__initialize_particle_initial(_this, state_list, particle, emitter, system);
 	float random_circular = real_random_local() * 6.2831855f;
 	float emission_radius = emitter->emission_radius;
@@ -707,8 +665,6 @@ _inline void initialize_particle_planar_orbit(s_particle_system_emitter *_this, 
 
 _inline void initialize_particle_sphere_orbit(s_particle_system_emitter *_this, void *state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system) // 0x109137D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_particle_sphere_orbit@@YAXPAUs_particle_system_emitter@@PAXPAUc_particle@@PAUc_particle_emitter@@PAUc_particle_system@@@Z");
-
 	float velocity_magnitude;
 	real_vector3d random_direction;
 	c_particle_emitter_definition__initialize_particle_initial(_this, state_list, particle, emitter, system);
@@ -729,8 +685,6 @@ _inline void initialize_particle_sphere_orbit(s_particle_system_emitter *_this, 
 
 void __fastcall c_particle_emitter_definition__initialize_particle_call_hook(s_particle_system_emitter *_this, void *_, void *particle_state_list, c_particle *particle, c_particle_emitter *emitter, c_particle_system *system, void *particle_movement_definition) // 0x10910CA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_particle_emitter_definition__initialize_particle_call_hook@@YIXPAUs_particle_system_emitter@@PAX1PAUc_particle@@PAUc_particle_emitter@@PAUc_particle_system@@1@Z");
-
 	void (__thiscall *const c_particle_emitter_definition__initialize_particle)(s_particle_system_emitter *, void *, c_particle *, c_particle_emitter *, c_particle_system *, void *) = (void (__thiscall *)(s_particle_system_emitter *, void *, c_particle *, c_particle_emitter *, c_particle_system *, void *))0x9ECF80;
 	float (__thiscall *const c_editable_property__c_particle_state_list__evaluate)(c_editable_property *, void *) = (float (__thiscall *)(c_editable_property *, void *))0x9ECC00;
 	switch ((char)_this->emission_shape)

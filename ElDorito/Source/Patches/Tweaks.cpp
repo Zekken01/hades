@@ -138,8 +138,6 @@ namespace Patches
 	{
 		void ApplyAfterTagsLoaded() // 0x10AD2060
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Tweaks@Patches@@YAXXZ");
-
 			tagsloaded = true;
 			if (Utils::Singleton<Modules::ModuleTweaks>::Instance().VarDisableReactorFog->ValueInt)
 			{
@@ -151,8 +149,6 @@ namespace Patches
 
 		void EnableHitmarkers(bool enabled) // 0x10AD22B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?EnableHitmarkers@Tweaks@Patches@@YAX_N@Z");
-
 			EnableHitmarkersInternal(enabled);
 		}
 	}
@@ -162,8 +158,6 @@ namespace Patches
 
 void DisableReactorFog() // 0x10AD2100
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?DisableReactorFog@@YAXXZ");
-
 	static void (*const tag_iterator_new)(s_tag_iterator *, long) = reinterpret_cast<void (*)(s_tag_iterator *, long)>(0x5033E0);
 	static long (*const tag_iterator_next)(s_tag_iterator *) = reinterpret_cast<long (*)(s_tag_iterator *)>(0x503400);
 	s_tag_iterator iterator;
@@ -182,8 +176,6 @@ void DisableReactorFog() // 0x10AD2100
 
 void EnableHitmarkersInternal(bool enabled) // 0x10AD2300
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?EnableHitmarkersInternal@@YAX_N@Z");
-
 	bool forceDisabled = Utils::Singleton<Modules::ModuleTweaks>::Instance().VarDisableHitMarkers->ValueInt != 0;
 	if (!tags_loaded())
 		return;

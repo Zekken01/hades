@@ -172,8 +172,6 @@ namespace Modules
 {
 	ModuleGraphics::ModuleGraphics() : ModuleBase("Graphics") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x109A4B30
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleGraphics@Modules@@QAE@XZ");
-
 		VarSaturation = AddVariableFloat("Saturation", "saturation", "The saturation", eCommandFlagsArchived, 1.0f, VariableSaturationUpdate);
 		VarSaturation->ValueFloatMin = -10.0f;
 		VarSaturation->ValueFloatMax = 10.0f;
@@ -253,8 +251,6 @@ namespace Modules
 
 bool VariableSaturationUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A7060
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSaturationUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	float saturation = Modules::ModuleGraphics::Instance().VarSaturation->ValueFloat;
 	s_hue_saturation_control *hue_saturation_control = tls_getd().hue_saturation_control;
 	if (!hue_saturation_control)
@@ -269,8 +265,6 @@ bool VariableSaturationUpdate(std::vector<std::string> const &Arguments, std::st
 
 bool VariableRedHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6EA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableRedHueUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	float redHue = Modules::ModuleGraphics::Instance().VarRedHue->ValueFloat;
 	s_hue_saturation_control *hue_saturation_control = tls_getd().hue_saturation_control;
 	if (!hue_saturation_control)
@@ -285,8 +279,6 @@ bool VariableRedHueUpdate(std::vector<std::string> const &Arguments, std::string
 
 bool VariableGreenHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6AE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableGreenHueUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	float greenHue = Modules::ModuleGraphics::Instance().VarGreenHue->ValueFloat;
 	s_hue_saturation_control *hue_saturation_control = tls_getd().hue_saturation_control;
 	if (!hue_saturation_control)
@@ -301,8 +293,6 @@ bool VariableGreenHueUpdate(std::vector<std::string> const &Arguments, std::stri
 
 bool VariableBlueHueUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A61F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableBlueHueUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	float blueHue = Modules::ModuleGraphics::Instance().VarGreenHue->ValueFloat;
 	s_hue_saturation_control *hue_saturation_control = tls_getd().hue_saturation_control;
 	if (!hue_saturation_control)
@@ -317,8 +307,6 @@ bool VariableBlueHueUpdate(std::vector<std::string> const &Arguments, std::strin
 
 bool VariableGammaPowerUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6930
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableGammaPowerUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	float max = Modules::ModuleGraphics::Instance().VarGammaPower->ValueFloatMax;
 	float gamma = Modules::ModuleGraphics::Instance().VarGammaPower->ValueFloat;
 	std::stringstream ss;
@@ -329,8 +317,6 @@ bool VariableGammaPowerUpdate(std::vector<std::string> const &Arguments, std::st
 
 bool VariableDepthOfFieldUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6760
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableDepthOfFieldUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	float dof = Modules::ModuleGraphics::Instance().VarDepthOfField->ValueFloat;
 	s_depth_of_field *globals = s_depth_of_field::get();
 	if (!globals)
@@ -346,8 +332,6 @@ bool VariableDepthOfFieldUpdate(std::vector<std::string> const &Arguments, std::
 
 bool VariableLetterboxUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6CA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableLetterboxUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	unsigned long enabled = Modules::ModuleGraphics::Instance().VarLetterbox->ValueInt;
 	s_cinematic_globals *globals = tls_getd().cinematic_globals;
 	if (!globals)
@@ -362,8 +346,6 @@ bool VariableLetterboxUpdate(std::vector<std::string> const &Arguments, std::str
 
 bool VariableUIScalingUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A7220
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableUIScalingUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (!Modules::ModuleGraphics::Instance().VarUIScaling->ValueInt)
 	{
 		returnInfo = "The changes will apply on game restart";
@@ -377,8 +359,6 @@ bool VariableUIScalingUpdate(std::vector<std::string> const &Arguments, std::str
 
 bool VariableCustomHUDColorsEnabledUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A63B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCustomHUDColorsEnabledUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Utils::Singleton<Modules::ModuleGraphics>::Instance().VarCustomHUDColorsEnabled->ValueInt == 1)
 	{
 		Patches::Ui::enableCustomHUDColors = true;
@@ -393,8 +373,6 @@ bool VariableCustomHUDColorsEnabledUpdate(std::vector<std::string> const &Argume
 
 bool VariableCustomHUDColorsUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A6410
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableCustomHUDColorsUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::match_results<char const *,std::allocator<std::sub_match<char const *> > > what;
 	std::regex expression("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})");
 	if (std::regex_match(Modules::ModuleGraphics::Instance().VarCustomHUDColorsPrimary->ValueString.c_str(), what, expression))
@@ -417,8 +395,6 @@ bool VariableCustomHUDColorsUpdate(std::vector<std::string> const &Arguments, st
 
 bool CommandSupportedResolutions(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109A5EA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSupportedResolutions@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	__int32 adapterIndex = Common::D3DAdapters::GetCurrentAdapterIndex();
 	rapidjson::StringBuffer buffer;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);

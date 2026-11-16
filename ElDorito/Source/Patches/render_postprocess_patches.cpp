@@ -178,15 +178,11 @@ using namespace hades_file_local;
 
 void render_postprocess_patches_tick() // 0x10AC2F20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_postprocess_patches_tick@@YAXXZ");
-
 	reflections_enabled = (bool)Utils::Singleton<Modules::ModuleGraphics>::Instance().VarReflectionsEnabled->ValueInt;
 }
 
 long detect_driver_forced_msaa() // 0x10AC1880
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?detect_driver_forced_msaa@@YAJXZ");
-
 	IDirect3DDevice9Ex *const device = c_rasterizer::get_device();
 	device->BeginScene();
 	struct s_test_vertex
@@ -251,8 +247,6 @@ long detect_driver_forced_msaa() // 0x10AC1880
 
 void render_postprocess_patches_apply_after_init() // 0x10AC2E10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_postprocess_patches_apply_after_init@@YAXXZ");
-
 	driver_forced_msaa_value = detect_driver_forced_msaa();
 	IDirect3DDevice9Ex *device = c_rasterizer::get_device();
 	IDirect3DTexture9 *dup_exposure_tex;
@@ -262,8 +256,6 @@ void render_postprocess_patches_apply_after_init() // 0x10AC2E10
 
 void render_postprocess_patches_apply() // 0x10AC21B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_postprocess_patches_apply@@YAXXZ");
-
 	Hook(0x661770, c_screen_postprocess__postprocess_player_view_hook).Apply();
 	Hook(0x678F20, render_objects_shadow_generate_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 	Hook(0x662411, render_post_process_reflections_enabled_hook).Apply();
@@ -307,16 +299,12 @@ void render_postprocess_patches_apply() // 0x10AC21B0
 
 void render_objects_shadow_generate_hook(long pass, unsigned long flags) // 0x10AC2120
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_objects_shadow_generate_hook@@YAXJK@Z");
-
 	((void(__cdecl *)(int))0xa233c0)(0);
 	((void(__cdecl *)(long, unsigned long))0xa78a50)(pass, flags);
 }
 
 __declspec(naked) void render_post_process_reflections_enabled_hook() // 0x10AC21A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_post_process_reflections_enabled_hook@@YAXXZ");
-
 	__asm
 	{
 		mov al, reflections_enabled
@@ -328,8 +316,6 @@ __declspec(naked) void render_post_process_reflections_enabled_hook() // 0x10AC2
 
 void force_sampler_filter_mode_hook(long sampler, long e_sampler_filter_mode) // 0x10AC1FE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?force_sampler_filter_mode_hook@@YAXJJ@Z");
-
 	void *device = *(void **)0x50daddc;
 	long *sampler_filter_modes = (long *)0x1910630;
 	long device_state = *(long *)0x191055c;
@@ -353,8 +339,6 @@ void force_sampler_filter_mode_hook(long sampler, long e_sampler_filter_mode) //
 
 void set_postprocess_gamma_hook(long index, long count, real_vector4d const *constant) // 0x10AC3780
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_postprocess_gamma_hook@@YAXJJPBUreal_vector4d@@@Z");
-
 	((void(__cdecl *)(long, long, real_vector4d const *))0xA66270)(index, count, constant);
 
 	long gamma_power_register = 8;
@@ -364,8 +348,6 @@ void set_postprocess_gamma_hook(long index, long count, real_vector4d const *con
 
 void set_motion_blur_parameters_hook() // 0x10AC2F90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_motion_blur_parameters_hook@@YAXXZ");
-
 	long (*const global_preferences_get_effects_quality)() = (long (*)())0x50B150;
 	void (*const chud_get_crosshair_screen_position)(__int32, real_point2d *) = (void (*)(__int32, real_point2d *))0xAC9C70;
 	void (*const sub_684700)(__int32, real_vector3d *) = (void (*)(__int32, real_vector3d *))0x684700;
@@ -428,8 +410,6 @@ void set_motion_blur_parameters_hook() // 0x10AC2F90
 
 void c_screen_postprocess__postprocess_player_view_hook(c_camera_fx_values *camera_fx_values, s_render_projection *projection, s_render_camera *camera, s_screen_effect_settings *screen_effect_settings, long splitscreen_res, s_observer_depth_of_field *depth_of_field, long output_user_index) // 0x10AC04E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_screen_postprocess__postprocess_player_view_hook@@YAXPAUc_camera_fx_values@@PAUs_render_projection@@PAUs_render_camera@@PAUs_screen_effect_settings@@JPAUs_observer_depth_of_field@@J@Z");
-
 	char (*const global_preferences_get_anti_aliasing)() = reinterpret_cast<char (*)()>(0x50A830);
 	long (*const global_preferenced_get_effects_quality)() = reinterpret_cast<long (*)()>(0x50B150);
 	bool const g_render_anti_aliasing_enabled = *(bool *)0x1917D60;
@@ -555,8 +535,6 @@ void c_screen_postprocess__postprocess_player_view_hook(c_camera_fx_values *came
 
 void __fastcall c_camera_fx_settings__s_real_exposure_parameter__calculate_new_value_hook(s_camera_fx_exposure_struct *_this, void *_, c_camera_fx_values *camera_fx, __int32 flags, float forced_exposure, float forced_auto_exposure, float min, float max) // 0x10ABFC70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_camera_fx_settings__s_real_exposure_parameter__calculate_new_value_hook@@YIXPAUs_camera_fx_exposure_struct@@PAXPAUc_camera_fx_values@@HMMMM@Z");
-
 	float (__thiscall *const sub_A2A970)(c_camera_fx_values *, float) = (float (__thiscall *)(c_camera_fx_values *, float))0xA2A970;
 	float (__thiscall *const sub_A2A850)(c_camera_fx_values *, float) = (float (__thiscall *)(c_camera_fx_values *, float))0xA2A850;
 	IDirect3DQuery9 **g_exposure_occlusion_buffers = (IDirect3DQuery9 **)0x524B68C;
@@ -619,8 +597,6 @@ void __fastcall c_camera_fx_settings__s_real_exposure_parameter__calculate_new_v
 
 long c_screen_postprocess__downsample_generate_call_hook(e_surface source_surface, c_camera_fx_values *camera_fx, e_surface a3, e_surface a4) // 0x10AC0230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_screen_postprocess__downsample_generate_call_hook@@YAJW4e_surface@@PAUc_camera_fx_values@@00@Z");
-
 	__int32 (*const c_screen_postprocess__downsample_generate)(e_surface, c_camera_fx_values *, e_surface, e_surface) = reinterpret_cast<__int32 (*)(e_surface, c_camera_fx_values *, e_surface, e_surface)>(0xA60B00);
 	IDirect3DQuery9 **g_exposure_occlusion_buffers = reinterpret_cast<IDirect3DQuery9 **>(0x524B68C);
 	__int32 result = c_screen_postprocess__downsample_generate(source_surface, camera_fx, a3, a4);

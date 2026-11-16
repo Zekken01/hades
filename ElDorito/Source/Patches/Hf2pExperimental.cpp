@@ -352,8 +352,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A708B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Hf2pExperimental@Patches@@YAXXZ");
-
 			Hook(0x200630, Hf2pInitHook).Apply();
 			Patch(0x24F6B0, { 0xC3 }).Apply();
 			Patch(0x24EF50, { 0xC3 }).Apply();
@@ -377,16 +375,12 @@ namespace Patches
 
 /* ---------- private code */
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_session_player_ping@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_session_player_ping::s_session_player_ping() = default; // 0x10A70810
 
-// mangled_x86(MANGLED_DEFAULT, "??1s_session_player_ping@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_session_player_ping::~s_session_player_ping() = default; // 0x10A70860
 
 void Hf2pInitHook() // 0x10A723E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pInitHook@@YAXXZ");
-
 	*(unsigned __int32 *)0x50CCB3C = 0;
 	*(unsigned __int32 *)0x244ED28 = 0;
 
@@ -398,15 +392,11 @@ void Hf2pInitHook() // 0x10A723E0
 
 void Hf2pShutdownHook() // 0x10A72B60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pShutdownHook@@YAXXZ");
-
 	eldorado::fmod_dispose();
 }
 
 void SystemMenu() // 0x10A73850
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SystemMenu@@YAXXZ");
-
 	static bool (*const game_in_progress)() = reinterpret_cast<bool (*)()>(0x531E90);
 	static long (*const user_interface_play_sound)(e_user_interface_sound, long) = reinterpret_cast<long (*)(e_user_interface_sound, long)>(0xAA5CD0);
 	static void (__thiscall *const screen_transition_out)(void *, __int32) = reinterpret_cast<void (__thiscall *)(void *, __int32)>(0xAB2830);
@@ -437,8 +427,6 @@ void SystemMenu() // 0x10A73850
 
 __int32 GetSecondsRemainingUntilPlayerSpawn() // 0x10A721B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetSecondsRemainingUntilPlayerSpawn@@YAHXZ");
-
 	unsigned long playerIndex = ((unsigned long (__cdecl *)(long))0x589C30)(0);
 	s_player_datum *const player = players_get()->try_and_get(((unsigned long (__cdecl *)(long))0x589C30)(0));
 	return player ? Pointer(player)(0x2CBC, 1).Read<__int32>() : 0;
@@ -446,8 +434,6 @@ __int32 GetSecondsRemainingUntilPlayerSpawn() // 0x10A721B0
 
 bool PingPlayer(std::string ip, unsigned short port) // 0x10A734F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PingPlayer@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@G@Z");
-
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (session)
 	{
@@ -463,8 +449,6 @@ bool PingPlayer(std::string ip, unsigned short port) // 0x10A734F0
 
 static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10A736C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PongReceived@@YAXABUNetworkAddress@Network@Blam@@IGI@Z");
-
 	if (id != PingId)
 		return;
 	for (__int32 i = 0; i < 16; i++)
@@ -479,8 +463,6 @@ static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __i
 
 void BuildPlayerPing() // 0x10A71CF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildPlayerPing@@YAXXZ");
-
 	static bool (*IsMapLoading)() = reinterpret_cast<bool (*)()>(0x5670E0);
 	if (((bool (*)())0x531E90)() || !((bool (*)())0x5319C0)() || IsMapLoading())
 		return;
@@ -530,8 +512,6 @@ void BuildPlayerPing() // 0x10A71CF0
 
 void Hf2pTickHook() // 0x10A72BB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pTickHook@@YAXXZ");
-
 	static bool (*InPrematchState)(char) = reinterpret_cast<bool (*)(char)>(0x5523A0);
 	static bool (*UpdatePreMatchCamera)() = reinterpret_cast<bool (*)()>(0x72D580);
 	static void (*InitMpDirector)() = reinterpret_cast<void (*)()>(0x72D560);
@@ -634,15 +614,11 @@ void Hf2pTickHook() // 0x10A72BB0
 
 s_global_preferences_settings::e_level LevelStringToSetting(std::string const &value) // 0x10A73430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LevelStringToSetting@@YA?AW4e_level@s_global_preferences_settings@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	return value == "low" ? (s_global_preferences_settings::e_level)0 : value == "medium" ? (s_global_preferences_settings::e_level)1 : (s_global_preferences_settings::e_level)2;
 }
 
 void Hf2pLoadPreferencesHook() // 0x10A72490
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Hf2pLoadPreferencesHook@@YAXXZ");
-
 	Modules::ModuleSettings const &moduleSettings = Utils::Singleton<Modules::ModuleSettings>::Instance();
 	Modules::ModuleCamera const &moduleCamera = Utils::Singleton<Modules::ModuleCamera>::Instance();
 	Modules::ModuleInput const &moduleInput = Utils::Singleton<Modules::ModuleInput>::Instance();
@@ -702,8 +678,6 @@ void Hf2pLoadPreferencesHook() // 0x10A72490
 
 void __fastcall c_game_engine_object_runtime_manager__update_hook(void *thisptr, void *unused) // 0x10A739D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_engine_object_runtime_manager__update_hook@@YIXPAX0@Z");
-
 	void (__thiscall *const c_game_engine_object_runtime_manager__update)(void *) = (void(__thiscall *const)(void *))0x5913e0;
 
 	if (!eldorado::game_engine_round_condition_test(4))
@@ -712,8 +686,6 @@ void __fastcall c_game_engine_object_runtime_manager__update_hook(void *thisptr,
 
 void ApplyDefaultScreenFx() // 0x10A71BC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyDefaultScreenFx@@YAXXZ");
-
 	s_scenario **scnrDefinitionPtr = (s_scenario **)0x22AAEB4;
 
 	if (!scnrDefinitionPtr)
@@ -734,8 +706,6 @@ void ApplyDefaultScreenFx() // 0x10A71BC0
 
 void game_initialize_for_new_map_call_hook(s_game_options *game_options) // 0x10A73F90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_initialize_for_new_map_call_hook@@YAXPAUs_game_options@@@Z");
-
 	((void(__cdecl *)(s_game_options *))0x531600)(game_options);
 
 	ApplyDefaultScreenFx();
@@ -743,8 +713,6 @@ void game_initialize_for_new_map_call_hook(s_game_options *game_options) // 0x10
 
 bool game_finish_should_mute_sounds() // 0x10A73D90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_finish_should_mute_sounds@@YA_NXZ");
-
 	const auto game_engine_running = (bool(*)())0x552410;
 	const auto sound_set_class_volume = (char(*)(char *, __int32, __int32, __int32))0x660F40;
 
@@ -760,8 +728,6 @@ bool game_finish_should_mute_sounds() // 0x10A73D90
 
 void game_finished_wait_time_add_hook(float seconds) // 0x10A73E10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_finished_wait_time_add_hook@@YAXM@Z");
-
 	void (*const game_finished_wait_time_add)(float) = reinterpret_cast<void (*)(float)>(0x530FF0);
 	unsigned char fade_time = Pointer(0x553750).Read<unsigned char>();
 	Pointer(0x553750).Write<unsigned char>(fade_time + seconds);
@@ -770,8 +736,6 @@ void game_finished_wait_time_add_hook(float seconds) // 0x10A73E10
 
 bool game_engine_should_start_music_hook() // 0x10A73AE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_should_start_music_hook@@YA_NXZ");
-
 	long (*const game_engine_variant_get_score_to_win)() = reinterpret_cast<long (*)()>(0x550B50);
 	long (*const game_engine_get_team_score)(unsigned __int32) = reinterpret_cast<long (*)(unsigned __int32)>(0x550C90);
 	unsigned long score_to_start_music_percentage = Utils::Singleton<Modules::ModuleServer>::Instance().VarServerNearVictoryMusicPercentClient->ValueInt;
@@ -817,8 +781,6 @@ bool game_engine_should_start_music_hook() // 0x10A73AE0
 
 long scenario_multiplayer_globals_try_and_get_runtime_data_hook() // 0x10A73FF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?scenario_multiplayer_globals_try_and_get_runtime_data_hook@@YAJXZ");
-
 	const auto scenario_multiplayer_globals_try_and_get_runtime_data = (long(*)())0x69D310;
 
 	long result = scenario_multiplayer_globals_try_and_get_runtime_data();
@@ -833,8 +795,6 @@ long scenario_multiplayer_globals_try_and_get_runtime_data_hook() // 0x10A73FF0
 
 bool game_engine_in_round_hook() // 0x10A73A60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_in_round_hook@@YA_NXZ");
-
 	const auto game_engine_in_round = (bool(*)())0x550F90;
 
 	bool roundInProgress = game_engine_in_round();

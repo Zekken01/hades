@@ -57,8 +57,6 @@ namespace Forge
 	{
 		long FindPodiumObject() // 0x10698120
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindPodiumObject@PodiumPoint@Forge@@YAJXZ");
-
 			s_forge_globals_definition const *forge_globals = forge_globals_get_definition();
 			if (!forge_globals)
 				return -1;

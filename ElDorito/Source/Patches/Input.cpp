@@ -319,8 +319,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A780B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Input@Patches@@YAXXZ");
-
 			Hook(0x105CCD, ProcessUiInputHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x106417, QuickUpdateUiInputHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x234238, BlockInputHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -347,8 +345,6 @@ namespace Patches
 
 		void PushContext(std::shared_ptr<Patches::Input::InputContext> context) // 0x10A7AB70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PushContext@Input@Patches@@YAXV?$shared_ptr@VInputContext@Input@Patches@@@std@@@Z");
-
 			if (contextStack.empty())
 			{
 				for (__int32 i = 0; i < Blam::Input::eInputType_Count; i++)
@@ -364,22 +360,16 @@ namespace Patches
 
 		void RegisterDefaultInputHandler(void (*func)()) // 0x10A7AD30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterDefaultInputHandler@Input@Patches@@YAXP6AXXZ@Z");
-
 			defaultHandlers.push_back(func);
 		}
 
 		void RegisterMenuUIInputHandler(void (*func)()) // 0x10A7AD80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterMenuUIInputHandler@Input@Patches@@YAXP6AXXZ@Z");
-
 			uiHandlers.push_back(func);
 		}
 
 		void SetKeyboardSettingsMenu(std::vector<Blam::Input::ConfigurableAction> const &infantrySettings, std::vector<Blam::Input::ConfigurableAction> const &vehicleSettings) // 0x10A7AEB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetKeyboardSettingsMenu@Input@Patches@@YAXABV?$vector@UConfigurableAction@Input@Blam@@V?$allocator@UConfigurableAction@Input@Blam@@@std@@@std@@0@Z");
-
 			settings.clear();
 			settings.insert(settings.end(), infantrySettings.begin(), infantrySettings.end());
 			settings.insert(settings.end(), vehicleSettings.begin(), vehicleSettings.end());
@@ -404,15 +394,11 @@ namespace Patches
 
 		void TestControllerVibration(float durationSeconds) // 0x10A7B740
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?TestControllerVibration@Input@Patches@@YAXM@Z");
-
 			s_ControllerVibrationTestTicks = game_seconds_to_ticks_round(durationSeconds);
 		}
 
 		void InvalidateBindings() // 0x10A79CA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InvalidateBindings@Input@Patches@@YAXXZ");
-
 			bindingsNextUpdateTicks = 100;
 		}
 	}
@@ -422,13 +408,10 @@ namespace Patches
 
 void null_stub() // 0x10A81040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?null_stub@@YAXXZ");
 }
 
 void PopContext() // 0x10A7A430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PopContext@@YAXXZ");
-
 	contextStack.top()->Deactivated();
 	contextStack.pop();
 	if (!contextStack.empty())
@@ -446,8 +429,6 @@ void PopContext() // 0x10A7A430
 
 void UpdateInputHook() // 0x10A7B9C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateInputHook@@YAXXZ");
-
 	if (contextDone)
 	{
 		PopContext();
@@ -490,8 +471,6 @@ void UpdateInputHook() // 0x10A7B9C0
 
 void UiInputTick() // 0x10A7B7C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UiInputTick@@YAXXZ");
-
 	if (contextStack.empty())
 		return;
 
@@ -504,15 +483,11 @@ void UiInputTick() // 0x10A7B7C0
 
 void ProcessUiInputHook() // 0x10A7AB30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessUiInputHook@@YAXXZ");
-
 	UiInputTick();
 }
 
 void QuickUpdateUiInputHook() // 0x10A7ACD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?QuickUpdateUiInputHook@@YAXXZ");
-
 	void (*QuickPumpMessages)() = (void(*)())0x42e940;
 
 	QuickPumpMessages();
@@ -521,8 +496,6 @@ void QuickUpdateUiInputHook() // 0x10A7ACD0
 
 void BlockInputHook(Blam::Input::InputType type, bool blocked) // 0x10A79380
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BlockInputHook@@YAXW4InputType@Input@Blam@@_N@Z");
-
 	if (contextStack.empty())
 		Blam::Input::BlockInput(type, blocked);
 	blockStates[type] = blocked;
@@ -530,8 +503,6 @@ void BlockInputHook(Blam::Input::InputType type, bool blocked) // 0x10A79380
 
 void UpdateForgeMonitorBindings() // 0x10A7B8F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateForgeMonitorBindings@@YAXXZ");
-
 	// TODO: move these into ModuleInput and possibly add them to the config
 	s_ForgeMonitorModeBindings = *Modules::ModuleInput::GetBindings();
 
@@ -545,16 +516,12 @@ void UpdateForgeMonitorBindings() // 0x10A7B8F0
 
 void InitBindingsHook(Blam::Input::BindingsTable *bindings) // 0x10A79A80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitBindingsHook@@YAXPAUBindingsTable@Input@Blam@@@Z");
-
 	*bindings = *Modules::ModuleInput::GetBindings();
 	bindingsNextUpdateTicks = 100;
 }
 
 Blam::Input::BindingsPreferences *PreferencesGetKeyBindingsHook(Blam::Input::BindingsPreferences *result) // 0x10A7A550
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PreferencesGetKeyBindingsHook@@YAPAUBindingsPreferences@Input@Blam@@PAU123@@Z");
-
 	auto bindings = Modules::ModuleInput::GetBindings();
 	memcpy(result->PrimaryKeys, bindings->PrimaryKeys, sizeof(result->PrimaryKeys));
 	memcpy(result->PrimaryMouseButtons, bindings->PrimaryMouseButtons, sizeof(result->PrimaryMouseButtons));
@@ -565,8 +532,6 @@ Blam::Input::BindingsPreferences *PreferencesGetKeyBindingsHook(Blam::Input::Bin
 
 void PreferencesSetKeyBindingsHook(Blam::Input::BindingsPreferences newBindings) // 0x10A7A620
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PreferencesSetKeyBindingsHook@@YAXUBindingsPreferences@Input@Blam@@@Z");
-
 	auto bindings = Modules::ModuleInput::GetBindings();
 	memcpy(bindings->PrimaryKeys, newBindings.PrimaryKeys, sizeof(bindings->PrimaryKeys));
 	memcpy(bindings->PrimaryMouseButtons, newBindings.PrimaryMouseButtons, sizeof(bindings->PrimaryMouseButtons));
@@ -578,15 +543,11 @@ void PreferencesSetKeyBindingsHook(Blam::Input::BindingsPreferences newBindings)
 
 void GetDefaultBindingsHook(__int32 type, Blam::Input::BindingsTable *result) // 0x10A793F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDefaultBindingsHook@@YAXHPAUBindingsTable@Input@Blam@@@Z");
-
 	*result = *Modules::ModuleInput::GetBindings();
 }
 
 __declspec(naked) void GetKeyboardActionTypeHook() // 0x10A794B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetKeyboardActionTypeHook@@YAXXZ");
-
 	__asm
 	{
 		mov eax, dword ptr actionInputTypes[ecx * 4]
@@ -598,16 +559,12 @@ __declspec(naked) void GetKeyboardActionTypeHook() // 0x10A794B0
 
 bool InMonitorMode() // 0x10A79A00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InMonitorMode@@YA_NXZ");
-
 	static auto Forge_GetEditorModeState = (bool(*)(unsigned __int32 playerIndex, unsigned __int32 *heldObjectIndex, unsigned __int32 *objectIndexUnderCrosshair))(0x59A6F0);
 	return Forge_GetEditorModeState(((unsigned long(*)(long))0x589C30)(0), nullptr, nullptr);
 }
 
 void ProcessKeyBindingsHook(Blam::Input::BindingsTable const &bindings, Blam::Input::ActionState *actions) // 0x10A7A760
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessKeyBindingsHook@@YAXABUBindingsTable@Input@Blam@@PAUActionState@23@@Z");
-
 	void (*EngineProcessKeyBindings)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *) = reinterpret_cast<void (*)(Blam::Input::BindingsTable const &, Blam::Input::ActionState *)>(0x60C4A0);
 	if (InMonitorMode() && !Pointer(0x5260F34)[0](0x3C, 1).Read<short>())
 		EngineProcessKeyBindings(s_ForgeMonitorModeBindings, actions);
@@ -622,8 +579,6 @@ void ProcessKeyBindingsHook(Blam::Input::BindingsTable const &bindings, Blam::In
 
 void ProcessMouseBindingsHook(Blam::Input::BindingsTable const &bindings, Blam::Input::ActionState *actions) // 0x10A7AA80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessMouseBindingsHook@@YAXABUBindingsTable@Input@Blam@@PAUActionState@23@@Z");
-
 	static auto ProcessMouseBindings = (void(*)(const BindingsTable &bindings, ActionState *actions))(0x60CE70);
 	if (InMonitorMode())
 		ProcessMouseBindings(s_ForgeMonitorModeBindings, actions);
@@ -633,8 +588,6 @@ void ProcessMouseBindingsHook(Blam::Input::BindingsTable const &bindings, Blam::
 
 void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateUiControllerInputHook@@YAXH@Z");
-
 	void (*UiUpdateControllerInput)(__int32) = reinterpret_cast<void (*)(__int32)>(0xA93A50);
 	void (*UpdateCharPlatform)() = reinterpret_cast<void (*)()>(0xBB5F00);
 	c_gui_screen_widget *screen = c_gui_location_manager::get_location_gui_screen();
@@ -682,8 +635,6 @@ void UpdateUiControllerInputHook(__int32 a0) // 0x10A7BE10
 
 void SetControllerVibrationHook(__int32 controllerIndex, unsigned short leftMotorSpeed, unsigned short rightMotorSpeed) // 0x10A7ADD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetControllerVibrationHook@@YAXHGG@Z");
-
 	Modules::ModuleInput &moduleInput = Modules::ModuleInput::Instance();
 	float intensity = moduleInput.VarControllerVibrationIntensity->ValueFloat;
 	if (s_ControllerVibrationTestTicks > 0)
@@ -700,8 +651,6 @@ void SetControllerVibrationHook(__int32 controllerIndex, unsigned short leftMoto
 
 bool IsDualWielding() // 0x10A79CD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?IsDualWielding@@YA_NXZ");
-
 	long unit_index = player_control_input_get(0)->unit_index;
 	if (unit_index == -1)
 		return false;
@@ -713,8 +662,6 @@ bool IsDualWielding() // 0x10A79CD0
 
 bool HasEqualBindingsDown(Blam::Input::GameAction action1, Blam::Input::GameAction action2, Blam::Input::InputType inputType) // 0x10A794D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HasEqualBindingsDown@@YA_NW4GameAction@Input@Blam@@0W4InputType@23@@Z");
-
 	auto isUsingController = *(bool*)0x0244DE98;
 	auto& moduleInput = Modules::ModuleInput::Instance();
 	auto bindings = moduleInput.GetBindings();
@@ -795,8 +742,6 @@ bool HasEqualBindingsDown(Blam::Input::GameAction action1, Blam::Input::GameActi
 
 void player_control_update_boots_off_ground(long controller_index, s_player_control_input *input) // 0x10A81060
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_update_boots_off_ground@@YAXJPAUs_player_control_input@@@Z");
-
 	if (!Utils::Singleton<Modules::ModuleDebug>::Instance().VarAcrophobiaClient->ValueInt)
 		return;
 	long unit_index = player_control_input_get(controller_index)->unit_index;
@@ -826,8 +771,6 @@ void player_control_update_boots_off_ground(long controller_index, s_player_cont
 
 void LocalPlayerInputHook(__int32 localPlayerIndex, unsigned __int32 playerIndex, __int32 a3, __int32 a4, __int32 a5, s_player_control_input *state) // 0x10A79DA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LocalPlayerInputHook@@YAXHIHHHPAUs_player_control_input@@@Z");
-
 	struct ControlGlobalsAction
 	{
 		unsigned short Type;
@@ -914,8 +857,6 @@ void LocalPlayerInputHook(__int32 localPlayerIndex, unsigned __int32 playerIndex
 
 bool InitializeDirectInput() // 0x10A79AE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeDirectInput@@YA_NXZ");
-
 	if (g_diInitialized)
 		return true;
 	g_diInitialized = true;
@@ -939,8 +880,6 @@ bool InitializeDirectInput() // 0x10A79AE0
 
 void update_key_state(Blam::Input::KeyState *key, bool is_down, long delta_msec) // 0x10A81A40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_key_state@@YAXPAUKeyState@Input@Blam@@_NJ@Z");
-
 	if (!key->unknown || !is_down)
 	{
 		key->unknown = 0;
@@ -967,8 +906,6 @@ void update_key_state(Blam::Input::KeyState *key, bool is_down, long delta_msec)
 
 void update_keyboard_input_di(long delta_msec, bool enabled, bool *input_detected) // 0x10A81B00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_keyboard_input_di@@YAXJ_NPA_N@Z");
-
 	if (!InitializeDirectInput())
 		return;
 
@@ -991,8 +928,6 @@ void update_keyboard_input_di(long delta_msec, bool enabled, bool *input_detecte
 
 void update_keyboard_input_win32(long delta_msec, bool enabled, bool *out_input_detected) // 0x10A81CE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_keyboard_input_win32@@YAXJ_NPA_N@Z");
-
 	bool in_foreground = *(HWND *)0x199C014 == GetForegroundWindow();
 	for (long i = 0; i < 104; i++)
 	{
@@ -1016,8 +951,6 @@ void update_keyboard_input_win32(long delta_msec, bool enabled, bool *out_input_
 
 void input_update_mouse(unsigned long milliseconds, long delta_milliseconds, bool enabled, bool *input_detected) // 0x10A7FB90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?input_update_mouse@@YAXKJ_NPA_N@Z");
-
 	if (!input_globals.mouse_active)
 		return;
 	if (abs(input_globals.mouse.raw_x) || abs(input_globals.mouse.raw_y) || abs(input_globals.mouse.raw_z))
@@ -1074,8 +1007,6 @@ void input_update_mouse(unsigned long milliseconds, long delta_milliseconds, boo
 
 void input_update_keyboard(long delta_milliseconds, bool enabled, bool *out_input_detected) // 0x10A7FB10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?input_update_keyboard@@YAXJ_NPA_N@Z");
-
 	if (Utils::Singleton<Modules::ModuleInput>::Instance().VarDirectInput->ValueInt == 1)
 	{
 		update_keyboard_input_di(delta_milliseconds, enabled, out_input_detected);
@@ -1088,8 +1019,6 @@ void input_update_keyboard(long delta_milliseconds, bool enabled, bool *out_inpu
 
 void update_button(unsigned char *frames, unsigned short *milliseconds, bool is_pressed, unsigned long delta_milliseconds) // 0x10A81970
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_button@@YAXPAEPAG_NK@Z");
-
 	if (is_pressed)
 	{
 		*frames = *frames + 1 >= 255 ? 255 : *frames + 1;
@@ -1104,8 +1033,6 @@ void update_button(unsigned char *frames, unsigned short *milliseconds, bool is_
 
 void update_threshold(unsigned char *threshold, bool is_pressed, unsigned char value) // 0x10A81E60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_threshold@@YAXPAE_NE@Z");
-
 	if (is_pressed)
 	{
 		unsigned char new_value = (unsigned char)(value >= 32 ? value - 32 : 0);
@@ -1122,8 +1049,6 @@ void update_threshold(unsigned char *threshold, bool is_pressed, unsigned char v
 
 void apply_radial_deadzone(float &x, float &y, float deadzone) // 0x10A7E350
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_radial_deadzone@@YAXAAM0M@Z");
-
 	float const magnitude = real_pin(sqrtf(x * x + y * y), -1.0f, 1.0f);
 	if (magnitude <= deadzone)
 	{
@@ -1141,8 +1066,6 @@ void apply_radial_deadzone(float &x, float &y, float deadzone) // 0x10A7E350
 
 float apply_axial_deadzone(float x, float deadzone) // 0x10A7E120
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_axial_deadzone@@YAMMM@Z");
-
 	if (x > deadzone)
 	{
 		return (x - deadzone) / (1.0f - deadzone);
@@ -1156,8 +1079,6 @@ float apply_axial_deadzone(float x, float deadzone) // 0x10A7E120
 
 void apply_deadzone(short_point_2d *output, short thumb_x, short thumb_y, float axial_deadzone, float radial_deadzone) // 0x10A7E1D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_deadzone@@YAXPAUshort_point_2d@@FFMM@Z");
-
 	float x = (float)thumb_x / 32767.0f;
 	float y = (float)thumb_y / 32767.0f;
 	x = apply_axial_deadzone(x, axial_deadzone);
@@ -1173,8 +1094,6 @@ void apply_deadzone(short_point_2d *output, short thumb_x, short thumb_y, float 
 
 void input_xinput_update_gamepad_core(long controller_index, long delta_milliseconds, _XINPUT_STATE const *xinput_data, s_gamepad_state *out_gamepad_data, s_debug_gamepad_data *out_debug_gamepad_data, bool *out_input_detected) // 0x10A80190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?input_xinput_update_gamepad_core@@YAXJJPBU_XINPUT_STATE@@PAUs_gamepad_state@@PAUs_debug_gamepad_data@@PA_N@Z");
-
 	if (xinput_data->Gamepad.wButtons)
 		*out_input_detected = true;
 	if (xinput_data->Gamepad.bLeftTrigger >= 30 || xinput_data->Gamepad.bRightTrigger >= 30)
@@ -1235,8 +1154,6 @@ void input_xinput_update_gamepad_core(long controller_index, long delta_millisec
 
 bool input_xinput_update_gamepad(long controller_index, long delta_milliseconds, s_gamepad_state *out_gamepad_data, s_debug_gamepad_data *out_debug_gamepad_data, bool *out_input_detected) // 0x10A80040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?input_xinput_update_gamepad@@YA_NJJPAUs_gamepad_state@@PAUs_debug_gamepad_data@@PA_N@Z");
-
 	HINSTANCE__ *hModule = *(HINSTANCE__ **)0x2497CEC;
 	unsigned long (__stdcall *XInputGetStateFn)(unsigned long, _XINPUT_STATE *) = *(unsigned long (__stdcall **)(unsigned long, _XINPUT_STATE *))0x2497CE4;
 	unsigned long (__stdcall *XInputSetStateFn)(unsigned long, _XINPUT_STATE *) = *(unsigned long (__stdcall **)(unsigned long, _XINPUT_STATE *))0x2497CE8;
@@ -1258,8 +1175,6 @@ bool input_xinput_update_gamepad(long controller_index, long delta_milliseconds,
 
 void input_update_gamepads(long delta_milliseconds, bool *out_input_detected) // 0x10A7F5E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?input_update_gamepads@@YAXJPA_N@Z");
-
 	long port = Modules::ModuleInput::Instance().VarInputControllerPort->ValueInt;
 	for (long i = 0; i < 4; i++)
 	{
@@ -1275,8 +1190,6 @@ void input_update_gamepads(long delta_milliseconds, bool *out_input_detected) //
 
 void input_update_gamepads_rumble() // 0x10A7F710
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?input_update_gamepads_rumble@@YAXXZ");
-
 	void (*const input_xinput_update_rumble_state)(long, s_rumble_state *, bool) = reinterpret_cast<void (*)(long, s_rumble_state *, bool)>(0x65F220);
 	bool disabled = input_globals.feedback_supressed || input_globals.supressed;
 	if (((bool (*)())0x531E90)())
@@ -1290,8 +1203,6 @@ void input_update_gamepads_rumble() // 0x10A7F710
 
 void set_control_method(long method) // 0x10A815F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_control_method@@YAXJ@Z");
-
 	if (input_abstraction_globals.control_method != method)
 	{
 		((void (__cdecl *)(long))0x60D7B0)(method);
@@ -1301,8 +1212,6 @@ void set_control_method(long method) // 0x10A815F0
 
 void input_update_hook() // 0x10A7F880
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?input_update_hook@@YAXXZ");
-
 	bool (*const game_in_editor)() = reinterpret_cast<bool (*)()>(0x42E130);
 	bool (*const sub_42E000)() = reinterpret_cast<bool (*)()>(0x42E000);
 	if (!input_globals.initialized || !input_globals.field_1 && (!game_in_editor() || !sub_42E000()))
@@ -1331,8 +1240,6 @@ void input_update_hook() // 0x10A7F880
 
 void normalize_thumbstick_classic(short thumb_x, short thumb_y, float *out_normalized_x, float *out_normalized_y, bool legacy, float legacy_threshold) // 0x10A80840
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?normalize_thumbstick_classic@@YAXFFPAM0_NM@Z");
-
 	float const scale = 1.0f / 32767.0f;
 	float const real_thumb_x = thumb_x;
 	float const real_thumb_y = thumb_y;
@@ -1391,16 +1298,12 @@ void normalize_thumbstick_classic(short thumb_x, short thumb_y, float *out_norma
 
 void normalize_thumbstick_modern(short thumb_x, short thumb_y, float *out_normalized_x, float *out_normalized_y) // 0x10A80F50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?normalize_thumbstick_modern@@YAXFFPAM0@Z");
-
 	*out_normalized_x = real_pin((float)thumb_x * 1.0f / 32767.0f, -1.0f, 1.0f);
 	*out_normalized_y = real_pin((float)thumb_y * 1.0f / 32767.0f, -1.0f, 1.0f);
 }
 
 void input_abstraction_update_gamepad(s_gamepad_state const *gamepad_state, s_game_input_preferences const *preferences, s_game_input_state *input_state, long controller_index) // 0x10A7EB40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?input_abstraction_update_gamepad@@YAXPBUs_gamepad_state@@PBUs_game_input_preferences@@PAUs_game_input_state@@J@Z");
-
 	bool (*const input_blocked)(long) = reinterpret_cast<bool (*)(long)>(0x511B50);
 	input_state->left_thumb_x = gamepad_state->left_thumb.x;
 	input_state->left_thumb_y = gamepad_state->left_thumb.y;
@@ -1487,8 +1390,6 @@ void input_abstraction_update_gamepad(s_gamepad_state const *gamepad_state, s_ga
 
 void input_abstraction_update_hook() // 0x10A7F2A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?input_abstraction_update_hook@@YAXXZ");
-
 	s_gamepad_state *(*const input_get_gamepad_state)(long) = reinterpret_cast<s_gamepad_state *(*)(long)>(0x511840);
 	void (*const input_abstraction_set_control_method)(long) = reinterpret_cast<void (*)(long)>(0x60D7B0);
 	s_mouse_state *(*const input_get_mouse_state)(long) = reinterpret_cast<s_mouse_state *(*)(long)>(0x5119F0);

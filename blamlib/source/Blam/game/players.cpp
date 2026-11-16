@@ -47,15 +47,11 @@ extern void (*const player_refresh_object_appearance_full)(long, long); // 0x112
 
 c_data_array<s_player_datum> *players_get() // 0x10F00570
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?players_get@@YAPAV?$c_data_array@Us_player_datum@@@@XZ");
-
 	return tls_getd().players;
 }
 
 s_player_datum *player_get(unsigned long player_index) // 0x10F004E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_get@@YAPAUs_player_datum@@K@Z");
-
 	if (player_index == -1)
 	{
 		return nullptr;

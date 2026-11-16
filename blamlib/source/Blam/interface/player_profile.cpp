@@ -29,8 +29,6 @@ namespace eldorado
 
 void c_player_profile_interface::set_last_campaign_played_time(long campaign_game_mode, unsigned long long time, bool unused) // 0x10F18C10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_last_campaign_played_time@c_player_profile_interface@@QAEXJ_K_N@Z");
-
 	eldorado::c_player_profile_interface_set_last_campaign_played_time(this, campaign_game_mode, time, unused);
 }
 

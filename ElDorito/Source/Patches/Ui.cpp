@@ -713,8 +713,6 @@ namespace Patches
 	{
 		void ApplyAfterTagsLoaded() // 0x10AD7260
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Ui@Patches@@YAXXZ");
-
 			if (!tagsInitiallyLoaded)
 			{
 				tagsInitiallyLoaded = true;
@@ -739,8 +737,6 @@ namespace Patches
 
 		void ApplyAll() // 0x10AD7390
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Ui@Patches@@YAXXZ");
-
 			Hook(0x6A7547, user_interface_set_campaign_options_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Patch::NopFill(Pointer::Base(0x6E05F3), 2);
 			Patch(0x6C34B0, { 0xB6 }).Apply();
@@ -837,8 +833,6 @@ namespace Patches
 
 		void *ShowDialog(unsigned long const p_DialogID, __int32 const p_Arg1, __int32 const p_Flags, unsigned long const p_ParentID) // 0x10ADD220
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ShowDialog@Ui@Patches@@YAPAXKHHK@Z");
-
 			void *s_UIData = ((void *(__cdecl *)(int))0xab4ed0)(64);
 			if (!s_UIData)
 			{
@@ -851,15 +845,11 @@ namespace Patches
 
 		void OnCreateWindow(std::function<void __cdecl(HWND__ *)> callback) // 0x10ADCCD0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnCreateWindow@Ui@Patches@@YAXV?$function@$$A6AXPAUHWND__@@@Z@std@@@Z");
-
 			createWindowCallbacks.push_back(callback);
 		}
 
 		void TogglePTTSound(bool enabled) // 0x10ADD3E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?TogglePTTSound@Ui@Patches@@YAX_N@Z");
-
 			static void (*Sound_LoopingSound_Stop)(unsigned __int32, __int32) = (void (*)(unsigned __int32, __int32))0x5DC6B0;
 			static void (*Sound_LoopingSound_Start)(unsigned __int32, __int32, __int32, __int32, char) = (void (*)(unsigned __int32, __int32, __int32, __int32, char))0x5DC530;
 			if (IsMapLoading())
@@ -886,8 +876,6 @@ namespace Patches
 
 		void ToggleSpeakingPlayerName(std::string name, bool speaking) // 0x10ADD620
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ToggleSpeakingPlayerName@Ui@Patches@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
-
 			for (unsigned __int32 i = 0; i < speakingPlayers.size(); i++)
 			{
 				if (speakingPlayers.at(i) == name)
@@ -917,8 +905,6 @@ namespace Patches
 
 		void ApplyUIResolution() // 0x10ADB800
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyUIResolution@Ui@Patches@@YAXXZ");
-
 			long *game_resolution = (long *)0x19106C0;
 			long *ui_resolution = (long *)0x19106C8;
 
@@ -942,8 +928,6 @@ namespace Patches
 
 		void ShowLanBrowser() // 0x10ADD2E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ShowLanBrowser@Ui@Patches@@YAXXZ");
-
 			typedef void*(__cdecl * UI_AllocPtr)(int size);
 			auto UI_Alloc = reinterpret_cast<UI_AllocPtr>(0xAB4ED0);
 			typedef void*(__fastcall* c_load_game_browser_screen_messagePtr)(void *thisPtr, int unused, int arg0, int arg1, int arg2, int arg3, int arg4, int arg5);
@@ -965,15 +949,11 @@ namespace Patches
 
 void __fastcall c_gui_map_category_datasource__ctor_hook(c_gui_map_category_datasource *thisptr, void *__formal, wchar_t const *recent_maps_item_title, wchar_t const *recent_maps_item_description, wchar_t const *file_share_item_title, wchar_t const *file_share_item_description) // 0x10AE1030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_map_category_datasource__ctor_hook@@YIXPAVc_gui_map_category_datasource@@PAXPB_W222@Z");
-
 	new (thisptr) c_gui_map_category_datasource(recent_maps_item_title, recent_maps_item_description, file_share_item_title, file_share_item_description);
 }
 
 void __fastcall c_gui_player_select_screen_widget__set_mute_hook(void *thisPtr, void *unused, bool muted) // 0x10AE10C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_player_select_screen_widget__set_mute_hook@@YIXPAX0_N@Z");
-
 	char (*const user_interface_session_get_player_index)(char *) = reinterpret_cast<char (*)(char *)>(0xA819E0);
 	char *player_identifier_local = (char *)thisPtr + 0x1AA0;
 	char *player_identifier_selected = (char *)thisPtr + 0x1AA8;
@@ -1005,8 +985,6 @@ void __fastcall c_gui_player_select_screen_widget__set_mute_hook(void *thisPtr, 
 
 bool isValidUrl(std::string const &url) // 0x10AE8D10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?isValidUrl@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	std::regex url_regex("^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\\?([^#]*))?(#(.*))?", std::regex_constants::extended);
 
 	return std::regex_match(url, url_regex);
@@ -1014,8 +992,6 @@ bool isValidUrl(std::string const &url) // 0x10AE8D10
 
 void __fastcall c_gui_player_select_screen_widget__show_service_record_hook(void *thisPtr, void *unused, bool muted) // 0x10AE14B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_player_select_screen_widget__show_service_record_hook@@YIXPAX0_N@Z");
-
 	char (*const user_interface_session_get_player_index)(char *) = reinterpret_cast<char (*)(char *)>(0xA819E0);
 	char *player_identifier_local = (char *)thisPtr + 0x1AA0;
 	char *player_identifier_selected = (char *)thisPtr + 0x1AA8;
@@ -1061,8 +1037,6 @@ void __fastcall c_gui_player_select_screen_widget__show_service_record_hook(void
 
 bool UserInterfaceSquadSetMap_hook(__int32 a1, __int32 a2, char a3, __int32 a4, __int32 a5, __int32 a6) // 0x10ADDDE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UserInterfaceSquadSetMap_hook@@YA_NHHDHHH@Z");
-
 	long c;
 	long m;
 	if (((bool(*)(long *, long *))0xA817B0)(&c, &m))
@@ -1075,8 +1049,6 @@ bool UserInterfaceSquadSetMap_hook(__int32 a1, __int32 a2, char a3, __int32 a4, 
 
 bool AttractShouldStartHook() // 0x10ADB920
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AttractShouldStartHook@@YA_NXZ");
-
 	bool (*const AttractShouldStart)() = (bool (*const)())0xa992a0;
 
 	if (HasAttractBinks)
@@ -1091,8 +1063,6 @@ bool AttractShouldStartHook() // 0x10ADB920
 
 __int32 GetPlayerRankIndex(__int32 networkPlayerIndex) // 0x10ADC160
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerRankIndex@@YAHH@Z");
-
 	long rank;
 
 	if (!::Player::CPlayersInfo::IsAvailable())
@@ -1106,8 +1076,6 @@ __int32 GetPlayerRankIndex(__int32 networkPlayerIndex) // 0x10ADC160
 
 __int32 GetPlayerSkillIndex(__int32 networkPlayerIndex) // 0x10ADC1D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerSkillIndex@@YAHH@Z");
-
 	long skill;
 
 	if (!::Player::CPlayersInfo::IsAvailable())
@@ -1121,8 +1089,6 @@ __int32 GetPlayerSkillIndex(__int32 networkPlayerIndex) // 0x10ADC1D0
 
 std::wstring GetRankName(__int32 rankIndex) // 0x10ADC830
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetRankName@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
-
 	bool (*const user_interface_global_string_get)(unsigned long, wchar_t (&)[1024]) = (bool (*const)(unsigned long, wchar_t (&)[1024]))0xaa5970;
 	c_gui_data *(*const interface_get_global_datasource)(unsigned long) = (c_gui_data *(*const)(unsigned long))0xa84200;
 	c_gui_data *datasource = interface_get_global_datasource(66510);
@@ -1150,8 +1116,6 @@ std::wstring GetRankName(__int32 rankIndex) // 0x10ADC830
 
 std::wstring GetRankGradeName(__int32 rankIndex) // 0x10ADC5B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetRankGradeName@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
-
 	bool (*const user_interface_global_string_get)(unsigned long, wchar_t (&)[1024]) = (bool (*const)(unsigned long, wchar_t (&)[1024]))0xaa5970;
 	c_gui_data *(*const interface_get_global_datasource)(unsigned long) = (c_gui_data *(*const)(unsigned long))0xa84200;
 	c_gui_data *datasource = interface_get_global_datasource(66510);
@@ -1179,8 +1143,6 @@ std::wstring GetRankGradeName(__int32 rankIndex) // 0x10ADC5B0
 
 void __fastcall c_gui_location_manager__change_location_hook(c_gui_location_manager *thisptr, void *__formal, unsigned long screen_name) // 0x10AE0B90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_location_manager__change_location_hook@@YIXPAUc_gui_location_manager@@PAXK@Z");
-
 	void (__thiscall *const c_load_screen_message_ctor)(void *, unsigned long, long, long, unsigned long) = reinterpret_cast<void (__thiscall *)(void *, unsigned long, long, long, unsigned long)>(0xA92780);
 	void (*const user_interface_messaging_post)(void *) = reinterpret_cast<void (*)(void *)>(0xA93450);
 	void *(*const user_interface_malloc)(unsigned __int32) = reinterpret_cast<void *(*)(unsigned __int32)>(0xAB4ED0);
@@ -1238,8 +1200,6 @@ void __fastcall c_gui_location_manager__change_location_hook(c_gui_location_mana
 
 bool __fastcall c_gui_screen_pregame_lobby__handle_controller_input_message_fallback_hook(c_gui_screen_widget *thisptr, void *__formal, c_controller_input_message *message) // 0x10AE3EA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_pregame_lobby__handle_controller_input_message_fallback_hook@@YI_NPAVc_gui_screen_widget@@PAXPAUc_controller_input_message@@@Z");
-
 	bool (__thiscall *const sub_AB1270)(c_gui_screen_widget *, c_controller_input_message *) = (bool(__thiscall *const)(c_gui_screen_widget *, c_controller_input_message *))0xab1270;
 	void (__thiscall *const sub_B225B0)(c_gui_screen_widget *, int) = (void(__thiscall *const)(c_gui_screen_widget *, int))0xb225b0;
 
@@ -1254,8 +1214,6 @@ bool __fastcall c_gui_screen_pregame_lobby__handle_controller_input_message_fall
 
 bool __fastcall c_start_menu_settings_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data) // 0x10AE8020
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_start_menu_settings_handle_list_item_chosen_hook@@YI_NPAX00KPBVc_gui_list_item_widget@@PAVc_gui_data@@@Z");
-
 	bool (__thiscall *const handle_list_item_chosen)(void *, void *, unsigned long, c_gui_list_item_widget const *, c_gui_data const *) = reinterpret_cast<bool (__thiscall *)(void *, void *, unsigned long, c_gui_list_item_widget const *, c_gui_data const *)>(0xAF73B0);
 	unsigned long id;
 	if (list_name == 0x10127)
@@ -1275,8 +1233,6 @@ bool __fastcall c_start_menu_settings_handle_list_item_chosen_hook(void *thisptr
 
 bool __fastcall c_main_menu_screen_widget_handle_list_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long list_name, c_gui_list_item_widget const *list_item, c_gui_data *data) // 0x10AE4BC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_main_menu_screen_widget_handle_list_item_chosen_hook@@YI_NPAX00KPBVc_gui_list_item_widget@@PAVc_gui_data@@@Z");
-
 	bool (__thiscall *const handle_list_item_chosen)(void *, void *, unsigned long, c_gui_list_item_widget const *, c_gui_data const *) = reinterpret_cast<bool (__thiscall *)(void *, void *, unsigned long, c_gui_list_item_widget const *, c_gui_data const *)>(0xAE77D0);
 	if (list_name == 0x10083)
 	{
@@ -1322,8 +1278,6 @@ bool __fastcall c_main_menu_screen_widget_handle_list_item_chosen_hook(void *thi
 
 void ui_background_set_hook(__int32 index) // 0x10AE9250
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ui_background_set_hook@@YAXH@Z");
-
 	void (*const ui_set_mainmenu_bitmap_texture)(__int32) = reinterpret_cast<void (*)(__int32)>(0xA20310);
 	bool (*const bitmap_group_try_get_texture)(long, long, c_rasterizer_texture_ref *) = reinterpret_cast<bool (*)(long, long, c_rasterizer_texture_ref *)>(0x718D10);
 	long (__thiscall *const rasterizer_bitmap_get_texture)(void *) = reinterpret_cast<long (__thiscall *)(void *)>(0xA6E8E0);
@@ -1405,8 +1359,6 @@ void ui_background_set_hook(__int32 index) // 0x10AE9250
 
 void user_interface_networking_notify_booted_from_session_hook(__int32 a1, e_network_session_boot_reason reason) // 0x10AE97E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?user_interface_networking_notify_booted_from_session_hook@@YAXHW4e_network_session_boot_reason@@@Z");
-
 	__int32 (__thiscall *const c_gui_error_manager__post_error)(void *, unsigned long, __int32, bool) = reinterpret_cast<__int32 (__thiscall *)(void *, unsigned long, __int32, bool)>(0xA91FB0);
 	__int32 (*const sub_A81280)(__int32) = reinterpret_cast<__int32 (*)(__int32)>(0xA81280);
 	char (*const sub_A92540)() = reinterpret_cast<char (*)()>(0xA92540);
@@ -1441,8 +1393,6 @@ void user_interface_networking_notify_booted_from_session_hook(__int32 a1, e_net
 
 void __fastcall c_start_menu_screen_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds) // 0x10AE7D10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_start_menu_screen_widget__update_render_state_hook@@YIXPAVc_gui_screen_widget@@PAXK@Z");
-
 	void (__thiscall *const c_start_menu_screen_widget__update_render_state)(void *, unsigned long) = reinterpret_cast<void (__thiscall *)(void *, unsigned long)>(0xAE1660);
 	void (__thiscall *UI_Widget_MultiplyColor)(void *, float *) = reinterpret_cast<void (__thiscall *)(void *, float *)>(0xAB9D70);
 	void (*UI_ColorWidgetWithPlayerColor)(void *, __int32, bool) = reinterpret_cast<void (*)(void *, __int32, bool)>(0xAA4C80);
@@ -1480,8 +1430,6 @@ void __fastcall c_start_menu_screen_widget__update_render_state_hook(c_gui_scree
 
 void __fastcall c_start_menu_screen_widget__post_initialize_hook(c_gui_screen_widget *thisptr, void *unused) // 0x10AE7C40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_start_menu_screen_widget__post_initialize_hook@@YIXPAVc_gui_screen_widget@@PAX@Z");
-
 	void (__thiscall *const post_initialize)(c_gui_screen_widget *) = (void(__thiscall *const)(c_gui_screen_widget *))0xae0f00;
 
 	post_initialize(thisptr);
@@ -1500,8 +1448,6 @@ void __fastcall c_start_menu_screen_widget__post_initialize_hook(c_gui_screen_wi
 
 void c_gui_spartan_rank_widget__update_sub_hook(c_gui_widget *widget, long in_rank, long in_grade) // 0x10AE44C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_spartan_rank_widget__update_sub_hook@@YAXPAVc_gui_widget@@JJ@Z");
-
 	void (*const c_gui_spartan_rank_widget_update_sub)(c_gui_widget *, long, long) = reinterpret_cast<void (*)(c_gui_widget *, long, long)>(0xAFC170);
 	__int32 (*const user_interface_session_get_player_index)(char *) = reinterpret_cast<__int32 (*)(char *)>(0xA819E0);
 	void (*UI_Widget_MultiplyColor)(void *, __int32, float *) = reinterpret_cast<void (*)(void *, __int32, float *)>(0xAB9D70);
@@ -1532,8 +1478,6 @@ void c_gui_spartan_rank_widget__update_sub_hook(c_gui_widget *widget, long in_ra
 
 void __fastcall c_spartan_rank_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE75D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_spartan_rank_widget__update_render_state_hook@@YIXPAVc_gui_screen_widget@@PAXK@Z");
-
 	static bool teamsEnabled = false;
 	static __int32 team_index = -1;
 	static float rank_nameplate_color[4] = { 1.0f, 0.0f, 0.0f, 0.0f };
@@ -1589,8 +1533,6 @@ void __fastcall c_spartan_rank_widget__update_render_state_hook(c_gui_screen_wid
 
 void c_player_select_actions_datasource__add_action(c_player_select_actions_datasource *result, __int32 stringid, bool enabled) // 0x10AE4FB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_select_actions_datasource__add_action@@YAXPAUc_player_select_actions_datasource@@H_N@Z");
-
 	__int32 button_index = result->button_count;
 	if (button_index < 8)
 		result->buttons[button_index] = stringid;
@@ -1599,8 +1541,6 @@ void c_player_select_actions_datasource__add_action(c_player_select_actions_data
 
 bool c_gui_screen_pregame_lobby__squad_party_leader_hook(void *thisptr, wchar_t *buffer, unsigned __int32 length) // 0x10AE3F60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_pregame_lobby__squad_party_leader_hook@@YA_NPAXPA_WI@Z");
-
 	bool (*const user_interface_squad_exists)() = reinterpret_cast<bool (*)()>(0xA82980);
 	__int32 (*const user_interface_squad_leader_get_player_index)() = reinterpret_cast<__int32 (*)()>(0xA82BE0);
 	s_player_configuration *(*const user_interface_squad_get_player_data)(__int32) = reinterpret_cast<s_player_configuration *(*)(__int32)>(0xA82EC0);
@@ -1626,8 +1566,6 @@ bool c_gui_screen_pregame_lobby__squad_party_leader_hook(void *thisptr, wchar_t 
 
 void __fastcall c_player_select_actions_datasource__initialize_hook(c_player_select_actions_datasource *thisptr) // 0x10AE5010
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_select_actions_datasource__initialize_hook@@YIXPAUc_player_select_actions_datasource@@@Z");
-
 	__int32 (*const user_interface_session_get_player_index)(void *) = reinterpret_cast<__int32 (*)(void *)>(0xA819E0);
 	__int32 (*const user_interface_squad_get_player_index)(void *) = reinterpret_cast<__int32 (*)(void *)>(0xA82F90);
 	bool (*const user_interface_interactive_session_is_group)() = reinterpret_cast<bool (*)()>(0xA811F0);
@@ -1660,8 +1598,6 @@ void __fastcall c_player_select_actions_datasource__initialize_hook(c_player_sel
 
 void __fastcall c_player_select_screen_widget__update_render_state_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE7140
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_select_screen_widget__update_render_state_hook@@YIXPAVc_gui_screen_widget@@PAXK@Z");
-
 	void (__thiscall *const c_player_select_screen_widget__update_render_state)(void *, unsigned long) = reinterpret_cast<void (__thiscall *)(void *, unsigned long)>(0xB0A670);
 	__int32 (*const user_interface_session_get_player_index)(char *) = reinterpret_cast<__int32 (*)(char *)>(0xA819E0);
 	void (__fastcall *UI_Widget_MultiplyColor)(void *, __int32, float *) = reinterpret_cast<void (__fastcall *)(void *, __int32, float *)>(0xAB9D70);
@@ -1698,8 +1634,6 @@ void __fastcall c_player_select_screen_widget__update_render_state_hook(c_gui_sc
 
 void gui_widget_set_visible_safe(c_gui_widget *item, bool visibility) // 0x10AE8BE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?gui_widget_set_visible_safe@@YAXPAVc_gui_widget@@_N@Z");
-
 	if (item)
 	{
 		item->set_visible(visibility);
@@ -1708,8 +1642,6 @@ void gui_widget_set_visible_safe(c_gui_widget *item, bool visibility) // 0x10AE8
 
 void __fastcall c_player_select_screen_widget__update_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE5440
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_select_screen_widget__update_hook@@YIXPAVc_gui_screen_widget@@PAXK@Z");
-
 	char (__thiscall *const c_player_select_screen_widget__update)(void *, unsigned long) = (char (__thiscall *)(void *, unsigned long))0xB0A1D0;
 	__int32 (*const user_interface_session_get_player_index)(char *) = (__int32 (*)(char *))0xA819E0;
 	char *player_identifier_local = (char *)thisptr + 0x1AA0;
@@ -1978,8 +1910,6 @@ void __fastcall c_player_select_screen_widget__update_hook(c_gui_screen_widget *
 
 void __fastcall c_gui_roster_list_widget_update_hook(c_gui_screen_widget *thisptr, void *unused, unsigned long milliseconds) // 0x10AE2460
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_roster_list_widget_update_hook@@YIXPAVc_gui_screen_widget@@PAXK@Z");
-
 	long (__thiscall *const c_gui_list_item_widget__get_element_handle)(void *) = (long (__thiscall *)(void *))0xB184A0;
 	char (__thiscall *const c_gui_roster_data__get_integer_value)(void *, long, unsigned long, long *) = (char (__thiscall *)(void *, long, unsigned long, long *))0xB24CA0;
 	void *(__thiscall *const c_gui_list_widget__get_data)(void *) = (void *(__thiscall *)(void *))0xB14FE0;
@@ -2176,8 +2106,6 @@ void __fastcall c_gui_roster_list_widget_update_hook(c_gui_screen_widget *thispt
 
 void __fastcall c_gui_custom_bitmap_widget__set_map_image_hook(c_gui_custom_bitmap_widget *thisptr, long unused, e_image_content_type map_image, __int32 map_id, bool a4) // 0x10AE04A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_custom_bitmap_widget__set_map_image_hook@@YIXPAUc_gui_custom_bitmap_widget@@JW4e_image_content_type@@H_N@Z");
-
 	s_level_datum level;
 	if (levels_try_and_get_multiplayer_map(map_id, &level) || levels_try_and_get_campaign_map(map_id, &level))
 	{
@@ -2194,8 +2122,6 @@ void __fastcall c_gui_custom_bitmap_widget__set_map_image_hook(c_gui_custom_bitm
 
 void __fastcall c_gui_custom_bitmap_widget__update_hook(c_gui_custom_bitmap_widget *thisptr, void *__formal, unsigned long time) // 0x10AE07F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_custom_bitmap_widget__update_hook@@YIXPAUc_gui_custom_bitmap_widget@@PAXK@Z");
-
 	void (__thiscall *const c_gui_custom_bitmap_widget__reset)(c_gui_custom_bitmap_widget *) = reinterpret_cast<void (__thiscall *)(c_gui_custom_bitmap_widget *)>(0xAC3D50);
 	void (__thiscall *const c_gui_widget__update)(void *, unsigned long) = reinterpret_cast<void (__thiscall *)(void *, unsigned long)>(0xABB070);
 	c_gui_widget__update(thisptr, time);
@@ -2215,8 +2141,6 @@ void __fastcall c_gui_custom_bitmap_widget__update_hook(c_gui_custom_bitmap_widg
 
 void __fastcall c_gui_custom_bitmap_widget__reset_hook(c_gui_custom_bitmap_widget *thisptr) // 0x10AE0400
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_custom_bitmap_widget__reset_hook@@YIXPAUc_gui_custom_bitmap_widget@@@Z");
-
 	if (thisptr->m_storage_item_index != -1)
 	{
 		CustomBitmapManager::Get()->BitmapRelease(thisptr->m_storage_item_index);
@@ -2226,8 +2150,6 @@ void __fastcall c_gui_custom_bitmap_widget__reset_hook(c_gui_custom_bitmap_widge
 
 void ResolutionChangeHook() // 0x10ADD1C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ResolutionChangeHook@@YAXXZ");
-
 	typedef void(__thiscall *ApplyResolutionChangeFunc)();
 	ApplyResolutionChangeFunc ApplyResolutionChange = reinterpret_cast<ApplyResolutionChangeFunc>(0xA226D0);
 	ApplyResolutionChange();
@@ -2239,8 +2161,6 @@ void ResolutionChangeHook() // 0x10ADD1C0
 
 __int32 UI_ListItem_GetIndex(void *item) // 0x10ADD9D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UI_ListItem_GetIndex@@YAHPAX@Z");
-
 	typedef int(__fastcall* UI_ListItem_GetIndexPtr)(void *thisPtr, int unused);
 	auto vtable = *reinterpret_cast<void***>(item);
 	auto GetIndex = reinterpret_cast<UI_ListItem_GetIndexPtr>(vtable[6]);
@@ -2249,8 +2169,6 @@ __int32 UI_ListItem_GetIndex(void *item) // 0x10ADD9D0
 
 bool UI_OrderedDataSource_Get(void *data, __int32 index, __int32 key, void *result) // 0x10ADDA50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UI_OrderedDataSource_Get@@YA_NPAXHH0@Z");
-
 	typedef bool(__fastcall* UI_OrderedDataSource_GetPtr)(void *thisPtr, int unused, int index, int key, void *result);
 	auto vtable = *reinterpret_cast<void***>(data);
 	auto Get = reinterpret_cast<UI_OrderedDataSource_GetPtr>(vtable[11]);
@@ -2259,8 +2177,6 @@ bool UI_OrderedDataSource_Get(void *data, __int32 index, __int32 key, void *resu
 
 __int32 __fastcall c_gui_roster_list_widget__start_team_change_hook(void *thisPtr, __int32 unused, __int32 a2, __int32 teamIndex, __int32 a4) // 0x10AE1B00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_roster_list_widget__start_team_change_hook@@YIHPAXHHHH@Z");
-
 	localDesiredTeam = teamIndex;
 	__int32 (__thiscall *F)(void *, __int32, __int32, __int32) = (__int32(__thiscall *)(void *, __int32, __int32, __int32))0xb25c30;
 	return F(thisPtr, a2, teamIndex, a4);
@@ -2268,8 +2184,6 @@ __int32 __fastcall c_gui_roster_list_widget__start_team_change_hook(void *thisPt
 
 void OnUiInputUpdated() // 0x10ADCE40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUiInputUpdated@@YAXXZ");
-
 	bool isUsingController = *(bool *)0x244DE98;
 	if (isUsingController && Blam::Input::GetActionState(Blam::Input::eGameActionUiB)->Ticks == 1)
 	{
@@ -2298,8 +2212,6 @@ void OnUiInputUpdated() // 0x10ADCE40
 
 void __fastcall c_gui_roster_list_widget__update_render_state(c_gui_screen_widget *thisPtr, void *__formal, unsigned long milliseconds) // 0x10AE1B90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_roster_list_widget__update_render_state@@YIXPAVc_gui_screen_widget@@PAXK@Z");
-
 	void *(__thiscall *const UI_GetOrderedDataSource)(void *) = (void *(__thiscall *)(void *))0xB14FE0;
 	void (__thiscall *const UI_BaseUpdateListColors)(void *, unsigned long) = (void (__thiscall *)(void *, unsigned long))0xB16650;
 	void (*const UI_ColorWidgetWithPlayerColor)(void *, __int32, bool) = (void (*)(void *, __int32, bool))0xAA4C80;
@@ -2396,8 +2308,6 @@ void __fastcall c_gui_roster_list_widget__update_render_state(c_gui_screen_widge
 
 static HWND__ *CreateGameWindowHook() // 0x10ADB990
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateGameWindowHook@@YAPAUHWND__@@XZ");
-
 	if (Utils::Singleton<ElDorito>::Instance().IsHeadless())
 	{
 		WNDCLASSEXW wc;
@@ -2426,8 +2336,6 @@ static HWND__ *CreateGameWindowHook() // 0x10ADB990
 
 bool UpdateH3HUDImpl(__int32 playerMappingIndex) // 0x10ADDB60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateH3HUDImpl@@YA_NH@Z");
-
 	struct ControlGlobalsAction
 	{
 		unsigned short Type;
@@ -2460,8 +2368,6 @@ bool UpdateH3HUDImpl(__int32 playerMappingIndex) // 0x10ADDB60
 
 void UI_UpdateH3HUDHook(__int32 playerMappingIndex) // 0x10ADDAE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UI_UpdateH3HUDHook@@YAXH@Z");
-
 	static auto UI_UpdateHUD = (void(__cdecl*)(int playerMappingIndex))(0xA95D10);
 
 	if (!UpdateH3HUDImpl(playerMappingIndex))
@@ -2470,8 +2376,6 @@ void UI_UpdateH3HUDHook(__int32 playerMappingIndex) // 0x10ADDAE0
 
 bool GetBoundMouseButtonName(__int32 code, wchar_t *buff) // 0x10ADBCA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetBoundMouseButtonName@@YA_NHPA_W@Z");
-
 	using namespace Blam::Input;
 
 	static auto GameActionFromUnicodeCode = (GameAction(__cdecl *)(int code))(0xABD240);
@@ -2504,8 +2408,6 @@ bool GetBoundMouseButtonName(__int32 code, wchar_t *buff) // 0x10ADBCA0
 
 __declspec(naked) void GetActionButtonNameHook() // 0x10ADBC70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetActionButtonNameHook@@YAXXZ");
-
 	__asm
 	{
 		push dword ptr [ebp + 14h]
@@ -2526,8 +2428,6 @@ __declspec(naked) void GetActionButtonNameHook() // 0x10ADBC70
 
 void __fastcall c_ui_view_draw_hook(void *thisptr, void *unused) // 0x10AE8270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_ui_view_draw_hook@@YIXPAX0@Z");
-
 	if (!Utils::Singleton<Modules::ModuleGame>::Instance().VarHideH3UI->ValueInt)
 	{
 		((void(__thiscall *)(void *))0xA290A0)(thisptr);
@@ -2538,8 +2438,6 @@ void __fastcall c_ui_view_draw_hook(void *thisptr, void *unused) // 0x10AE8270
 
 __int32 GetPlayerTypeFlagsValues() // 0x10ADC240
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerTypeFlagsValues@@YAHXZ");
-
 	s_player_datum *playerDatum = players_get()->try_and_get(((long (*)(long))0x589C30)(0));
 	if (!playerDatum)
 		return 1;
@@ -2570,8 +2468,6 @@ __int32 GetPlayerTypeFlagsValues() // 0x10ADC240
 
 __int32 GetMultiplayerFlagsValues() // 0x10ADC040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMultiplayerFlagsValues@@YAHXZ");
-
 	__int32 flags = 0;
 	Modules::ModuleVoIP &voipModule = Modules::ModuleVoIP::Instance();
 	if (!voipModule.VarVoipEnabled->ValueInt == 0)
@@ -2613,8 +2509,6 @@ __int32 GetMultiplayerFlagsValues() // 0x10ADC040
 
 __int32 GetMultiplayerEventsFlagsValues() // 0x10ADBFD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMultiplayerEventsFlagsValues@@YAHXZ");
-
 	__int32 flags = 0;
 
 	if (Patches::Ui::speakingPlayers.size() > 0)
@@ -2627,8 +2521,6 @@ __int32 GetMultiplayerEventsFlagsValues() // 0x10ADBFD0
 
 __int32 GetUnitGeneralFlagsValues() // 0x10ADCAB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetUnitGeneralFlagsValues@@YAHXZ");
-
 	__int32 flags = 0;
 	Modules::ModuleVoIP &voipModule = Modules::ModuleVoIP::Instance();
 	if (!voipModule.VarVoipEnabled->ValueInt == 0 && voipModule.voipConnected)
@@ -2654,8 +2546,6 @@ __int32 GetUnitGeneralFlagsValues() // 0x10ADCAB0
 
 __int32 GameStateFlagsValues() // 0x10ADBB80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GameStateFlagsValues@@YAHXZ");
-
 	s_player_datum *player = players_get()->try_and_get(eldorado::player_mapping_get_player_by_input_user(0));
 
 	if (!player)
@@ -2684,8 +2574,6 @@ __int32 GameStateFlagsValues() // 0x10ADBB80
 
 unsigned long __fastcall GetGlobalDynamicColorHook(s_chud_globals_definition *thisptr, void *unused, long character_type, long color_index) // 0x10ADBE10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetGlobalDynamicColorHook@@YIKPAUs_chud_globals_definition@@PAXJJ@Z");
-
 	s_chud_globals_definition *chud_definition = *(s_chud_globals_definition **)0x5257C40;
 	if (character_type < 0 || character_type >= chud_definition->character_globals.count)
 		return 0;
@@ -2717,8 +2605,6 @@ unsigned long __fastcall GetGlobalDynamicColorHook(s_chud_globals_definition *th
 
 void GetWeaponOutlineColorHook(long index, real_argb_color *out_color) // 0x10ADCBA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetWeaponOutlineColorHook@@YAXJPAUreal_argb_color@@@Z");
-
 	const auto hud_color_to_real_argb_color = (unsigned long(*)(unsigned __int32, real_argb_color *))0xAC9AA0;
 
 	if (Patches::Ui::enableCustomHUDColors && index == 0)
@@ -2748,8 +2634,6 @@ void GetWeaponOutlineColorHook(long index, real_argb_color *out_color) // 0x10AD
 
 bool __fastcall c_gui_game_variant_category_datasource_init(c_gui_generic_category_datasource<11> *thisptr, void *unused, __int32 datasource) // 0x10AE0A30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_game_variant_category_datasource_init@@YI_NPAV?$c_gui_generic_category_datasource@$0L@@@PAXH@Z");
-
 	static auto c_gui_data_init = (bool(__thiscall *)(void *, int))0x00AD52F0;
 	static auto sub_A84200 = (void *(*)(int))0xA84200;
 	static auto sub_ADB130 = (void *(__thiscall *)(c_gui_generic_category_datasource<11> *, void *, int))0xADB130;
@@ -2779,15 +2663,11 @@ bool __fastcall c_gui_game_variant_category_datasource_init(c_gui_generic_catego
 
 void __stdcall OnLobbySwitchNetworkMode() // 0x10ADCD70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnLobbySwitchNetworkMode@@YGXXZ");
-
 	Web::Ui::ScreenLayer::Show(Web::Ui::ScreenLayer::ServerSettings, "{}");
 }
 
 __declspec(naked) void c_gui_screen_pregame_lobby_switch_network_hook() // 0x10AE44B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_pregame_lobby_switch_network_hook@@YAXXZ");
-
 	__asm
 	{
 		call OnLobbySwitchNetworkMode
@@ -2798,8 +2678,6 @@ __declspec(naked) void c_gui_screen_pregame_lobby_switch_network_hook() // 0x10A
 
 void __fastcall c_gui_alert_manager__show(void *thisptr, void *unused, unsigned __int32 name, __int32 a3, wchar_t *customMessage, __int32 profileIndex, bool a6, __int32 a7) // 0x10ADFDE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_alert_manager__show@@YIXPAX0IHPA_WH_NH@Z");
-
 	char *(*const ui_resolve_string)(unsigned __int32, unsigned __int32, __int32) = reinterpret_cast<char *(*)(unsigned __int32, unsigned __int32, __int32)>(0x51E290);
 	__int32 (*const ui_get_prefered_lanquage)() = reinterpret_cast<__int32 (*)()>(0x52FC40);
 	s_user_interface_shared_globals *wigl = ((s_user_interface_shared_globals *(*)())0xA84D20)();
@@ -2830,8 +2708,6 @@ void __fastcall c_gui_alert_manager__show(void *thisptr, void *unused, unsigned 
 
 void __fastcall c_hud_camera_view__render_outlines_hook(void *thisptr, void *unused, __int32 localProfileIndex, __int32 playerMappingIndex, void *a3) // 0x10AE4AC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_hud_camera_view__render_outlines_hook@@YIXPAX0HH0@Z");
-
 	void (__thiscall *const c_hud_camera_view__render_outlines_hook)(void *, __int32, __int32, void *) = (void (__thiscall *const)(void *, __int32, __int32, void *))0xa2e620;
 	Modules::ModuleTweaks const &moduleTweaks = Utils::Singleton<Modules::ModuleTweaks>::Instance();
 
@@ -2856,8 +2732,6 @@ void __fastcall c_hud_camera_view__render_outlines_hook(void *thisptr, void *unu
 
 wchar_t *chud_talking_player_name_hook(wchar_t *buffer) // 0x10AE87F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_talking_player_name_hook@@YAPA_WPA_W@Z");
-
 	const auto csmemcpy = (void(*)(void *, void const *, unsigned long))0x4ECCD0;
 
 	csmemcpy(buffer, &Patches::Ui::chud_talking_player_name, 16);
@@ -2866,8 +2740,6 @@ wchar_t *chud_talking_player_name_hook(wchar_t *buffer) // 0x10AE87F0
 
 bool PlayerMarkerIsDisabled(unsigned __int32 playerIndex) // 0x10ADD020
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerMarkerIsDisabled@@YA_NI@Z");
-
 	if (Patches::Camera::GetForcedCameraMode() == _camera_mode_flying)
 		return true;
 
@@ -2903,8 +2775,6 @@ bool PlayerMarkerIsDisabled(unsigned __int32 playerIndex) // 0x10ADD020
 
 void __fastcall chud_add_player_marker_hook(void *thisptr, void *unused, unsigned char *data_) // 0x10AE8510
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_add_player_marker_hook@@YIXPAX0PAE@Z");
-
 	__int32 (__thiscall *const sub_AAF560)(void *) = reinterpret_cast<__int32 (__thiscall *)(void *)>(0xAAF560);
 	s_chud_navpoint *data = (s_chud_navpoint *)data_;
 	__int32 index = 0;
@@ -2958,8 +2828,6 @@ void __fastcall chud_add_player_marker_hook(void *thisptr, void *unused, unsigne
 
 void __fastcall c_start_menu_pane_screen_widget__handle_spinner_chosen_hook(void *thisptr, void *unused, unsigned char *widget) // 0x10AE7A40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_start_menu_pane_screen_widget__handle_spinner_chosen_hook@@YIXPAX0PAE@Z");
-
 	const auto c_gui_list_widget__set_selected = (void(__thiscall *)(void *thisptr, int target, int value, char a5))(0xB16170);
 	const auto game_engine_get_map_variant = (uint8_t*(*)())(0x00583230);
 	const auto _string_id_value = 0x111;
@@ -3017,8 +2885,6 @@ void __fastcall c_start_menu_pane_screen_widget__handle_spinner_chosen_hook(void
 
 void __fastcall UI_GameVariantSavePromptFix(void *thisptr, void *unused, __int32 a2) // 0x10ADD940
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UI_GameVariantSavePromptFix@@YIXPAX0H@Z");
-
 	const auto c_gui_screen_widget__transition_out = (void(__thiscall*)(void *thisptr, int a2))(0x00AB2830);
 
 	auto name = *(uint32_t*)((uint8_t*)thisptr + 0x40);
@@ -3028,8 +2894,6 @@ void __fastcall UI_GameVariantSavePromptFix(void *thisptr, void *unused, __int32
 
 float get_player_vertical_crosshair_location() // 0x10AE8B30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_vertical_crosshair_location@@YAMXZ");
-
 	unsigned char *c_player_profile = eldorado::controller_get(0);
 	__int32 representationIndex = *(__int32 *)(c_player_profile + 4);
 	s_game_globals *game_globals = game_globals_get();
@@ -3043,8 +2907,6 @@ float get_player_vertical_crosshair_location() // 0x10AE8B30
 
 void observer_validate_camera_command__first_person_hook(unsigned char *c_observer_command) // 0x10AE8ED0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_validate_camera_command__first_person_hook@@YAXPAE@Z");
-
 	*(float *)(c_observer_command + 0x20) = get_player_vertical_crosshair_location();
 	if (Utils::Singleton<Modules::ModuleCamera>::Instance().VarCameraCenteredCrosshairFirst->ValueInt == 1)
 	{
@@ -3055,8 +2917,6 @@ void observer_validate_camera_command__first_person_hook(unsigned char *c_observ
 
 void observer_validate_camera_command__third_person_hook(unsigned char *c_observer_command) // 0x10AE8F50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_validate_camera_command__third_person_hook@@YAXPAE@Z");
-
 	*(float *)(c_observer_command + 0x20) = get_player_vertical_crosshair_location();
 	if (Utils::Singleton<Modules::ModuleCamera>::Instance().VarCameraCenteredCrosshairThird->ValueInt == 1)
 	{
@@ -3067,8 +2927,6 @@ void observer_validate_camera_command__third_person_hook(unsigned char *c_observ
 
 __int32 user_interface_squad_get_countdown_timer_hook() // 0x10AE9C40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?user_interface_squad_get_countdown_timer_hook@@YAHXZ");
-
 	c_network_session *session;
 	c_network_session_parameters *session_parameters;
 	c_network_session_parameter_base *session_parameter;
@@ -3090,8 +2948,6 @@ __int32 user_interface_squad_get_countdown_timer_hook() // 0x10AE9C40
 
 void __fastcall c_chud_update_user_data__ctor_hook(c_chud_update_user_data *thisptr, void *__formal, long user_index, long unit_index, bool a4) // 0x10ADF560
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_chud_update_user_data__ctor_hook@@YIXPAUc_chud_update_user_data@@PAXJJ_N@Z");
-
 	static void (__thiscall *const ctor)(c_chud_update_user_data *, long, long, bool) = (void (__thiscall *)(c_chud_update_user_data *, long, long, bool))0xA85240;
 	ctor(thisptr, user_index, unit_index, a4);
 	c_chud_global_scripting *scripting = &tls_getd().chud_persistent_global_data->m_scripting;
@@ -3135,8 +2991,6 @@ void __fastcall c_chud_update_user_data__ctor_hook(c_chud_update_user_data *this
 
 void __fastcall c_user_interface_main_menu_music_update_desired_state(c_user_interface_main_menu_music *thisptr, void *unused) // 0x10AE82F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_user_interface_main_menu_music_update_desired_state@@YIXPAUc_user_interface_main_menu_music@@PAX@Z");
-
 	s_scenario *scenario = global_scenario_get();
 	if (!scenario || scenario->type != _scenario_type_main_menu)
 	{
@@ -3171,8 +3025,6 @@ void __fastcall c_user_interface_main_menu_music_update_desired_state(c_user_int
 
 void user_interface_text_parser_initialize_hook() // 0x10AE9D30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?user_interface_text_parser_initialize_hook@@YAXXZ");
-
 	void (__thiscall *const c_magic_string_game_tag_parser_ctor)(void *, wchar_t const *, void *, bool (*)(void *, wchar_t *, long)) = reinterpret_cast<void (__thiscall *)(void *, wchar_t const *, void *, bool (*)(void *, wchar_t *, long))>(0xAA64C0);
 	void (*const user_interface_text_parser_initialize)() = reinterpret_cast<void (*)()>(0xAA6AF0);
 	void (*const user_interface_text_parser_register)(void *, __int32) = reinterpret_cast<void (*)(void *, __int32)>(0xAA6B10);
@@ -3290,8 +3142,6 @@ void user_interface_text_parser_initialize_hook() // 0x10AE9D30
 
 bool __fastcall c_gui_screen_pregame_lobby_handle_item_chosen_hook(void *thisptr, void *unused, void *message, unsigned long source_name, c_gui_list_item_widget *list_widget, c_gui_data *data) // 0x10AE4230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_pregame_lobby_handle_item_chosen_hook@@YI_NPAX00KPAVc_gui_list_item_widget@@PAVc_gui_data@@@Z");
-
 	long index = list_widget->get_data_item_index();
 	unsigned long item_name_id;
 	if (data->get_string_id_value(index, 0x2AA, &item_name_id))
@@ -3308,8 +3158,6 @@ bool __fastcall c_gui_screen_pregame_lobby_handle_item_chosen_hook(void *thisptr
 
 bool __fastcall c_gui_screen_campaign_select_skulls__handle_controller_input_message_hook(c_gui_screen_widget *thisptr, void *unused, c_controller_input_message *message) // 0x10AE3780
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_campaign_select_skulls__handle_controller_input_message_hook@@YI_NPAVc_gui_screen_widget@@PAXPAUc_controller_input_message@@@Z");
-
 	bool (__thiscall *const handle_controller_input_message)(c_gui_screen_widget *, c_controller_input_message *) = reinterpret_cast<bool (__thiscall *)(c_gui_screen_widget *, c_controller_input_message *)>(0xAB1270);
 	void (__thiscall *const select_skull)(c_gui_screen_widget *, __int32, long) = reinterpret_cast<void (__thiscall *)(c_gui_screen_widget *, __int32, long)>(0xAFF0D0);
 	__int32 const row_size = 5;
@@ -3386,8 +3234,6 @@ bool __fastcall c_gui_screen_campaign_select_skulls__handle_controller_input_mes
 
 void __fastcall c_gui_screen_game_options__update_hook(c_gui_screen_widget *thisptr, void *__formal, unsigned long milliseconds) // 0x10AE3D70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_game_options__update_hook@@YIXPAVc_gui_screen_widget@@PAXK@Z");
-
 	unsigned long (*const user_interface_milliseconds)() = (unsigned long (*const)())0xa848e0;
 	long task_id = *(long *)offset_pointer(thisptr, 71492);
 	unsigned long &progress_start_time_ms = *(unsigned long *)offset_pointer(thisptr, 71508);
@@ -3408,8 +3254,6 @@ void __fastcall c_gui_screen_game_options__update_hook(c_gui_screen_widget *this
 
 void __fastcall c_gui_widget__get_unprojected_bounds_hook(c_gui_widget *thisptr, void *unused, gui_real_rectangle2d *unprojected_bounds, bool offset, bool scale, bool rotate) // 0x10AE4760
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_widget__get_unprojected_bounds_hook@@YIXPAVc_gui_widget@@PAXPAUgui_real_rectangle2d@@_N33@Z");
-
 	void (__thiscall *const get_unprojected_bounds)(c_gui_widget *, gui_real_rectangle2d *, bool, bool, bool) = reinterpret_cast<void (__thiscall *)(c_gui_widget *, gui_real_rectangle2d *, bool, bool, bool)>(0xAB97C0);
 	get_unprojected_bounds(thisptr, unprojected_bounds, offset, scale, rotate);
 	short_rectangle2d display_pixel_bounds;
@@ -3433,8 +3277,6 @@ void __fastcall c_gui_widget__get_unprojected_bounds_hook(c_gui_widget *thisptr,
 
 void c_rasterizer__get_display_pixel_bounds_hook(short_rectangle2d *display_pixel_bounds) // 0x10AE7500
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__get_display_pixel_bounds_hook@@YAXPAUshort_rectangle2d@@@Z");
-
 	long *ui_resolution = (long *)0x19106C8;
 
 	display_pixel_bounds->x0 = 0;
@@ -3463,8 +3305,6 @@ void c_rasterizer__get_display_pixel_bounds_hook(short_rectangle2d *display_pixe
 
 long interface_get_closest_authored_ui_aspect_ratio_hook() // 0x10AE8C90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?interface_get_closest_authored_ui_aspect_ratio_hook@@YAJXZ");
-
 	long *resolution = (long *)0x19106C8;
 	float aspect = (float)resolution[0] / (float)resolution[1];
 
@@ -3480,8 +3320,6 @@ long interface_get_closest_authored_ui_aspect_ratio_hook() // 0x10AE8C90
 
 real_point2d interface_get_authoring_to_target_dimensions_scaling_hook() // 0x10AE8C30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?interface_get_authoring_to_target_dimensions_scaling_hook@@YA?AUreal_point2d@@XZ");
-
 	real_point2d *scaling = reinterpret_cast<real_point2d *>(0x191D4B4);
 	scaling->x = 1.3125f;
 	scaling->y = 1.3125f;
@@ -3490,8 +3328,6 @@ real_point2d interface_get_authoring_to_target_dimensions_scaling_hook() // 0x10
 
 void __fastcall c_gui_custom_bitmap_widget__assemble_render_data_hook(c_gui_custom_bitmap_widget *thisptr, void *unused, s_gui_widget_render_data *render_data, real_rectangle2d *bounds, long controller_index, bool offset, bool scale, bool rotate) // 0x10AE01E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_custom_bitmap_widget__assemble_render_data_hook@@YIXPAUc_gui_custom_bitmap_widget@@PAXPAUs_gui_widget_render_data@@PAUreal_rectangle2d@@J_N44@Z");
-
 	void (__thiscall *const c_gui_bitmap_widget__assemble_render_data)(c_gui_custom_bitmap_widget *, s_gui_widget_render_data *, real_rectangle2d *, long, bool, bool, bool) = (void (__thiscall *const)(c_gui_custom_bitmap_widget *, s_gui_widget_render_data *, real_rectangle2d *, long, bool, bool, bool))0xb167b0;
 	long (*const interface_get_closest_authored_ui_aspect_ratio)() = (long (*const)())0xa9f980;
 	real_point2d (*const interface_get_authoring_aspect_conversion_scaling)(long) = (real_point2d (*const)(long))0xa9f920;
@@ -3517,8 +3353,6 @@ void __fastcall c_gui_custom_bitmap_widget__assemble_render_data_hook(c_gui_cust
 
 bool __fastcall c_draw_string__draw_internal_hook(c_draw_string *thisptr, void *unused, void *cache, char const *utf32_text) // 0x10ADFB40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_draw_string__draw_internal_hook@@YI_NPAUc_draw_string@@PAX1PBD@Z");
-
 	float font_scale = 1.0f;
 
 	thisptr->scale = thisptr->scale * font_scale;
@@ -3530,8 +3364,6 @@ bool __fastcall c_draw_string__draw_internal_hook(c_draw_string *thisptr, void *
 
 void __fastcall c_draw_string__set_bounds_hook(c_draw_string *thisptr, void *unused, real_rectangle2d *upper_x, real_rectangle2d *upper_y) // 0x10ADFBE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_draw_string__set_bounds_hook@@YIXPAUc_draw_string@@PAXPAUreal_rectangle2d@@2@Z");
-
 	void (__thiscall *const c_draw_string__set_bounds)(c_draw_string *, real_rectangle2d *, real_rectangle2d *) = (void (__thiscall *const)(c_draw_string *, real_rectangle2d *, real_rectangle2d *))0x658b10;
 	long (*const interface_get_closest_authored_ui_aspect_ratio)() = (long (*const)())0xa9f980;
 	real_point2d (*const interface_get_authoring_aspect_conversion_scaling)(long) = (real_point2d (*const)(long))0xa9f920;
@@ -3549,8 +3381,6 @@ void __fastcall c_draw_string__set_bounds_hook(c_draw_string *thisptr, void *unu
 
 bool user_interface_set_campaign_options_hook(long campaign_id, long map_id, short insertion_point_index, long a4, long a5, long a7) // 0x10AE9B00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?user_interface_set_campaign_options_hook@@YA_NJJFJJJ@Z");
-
 	long current_campaign_id;
 	long current_map_id;
 	if (((bool(*)(long *, long *))0xA817B0)(&current_campaign_id, &current_map_id) && current_campaign_id != -1)

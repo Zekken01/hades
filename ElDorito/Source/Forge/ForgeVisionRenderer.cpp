@@ -176,8 +176,6 @@ namespace Forge
 {
 	void CForgeVisionRenderer::Update() // 0x10838CB0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeVisionRenderer@Forge@@SAXXZ");
-
 		Forge::colorAnimation += game_tick_length() * 5.0f;
 		if (Forge::colorAnimation >= 6.2831855f)
 		{
@@ -187,8 +185,6 @@ namespace Forge
 
 	void CForgeVisionRenderer::GetVisionColors(real_argb_color *colors) // 0x108383F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetVisionColors@CForgeVisionRenderer@Forge@@SAXPAUreal_argb_color@@@Z");
-
 		real_argb_color color;
 		if (selectionColor == -1)
 		{
@@ -206,8 +202,6 @@ namespace Forge
 
 	void CForgeVisionRenderer::Generate(long windowIndex, long playerIndex, long unitIndex, void const *windowData, bool pass) // 0x108380B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Generate@CForgeVisionRenderer@Forge@@SAXJJJPBX_N@Z");
-
 		void (*const objects_render_shadows_generate)(long, long) = reinterpret_cast<void (*)(long, long)>(0xA78F00);
 		void (*const render_objects_visibility_push_marker)() = reinterpret_cast<void (*)()>(0xA78230);
 		void (*const render_objects_visibility_pop_marker)() = reinterpret_cast<void (*)()>(0xA781F0);
@@ -250,8 +244,6 @@ namespace Forge
 
 	void CForgeVisionRenderer::Render(long windowIndex, void *view) // 0x10838910
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CForgeVisionRenderer@Forge@@SAXJPAX@Z");
-
 		void (__thiscall *const sub_14E3720)(void const *, float *) = reinterpret_cast<void (__thiscall *)(void const *, float *)>(0x14E3720);
 		void *(*const vision_mode_definition_get)() = reinterpret_cast<void *(*)()>(0x14E36D0);
 		void (__thiscall *const c_player_view__ctor)(void *) = reinterpret_cast<void (__thiscall *)(void *)>(0x60DC80);
@@ -285,15 +277,11 @@ namespace Forge
 
 	long CForgeVisionRenderer::GetMaskBitmap(long *bitmapIndex) // 0x108383D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetMaskBitmap@CForgeVisionRenderer@Forge@@SAJPAJ@Z");
-
 		return -1;
 	}
 
 	void CForgeVisionRenderer::SetActive(bool active) // 0x10838C40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetActive@CForgeVisionRenderer@Forge@@SAX_N@Z");
-
 		if (m_bActive != active)
 		{
 			if (active)
@@ -307,8 +295,6 @@ namespace Forge
 
 	void CForgeVisionRenderer::OnActivate() // 0x108387E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?OnActivate@CForgeVisionRenderer@Forge@@CAXXZ");
-
 		std::string &selectionColorString = *(std::string *)((unsigned char *)Modules::ModuleForge::Instance().VarSelectionColor + 0x8C);
 		if (selectionColorString == "rainbow")
 		{

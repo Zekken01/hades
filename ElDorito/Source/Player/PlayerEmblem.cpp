@@ -87,8 +87,6 @@ namespace Player
 	{
 		void set_emblem_texture(long sampler, long player_index, bool use_generic, bool screen_emblem) // 0x107F0CB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?set_emblem_texture@PlayerEmblem@Player@@YAXJJ_N0@Z");
-
 			if (!Player::PlayerEmblemDownload::Instance().IsAvailable())
 			{
 				return;
@@ -108,8 +106,6 @@ namespace Player
 
 		void set_emblem_customization_biped(long sampler, bool use_generic, bool screen_emblem) // 0x107F0C50
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?set_emblem_customization_biped@PlayerEmblem@Player@@YAXJ_N0@Z");
-
 			set_emblem_texture(sampler, 16, use_generic, screen_emblem);
 		}
 	}

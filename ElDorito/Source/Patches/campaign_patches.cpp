@@ -178,8 +178,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x1090DC40
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@campaign_patches@Patches@@YAXXZ");
-
 			Hook(0x207DD1, campaign_metagame_globals_initialize_for_new_map_patch, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x150B80, campaign_scoreboard_patch).Apply();
 			Pointer(0x1656108).Write<unsigned long>(reinterpret_cast<unsigned long>(campaign_metagame_globals_initialize_for_new_map_patch));
@@ -199,16 +197,12 @@ namespace Patches
 
 		void fixup_campaign_metagame_flags() // 0x1090F9E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_campaign_metagame_flags@campaign_patches@Patches@@YAXXZ");
-
 			unsigned long flags = (*g_campaign_metagame)->dword_flags;
 			(*g_campaign_metagame)->dword_flags &= ~0x10;
 		}
 
 		long campaign_metagame_globals_initialize_for_new_map_patch() // 0x1090F060
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?campaign_metagame_globals_initialize_for_new_map_patch@campaign_patches@Patches@@YAJXZ");
-
 			long result = campaign_metagame_globals_initialize_for_new_map();
 			if (game_is_campaign())
 				Patches::campaign_patches::fixup_campaign_metagame_flags();
@@ -217,8 +211,6 @@ namespace Patches
 
 		long *campaign_scoreboard_patch() // 0x1090F0E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?campaign_scoreboard_patch@campaign_patches@Patches@@YAPAJXZ");
-
 			if (game_get_current_engine())
 			{
 				return (long *)(*(long *)tls_get(0x48) + 0xFEB0);
@@ -232,8 +224,6 @@ namespace Patches
 
 		void assassin_skull_hook(unsigned long unit_index) // 0x1090EE60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?assassin_skull_hook@campaign_patches@Patches@@YAXK@Z");
-
 			void (*const unit_camo_update)(unsigned long) = (void (*)(unsigned long))0xB4A020;
 			bool (*const game_team_is_enemy)(long, long) = (bool (*)(long, long))0x670B80;
 			unsigned long secondary_skulls = 0;
@@ -254,8 +244,6 @@ namespace Patches
 
 		void cinematic_start_hook() // 0x1090F8E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?cinematic_start_hook@campaign_patches@Patches@@YAXXZ");
-
 			const auto cinematic_start = (void(*)())0x67E990;
 
 			cinematic_start();
@@ -264,8 +252,6 @@ namespace Patches
 
 		void cinematic_stop_hook() // 0x1090F960
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?cinematic_stop_hook@campaign_patches@Patches@@YAXXZ");
-
 			const auto cinematic_stop = (void(*)())0x72D920;
 
 			cinematic_stop();
@@ -275,7 +261,6 @@ namespace Patches
 #line 293
 		long cinematic_scripting_get_scene_object_hook(long cinematic_index, long scene_index, long index) // 0x1090F500
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?cinematic_scripting_get_scene_object_hook@campaign_patches@Patches@@YAJJJJ@Z");
 #line 316
 
 			long (*const cinematic_object_from_string)(char const *) = reinterpret_cast<long (*)(char const *)>(0x67DAB0);
@@ -316,8 +301,6 @@ namespace Patches
 
 		bool game_reverted_hook() // 0x1090FA30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?game_reverted_hook@campaign_patches@Patches@@YA_NXZ");
-
 			int game_state_revert_time = *(int *)0x238db14;
 			if (game_state_revert_time != -1 && (game_state_revert_time == game_time_get() - 1 || game_state_revert_time == game_time_get() + 1))
 			{
@@ -328,8 +311,6 @@ namespace Patches
 
 		bool actor_general_update_hook(long actor_index) // 0x1090EBC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?actor_general_update_hook@campaign_patches@Patches@@YA_NJ@Z");
-
 			void (*const actor_erase)(long, bool) = (void (*)(long, bool))0x1429DF0;
 			bool (*const actor_runtime_within_structure_bsp)(long) = (bool (*)(long))0x142E1A0;
 			void (*const dynamic_firing_set_discard)(long) = (void (*)(long))0x14A5390;
@@ -368,8 +349,6 @@ namespace Patches
 
 		void cinematic_clips_initialize_for_shot(long shot_index) // 0x1090F180
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?cinematic_clips_initialize_for_shot@campaign_patches@Patches@@YAXJ@Z");
-
 			void (*const cinematic_clips_destroy)() = reinterpret_cast<void (*)()>(0x67C570);
 			unsigned long (*const cinematic_scene_get_puppet_object_handle)(long) = reinterpret_cast<unsigned long (*)(long)>(0x67DBC0);
 			cinematic_clips_destroy();
@@ -419,8 +398,6 @@ namespace Patches
 
 		void main_save_map_hook() // 0x1090FC60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?main_save_map_hook@campaign_patches@Patches@@YAXXZ");
-
 			if (Utils::Singleton<Modules::ModuleCampaign>::Instance().VarCheckpointsDisabled->ValueInt)
 			{
 				return;

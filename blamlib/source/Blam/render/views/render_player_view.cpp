@@ -111,8 +111,6 @@ extern void *(*const tag_get)(unsigned long, long);  // hades: added for 0x10F17
 
 void draw_fullscreen_displacement(short_rectangle2d *bounds, DirectX::XMMATRIX *view_projection, DirectX::XMMATRIX *previous_view_projection, DirectX::XMMATRIX *view_to_world, DirectX::XMMATRIX *screen_to_world, bool render_motion_blur) // 0x10F174C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_fullscreen_displacement@@YAXPAUshort_rectangle2d@@PAUXMMATRIX@DirectX@@111_N@Z");
-
 	long *g_client_resolution = (long *)0x19106E4;
 	long *g_game_resolution = (long *)0x19106C0;
 	void (*const set_motion_blur_parameters)() = (void (*)())0xA47060;
@@ -211,8 +209,6 @@ void draw_fullscreen_displacement(short_rectangle2d *bounds, DirectX::XMMATRIX *
 
 void __fastcall c_player_view::apply_distortions_new(c_player_view *_this, real_vector3d *motion_suck_dir, bool force_motion_blur) // 0x10F16B80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_distortions_new@c_player_view@@SIXPAU1@PAUreal_vector3d@@_N@Z");
-
 	long (*const preferences_get_effects_quality)() = (long (*)())0x50B150;
 	bool (*const preferences_get_motion_blur)() = (bool (*)())0x50B990;
 	bool (*const sub_610190)() = (bool (*)())0x610190;

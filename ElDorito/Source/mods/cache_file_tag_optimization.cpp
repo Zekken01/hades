@@ -118,8 +118,6 @@ using namespace hades_file_local;
 
 void optimize_scenario(s_cache_tag_instance *tag_instance) // 0x1087CB10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_scenario@@YAXPAUs_cache_tag_instance@@@Z");
-
 	c_static_bit_vector<65535> dependencies_to_null;
 
 	dependencies_to_null.clear();
@@ -136,8 +134,6 @@ void optimize_scenario(s_cache_tag_instance *tag_instance) // 0x1087CB10
 
 void optimize_game_engine_event_response(s_multiplayer_event_response_definition const *response, e_game_engine_type game_engine_type, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B4B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_game_engine_event_response@@YAXPBUs_multiplayer_event_response_definition@@W4e_game_engine_type@@PAU?$c_static_bit_vector@$0PPPP@@@@Z");
-
 	s_game_options const *game_options = get_intermediate_game_options();
 
 	if (game_options->game_variant.game_engine_type == game_engine_type && game_engine_type != _game_engine_type_none)
@@ -156,8 +152,6 @@ void optimize_game_engine_event_response(s_multiplayer_event_response_definition
 
 void optimize_object(long runtime_tag_index, s_cache_tag_instance *tag_instance) // 0x1087C690
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_object@@YAXJPAUs_cache_tag_instance@@@Z");
-
 	if (g_reforge_objects.test(runtime_tag_index))
 	{
 		void *object = tag_get(0x6F626A65, runtime_tag_index);
@@ -172,8 +166,6 @@ void optimize_object(long runtime_tag_index, s_cache_tag_instance *tag_instance)
 
 void optimize_model(long runtime_tag_index, s_cache_tag_instance *tag_instance) // 0x1087B940
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_model@@YAXJPAUs_cache_tag_instance@@@Z");
-
 	if (g_reforge_models.test(runtime_tag_index))
 	{
 		void *model = tag_get(0x686C6D74, runtime_tag_index);
@@ -188,8 +180,6 @@ void optimize_model(long runtime_tag_index, s_cache_tag_instance *tag_instance) 
 
 void optimize_render_model(long runtime_tag_index, s_cache_tag_instance *tag_instance) // 0x1087C8B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?optimize_render_model@@YAXJPAUs_cache_tag_instance@@@Z");
-
 	c_static_bit_vector<65535> dependencies_to_null;
 	dependencies_to_null.clear();
 	if (!g_reforge_render_models.test(runtime_tag_index))
@@ -215,8 +205,6 @@ void optimize_render_model(long runtime_tag_index, s_cache_tag_instance *tag_ins
 
 void cache_file_tags_optimize(long runtime_tag_index, s_cache_tag_instance *tag_instance) // 0x1087AA80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tags_optimize@@YAXJPAUs_cache_tag_instance@@@Z");
-
 	switch (tag_instance->group.tags[0])
 	{
 	case 'scnr':
@@ -252,15 +240,11 @@ void cache_file_tags_optimize(long runtime_tag_index, s_cache_tag_instance *tag_
 
 extern "C" s_game_options *get_intermediate_game_options() // 0x1087B0F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_get_intermediate_game_options");
-
 	return (s_game_options *)0x2391800;
 }
 
 extern "C" void null_tag_dependencies(s_cache_tag_instance *tag_instance, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B110
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_null_tag_dependencies");
-
 	long *dependencies = (long *)&tag_instance[1];
 
 	for (long i = 0; i < tag_instance->dependency_count; i++)
@@ -276,8 +260,6 @@ extern "C" void null_tag_dependencies(s_cache_tag_instance *tag_instance, c_stat
 
 extern "C" void optimize_main_menu(s_cache_tag_instance *tag_instance, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B830
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_main_menu");
-
 	char *definition = (char *)tag_instance + tag_instance->definition_offset;
 	s_tag_block *sound_scenery_block = (s_tag_block *)(definition + 0x1AC);
 	s_tag_block *sound_scenery_palette_block = (s_tag_block *)(definition + 0x1B8);
@@ -305,8 +287,6 @@ extern "C" void optimize_main_menu(s_cache_tag_instance *tag_instance, c_static_
 
 extern "C" void optimize_reforge_objects(s_forge_globals_definition *definition) // 0x1087C750
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_reforge_objects");
-
 	s_game_options const *game_options = get_intermediate_game_options();
 	s_map_variant const *map_variant = &game_options->map_variant;
 	for (__int32 i = 0; i < definition->reforge_objects.count; i++)
@@ -328,8 +308,6 @@ extern "C" void optimize_reforge_objects(s_forge_globals_definition *definition)
 
 extern "C" void optimize_forge_globals(s_cache_tag_instance *tag_instance) // 0x1087B1D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_forge_globals");
-
 	c_static_bit_vector<65535> dependencies_to_null;
 	dependencies_to_null.clear();
 	g_reforge_models.clear();
@@ -366,8 +344,6 @@ extern "C" void optimize_forge_globals(s_cache_tag_instance *tag_instance) // 0x
 
 extern "C" void optimize_game_engine_event_response_tag_block(s_cache_tag_instance *tag_instance, c_tag_block<s_multiplayer_event_response_definition> *tag_block, e_game_engine_type game_engine_type, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087B580
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_game_engine_event_response_tag_block");
-
 	for (s_multiplayer_event_response_definition &response : *tag_block)
 	{
 		optimize_game_engine_event_response(&response, game_engine_type, dependencies_to_null);
@@ -376,8 +352,6 @@ extern "C" void optimize_game_engine_event_response_tag_block(s_cache_tag_instan
 
 extern "C" void optimize_multiplayer_runtime_globals_for_engine_type(s_cache_tag_instance *tag_instance, s_multiplayer_runtime_globals_definition *runtime, e_game_engine_type game_engine_type, c_static_bit_vector<65535> *dependencies_to_null) // 0x1087C070
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_multiplayer_runtime_globals_for_engine_type");
-
 	s_game_options const *game_options = get_intermediate_game_options();
 	if (game_engine_type != _game_engine_type_sandbox)
 	{
@@ -485,8 +459,6 @@ extern "C" void optimize_multiplayer_runtime_globals_for_engine_type(s_cache_tag
 
 extern "C" void optimize_multiplayer_globals(s_cache_tag_instance *tag_instance) // 0x1087BA00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_multiplayer_globals");
-
 	c_static_bit_vector<65535> dependencies_to_null;
 	dependencies_to_null.clear();
 	s_multiplayer_globals_definition *const definition = (s_multiplayer_globals_definition *)((char *)tag_instance + tag_instance->definition_offset);
@@ -543,8 +515,6 @@ extern "C" void optimize_multiplayer_globals(s_cache_tag_instance *tag_instance)
 
 extern "C" void optimize_user_interface_shared_globals(s_cache_tag_instance *tag_instance) // 0x1087CE20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_user_interface_shared_globals");
-
 	c_static_bit_vector<65535> dependencies_to_null;
 
 	dependencies_to_null.clear();
@@ -563,8 +533,6 @@ extern "C" void optimize_user_interface_shared_globals(s_cache_tag_instance *tag
 
 extern "C" void optimize_globals(s_cache_tag_instance *tag_instance) // 0x1087B620
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_globals");
-
 	c_static_bit_vector<65535> dependencies_to_null;
 	dependencies_to_null.clear();
 	s_game_options const *game_options = get_intermediate_game_options();
@@ -585,8 +553,6 @@ extern "C" void optimize_globals(s_cache_tag_instance *tag_instance) // 0x1087B6
 
 extern "C" void optimize_user_interface_map_list(s_cache_tag_instance *tag_instance) // 0x1087CC40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_optimize_user_interface_map_list");
-
 	c_static_bit_vector<65535> dependencies_to_null;
 	dependencies_to_null.clear();
 	s_user_interface_map_list *const definition = (s_user_interface_map_list *)((char *)tag_instance + tag_instance->definition_offset);

@@ -159,8 +159,6 @@ namespace Forge
 	{
 		void InitializeForNewMap() // 0x10865AD0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@Reforge@Forge@@YAXXZ");
-
 			reforgeGlobals.ReforgeObjects.reset();
 			s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 			if (!forge_globals)
@@ -180,8 +178,6 @@ namespace Forge
 
 		bool IsReforgeObject(long objectIndex) // 0x108660A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsReforgeObject@Reforge@Forge@@YA_NJ@Z");
-
 			s_object_data *object = object_get(objectIndex);
 			if (!object)
 			{
@@ -192,8 +188,6 @@ namespace Forge
 
 		bool IsForgeScenery(long objectIndex) // 0x10865CC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgeScenery@Reforge@Forge@@YA_NJ@Z");
-
 			s_object_data *object = object_get(objectIndex);
 			if (!object)
 			{
@@ -215,8 +209,6 @@ namespace Forge
 	{
 		Forge::ReforgeObjectProperties *GetReforgeObject(long objectIndex) // 0x108658A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetReforgeObject@Reforge@Forge@@YAPAUReforgeObjectProperties@2@J@Z");
-
 			if (!Forge::Reforge::IsReforgeObject(objectIndex))
 			{
 				return nullptr;
@@ -227,8 +219,6 @@ namespace Forge
 
 		bool IsMapModifierObject(long objectIndex) // 0x10865E90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsMapModifierObject@Reforge@Forge@@YA_NJ@Z");
-
 			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
 			if (!forgeGlobals)
 				return false;
@@ -240,8 +230,6 @@ namespace Forge
 
 		bool IsGarbageCollectionObject(long objectIndex) // 0x10865D30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsGarbageCollectionObject@Reforge@Forge@@YA_NJ@Z");
-
 			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
 			if (!forgeGlobals)
 				return false;
@@ -253,8 +241,6 @@ namespace Forge
 
 		bool IsKillVolumeObject(long objectIndex) // 0x10865DE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsKillVolumeObject@Reforge@Forge@@YA_NJ@Z");
-
 			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
 			if (!forgeGlobals)
 				return false;
@@ -266,8 +252,6 @@ namespace Forge
 
 		bool IsPrematchCameraObject(long objectIndex) // 0x10865FF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsPrematchCameraObject@Reforge@Forge@@YA_NJ@Z");
-
 			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
 			if (!forgeGlobals)
 				return false;
@@ -279,8 +263,6 @@ namespace Forge
 
 		bool IsPodiumPointObject(long objectIndex) // 0x10865F40
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsPodiumPointObject@Reforge@Forge@@YA_NJ@Z");
-
 			s_forge_globals_definition *forgeGlobals = forge_globals_get_definition();
 			if (!forgeGlobals)
 				return false;
@@ -292,8 +274,6 @@ namespace Forge
 
 		bool IsActiveTeamBarrierObject(long objectIndex) // 0x10865C00
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsActiveTeamBarrierObject@Reforge@Forge@@YA_NJ@Z");
-
 			s_multiplayer_object_properties *multiplayer_properties = object_get_multiplayer(objectIndex);
 			if (!multiplayer_properties)
 			{
@@ -306,8 +286,6 @@ namespace Forge
 
 		bool TeamBarrierTestPlayer(long barrierObjectIndex, long playerIndex) // 0x10866110
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?TeamBarrierTestPlayer@Reforge@Forge@@YA_NJJ@Z");
-
 			if (!game_is_multiplayer())
 			{
 				return false;
@@ -344,8 +322,6 @@ namespace Forge
 
 		bool TeamBarrierTestUnit(long barrierObjectIndex, long unitIndex) // 0x10866280
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?TeamBarrierTestUnit@Reforge@Forge@@YA_NJJ@Z");
-
 			s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unitIndex, 0x2003);
 
 			if (!unit)
@@ -372,8 +348,6 @@ namespace Forge
 
 		bool ValidRenderMaterialIndex(long objectIndex, __int32 index) // 0x10866360
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ValidRenderMaterialIndex@Reforge@Forge@@YA_NJH@Z");
-
 			s_object_data *object = object_get(objectIndex);
 
 			if (!object)
@@ -390,8 +364,6 @@ namespace Forge
 
 		short GetRenderMaterialOverride(long objectIndex, Forge::Reforge::SRenderMaterialParameters *parameters) // 0x10865930
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetRenderMaterialOverride@Reforge@Forge@@YAFJPAUSRenderMaterialParameters@12@@Z");
-
 			if (!IsReforgeObject(objectIndex))
 				return -1;
 			s_multiplayer_object_properties *multiplayerProperties = object_get_multiplayer(objectIndex);
@@ -425,8 +397,6 @@ namespace Forge
 	{
 		long get_controlling_unit(long unit_index) // 0x108666E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?get_controlling_unit@Reforge@Forge@@YAJJ@Z");
-
 			long object_index = ((long(__cdecl *)(long))0x58f590)(unit_index);
 
 			s_unit_data *root_unit = (s_unit_data *)object_try_and_get_and_verify_type(object_index, 0x2003);
@@ -448,8 +418,6 @@ namespace Forge
 
 s_render_model *GeObjectRenderModel(long objectTagIndex) // 0x108657A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GeObjectRenderModel@@YAPAUs_render_model@@J@Z");
-
 	s_object_definition *objectDef = (s_object_definition *)tag_get(0x6F626A65, objectTagIndex);
 
 	if (!objectDef)

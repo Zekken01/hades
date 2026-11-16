@@ -84,8 +84,6 @@ void game_time_set_rate_scale_direct_hook(float scale);
 
 void game_time_patches_apply() // 0x1091B3B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_time_patches_apply@@YAXXZ");
-
 	Hook(0x165110, game_time_set_rate_scale_direct_hook).Apply();
 }
 
@@ -93,8 +91,6 @@ void game_time_patches_apply() // 0x1091B3B0
 
 void game_time_set_rate_scale_direct_hook(float scale) // 0x1091B510
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_time_set_rate_scale_direct_hook@@YAXM@Z");
-
 	s_game_options *options = game_options_get();
 	if (scale < 0.00001f)
 		scale = 0.00001f;

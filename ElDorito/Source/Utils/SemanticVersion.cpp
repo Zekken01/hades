@@ -70,8 +70,6 @@ namespace Utils
 {
 	SemanticVersion::SemanticVersion(__int32 major, __int32 minor, __int32 patch, std::string prerelease, std::string build) : major(major), minor(minor), patch(patch), prerelease(prerelease), build(build) /* hades-mem-init:  */ // 0x107627C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0SemanticVersion@Utils@@QAE@HHHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 		if (major < 0 || minor < 0 || patch < 0)
 			throw std::invalid_argument("Version components cannot be negative.");
 	}
@@ -82,8 +80,6 @@ namespace Utils
 {
 	std::string SemanticVersion::ToString() const // 0x10768300
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ToString@SemanticVersion@Utils@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		std::string result = std::format("{}.{}.{}", major, minor, patch);
 		if (!prerelease.empty())
 			result += "-" + prerelease;
@@ -94,8 +90,6 @@ namespace Utils
 
 	bool SemanticVersion::TryParse(std::string const &input, Utils::SemanticVersion &outVersion) // 0x10768560
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?TryParse@SemanticVersion@Utils@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAU12@@Z");
-
 		try
 		{
 			outVersion = Parse(input);
@@ -109,8 +103,6 @@ namespace Utils
 
 	Utils::SemanticVersion SemanticVersion::Parse(std::string const &input) // 0x10767DF0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Parse@SemanticVersion@Utils@@SA?AU12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::smatch matches;
 		if (!std::regex_match(input, matches, kPattern))
 			throw std::invalid_argument("Invalid semantic version: " + input);
@@ -119,8 +111,6 @@ namespace Utils
 
 	__int32 SemanticVersion::Compare(Utils::SemanticVersion const &a, Utils::SemanticVersion const &b) // 0x107678E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Compare@SemanticVersion@Utils@@CAHABU12@0@Z");
-
 		if (a.major != b.major)
 			return a.major < b.major ? -1 : 1;
 		if (a.minor != b.minor)
@@ -132,8 +122,6 @@ namespace Utils
 
 	__int32 SemanticVersion::ComparePrerelease(std::string_view const &a, std::string_view const &b) // 0x10767BF0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ComparePrerelease@SemanticVersion@Utils@@CAHABV?$basic_string_view@DU?$char_traits@D@std@@@std@@0@Z");
-
 		if (a.empty() && b.empty())
 			return 0;
 		if (a.empty())
@@ -164,8 +152,6 @@ namespace Utils
 
 	__int32 SemanticVersion::CompareIdentifier(std::string_view const &a, std::string_view const &b) // 0x10767A60
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?CompareIdentifier@SemanticVersion@Utils@@CAHABV?$basic_string_view@DU?$char_traits@D@std@@@std@@0@Z");
-
 		__int32 num1, num2;
 		bool a_num = ParseNumericIdentifier(a, num1);
 		bool b_num = ParseNumericIdentifier(b, num2);
@@ -187,8 +173,6 @@ namespace Utils
 
 	bool SemanticVersion::ParseNumericIdentifier(std::string_view const &input, __int32 &value) // 0x107681C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ParseNumericIdentifier@SemanticVersion@Utils@@CA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAH@Z");
-
 		value = 0;
 		__int32 count = 0;
 		for (std::string_view::const_iterator it = input.cbegin(); it != input.cend(); ++it)

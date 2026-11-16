@@ -75,8 +75,6 @@ namespace Utils
 	{
 		bool ParseUriComponents(std::string_view uri, Utils::Uri::UriComponents &components) // 0x10C60260
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseUriComponents@Uri@Utils@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAUUriComponents@12@@Z");
-
 			auto it = uri.begin();
 			auto endit = uri.end();
 			auto startit = it;
@@ -129,8 +127,6 @@ namespace Utils
 
 		bool ResolveUrl(std::string const &baseUri, std::string const &relativeUri, std::string &result) // 0x10C608B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ResolveUrl@Uri@Utils@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0AAV34@@Z");
-
 			Utils::Uri::UriComponents baseComponents;
 			if (!ParseUriComponents(baseUri, baseComponents))
 				return false;

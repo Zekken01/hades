@@ -29,8 +29,6 @@ struct c_player_render_camera_iterator;
 
 c_player_render_camera_iterator::c_player_render_camera_iterator() // 0x10F1D9D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_player_render_camera_iterator@@QAE@XZ");
-
 	bool (*const terminal_is_being_read_internal)() = reinterpret_cast<bool (*)()>(0x53B570);
 	long (*const main_render_get_player_window_count)() = reinterpret_cast<long (*)()>(0x589F00);
 	bool (*const rasterizer_get_is_widescreen)() = reinterpret_cast<bool (*)()>(0xA1FC90);

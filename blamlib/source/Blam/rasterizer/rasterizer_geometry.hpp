@@ -64,43 +64,31 @@ static_assert(sizeof(c_rasterizer_index_buffer) == 16, "Invalid c_rasterizer_ind
 
 inline unsigned char c_rasterizer_vertex_buffer::get_vertex_stride() const // 0x108EFEC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_vertex_stride@c_rasterizer_vertex_buffer@@QBEEXZ");
-
 	return vertex_stride;
 }
 
 inline short c_rasterizer_vertex_buffer::get_vertex_count() const // 0x108EFE90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_vertex_count@c_rasterizer_vertex_buffer@@QBEFXZ");
-
 	return vertex_count;
 }
 
 inline IDirect3DVertexBuffer9 *c_rasterizer_vertex_buffer::get_d3d_buffer() // 0x107BF780
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_d3d_buffer@c_rasterizer_vertex_buffer@@QAEPAUIDirect3DVertexBuffer9@@XZ");
-
 	return d3d_buffer;
 }
 
 inline void const *c_rasterizer_vertex_buffer::get_data() const // 0x108EF040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_data@c_rasterizer_vertex_buffer@@QBEPBXXZ");
-
 	return data;
 }
 
 inline void const *c_rasterizer_index_buffer::get_data() const // 0x108EF010
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_data@c_rasterizer_index_buffer@@QBEPBXXZ");
-
 	return data;
 }
 
 inline unsigned long const c_rasterizer_index_buffer::get_index_count() const // 0x108EFCD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_index_count@c_rasterizer_index_buffer@@QBE?BKXZ");
-
 	return index_count;
 }
 

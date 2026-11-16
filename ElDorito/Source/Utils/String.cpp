@@ -106,8 +106,6 @@ namespace Utils
 	{
 		std::string Base64Encode(unsigned char const *bytes_to_encode, unsigned __int32 in_len) // 0x10C5DF30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Base64Encode@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBEI@Z");
-
 			std::string ret;
 			__int32 i = 0;
 			__int32 j = 0;
@@ -152,8 +150,6 @@ namespace Utils
 	{
 		std::string Base64Decode(std::string const &encoded_string) // 0x10C5D900
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Base64Decode@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
-
 			__int32 in_len = encoded_string.size();
 			__int32 i = 0;
 			__int32 j = 0;
@@ -193,8 +189,6 @@ namespace Utils
 
 		unsigned __int32 calcDecodeLength(char const *b64input) // 0x10C5FE70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?calcDecodeLength@String@Utils@@YAIPBD@Z");
-
 			size_t len = strlen(b64input);
 			size_t padding = 0;
 			if (b64input[len - 1] == '=' && b64input[len - 2] == '=')
@@ -210,8 +204,6 @@ namespace Utils
 
 		__int32 Base64DecodeBinary(char *b64message, unsigned char *buffer, unsigned __int32 *length) // 0x10C5DE10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Base64DecodeBinary@String@Utils@@YAHPADPAEPAI@Z");
-
 			int decodeLen = Utils::String::calcDecodeLength(b64message);
 			BIO *bio, *b64;
 
@@ -235,16 +227,12 @@ namespace Utils
 
 		void RemoveCharsFromString(std::string &str, char *charsToRemove) // 0x10C5E930
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveCharsFromString@String@Utils@@YAXAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAD@Z");
-
 			for (unsigned __int32 i = 0, j = strlen(charsToRemove); i < j; i++)
 				str.erase(std::remove(str.begin(), str.end(), charsToRemove[i]), str.end());
 		}
 
 		void HexStringToBytes(std::string const &in, void *const data, unsigned __int32 length) // 0x10C5E630
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?HexStringToBytes@String@Utils@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAXI@Z");
-
 			unsigned char *byteData = (unsigned char *)data;
 			if (in.length() < length * 2)
 			{
@@ -266,8 +254,6 @@ namespace Utils
 
 		void BytesToHexString(void const *data, unsigned __int32 const dataLength, std::string &dest) // 0x10C5E400
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?BytesToHexString@String@Utils@@YAXPBXIAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			unsigned char const *byteData = (unsigned char const *)data;
 			std::stringstream hexStringStream;
 			hexStringStream << std::hex << std::setfill('0');
@@ -278,8 +264,6 @@ namespace Utils
 
 		void ReplaceCharacters(std::string &str, char find, char replaceWith) // 0x10C5EB30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ReplaceCharacters@String@Utils@@YAXAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@DD@Z");
-
 			for (unsigned __int32 i = 0; i < str.length(); i++)
 			{
 				if (str[i] == find)
@@ -289,8 +273,6 @@ namespace Utils
 
 		bool ReplaceString(std::string &str, std::string const &replace, std::string const &with) // 0x10C5EBD0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ReplaceString@String@Utils@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@1@Z");
-
 			unsigned __int32 start_pos = str.find(replace, 0);
 			bool found = false;
 			while (start_pos != std::string::npos)
@@ -313,7 +295,6 @@ namespace Utils
 #line 371
 		std::wstring WidenString(std::string_view string) // 0x10C5F680
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?WidenString@String@Utils@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$basic_string_view@DU?$char_traits@D@std@@@4@@Z");
 #line 383
 
 			__int32 const len = (__int32)string.size();
@@ -348,7 +329,6 @@ namespace Utils
 	{
 		std::string ThinString(std::wstring_view wide_string) // 0x10C5EE80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ThinString@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$basic_string_view@_WU?$char_traits@_W@std@@@4@@Z");
 #line 426
 
 			__int32 const len = (__int32)wide_string.size();
@@ -383,8 +363,6 @@ namespace Utils
 	{
 		std::string ToLower(std::string const &str) // 0x10C5F300
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ToLower@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
-
 			std::string retValue = str;
 			std::transform(retValue.begin(), retValue.end(), retValue.begin(), tolower);
 			return retValue;
@@ -399,8 +377,6 @@ namespace Utils
 	{
 		std::string TitleCase(std::string const &str) // 0x10C5F140
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?TitleCase@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
-
 			std::string retValue = str;
 			unsigned __int32 len = str.length();
 			for (unsigned __int32 i = 0; i < len; i++)
@@ -422,8 +398,6 @@ namespace Utils
 	{
 		std::vector<std::string> SplitString(std::string const &stringToSplit, char delim) // 0x10C5EC80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SplitString@String@Utils@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@D@Z");
-
 			std::vector<std::string> retValue;
 			std::stringstream ss(stringToSplit);
 			std::string item;
@@ -441,8 +415,6 @@ namespace Utils
 	{
 		std::string &TrimInline(std::string &string) // 0x10C5F630
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?TrimInline@String@Utils@@YAAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 			return trim(string);
 		}
 	}
@@ -455,8 +427,6 @@ namespace Utils
 	{
 		std::string Trim(std::string const &string, bool fromEnd) // 0x10C5F4A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Trim@String@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@_N@Z");
-
 			std::string retValue = string;
 			if (fromEnd)
 			{
@@ -477,8 +447,6 @@ namespace Utils
 	{
 		std::vector<std::string> Wrap(std::string const &string, unsigned __int32 lineLength) // 0x10C5F940
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Wrap@String@Utils@@YA?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@I@Z");
-
 			std::stringstream sstream;
 			sstream << string;
 			std::vector<std::string> lines;
@@ -517,8 +485,6 @@ namespace Utils
 	{
 		_inline bool is_base64(unsigned char c) // 0x10C5FF20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?is_base64@String@Utils@@YA_NE@Z");
-
 			return isalnum(c) || c == '+' || c == '/';
 		}
 	}
@@ -531,8 +497,6 @@ namespace Utils
 	{
 		_inline std::string &ltrim(std::string &s) // 0x10C5FFB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ltrim@String@Utils@@YAAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 			boost::algorithm::trim_left(s);
 			return s;
 		}
@@ -546,8 +510,6 @@ namespace Utils
 	{
 		_inline std::string &rtrim(std::string &s) // 0x10C60080
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?rtrim@String@Utils@@YAAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 			boost::algorithm::trim_right(s);
 			return s;
 		}
@@ -561,8 +523,6 @@ namespace Utils
 	{
 		_inline std::string &trim(std::string &s) // 0x10C60150
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?trim@String@Utils@@YAAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 			return ltrim(rtrim(s));
 		}
 	}

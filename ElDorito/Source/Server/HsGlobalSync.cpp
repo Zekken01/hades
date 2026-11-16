@@ -166,8 +166,6 @@ namespace Server
 	{
 		void RegisterGlobal(short globalIndex) // 0x1071FD60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterGlobal@HsGlobalSync@Server@@YAXF@Z");
-
 			HsGlobalSyncState stateDatum;
 
 			if (FindGlobalSyncState(globalIndex) != -1)
@@ -180,8 +178,6 @@ namespace Server
 
 		void UnregisterGlobal(short globalIndex) // 0x107201E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?UnregisterGlobal@HsGlobalSync@Server@@YAXF@Z");
-
 			__int32 index = FindGlobalSyncState(globalIndex);
 			if (index == -1)
 				return;
@@ -190,8 +186,6 @@ namespace Server
 
 		void InvalidatePlayerMask(unsigned short playerMask) // 0x1071FCA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InvalidatePlayerMask@HsGlobalSync@Server@@YAXG@Z");
-
 			for (unsigned __int32 i = 0; i < registeredGlobals.size(); i++)
 			{
 				registeredGlobals[i].synchronizedPlayersMask &= ~playerMask;
@@ -201,8 +195,6 @@ namespace Server
 
 		void InvalidateGlobal(short globalIndex) // 0x1071FC10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InvalidateGlobal@HsGlobalSync@Server@@YAXF@Z");
-
 			__int32 index = FindGlobalSyncState(globalIndex);
 			if (index == -1)
 			{
@@ -216,8 +208,6 @@ namespace Server
 
 		void Synchronize() // 0x1071FEC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Synchronize@HsGlobalSync@Server@@YAXXZ");
-
 			if (!sendGlobal)
 			{
 				return;
@@ -233,16 +223,12 @@ namespace Server
 
 		void InitializeForNewMap() // 0x1071FBC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@HsGlobalSync@Server@@YAXXZ");
-
 			lastSynchronizeTime = -1;
 			registeredGlobals.clear();
 		}
 
 		void Init() // 0x1071FB50
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@HsGlobalSync@Server@@YAXXZ");
-
 			Patches::Core::OnMapLoaded([](char const *map)
 			{
 				InitializeForNewMap();
@@ -251,8 +237,6 @@ namespace Server
 
 		void Tick() // 0x10720120
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@HsGlobalSync@Server@@YAXXZ");
-
 			if (!eldorado::game_in_progress() || !eldorado::game_is_authoritative() || !game_is_distributed())
 				return;
 
@@ -264,8 +248,6 @@ namespace Server
 
 		void SetupFuncs(std::function<void __cdecl(short,unsigned short)> sendGlobal_) // 0x1071FE20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetupFuncs@HsGlobalSync@Server@@YAXV?$function@$$A6AXFG@Z@std@@@Z");
-
 			sendGlobal = sendGlobal_;
 		}
 	}
@@ -275,8 +257,6 @@ namespace Server
 
 __int32 FindGlobalSyncState(unsigned long globalIndex) // 0x1071FAC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindGlobalSyncState@@YAHK@Z");
-
 	for (unsigned __int32 i = 0; i < registeredGlobals.size(); i++)
 	{
 		if (registeredGlobals[i].globalIndex == globalIndex)
@@ -292,8 +272,6 @@ namespace Server
 	{
 		void SynchronizeGlobalInternal(HsGlobalSyncState *global) // 0x1071FF70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SynchronizeGlobalInternal@HsGlobalSync@Server@@YAXPAUHsGlobalSyncState@hades_file_local@@@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
 				return;

@@ -70,8 +70,6 @@ namespace Debug
 	{
 		_inline StackWalker::StackWalker(_CONTEXT context) : m_hProc(nullptr), m_hThread(nullptr), m_context(), m_stackFrame(), m_line{ sizeof(_IMAGEHLP_LINE) }, m_buffer(), m_hasLineInfo(false), m_hasSymbolInfo(false), m_frameIndex(0), m_maxFrames(32) /* hades-mem-init:  */ // 0x1068D590
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0StackWalker@CrashReporting@Debug@@QAE@U_CONTEXT@@@Z");
-
 			m_context = context;
 			static bool symbolsInitialized = false;
 			if (!symbolsInitialized)
@@ -99,15 +97,11 @@ namespace Debug
 	{
 		_inline __int32 const StackWalker::GetLineNumber() const // 0x1068F470
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLineNumber@StackWalker@CrashReporting@Debug@@QBE?BHXZ");
-
 			return m_hasLineInfo ? m_line.LineNumber : 0;
 		}
 
 		_inline unsigned __int32 StackWalker::GetPCAddress() const // 0x1068F6B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPCAddress@StackWalker@CrashReporting@Debug@@QBEIXZ");
-
 			return m_stackFrame.AddrPC.Offset;
 		}
 	}
@@ -120,8 +114,6 @@ namespace Debug
 	{
 		_inline char const *StackWalker::GetFileName() const // 0x1068F2A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileName@StackWalker@CrashReporting@Debug@@QBEPBDXZ");
-
 			return m_hasLineInfo ? m_line.FileName : nullptr;
 		}
 	}
@@ -134,29 +126,21 @@ namespace Debug
 	{
 		_inline char const *StackWalker::GetFunctionName() const // 0x1068F300
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFunctionName@StackWalker@CrashReporting@Debug@@QBEPBDXZ");
-
 			return m_hasSymbolInfo ? GetSymbol()->Name : nullptr;
 		}
 
 		_inline bool StackWalker::HasSymbolInfo() const // 0x1068F860
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?HasSymbolInfo@StackWalker@CrashReporting@Debug@@QBE_NXZ");
-
 			return m_hasSymbolInfo;
 		}
 
 		_inline bool StackWalker::HasLineInfo() const // 0x1068F830
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?HasLineInfo@StackWalker@CrashReporting@Debug@@QBE_NXZ");
-
 			return m_hasLineInfo;
 		}
 
 		_inline bool StackWalker::Next() // 0x106900C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Next@StackWalker@CrashReporting@Debug@@QAE_NXZ");
-
 			if (m_frameIndex++ >= m_maxFrames)
 				return false;
 			__int32 result = StackWalk(IMAGE_FILE_MACHINE_I386, m_hProc, m_hThread, &m_stackFrame, &m_context, nullptr, SymFunctionTableAccess, SymGetModuleBase, nullptr);
@@ -181,8 +165,6 @@ namespace Debug
 	{
 		_inline _SYMBOL_INFO const *StackWalker::GetSymbol() const // 0x1068F7D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSymbol@StackWalker@CrashReporting@Debug@@ABEPBU_SYMBOL_INFO@@XZ");
-
 			return m_hasSymbolInfo ? (_SYMBOL_INFO const *)m_buffer : nullptr;
 		}
 	}

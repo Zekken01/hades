@@ -86,8 +86,6 @@ namespace Http
 {
 	Http::CHttpManager &GetManager() // 0x107F7330
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetManager@Http@@YAAAVCHttpManager@1@XZ");
-
 		return Http::CWinHttpManager::Instance();
 	}
 }
@@ -97,8 +95,6 @@ namespace Http
 {
 	std::shared_ptr<Http::IHttpRequest> CreateRequest() // 0x107F7290
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateRequest@Http@@YA?AV?$shared_ptr@VIHttpRequest@Http@@@std@@XZ");
-
 		return GetManager().CreateRequest();
 	}
 

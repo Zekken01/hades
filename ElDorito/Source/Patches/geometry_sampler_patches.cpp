@@ -198,8 +198,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x1091BF20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@geometry_sampler_patches@Patches@@YAXXZ");
-
 			Hook(0x6444B4, interpoloate_lighting_sample_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x350C60, geometry_test_collision_result_hook).Apply();
 			Hook(0x353886, sample_airprobes_hook).Apply();
@@ -211,8 +209,6 @@ namespace Patches
 
 _inline void s_structure_lighting_data::set_per_vertex_buffer(c_rasterizer_vertex_buffer *buffer) // 0x1091F100
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_per_vertex_buffer@s_structure_lighting_data@hades_file_local@@QAEXPAVc_rasterizer_vertex_buffer@@@Z");
-
 	per_vertex_count = buffer->get_vertex_count();
 	per_vertex_stride = buffer->get_vertex_stride();
 	per_vertex_data = buffer->get_data();
@@ -220,19 +216,14 @@ _inline void s_structure_lighting_data::set_per_vertex_buffer(c_rasterizer_verte
 
 _inline void s_structure_lighting_data::set_per_pixel_buffer(c_rasterizer_vertex_buffer *buffer) // 0x1091F0A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_per_pixel_buffer@s_structure_lighting_data@hades_file_local@@QAEXPAVc_rasterizer_vertex_buffer@@@Z");
-
 	per_pixel_data = buffer->get_data();
 }
 
 _inline void s_structure_lighting_data::set_lightprobe_index(long index) // 0x1091F070
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_lightprobe_index@s_structure_lighting_data@hades_file_local@@QAEXJ@Z");
-
 	lightprobe_index = index;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_structure_lighting_data@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_structure_lighting_data::s_structure_lighting_data() // 0x1091BB60
 {
 	lightprobe_index = -1;
@@ -244,15 +235,11 @@ _inline s_structure_lighting_data::s_structure_lighting_data() // 0x1091BB60
 
 long interpoloate_lighting_sample_hook(s_geometry_sample *current_sample, s_geometry_sample *next_sample, float interpolation_parameter, char a4) // 0x1091EE50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?interpoloate_lighting_sample_hook@@YAJPAUs_geometry_sample@@0MD@Z");
-
 	return c_geometry_sampler::interpolate_geometry_samples(current_sample, next_sample, interpolation_parameter / 2.0f, 1);
 }
 
 _inline void extract_world_vertex(s_render_geometry const *render_geometry, long mesh_index, long triangle_index, s_uncompressed_triangle *triangle) // 0x1091CD70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?extract_world_vertex@@YAXPBUs_render_geometry@@JJPAUs_uncompressed_triangle@@@Z");
-
 	s_mesh const *mesh = &render_geometry->meshes[mesh_index];
 	c_rasterizer_vertex_buffer *world_vertex_buffer = ((c_rasterizer_vertex_buffer *(__cdecl *)(s_render_geometry const *, long))0x78C930)(render_geometry, mesh->vertex_buffer_indices[0]);
 	c_rasterizer_index_buffer *index_buffer = ((c_rasterizer_index_buffer *(__cdecl *)(s_render_geometry const *, long))0x78C870)(render_geometry, mesh->index_buffer_indices[0]);
@@ -263,8 +250,6 @@ _inline void extract_world_vertex(s_render_geometry const *render_geometry, long
 
 _inline void extract_rigid_vertex(s_render_geometry const *render_geometry, long mesh_index, long triangle_index, long compression_index, s_uncompressed_triangle *triangle) // 0x1091CC20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?extract_rigid_vertex@@YAXPBUs_render_geometry@@JJJPAUs_uncompressed_triangle@@@Z");
-
 	s_mesh const *mesh = &render_geometry->meshes[mesh_index];
 	c_rasterizer_vertex_buffer *rigid_vertex_buffer = ((c_rasterizer_vertex_buffer *(__cdecl *)(s_render_geometry const *, long))0x78C930)(render_geometry, mesh->vertex_buffer_indices[0]);
 	void const *rigid_vertices = rigid_vertex_buffer->get_data();
@@ -276,8 +261,6 @@ _inline void extract_rigid_vertex(s_render_geometry const *render_geometry, long
 
 bool get_structure_lighting(long bsp_index, long section_index, long instance_index, s_structure_lighting_data *lighting) // 0x1091E630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_structure_lighting@@YA_NJJJPAUs_structure_lighting_data@hades_file_local@@@Z");
-
 	s_scenario_structure_bsp *bsp = global_structure_bsp_get(bsp_index);
 	s_scenario_lightmap_bsp_data *bsp_lightmap_data = ((s_scenario_lightmap_bsp_data *(*)(long))0xA2EEC0)(bsp_index);
 	s_render_geometry *render_geometry = ((s_render_geometry *(*)(long))0xA2EF00)(bsp_index);
@@ -338,8 +321,6 @@ bool get_structure_lighting(long bsp_index, long section_index, long instance_in
 
 _inline void barycentric_coordinates(real_point3d const &p, real_point3d const &a, real_point3d const &b, real_point3d const &c, float &u, float &v, float &w) // 0x1091C250
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?barycentric_coordinates@@YAXABUreal_point3d@@000AAM11@Z");
-
 	real_vector3d ab = b - a;
 	real_vector3d ac = c - a;
 	real_vector3d ap = p - a;
@@ -356,8 +337,6 @@ _inline void barycentric_coordinates(real_point3d const &p, real_point3d const &
 
 void closest_point_on_triangle(real_point3d const &p, real_point3d const &a, real_point3d const &b, real_point3d const &c, real_point3d &closest_point) // 0x1091C560
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?closest_point_on_triangle@@YAXABUreal_point3d@@000AAU1@@Z");
-
 	float u;
 	float v;
 	float w;
@@ -411,8 +390,6 @@ void closest_point_on_triangle(real_point3d const &p, real_point3d const &a, rea
 
 void get_surface_plane(real_plane3d *plane, c_structure_surface const &structure_surface) // 0x1091EA70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_surface_plane@@YAXPAUreal_plane3d@@ABUc_structure_surface@@@Z");
-
 	c_collision_bsp_reference collision_bsp;
 	structure_surface.get_collision_bsp(&collision_bsp);
 	bool negated;
@@ -434,8 +411,6 @@ void get_surface_plane(real_plane3d *plane, c_structure_surface const &structure
 
 long find_best_triangle_closest(c_structure_surface const &structure_surface, s_render_geometry const *render_geometry, real_point3d const &point, s_uncompressed_triangle &triangle, float &s, float &t) // 0x1091CEA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?find_best_triangle_closest@@YAJABUc_structure_surface@@PBUs_render_geometry@@ABUreal_point3d@@AAUs_uncompressed_triangle@@AAM4@Z");
-
 	long first_index = structure_surface.get_first_triangle_index();
 	long end_index = first_index + structure_surface.get_triangle_count() - 1;
 	real_plane3d surface_plane;
@@ -493,8 +468,6 @@ long find_best_triangle_closest(c_structure_surface const &structure_surface, s_
 
 long find_best_triangle_h3(c_structure_surface const &structure_surface, s_render_geometry const *render_geometry, real_point3d const &point, s_uncompressed_triangle &triangle, float &s, float &t) // 0x1091D3D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?find_best_triangle_h3@@YAJABUc_structure_surface@@PBUs_render_geometry@@ABUreal_point3d@@AAUs_uncompressed_triangle@@AAM4@Z");
-
 	long const first_index = structure_surface.get_first_triangle_index();
 	long const end_index = first_index + structure_surface.get_triangle_count() - 1;
 	long best_triangle_index = -1;
@@ -539,8 +512,6 @@ long find_best_triangle_h3(c_structure_surface const &structure_surface, s_rende
 
 bool geometry_test_collision_result_impl(long bsp_index, long object_index, long instance_index, long surface_index, real_point3d const *test_point, bool unknown_flag, bool find_material_flag, bool *out_test_result_valid, s_geometry_test_result *test_result) // 0x1091D7B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?geometry_test_collision_result_impl@@YA_NJJJJPBUreal_point3d@@_N1PA_NPAUs_geometry_test_result@@@Z");
-
 	*out_test_result_valid = false;
 	if (object_index != -1)
 	{
@@ -615,15 +586,11 @@ bool geometry_test_collision_result_impl(long bsp_index, long object_index, long
 
 _inline bool geometry_test_collision_result_hook(long bsp_index, long object_index, long instance_index, long surface_index, real_point3d const *test_point, bool unknown_flag, bool find_material_flag, bool *out_test_result_valid, s_geometry_test_result *test_result) // 0x1091D740
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?geometry_test_collision_result_hook@@YA_NJJJJPBUreal_point3d@@_N1PA_NPAUs_geometry_test_result@@@Z");
-
 	return geometry_test_collision_result_impl(bsp_index, object_index, instance_index, surface_index, test_point, unknown_flag, find_material_flag, out_test_result_valid, test_result);
 }
 
 __declspec(naked) void sample_airprobes_hook() // 0x1091EF10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?sample_airprobes_hook@@YAXXZ");
-
 	__asm
 	{
 		cmp word ptr [ecx + 14h], 0

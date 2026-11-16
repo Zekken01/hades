@@ -39,29 +39,22 @@ struct s_network_session_player;
 
 bool c_network_session_membership::is_leader() const // 0x10F00BB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?is_leader@c_network_session_membership@@QBE_NXZ");
-
 	return has_membership() && ((s_network_session_shared_membership const *)m_shared_network_membership)->leader_peer_index == m_local_peer_index;
 }
 
 bool c_network_session_membership::is_peer_valid(long peer_index) const // 0x10F00C50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?is_peer_valid@c_network_session_membership@@QBE_NJ@Z");
-
 	return (((s_network_session_shared_membership const *)m_shared_network_membership)->peer_valid_mask >> peer_index) & 1;
 }
 
 bool c_network_session_membership::is_player_valid(long player_index) const // 0x10F00CC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?is_player_valid@c_network_session_membership@@QBE_NJ@Z");
-
 	return (((s_network_session_shared_membership const *)m_shared_network_membership)->player_valid_mask >> player_index) & 1;
 }
 
 #line 64
 s_network_session_player *c_network_session_membership::get_player(long player_index) // 0x10F00B00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player@c_network_session_membership@@QAEPAUs_network_session_player@@J@Z");
 #line 68
 
 	#line 66 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_membership.cpp"
@@ -72,7 +65,6 @@ s_network_session_player *c_network_session_membership::get_player(long player_i
 
 s_network_session_peer *c_network_session_membership::get_peer(long peer_index) // 0x10F00A50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_peer@c_network_session_membership@@QAEPAUs_network_session_peer@@J@Z");
 #line 79
 
 	#line 77 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_membership.cpp"
@@ -83,7 +75,6 @@ s_network_session_peer *c_network_session_membership::get_peer(long peer_index) 
 
 s_network_session_peer *c_network_session_membership::get_local_peer() // 0x10F008D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_local_peer@c_network_session_membership@@QAEPAUs_network_session_peer@@XZ");
 #line 90
 
 	#line 88 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_membership.cpp"
@@ -94,7 +85,6 @@ s_network_session_peer *c_network_session_membership::get_local_peer() // 0x10F0
 
 long c_network_session_membership::get_channel_index(long peer_index) const // 0x10F00780
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_channel_index@c_network_session_membership@@QBEJJ@Z");
 #line 101
 
 	#line 99 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_membership.cpp"
@@ -105,8 +95,6 @@ long c_network_session_membership::get_channel_index(long peer_index) const // 0
 
 long c_network_session_membership::get_first_peer() // 0x10F00840
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_first_peer@c_network_session_membership@@QAEJXZ");
-
 	for (long index = 0; index < 17; index++)
 	{
 		if (is_peer_valid(index))
@@ -119,7 +107,6 @@ long c_network_session_membership::get_first_peer() // 0x10F00840
 #line 123
 long c_network_session_membership::get_next_peer(long peer_index) // 0x10F00980
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_next_peer@c_network_session_membership@@QAEJJ@Z");
 #line 128
 
 	#line 125 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\networking\\session\\network_session_membership.cpp"

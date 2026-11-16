@@ -167,16 +167,12 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A4FBF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@CustomPackets@Patches@@YAXXZ");
-
 			Hook(0x9E226, InitializePacketsHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x9CAFA, HandlePacketHook).Apply();
 		}
 
 		void SendPacket(__int32 targetPeer, void const *packet, __int32 packetSize) // 0x10A50660
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendPacket@CustomPackets@Patches@@YAXHPBXH@Z");
-
 			auto session = Blam::Network::GetActiveSession();
 			if (!session)
 				return;
@@ -190,8 +186,6 @@ namespace Patches
 
 		unsigned __int32 RegisterPacketImpl(std::string const &name, std::shared_ptr<Patches::CustomPackets::RawPacketHandler> handler) // 0x10A50480
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterPacketImpl@CustomPackets@Patches@@YAIABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$shared_ptr@VRawPacketHandler@CustomPackets@Patches@@@4@@Z");
-
 			unsigned __int32 guid;
 			if (!Utils::Cryptography::Hash32(name, &guid))
 				throw std::runtime_error("Failed to generate packet GUID");
@@ -208,13 +202,10 @@ namespace Patches
 
 /* ---------- private code */
 
-// mangled_x86(MANGLED_DEFAULT, "??0CustomPacket@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline CustomPacket::CustomPacket() = default; // 0x10A4ED70  // hades: defaulted on its declaration
 
 void InitializePacketsHook() // 0x10A500D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializePacketsHook@@YAXXZ");
-
 	__int32 packetCount = 40;
 	Blam::Network::PacketTable *customPacketTable = new Blam::Network::PacketTable[packetCount];
 	Blam::Network::SetPacketTable(customPacketTable);
@@ -231,8 +222,6 @@ _inline CustomPacket &CustomPacket::operator=(CustomPacket const &__that) = defa
 
 CustomPacket *LookUpPacketType(unsigned __int32 guid) // 0x10A50360
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LookUpPacketType@@YAPAUCustomPacket@hades_file_local@@I@Z");
-
 	auto it = customPackets.find(guid);
 	if (it == customPackets.end())
 		return nullptr;
@@ -241,8 +230,6 @@ CustomPacket *LookUpPacketType(unsigned __int32 guid) // 0x10A50360
 
 void SerializeCustomPacket(Blam::BitStream *stream, __int32 packetSize, void const *packet) // 0x10A50710
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SerializeCustomPacket@@YAXPAVBitStream@Blam@@HPBX@Z");
-
 	Patches::CustomPackets::PacketBase const *packetBase = static_cast<Patches::CustomPackets::PacketBase const *>(packet);
 	stream->WriteBlock(128, packetBase->Header);
 	stream->WriteUnsigned<unsigned int>(packetBase->TypeGuid, 32);
@@ -258,8 +245,6 @@ void SerializeCustomPacket(Blam::BitStream *stream, __int32 packetSize, void con
 
 bool DeserializeCustomPacket(Blam::BitStream *stream, __int32 packetSize, void *packet) // 0x10A4FE30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?DeserializeCustomPacket@@YA_NPAVBitStream@Blam@@HPAX@Z");
-
 	if (packetSize < static_cast<__int32>(sizeof(Patches::CustomPackets::PacketBase)))
 		return false;
 	Patches::CustomPackets::PacketBase *packetBase = static_cast<Patches::CustomPackets::PacketBase *>(packet);
@@ -277,8 +262,6 @@ bool DeserializeCustomPacket(Blam::BitStream *stream, __int32 packetSize, void *
 
 bool HandleCustomPacket(__int32 id, Blam::Network::ObserverChannel *sender, void const *packet) // 0x10A4FFC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleCustomPacket@@YA_NHPAUObserverChannel@Network@Blam@@PBX@Z");
-
 	if (id != 0x27)
 	{
 		return false;
@@ -297,8 +280,6 @@ bool HandleCustomPacket(__int32 id, Blam::Network::ObserverChannel *sender, void
 
 __declspec(naked) void HandlePacketHook() // 0x10A50090
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacketHook@@YAXXZ");
-
 	__asm
 	{
 		mov edx, [ebp + 8]

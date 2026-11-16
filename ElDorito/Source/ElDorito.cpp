@@ -427,19 +427,16 @@ namespace Server
 
 ElDorito::ElDorito() : GameHasMenuShown(false), executeCommandQueue(false), isDedicated(false), isBotClient(false), isHighPriority(false), webDebugging(false), webDebugLogging(false), webdebugPort(8884), connectToServer(false), serverAddress(""), serverPassword(""), instanceName("") /* hades-mem-init:  */ // 0x109638F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ElDorito@@QAE@XZ");
 }
 
 namespace Audio
 {
-	// mangled_x86(MANGLED_DEFAULT, "??0IAudioDeviceListener@Audio@@QAE@XZ"); no body to assert in
 }
 
 namespace Debug
 {
 	namespace CrashReporting
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??0s_crash_info@CrashReporting@Debug@@QAE@XZ"); no body to assert in
 	}
 }
 
@@ -455,8 +452,6 @@ namespace PersistentMemory { void Init(); }  // hades: added for 0x10965070
 namespace Utils { void LogEthernetAdapterInfo(); namespace Version { std::string GetVersionString(); } }  // hades: added for 0x10965070
 void ElDorito::Initialize() // 0x10965070
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@ElDorito@@QAEXXZ");
-
 	if (FAILED(CoInitialize(NULL)))
 		return;
 	SetMainThreadID(GetCurrentThreadId());
@@ -622,7 +617,6 @@ void ElDorito::Initialize() // 0x10965070
 
 namespace Server
 {
-	// mangled_x86(MANGLED_DEFAULT, "??1BanList@Server@@QAE@XZ"); no body to assert in
 	_inline BanList::~BanList() = default; // 0x10963FE0
 }
 
@@ -630,32 +624,22 @@ namespace Debug
 {
 	namespace CrashReporting
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??1s_crash_info@CrashReporting@Debug@@QAE@XZ"); no body to assert in
 		// hades: s_crash_info::~s_crash_info() is implicit (0x10964050)
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0CModBrowserManager@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0CServerConnectManager@@QAE@XZ"); no body to assert in
-
 void ElDorito::Shutdown() // 0x10966B70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@ElDorito@@QAEXXZ");
-
 	Utils::Singleton<Utils::Logger>::Instance().Flush();
 	Download::Shutdown();
 }
 
 void ElDorito::SetMapsFolder(std::string const &path) // 0x10966B50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMapsFolder@ElDorito@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
 }
 
 void ElDorito::Tick() // 0x10966BD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ElDorito@@QAEXXZ");
-
 	Server::VariableSynchronization::Tick();
 	if (IsDedicated())
 		Server::Rcon::Tick();
@@ -710,8 +694,6 @@ void ElDorito::Tick() // 0x10966BD0
 
 std::string ElDorito::GetDirectory() // 0x10964690
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDirectory@ElDorito@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 	char Path[260];
 	HINSTANCE__ *hMod;
 	if (!GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (char const *)HandleFinder, &hMod))
@@ -727,8 +709,6 @@ std::string ElDorito::GetDirectory() // 0x10964690
 
 void ElDorito::OnMainMenuShown() // 0x10966AA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMainMenuShown@ElDorito@@QAEXXZ");
-
 	if (GameHasMenuShown)
 		return;
 
@@ -740,8 +720,6 @@ void ElDorito::OnMainMenuShown() // 0x10966AA0
 
 void ElDorito::setWatermarkText(std::string const &Message) // 0x10967AF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?setWatermarkText@ElDorito@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	static wchar_t msgBuf[256];
 	wmemset(msgBuf, 0, 256);
 	std::wstring msgUnicode = Utils::String::WidenString(Message);
@@ -754,8 +732,6 @@ void ElDorito::setWatermarkText(std::string const &Message) // 0x10967AF0
 
 bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) // 0x10964160
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CanAccessFolder@@YA_NPBDK@Z");
-
 	bool bRet = false;
 	DWORD length = 0;
 	if (!::GetFileSecurity(folderName, OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION
@@ -794,8 +770,6 @@ bool CanAccessFolder(char const *folderName, unsigned long genericAccessRights) 
 
 bool EnsureChildProcessTermination() // 0x10964530
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?EnsureChildProcessTermination@@YA_NXZ");
-
 	void *hJob = ::CreateJobObjectA(nullptr, nullptr);
 	if (hJob)
 	{
@@ -814,8 +788,6 @@ bool EnsureChildProcessTermination() // 0x10964530
 
 std::string GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord) // 0x10964A30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetExceptionMessage@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABU_EXCEPTION_RECORD@@@Z");
-
 	char const *(*const exception_get_name)(unsigned long) = reinterpret_cast<char const *(*)(unsigned long)>(0x51BE40);
 	char const *name = exception_get_name(exceptionRecord.ExceptionCode);
 	if (!name)
@@ -834,8 +806,6 @@ std::string GetExceptionMessage(_EXCEPTION_RECORD const &exceptionRecord) // 0x1
 
 long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo) // 0x10966E80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?TopLevelExceptionFilter@@YGJPAU_EXCEPTION_POINTERS@@@Z");
-
 	if (handling)
 		return EXCEPTION_EXECUTE_HANDLER;
 	handling = true;
@@ -859,8 +829,6 @@ long __stdcall TopLevelExceptionFilter(_EXCEPTION_POINTERS *ExceptionInfo) // 0x
 
 __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevInstance, char *lpCmdLine, __int32 nCmdShow) // 0x109671A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?WinMainHook@@YGHPAUHINSTANCE__@@0PADH@Z");
-
 	__int32 (__stdcall *const WinMainPtr)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32) = (__int32(__stdcall *const)(HINSTANCE__ *, HINSTANCE__ *, char *, __int32))0x42eb10;
 
 	SetUnhandledExceptionFilter(TopLevelExceptionFilter);
@@ -871,8 +839,6 @@ __int32 __stdcall WinMainHook(HINSTANCE__ *hInstance, HINSTANCE__ *hPrevInstance
 
 __int32 InitInstance(HINSTANCE__ *hModule) // 0x10964D10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitInstance@@YAHPAUHINSTANCE__@@@Z");
-
 	DisableThreadLibraryCalls(hModule);
 	SetProcessDPIAware();
 	EnsureChildProcessTermination();
@@ -894,22 +860,16 @@ __int32 InitInstance(HINSTANCE__ *hModule) // 0x10964D10
 
 __int32 ExitInstance() // 0x10964670
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ExitInstance@@YAHXZ");
-
 	return 1;
 }
 
 __int32 GetEDVersion() // 0x109649F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEDVersion@@YAHXZ");
-
 	return Utils::Version::GetVersionInt();
 }
 
 extern "C" __int32 __stdcall DllMain(HINSTANCE__ *hModule, unsigned long Reason, void *Misc) noexcept(false) // 0x10967E50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_DllMain@12");
-
 	switch (Reason)
 	{
 	case DLL_PROCESS_ATTACH:
@@ -947,7 +907,6 @@ namespace Debug
 
 void HandleFinder() // 0x10964CF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleFinder@@YAXXZ");
 }
 
 /* ---------- template instantiations */

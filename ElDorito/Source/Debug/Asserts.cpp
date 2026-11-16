@@ -57,8 +57,6 @@ namespace Debug
 {
 	void AssertHandle(char const *filename, char const *funcName, __int32 lineNum, char const *expr, char const *msg, ...) // 0x106D1810
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AssertHandle@Debug@@YAXPBD0H00ZZ");
-
 		char messageBuff[8192];
 		__int32 msgLen = 0;
 		if (msg)

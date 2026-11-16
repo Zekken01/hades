@@ -330,8 +330,6 @@ namespace Modules
 {
 	ModulePlayer::ModulePlayer() : ModuleBase("Player") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x109ECCC0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModulePlayer@Modules@@QAE@XZ");
-
 		AddCommand("Armor.Update", "armor_update", "Update the player's armor.", eCommandFlagsHidden, VariablePlayerArmorUpdate);
 		AddCommand("Armor.SetUiModelPosition", "armor_ui_player_model_position", "Set the position of the ui player model", CommandFlags(eCommandFlagsOmitValueInList | eCommandFlagsHidden), CommandSetUiPlayerModelPosition);
 		AddCommand("Armor.SetUiModelRotation", "armor_ui_player_model_rotation", "Set the rotation of the ui player model", eCommandFlagsHidden, CommandSetUiPlayerModelRotation);
@@ -536,16 +534,12 @@ namespace Modules
 
 	bool ModulePlayer::ValidServiceTag(std::string const &tag) // 0x109F6BC0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ValidServiceTag@ModulePlayer@Modules@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		static const std::unordered_set<std::string> filter = { "ANUS", "ARSE", "CLIT", "COCK", "COON", "CUNT", "DAGO", "DAMN", "DICK", "DIKE", "DYKE", "FUCK", "GOOK", "HEEB", "HELL", "HOMO", "JIZZ", "KIKE", "KUNT", "KYKE", "MICK", "MUFF", "PAKI", "PISS", "POON", "PUTO", "SHIT", "SHIZ", "SLUT", "SMEG", "SPIC", "TARD", "TITS", "TWAT", "WANK", "NIGA", "NIGG", "NIGR", "N1GG", "N1GR", "NIG", "N1G", "RAPE", "GAY", "GAYY" };
 		return tag.length() > 2 && tag.length() < 5 && std::all_of(tag.begin(), tag.end(), [](auto c) { return c >= '0' && c <= 'Z'; }) && filter.find(tag) == filter.end();
 	}
 
 	bool ModulePlayer::ValidPlayerName(std::string const &name) // 0x109F6A50
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ValidPlayerName@ModulePlayer@Modules@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		if (name.length() == 0 || name.length() >= 16)
 			return false;
 		if (std::all_of(name.begin(), name.end(), isspace))
@@ -560,8 +554,6 @@ namespace Modules
 
 std::string GetPayload() // 0x109F5540
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPayload@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 	rapidjson::Document dewrito = Utils::DewritoReader::Instance().GetDewritoJson();
 	if (!dewrito.HasMember("playerRegister"))
 		return "";
@@ -613,8 +605,6 @@ std::string GetPayload() // 0x109F5540
 
 bool SendRequest(std::string payload, std::string endpoint) // 0x109F6220
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SendRequest@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	try
 	{
@@ -635,8 +625,6 @@ bool SendRequest(std::string payload, std::string endpoint) // 0x109F6220
 
 bool CommandRegisterPlayer(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F2470
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandRegisterPlayer@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	rapidjson::Document dewrito = Utils::DewritoReader::Instance().GetDewritoJson();
 	if (!dewrito.HasMember("playerRegister"))
 		return false;
@@ -656,16 +644,12 @@ bool CommandRegisterPlayer(std::vector<std::string> const &Arguments, std::strin
 
 bool VariablePlayerArmorUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F7350
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePlayerArmorUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	RefreshUiPlayer();
 	return true;
 }
 
 bool VariablePlayerEmblem(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F7390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePlayerEmblem@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Player::PlayerEmblemDownload::Instance().UpdateLocalEmblem();
 
 	return true;
@@ -673,8 +657,6 @@ bool VariablePlayerEmblem(std::vector<std::string> const &Arguments, std::string
 
 bool VariablePlayerNameUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F74A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePlayerNameUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Modules::ModulePlayer &modulePlayer = Modules::ModulePlayer::Instance();
 	std::string name = modulePlayer.VarPlayerName->ValueString;
 	if (!Modules::ModulePlayer::ValidPlayerName(name))
@@ -693,8 +675,6 @@ bool VariablePlayerNameUpdate(std::vector<std::string> const &Arguments, std::st
 
 void UpdateLocalRepresentation() // 0x109F69B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateLocalRepresentation@@YAXXZ");
-
 	Blam::Network::Session *activeSession = Blam::Network::GetActiveSession();
 
 	if (activeSession && activeSession->IsEstablished())
@@ -707,8 +687,6 @@ void UpdateLocalRepresentation() // 0x109F69B0
 
 bool VariablePlayerServiceTagUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F7700
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePlayerServiceTagUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() == 0)
 		return false;
 
@@ -728,8 +706,6 @@ bool VariablePlayerServiceTagUpdate(std::vector<std::string> const &Arguments, s
 
 bool VariablePlayerGenderUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F73E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariablePlayerGenderUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() == 0 || (Arguments[0].compare("male") != 0 && Arguments[0].compare("female") != 0))
 		return false;
 
@@ -740,8 +716,6 @@ bool VariablePlayerGenderUpdate(std::vector<std::string> const &Arguments, std::
 
 bool CommandPlayerPrintUID(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F1C00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPlayerPrintUID@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	unsigned long long uid = Patches::PlayerUid::Get();
 	std::stringstream ss;
 	ss << std::setw(16) << std::setfill('0') << std::hex << uid << std::dec << std::setw(0);
@@ -751,8 +725,6 @@ bool CommandPlayerPrintUID(std::vector<std::string> const &Arguments, std::strin
 
 bool TryParseFloat(std::string const &str, float *value) // 0x109F6800
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseFloat@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAM@Z");
-
 	char* endp;
 	*value = std::strtof(str.c_str(), &endp);
 
@@ -761,8 +733,6 @@ bool TryParseFloat(std::string const &str, float *value) // 0x109F6800
 
 bool CommandSetUiPlayerModelPosition(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F4730
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetUiPlayerModelPosition@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	real_vector3d position;
 	if (Arguments.size() < 3 || !TryParseFloat(Arguments[0], &position.i) || !TryParseFloat(Arguments[1], &position.j) || !TryParseFloat(Arguments[2], &position.k))
 	{
@@ -776,8 +746,6 @@ bool CommandSetUiPlayerModelPosition(std::vector<std::string> const &Arguments, 
 
 bool CommandReturnCustomizationBiped(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F2770
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandReturnCustomizationBiped@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	s_scenario *const scnr = *g_scenario_definition;
 	std::string preferredCharacterName = GetCurrentPreferredCharacter();
 	s_game_globals const *game_globals = game_globals_get();
@@ -816,8 +784,6 @@ bool CommandReturnCustomizationBiped(std::vector<std::string> const &Arguments, 
 
 bool CommandSetRegionCamera(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F2C70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetRegionCamera@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	extern long find_player_character_by_name(char const *);
 	s_game_globals const *game_globals = game_globals_get();
 	s_mod_globals_definition const *mod_globals = mod_globals_get_definition();
@@ -879,8 +845,6 @@ bool CommandSetRegionCamera(std::vector<std::string> const &Arguments, std::stri
 
 bool CommandSetUiPlayerModelCustomization(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F35F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetUiPlayerModelCustomization@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	s_game_globals const *game_globals = game_globals_get();
 	s_mod_globals_definition const *mod_globals = mod_globals_get_definition();
 	std::string preferredCharacterName = GetCurrentPreferredCharacter();
@@ -1023,8 +987,6 @@ bool CommandSetUiPlayerModelCustomization(std::vector<std::string> const &Argume
 
 std::string rgb2hex(unsigned long color) // 0x109F9C00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?rgb2hex@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@K@Z");
-
 	std::string result;
 	char buff[255];
 
@@ -1036,8 +998,6 @@ std::string rgb2hex(unsigned long color) // 0x109F9C00
 
 std::string ResolveString(unsigned __int32 unicTagIndex, unsigned __int32 strindId) // 0x109F6080
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ResolveString@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@II@Z");
-
 	__int32 (*const ui_get_prefered_lanquage)() = reinterpret_cast<__int32 (*)()>(0x52FC40);
 	char *(*const ui_resolve_string)(unsigned __int32, unsigned __int32, __int32) = reinterpret_cast<char *(*)(unsigned __int32, unsigned __int32, __int32)>(0x51E290);
 	char *resolvedString = ui_resolve_string(unicTagIndex, strindId, ui_get_prefered_lanquage());
@@ -1048,8 +1008,6 @@ std::string ResolveString(unsigned __int32 unicTagIndex, unsigned __int32 strind
 
 bool CommandListCustomizationPermutations(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109EFDD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandListCustomizationPermutations@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	long const armorStringshf2p = tag_find_by_name('unic', "hf2p\\armor_strings");
 	long const armorStrings = tag_find_by_name('unic', "ui\\halox\\start_menu\\panes\\settings_appearance_model\\strings");
 	long const colorStrings = tag_find_by_name('unic', "ui\\halox\\start_menu\\panes\\settings_appearance_colors\\strings");
@@ -1188,8 +1146,6 @@ bool CommandListCustomizationPermutations(std::vector<std::string> const &Argume
 
 bool CommandSetUiPlayerModelRotation(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F4870
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetUiPlayerModelRotation@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	float rotationAngle = 0.0f;
 	float rotationTime = 0.0f;
 	if (Arguments.size() < 1)
@@ -1213,8 +1169,6 @@ bool CommandSetUiPlayerModelRotation(std::vector<std::string> const &Arguments, 
 
 bool CommandSetCarryType(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F2BE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetCarryType@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	s_player_control_input_state *state = player_control_input_get(0);
 
 	state->weapon_lowered = !state->weapon_lowered;
@@ -1223,8 +1177,6 @@ bool CommandSetCarryType(std::vector<std::string> const &Arguments, std::string 
 
 bool GenerateTimestamp(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F5320
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateTimestamp@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Modules::ModulePlayer &modulePlayer = Modules::ModulePlayer::Instance();
 	std::string encryptedString;
 	long long now = time(nullptr);
@@ -1238,8 +1190,6 @@ bool GenerateTimestamp(std::vector<std::string> const &Arguments, std::string &r
 
 std::string GenerateRandomServiceTag() // 0x109F5180
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateRandomServiceTag@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 	std::string tag(4, 0);
 	tag[0] = rand() % 26 + 'A';
 	tag[1] = rand() % 10 + '0';
@@ -1250,8 +1200,6 @@ std::string GenerateRandomServiceTag() // 0x109F5180
 
 bool CommandReloadCustomization(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F2730
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandReloadCustomization@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Player::CPlayerCharacterSystem::ReloadCustomizations();
 
 	return true;
@@ -1259,8 +1207,6 @@ bool CommandReloadCustomization(std::vector<std::string> const &Arguments, std::
 
 bool CommandTestCustomization(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F4A50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandTestCustomization@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Player::CPlayerCustomizationDB &db = Player::CPlayerCustomizationDB::Instance();
 	Player::SPersistentCharacterCustomization customization1;
 	customization1.colors["primary"] = "#ff0000";
@@ -1295,8 +1241,6 @@ bool CommandTestCustomization(std::vector<std::string> const &Arguments, std::st
 
 bool CommandKillSelf(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109EFD00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandKillSelf@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Server::Chat::SendGlobalMessage("!kill");
 
 	return true;
@@ -1304,8 +1248,6 @@ bool CommandKillSelf(std::vector<std::string> const &Arguments, std::string &ret
 
 bool CommandPlayerArmor(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F1400
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPlayerArmor@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::string preferredCharacterName = GetCurrentPreferredCharacter();
 	Player::CPlayerCustomizationDB &db = Player::CPlayerCustomizationDB::Instance();
 	if (Arguments.size() == 1)
@@ -1337,8 +1279,6 @@ bool CommandPlayerArmor(std::vector<std::string> const &Arguments, std::string &
 
 bool CommandPlayerColor(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F1720
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPlayerColor@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::string preferredCharacterName = GetCurrentPreferredCharacter();
 	Player::CPlayerCustomizationDB &db = Player::CPlayerCustomizationDB::Instance();
 	if (Arguments.size() == 1)
@@ -1370,8 +1310,6 @@ bool CommandPlayerColor(std::vector<std::string> const &Arguments, std::string &
 
 bool CommandPreferredCharacter(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F1EA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPreferredCharacter@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
 	Player::CPlayerCustomizationDB &db = Utils::Singleton<Player::CPlayerCustomizationDB>::Instance();
 	std::string modName = c_mod_system::get_current_package_filename(kMainMenu);
@@ -1420,8 +1358,6 @@ bool CommandPreferredCharacter(std::vector<std::string> const &Arguments, std::s
 
 static bool TryParseInt(std::string const &str, __int32 *value) // 0x109F68D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseInt@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAH@Z");
-
 	if (str.length() == 0)
 		return false;
 
@@ -1435,8 +1371,6 @@ static bool TryParseInt(std::string const &str, __int32 *value) // 0x109F68D0
 
 bool CommandPlayerEmote(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109F1A40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPlayerEmote@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
 	unsigned long playerIndex = ((unsigned long (__cdecl *)(long))0x589C30)(0);
 	if (!((bool (__cdecl *)())0x5314B0)() || playerIndex == -1 || game_is_mainmenu())

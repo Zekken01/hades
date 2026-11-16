@@ -247,8 +247,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x108DE300
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@RenderObject@Patches@@YAXXZ");
-
 			Hook(0x678B9E, render_object_mesh_part_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x679136, render_object_mesh_part_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x6791D6, render_object_mesh_part_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -263,7 +261,6 @@ namespace Patches
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_compression_info@@QAE@ABU0@@Z"); no body to assert in
 _inline s_compression_info::s_compression_info(s_compression_info const &__that) = default; // 0x108DDBA0
 
 namespace Patches
@@ -272,8 +269,6 @@ namespace Patches
 	{
 		bool GetPRTDisabled() // 0x108DEC70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPRTDisabled@RenderObject@Patches@@YA_NXZ");
-
 			return g_prt_disabled;
 		}
 	}
@@ -283,15 +278,11 @@ namespace Patches
 
 void render_object_set_shield_impact(long element_index, void *definition) // 0x108E06E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_set_shield_impact@@YAXJPAX@Z");
-
 	render_object_globals_get()->parts[element_index].shield_definition = definition;
 }
 
 bool object_should_render(long object_index) // 0x108DF6D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_should_render@@YA_NJ@Z");
-
 	s_object_data *object = object_get(object_index);
 	if (!object)
 		return false;
@@ -319,8 +310,6 @@ bool object_should_render(long object_index) // 0x108DF6D0
 
 void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible_object *render_info, long object_entry_point_flags, bool a4, bool has_shield_impact, bool isFpShit, bool camo) // 0x108DF930
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_add_mesh_parts_hook@@YAXPAUs_render_object@@PAUs_visible_object@@J_N222@Z");
-
 	bool uses_fixed_oreder_transparency = (object_entry_point_flags >> 6) & 1;
 	s_render_model *render_model = (s_render_model *)tag_get('mode', render_info->info.render_model_index);
 	bool ridiculous_transparency_sort_bias_bit = false;
@@ -423,8 +412,6 @@ void render_object_add_mesh_parts_hook(s_render_object *render_object, s_visible
 
 void render_reforge_object_mesh_part(s_render_object_mesh_part *element, long entry_point, long entry_point_flags, bool a4, long material_index, ::Forge::Reforge::SRenderMaterialParameters const &parameters) // 0x108E0D80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_reforge_object_mesh_part@@YAXPAUs_render_object_mesh_part@@JJ_NJABUSRenderMaterialParameters@Reforge@Forge@@@Z");
-
 	s_render_model *render_model = (s_render_model *)tag_get('mode', element->info->info.render_model_index);
 	s_mesh *mesh = &render_model->render_geometry.meshes[element->mesh_index];
 	s_part *part = &mesh->parts[element->part_index];
@@ -445,8 +432,6 @@ void render_reforge_object_mesh_part(s_render_object_mesh_part *element, long en
 
 long object_get_prt_disabled(long object_index) // 0x108DF440
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_get_prt_disabled@@YAJJ@Z");
-
 	float const k_spartan_scale_threshold = 1.5f;
 	object_index = ((long (*)(long))0xB2EAB0)(object_index);
 	s_object_data *object = object_get(object_index);
@@ -462,7 +447,6 @@ long object_get_prt_disabled(long object_index) // 0x108DF440
 #line 517
 void render_object_mesh_part_hook(s_render_object_mesh_part *element, long entry_point, long entry_point_flags, bool a4) // 0x108E0540
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_mesh_part_hook@@YAXPAUs_render_object_mesh_part@@JJ_N@Z");
 #line 528
 
 	#line 519 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\RenderObjectPatches.cpp"
@@ -485,15 +469,11 @@ void render_object_mesh_part_hook(s_render_object_mesh_part *element, long entry
 
 bool object_sh_lightmap_sampling_disabled(long object_index) // 0x108DF640
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_sh_lightmap_sampling_disabled@@YA_NJ@Z");
-
 	return Forge::Reforge::IsReforgeObject(object_index) || Forge::ObjectIsForgeScenery(object_index);
 }
 
 long object_lighting_geometry_sample_hook(real_point3d *origin, real_vector3d *direction, __int32 a3, long object_index, char a5, char a6, s_geometry_sample *sample) // 0x108DF570
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_lighting_geometry_sample_hook@@YAJPAUreal_point3d@@PAUreal_vector3d@@HJDDPAUs_geometry_sample@@@Z");
-
 	if (object_sh_lightmap_sampling_disabled(object_index))
 	{
 		memcpy(sample, (void const *)0x18F3000, 0x1F8);
@@ -507,15 +487,11 @@ long object_lighting_geometry_sample_hook(real_point3d *origin, real_vector3d *d
 
 static s_game_globals *try_and_get_game_globals() // 0x108E1E10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?try_and_get_game_globals@@YAPAUs_game_globals@@XZ");
-
 	return (s_game_globals *)tag_get(0x6D617467, tag_get_first_in_group(0x6D617467));
 }
 
 static real_rgb_color *network_get_team_color(real_rgb_color *color, long team) // 0x108DF2B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?network_get_team_color@@YAPAUreal_rgb_color@@PAU1@J@Z");
-
 	*color = **reinterpret_cast<real_rgb_color **>(0x189CDBC);
 	s_game_globals *matg = try_and_get_game_globals();
 	if (matg)
@@ -532,8 +508,6 @@ static real_rgb_color *network_get_team_color(real_rgb_color *color, long team) 
 
 bool object_always_updates_change_colors(long object_index) // 0x108DF3C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_always_updates_change_colors@@YA_NJ@Z");
-
 	s_multiplayer_object_properties *multiplayer = object_get_multiplayer(object_index);
 
 	if (multiplayer)
@@ -546,8 +520,6 @@ bool object_always_updates_change_colors(long object_index) // 0x108DF3C0
 
 void render_object_update_change_colors_hook(long object_index, bool force) // 0x108E0730
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_update_change_colors_hook@@YAXJ_N@Z");
-
 	bool (*const restricted_region_locked_for_current_thread)(long) = (bool (*)(long))0x5A03E0;
 	void (*const object_queue_render_thread_message)(long, long, long) = (void (*)(long, long, long))0xB31B80;
 	void *(*const object_get_render_data)(long) = (void *(*)(long))0xB2E800;
@@ -611,8 +583,6 @@ void render_object_update_change_colors_hook(long object_index, bool force) // 0
 
 void render_visibility_add_first_person_object_to_items_hook(long output_user_index, long object_index, bool a3, bool a4) // 0x108E1010
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_visibility_add_first_person_object_to_items_hook@@YAXJJ_N0@Z");
-
 	bool (*const render_object_first_person_globals_valid)() = reinterpret_cast<bool (*)()>(0xA44BE0);
 	long (*const c_object_renderer_submit_object_attachments)(long, long) = reinterpret_cast<long (*)(long, long)>(0xA79470);
 	void (*const object_visibility_new)(s_visible_object *) = reinterpret_cast<void (*)(s_visible_object *)>(0x973C80);

@@ -213,20 +213,14 @@ namespace Server
 	{
 		VetoSystem::VetoSystem() : AbstractVotingSystem(), startime(0), willSetMap(false), numberOfVetosUsed(0), currentNumberOfVotes(0), shouldRunPreviousCommands(false) /* hades-mem-init:  */ // 0x1073A8D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0VetoSystem@Voting@Server@@QAE@XZ");
 		}
-
-		// mangled_x86(MANGLED_DEFAULT, "??0VotingJson@Voting@Server@@QAE@XZ"); no body to assert in
 
 		void VetoSystem::Init() // 0x1073D950
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@VetoSystem@Voting@Server@@UAEXXZ");
 		}
 
 		void VetoSystem::SendVoteCountsToEveryone() // 0x1073E4C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendVoteCountsToEveryone@VetoSystem@Voting@Server@@UAEXXZ");
-
 			countVotes();
 
 			VotingMessage newmessage(VoteTally);
@@ -238,16 +232,12 @@ namespace Server
 			BroadcastVotingMessage(newmessage);
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??1PlaylistItem@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline PlaylistItem::~PlaylistItem() = default; // 0x1073B780
 
-		// mangled_x86(MANGLED_DEFAULT, "??1VotingJson@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline VotingJson::~VotingJson() = default; // 0x1073B890
 
 		Server::Voting::MapAndType VetoSystem::GenerateVotingOption() // 0x1073CF30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateVotingOption@VetoSystem@Voting@Server@@EAE?AUMapAndType@23@XZ");
-
 			MapAndType m;
 			if (Modules::ModuleVoting::Instance().VarVetoSystemSelectionType->ValueInt == 0)
 			{
@@ -282,28 +272,20 @@ namespace Server
 				return VetoSystem::GenerateVotingOption();
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??4HaloMap@Voting@Server@@QAEAAU012@$$QAU012@@Z"); no body to assert in
 		_inline Server::Voting::HaloMap &HaloMap::operator=(Server::Voting::HaloMap &&__that) noexcept = default; // 0x1073BDA0
 
-		// mangled_x86(MANGLED_DEFAULT, "??4HaloMap@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
 		_inline Server::Voting::HaloMap &HaloMap::operator=(Server::Voting::HaloMap const &__that) = default; // 0x1073BE80
 
-		// mangled_x86(MANGLED_DEFAULT, "??4HaloType@Voting@Server@@QAEAAU012@$$QAU012@@Z"); no body to assert in
 		_inline Server::Voting::HaloType &HaloType::operator=(Server::Voting::HaloType &&__that) noexcept = default; // 0x1073BF60
 
-		// mangled_x86(MANGLED_DEFAULT, "??4HaloType@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
 		_inline Server::Voting::HaloType &HaloType::operator=(Server::Voting::HaloType const &__that) = default; // 0x1073C0E0
 
-		// mangled_x86(MANGLED_DEFAULT, "??4MapAndType@Voting@Server@@QAEAAU012@$$QAU012@@Z"); no body to assert in
 		_inline Server::Voting::MapAndType &MapAndType::operator=(Server::Voting::MapAndType &&__that) noexcept = default; // 0x1073C260
 
-		// mangled_x86(MANGLED_DEFAULT, "??4MapAndType@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
 		_inline Server::Voting::MapAndType &MapAndType::operator=(Server::Voting::MapAndType const &__that) = default; // 0x1073C350
 
 		Server::Voting::VotingMessage VetoSystem::GenerateVotingOptionsMessage(bool updateTime) // 0x1073D4E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateVotingOptionsMessage@VetoSystem@Voting@Server@@UAE?AUVotingMessage@23@_N@Z");
-
 			VotingMessage newmessage(VotingMessageType::VetoOption);
 			strncpy_s(newmessage.votingOptions[0].scnrName, currentVetoOption.haloMap.scnrName.c_str(), _TRUNCATE);
 			strncpy_s(newmessage.votingOptions[0].mapName, currentVetoOption.haloMap.mapDisplayName.c_str(), _TRUNCATE);
@@ -342,13 +324,10 @@ namespace Server
 		// (These lines keep every later head line where it was.)
 
 
-		// mangled_x86(MANGLED_DEFAULT, "??0MapAndType@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
 		_inline MapAndType::MapAndType(Server::Voting::MapAndType &&__that) = default; // 0x1073A550
 
 		void VetoSystem::countVotes() // 0x10742160
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?countVotes@VetoSystem@Voting@Server@@AAEXXZ");
-
 			currentNumberOfVotes = 0;
 			for (auto const &vote : mapVotes)
 			{
@@ -361,15 +340,11 @@ namespace Server
 
 		bool VetoSystem::isEnabled() // 0x10742780
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@VetoSystem@Voting@Server@@UAE_NXZ");
-
 			return Modules::ModuleVoting::Instance().VarServerVotingType->ValueInt == 2;
 		}
 
 		void VetoSystem::Reset() // 0x1073E3C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@VetoSystem@Voting@Server@@UAEXXZ");
-
 			voteStartedTime = 0;
 			willSetMap = false;
 			numberOfVetosUsed = 0;
@@ -381,8 +356,6 @@ namespace Server
 
 		void VetoSystem::StartVoting() // 0x1073EC30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?StartVoting@VetoSystem@Voting@Server@@UAEXXZ");
-
 			if (idle)
 				return;
 			if (shouldRunPreviousCommands)
@@ -400,8 +373,6 @@ namespace Server
 
 		void VetoSystem::FindWinner() // 0x1073CE60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindWinner@VetoSystem@Voting@Server@@AAEXXZ");
-
 			countVotes();
 
 			if (currentNumberOfVotes >= getVoteNeededToPass()){
@@ -419,8 +390,6 @@ namespace Server
 
 		void VetoSystem::SetGameAndMap() // 0x1073E5E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetGameAndMap@VetoSystem@Voting@Server@@AAEXXZ");
-
 			if (currentVetoOption.haloType.modPack.size() > 0)
 				Modules::CommandMap::Instance().ExecuteCommand("Server.Mod \"" + currentVetoOption.haloType.modPack + "\"");
 			else
@@ -434,8 +403,6 @@ namespace Server
 
 		void VetoSystem::SetStartTimer() // 0x1073EA30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetStartTimer@VetoSystem@Voting@Server@@AAEXXZ");
-
 			auto message = GenerateVotingOptionsMessage(false);
 			BroadcastVotingMessage(message);
 			time(&startime);
@@ -443,9 +410,6 @@ namespace Server
 
 		void VetoSystem::SetVoteStartedTime() // 0x1073EB30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetVoteStartedTime@VetoSystem@Voting@Server@@AAEXXZ");
-
-
 			auto message = GenerateVotingOptionsMessage(false);
 			BroadcastVotingMessage(message);
 			time(&voteStartedTime);
@@ -453,8 +417,6 @@ namespace Server
 
 		void VetoSystem::onExit() // 0x10742FE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?onExit@VetoSystem@Voting@Server@@UAEXXZ");
-
 			if (shouldRunPreviousCommands)
 			{
 				for (auto &command : previousWinner.haloType.endOfMatchCommands)
@@ -467,8 +429,6 @@ namespace Server
 
 		bool VetoSystem::LoadJson(std::string filename) // 0x1073D970
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadJson@VetoSystem@Voting@Server@@EAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			entirePlaylist.clear();
 			Server::Voting::VotingJson voting;
 			if (!LoadVotingJson(filename, voting))
@@ -511,8 +471,6 @@ namespace Server
 
 		void VetoSystem::Tick() // 0x1073EE10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@VetoSystem@Voting@Server@@UAEXXZ");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!(session && session->IsEstablished() && session->IsHost() && Modules::ModuleVoting::Instance().VarServerVotingType->ValueInt == 2))
 				return;
@@ -566,8 +524,6 @@ namespace Server
 
 		void VetoSystem::LogVote(Server::Voting::VotingMessage const &message, std::string name) // 0x1073DF30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LogVote@VetoSystem@Voting@Server@@UAEXABUVotingMessage@23@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost() || Utils::Singleton<Modules::ModuleVoting>::Instance().VarServerVotingType->ValueInt != 2 || !voteStartedTime)
 				return;
@@ -582,8 +538,6 @@ namespace Server
 
 		void VetoSystem::NewVote() // 0x1073E280
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?NewVote@VetoSystem@Voting@Server@@UAEXXZ");
-
 			if (numberOfVetosUsed < static_cast<long>(Modules::ModuleVoting::Instance().VarNumberOfVetoVotes->ValueInt))
 			{
 				mapVotes.clear();
@@ -601,9 +555,6 @@ namespace Server
 
 		void VetoSystem::EndVote() // 0x1073CD90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?EndVote@VetoSystem@Voting@Server@@UAEXXZ");
-
-
 			Server::Voting::VotingMessage newmessage(Server::Voting::VoteEnded);
 			newmessage.voteEnded = true;
 			BroadcastVotingMessage(newmessage);
@@ -611,8 +562,6 @@ namespace Server
 
 		void VetoSystem::loadDefaultMapsAndTypes() // 0x10742800
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?loadDefaultMapsAndTypes@VetoSystem@Voting@Server@@EAEXXZ");
-
 			std::vector<Server::Voting::HaloType> gameTypes;
 			std::vector<Server::Voting::HaloMap> haloMaps;
 			for (auto &m : GetDefaultMapList())

@@ -339,8 +339,6 @@ namespace Patches
 {
 	void ApplyRequired() // 0x10968240
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyRequired@Patches@@YAXXZ");
-
 		UnprotectMemory();
 		Hf2pExperimental::ApplyAll();
 		Core::ApplyAll();
@@ -434,8 +432,6 @@ namespace Patches
 
 	void ApplyAfterInit() // 0x10968120
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Patches@@YAXXZ");
-
 		Core::ApplyAfterInit();
 		Memory::ApplyAfterInit();
 		Audio::ApplyAfterInit();
@@ -453,13 +449,10 @@ namespace Patches
 
 	void ApplyOnFirstTick() // 0x10968220
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyOnFirstTick@Patches@@YAXXZ");
 	}
 
 	void ApplyAfterTagsLoaded() // 0x109681B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Patches@@YAXXZ");
-
 		RefreshUiPlayer();
 		Ui::ApplyAfterTagsLoaded();
 		Ui::ApplyUIResolution();
@@ -471,8 +464,6 @@ namespace Patches
 
 	void Tick() // 0x10968600
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Patches@@YAXXZ");
-
 		static bool appliedFirstTickPatches = false;
 
 		Audio::Tick();
@@ -504,8 +495,6 @@ namespace Patches
 
 void UnprotectMemory() // 0x109686B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UnprotectMemory@@YAXXZ");
-
 	// Enable write to all executable memory
 	size_t Offset, Total;
 	Offset = Total = 0;

@@ -31,8 +31,6 @@ extern bool blf_find_chunk_in_buffer(unsigned char const *buffer, unsigned long 
 
 c_blf_reader::c_blf_reader(unsigned char const *buffer, unsigned long size) // 0x1086D360
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_blf_reader@@QAE@PBEK@Z");
-
 	m_should_byte_swap = false;
 	m_buffer = buffer;
 	m_size = size;
@@ -41,8 +39,6 @@ c_blf_reader::c_blf_reader(unsigned char const *buffer, unsigned long size) // 0
 
 bool c_blf_reader::read_next_chunk_internal(s_blf_chunk_header *out_header, unsigned char const **out_data, unsigned long *out_data_size) // 0x1086D640
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_next_chunk_internal@c_blf_reader@@AAE_NPAUs_blf_chunk_header@@PAPBEPAK@Z");
-
 	if (&m_buffer[m_position + sizeof(s_blf_chunk_header)] > m_buffer + m_size)
 		return false;
 
@@ -67,8 +63,6 @@ bool c_blf_reader::read_next_chunk_internal(s_blf_chunk_header *out_header, unsi
 
 bool c_blf_reader::begin() // 0x1086D3B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?begin@c_blf_reader@@QAE_NXZ");
-
 	m_should_byte_swap = false;
 	s_blf_chunk_header chunk_header;
 	unsigned char const *data = nullptr;
@@ -85,8 +79,6 @@ bool c_blf_reader::begin() // 0x1086D3B0
 
 bool blf_find_chunk_in_buffer(unsigned char const *buffer, unsigned long buffer_size, unsigned long signature, s_blf_chunk_header *out_header, unsigned char const **out_data, unsigned long *out_data_size) // 0x1086D4F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?blf_find_chunk_in_buffer@@YA_NPBEKKPAUs_blf_chunk_header@@PAPBEPAK@Z");
-
 	c_blf_reader blf_reader(buffer, buffer_size);
 	if (!blf_reader.begin())
 	{

@@ -110,8 +110,6 @@ namespace Utils
 {
 	DewritoReader::DewritoReader() : dewrito_json_filepath("data\\dewrito.json"), dewrito_json_user_filepath("data\\dewrito.user.json") /* hades-mem-init:  */ // 0x10C56FE0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0DewritoReader@Utils@@QAE@XZ");
-
 		m_dewrito_json.SetObject();
 		m_isValid = ReadFile(dewrito_json_filepath);
 		std::error_code ec;
@@ -125,8 +123,6 @@ namespace Utils
 {
 	rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> DewritoReader::GetDewritoJson() // 0x10C572B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDewritoJson@DewritoReader@Utils@@QAE?AV?$GenericDocument@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@VCrtAllocator@2@@rapidjson@@XZ");
-
 		rapidjson::Document copy;
 		copy.CopyFrom(m_dewrito_json, copy.GetAllocator());
 		return copy;
@@ -134,8 +130,6 @@ namespace Utils
 
 	bool DewritoReader::ReadFile(char const *path) // 0x10C57620
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadFile@DewritoReader@Utils@@AAE_NPBD@Z");
-
 		std::ifstream in(path, std::ios::in | std::ios::binary);
 		if (!in || !in.is_open())
 		{
@@ -160,8 +154,6 @@ namespace Utils
 
 void MergeDocuments(rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &dest, rapidjson::GenericDocument<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator>,rapidjson::CrtAllocator> &src, rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> &allocator) // 0x10C57400
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?MergeDocuments@@YAXAAV?$GenericDocument@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@VCrtAllocator@2@@rapidjson@@0AAV?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@Z");
-
 	if (!src.IsObject() || !dest.IsObject())
 		return;
 	for (rapidjson::Value::ConstMemberIterator itr = src.MemberBegin(); itr != src.MemberEnd(); ++itr)

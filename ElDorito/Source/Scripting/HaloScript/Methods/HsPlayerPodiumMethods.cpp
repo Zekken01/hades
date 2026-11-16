@@ -175,8 +175,6 @@ namespace Scripting
 			{
 				void RegisterMethods(Scripting::HS::ScriptMethodMap &methods) // 0x10704B90
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterMethods@PlayerPodium@Methods@HS@Scripting@@YAXAAVScriptMethodMap@34@@Z");
-
 					methods.AddMethod("pdm_get_player_animation_tag", "gets a player podium animation jmad for the given player session index", NetworkSafe, hs_podium_get_animation_graph_evaluate, _hs_type_animation_graph, { { _hs_type_short, "idx", "the player session index" } });
 					methods.AddMethod("pdm_get_player_animation_str", "gets a player podium animation string for the given player session index and animation index", NetworkSafe, hs_podium_get_animation_string_evaluate, _hs_type_string_id, { { _hs_type_short, "type", "the animation type index 0=in 1=loop 2=out" }, { _hs_type_short, "idx", "the player session index" }, { _hs_type_long, "animation_idx", "the podium animation index for the given player" } });
 					methods.AddMethod("pdm_get_player_animation_count", "gets a player podium animation count for the given player session index and animation index", NetworkSafe, hs_podium_get_animation_count_evaluate, _hs_type_long, { { _hs_type_short, "idx", "the player session index" } });
@@ -201,8 +199,6 @@ namespace Scripting
 
 void hs_podium_get_animation_graph_evaluate(short op, long thread_index, bool initial) // 0x10705C60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_get_animation_graph_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -214,8 +210,6 @@ void hs_podium_get_animation_graph_evaluate(short op, long thread_index, bool in
 
 void hs_podium_get_animation_string_evaluate(short op, long thread_index, bool initial) // 0x10705E40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_get_animation_string_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -229,8 +223,6 @@ void hs_podium_get_animation_string_evaluate(short op, long thread_index, bool i
 
 void hs_podium_get_animation_count_evaluate(short op, long thread_index, bool initial) // 0x10705B80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_get_animation_count_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -242,8 +234,6 @@ void hs_podium_get_animation_count_evaluate(short op, long thread_index, bool in
 
 void hs_podium_get_animation_offset_evaluate(short op, long thread_index, bool initial) // 0x10705D40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_get_animation_offset_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -256,8 +246,6 @@ void hs_podium_get_animation_offset_evaluate(short op, long thread_index, bool i
 
 void hs_podium_get_animation_weapon_evaluate(short op, long thread_index, bool initial) // 0x10705F60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_get_animation_weapon_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -271,8 +259,6 @@ void hs_podium_get_animation_weapon_evaluate(short op, long thread_index, bool i
 
 void hs_podium_show_ui_place_evaluate(short op, long thread_index, bool initial) // 0x107066E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_show_ui_place_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -285,8 +271,6 @@ void hs_podium_show_ui_place_evaluate(short op, long thread_index, bool initial)
 
 void hs_podium_respawn_player_offset_evaluate(short op, long thread_index, bool initial) // 0x10706510
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_respawn_player_offset_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -319,8 +303,6 @@ void hs_podium_event_evaluate(short op, long thread_index, bool initial) // 0x10
 
 void hs_podium_get_respawn_effect_evaluate(short op, long thread_index, bool initial) // 0x10706250
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_get_respawn_effect_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -332,8 +314,6 @@ void hs_podium_get_respawn_effect_evaluate(short op, long thread_index, bool ini
 
 void hs_podium_get_biped_offset_evaluate(short op, long thread_index, bool initial) // 0x10706070
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_get_biped_offset_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -346,8 +326,6 @@ void hs_podium_get_biped_offset_evaluate(short op, long thread_index, bool initi
 
 void hs_podium_get_biped_spawn_delay_evaluate(short op, long thread_index, bool initial) // 0x10706170
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_get_biped_spawn_delay_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -370,8 +348,6 @@ void hs_podium_get_tick_delay_evaluate(short op, long thread_index, bool initial
 
 void hs_podium_has_forge_object_evaluate(short op, long thread_index, bool initial) // 0x107063F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_podium_has_forge_object_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{

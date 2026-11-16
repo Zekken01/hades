@@ -143,44 +143,32 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10AD1270
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Sprint@Patches@@YAXXZ");
-
 			Hook(0x1442F4, player_examine_action_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x13E7B0, player_sprint_enter_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 
 		void SetState(__int32 state) // 0x10AD15D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetState@Sprint@Patches@@YAXH@Z");
-
 			sprintState = state;
 		}
 
 		__int32 GetState() // 0x10AD14B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetState@Sprint@Patches@@YAHXZ");
-
 			return sprintState;
 		}
 
 		void SetUnlimited(bool unlimited) // 0x10AD1600
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetUnlimited@Sprint@Patches@@YAX_N@Z");
-
 			sprintUnlimited = unlimited;
 		}
 
 		bool PlayerHasSprintTrait(long player_index) // 0x10AD1580
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerHasSprintTrait@Sprint@Patches@@YA_NJ@Z");
-
 			return HasSprintPlayerTrait(player_index);
 		}
 
 		void Tick() // 0x10AD1630
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Sprint@Patches@@YAXXZ");
-
 			if (((bool(__cdecl *)())0x5314b0)())
 			{
 				long player_index = ((unsigned long(__cdecl *)(long))0x589c60)(0);
@@ -192,8 +180,6 @@ namespace Patches
 
 		void UpdatePlayerSprint(long player_index) // 0x10AD1700
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayerSprint@Sprint@Patches@@YAXJ@Z");
-
 			s_player_datum *player = player_get(player_index);
 			if (player)
 			{
@@ -222,8 +208,6 @@ namespace Patches
 
 bool HasSprintPlayerTrait(long player_index) // 0x10AD14D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HasSprintPlayerTrait@@YA_NJ@Z");
-
 	s_player_datum *player = player_get(player_index);
 
 	return sprintState == 1
@@ -232,8 +216,6 @@ bool HasSprintPlayerTrait(long player_index) // 0x10AD14D0
 
 bool player_is_using_adrenaline(long player_index) // 0x10AD1B90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_is_using_adrenaline@@YA_NJ@Z");
-
 	s_player_datum *player = player_get(player_index);
 	if (player)
 	{
@@ -258,8 +240,6 @@ bool player_is_using_adrenaline(long player_index) // 0x10AD1B90
 
 bool player_can_sprint(long player_index) // 0x10AD1980
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_can_sprint@@YA_NJ@Z");
-
 	bool (__cdecl *const game_is_cooperative)() = (bool(__cdecl *const)())0x531a80;
 
 	s_player_datum *player = player_get(player_index);
@@ -289,8 +269,6 @@ bool player_can_sprint(long player_index) // 0x10AD1980
 
 void player_examine_action_hook(long player_index, long unit_index, s_player_action *action) // 0x10AD1B00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_examine_action_hook@@YAXJJPAUs_player_action@@@Z");
-
 	if (!player_can_sprint(player_index))
 		action->control_flags &= -257;
 
@@ -299,8 +277,6 @@ void player_examine_action_hook(long player_index, long unit_index, s_player_act
 
 void player_sprint_enter_hook(long unit_index, e_unit_messages message) // 0x10AD1E10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_sprint_enter_hook@@YAXJW4e_unit_messages@@@Z");
-
 	static long (*const unit_inventory_get_weapon)(long, short) = reinterpret_cast<long (*)(long, short)>(0xB454D0);
 	void (*const unit_send_message_to_first_person)(long, e_unit_messages) = reinterpret_cast<void (*)(long, e_unit_messages)>(0xBA5750);
 	bool (*const weapon_reloading)(long, long, short *) = reinterpret_cast<bool (*)(long, long, short *)>(0xB66220);

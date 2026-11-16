@@ -211,8 +211,6 @@ namespace Patches
 	{
 		void ApplyAfterInit() // 0x107BEB80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Reach@Patches@@YAXXZ");
-
 			Hook(0x38D6B0, scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook).Apply();
 			Hook(0x6210E8, s_render_method_postprocess_definition__query_texture_transform_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0xEACC4, s_render_method_postprocess_definition__query_texture_transform_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -231,8 +229,6 @@ namespace Patches
 
 bool scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook(long definition_index, long bspIndex, long bsp_type) // 0x107C0330
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook@@YA_NJJJ@Z");
-
 	s_scenario_lightmap_bsp_data *(*const scenario_lightmap_find_bsp)(long, long, long) = reinterpret_cast<s_scenario_lightmap_bsp_data *(*)(long, long, long)>(0x5F99B0);
 	s_scenario_structure_bsp *(*const scenario_structure_bsp_get)(s_scenario const *, long) = reinterpret_cast<s_scenario_structure_bsp *(*)(s_scenario const *, long)>(0x766280);
 	s_scenario *scenario = (s_scenario *)tag_get('scnr', definition_index);
@@ -285,8 +281,6 @@ bool scenario_structure_bsp_has_valid_lightmap_for_bsp_type_hook(long definition
 
 bool __fastcall s_render_method_postprocess_definition__query_texture_transform_hook(s_render_method_postprocess_definition *thisptr, void *unused, long bitmap_reference_index, unsigned long *out_color, long *out_bitmap_group_index, long *out_bitmap_index) // 0x107C0280
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?s_render_method_postprocess_definition__query_texture_transform_hook@@YI_NPAUs_render_method_postprocess_definition@@PAXJPAKPAJ3@Z");
-
 	bool (__thiscall *const query_texture_transform)(s_render_method_postprocess_definition *, long, unsigned long *, long *, long *) = (bool(__thiscall *const)(s_render_method_postprocess_definition *, long, unsigned long *, long *, long *))0xa20df0;
 
 	int texture_constant_index = thisptr->queryable_properties[bitmap_reference_index];
@@ -299,8 +293,6 @@ bool __fastcall s_render_method_postprocess_definition__query_texture_transform_
 
 bool rasterizer_force_default_lighting_hook() // 0x107C01E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?rasterizer_force_default_lighting_hook@@YA_NXZ");
-
 	long sbsp_index = global_structure_bsp_first_active_index_get();
 	if (sbsp_index != NONE)
 	{
@@ -317,8 +309,6 @@ bool rasterizer_force_default_lighting_hook() // 0x107C01E0
 
 long update_cluster_stream_and_determine_lighting_attributes_hook(e_entry_point entry_point, __int32 bsp_index, s_render_geometry *geometry, s_mesh *mesh, s_part *part, s_geometry_material *materials, s_cluster_reference cluster) // 0x107C09F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_cluster_stream_and_determine_lighting_attributes_hook@@YAJW4e_entry_point@@HPAUs_render_geometry@@PAUs_mesh@@PAUs_part@@PAUs_geometry_material@@Us_cluster_reference@@@Z");
-
 	bool (*const rasterizer_force_default_lighting)() = reinterpret_cast<bool (*)()>(0xA20150);
 	long result;
 	if (entry_point == _entry_static_per_pixel)
@@ -352,8 +342,6 @@ long update_cluster_stream_and_determine_lighting_attributes_hook(e_entry_point 
 
 _inline c_instanced_geometry_iterator::c_instanced_geometry_iterator(s_cluster_reference *cluster_references, s_decal_cylinder *cylinder, long ignore_instance_index) // 0x107BE6E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_instanced_geometry_iterator@hades_file_local@@QAE@PAUs_cluster_reference@@PAUs_decal_cylinder@1@J@Z");
-
 	m_cylinder = cylinder;
 	m_cluster_references = cluster_references;
 	m_structure_bsp_index = NONE;
@@ -379,8 +367,6 @@ _inline c_instanced_geometry_iterator::c_instanced_geometry_iterator(s_cluster_r
 
 _inline bool c_instanced_geometry_iterator::next_instance() // 0x107BFE40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?next_instance@c_instanced_geometry_iterator@hades_file_local@@QAE_NXZ");
-
 	while (true)
 	{
 		if (m_instance_bucket_instance_index < m_instance_bucket_instance_count)
@@ -418,8 +404,6 @@ _inline bool c_instanced_geometry_iterator::next_instance() // 0x107BFE40
 
 _inline bool c_instanced_geometry_iterator::next_cluster() // 0x107BFCD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?next_cluster@c_instanced_geometry_iterator@hades_file_local@@QAE_NXZ");
-
 	if (m_cluster_reference_index >= 4)
 	{
 		return false;
@@ -443,8 +427,6 @@ _inline bool c_instanced_geometry_iterator::next_cluster() // 0x107BFCD0
 
 _inline bool c_instanced_geometry_iterator::next_instance_bucket() // 0x107C0100
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?next_instance_bucket@c_instanced_geometry_iterator@hades_file_local@@QAE_NXZ");
-
 	if (m_instance_bucket_index >= m_instance_bucket_count)
 	{
 		m_instance_bucket_index = 0;
@@ -461,8 +443,6 @@ _inline bool c_instanced_geometry_iterator::next_instance_bucket() // 0x107C0100
 
 _inline void c_instanced_geometry_iterator::next() // 0x107BFBD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?next@c_instanced_geometry_iterator@hades_file_local@@QAEXXZ");
-
 	bool (*const collision_point_in_cylinder)(real_point3d const *, real_matrix4x3 const *, float, float, float *) = (bool (*const)(real_point3d const *, real_matrix4x3 const *, float, float, float *))0x97a530;
 
 	while (next_instance())
@@ -474,22 +454,16 @@ _inline void c_instanced_geometry_iterator::next() // 0x107BFBD0
 
 void __fastcall c_instanced_geometry_iterator__next_hook(c_instanced_geometry_iterator *thisptr) // 0x107BF730
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_instanced_geometry_iterator__next_hook@@YIXPAUc_instanced_geometry_iterator@hades_file_local@@@Z");
-
 	thisptr->next();
 }
 
 void __fastcall c_instanced_geometry_iterator__ctor_hook(c_instanced_geometry_iterator *thisptr, void *__formal, s_cluster_reference *cluster_references, s_decal_cylinder *cylinder, long ignore_instance_index) // 0x107BF6B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_instanced_geometry_iterator__ctor_hook@@YIXPAUc_instanced_geometry_iterator@hades_file_local@@PAXPAUs_cluster_reference@@PAUs_decal_cylinder@2@J@Z");
-
 	new (thisptr) c_instanced_geometry_iterator(cluster_references, cylinder, ignore_instance_index);
 }
 
 bool test_instanced_geometry_hook(s_instance_collision_test_arguements *test_arguments, long instance_index, s_structure_instanced_geometry_instance *instance, s_structure_instanced_geometry_definition *definition, unsigned long flags) // 0x107C06E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?test_instanced_geometry_hook@@YA_NPAUs_instance_collision_test_arguements@hades_file_local@@JPAUs_structure_instanced_geometry_instance@@PAUs_structure_instanced_geometry_definition@@K@Z");
-
 	bool (__cdecl *const test_instanced_geometry)(s_instance_collision_test_arguements *, long, s_structure_instanced_geometry_instance *, s_structure_instanced_geometry_definition *, unsigned long) = (bool(__cdecl *const)(s_instance_collision_test_arguements *, long, s_structure_instanced_geometry_instance *, s_structure_instanced_geometry_definition *, unsigned long))0x6d9230;
 
 	if (instance->flags.test(_instanced_geometry_miscolored_bsp_bit) || instance->flags.test(_instanced_geometry_no_physics_bit))

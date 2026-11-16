@@ -56,8 +56,6 @@ namespace Forge
 {
 	CObjectPropertyManager::CObjectPropertyManager() // 0x108453B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CObjectPropertyManager@Forge@@QAE@XZ");
-
 		Register(Integer, "on_map_at_start", General_OnMapAtStart);
 		Register(Integer, "symmetry", General_Symmetry);
 		Register(Integer, "respawn_rate", General_RespawnRate);
@@ -152,8 +150,6 @@ namespace Forge
 
 	void CObjectPropertyManager::Register(Forge::EPropertyValueType valueType, char const *name, Forge::EObjectProperty property) // 0x10846D70
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Register@CObjectPropertyManager@Forge@@AAEXW4EPropertyValueType@2@PBDW4EObjectProperty@2@@Z");
-
 		m_registeredProperties[property] = { name, property, valueType };
 		m_nameLookup[name] = property;
 	}
@@ -164,15 +160,11 @@ namespace Forge
 {
 	std::array<Forge::SPropertyDefinition,90> const CObjectPropertyManager::GetProperties() const // 0x10846C50
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetProperties@CObjectPropertyManager@Forge@@QBE?BV?$array@USPropertyDefinition@Forge@@$0FK@@std@@XZ");
-
 		return m_registeredProperties;
 	}
 
 	Forge::EObjectProperty CObjectPropertyManager::FindPropertyByName(char const *name) // 0x10846A60
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?FindPropertyByName@CObjectPropertyManager@Forge@@QAE?AW4EObjectProperty@2@PBD@Z");
-
 		if (auto it = m_nameLookup.find(name); it != m_nameLookup.end())
 			return it->second;
 		return (Forge::EObjectProperty)-1;
@@ -180,8 +172,6 @@ namespace Forge
 
 	Forge::SPropertyDefinition const *CObjectPropertyManager::GetProperty(Forge::EObjectProperty property) const // 0x10846C90
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetProperty@CObjectPropertyManager@Forge@@QBEPBUSPropertyDefinition@2@W4EObjectProperty@2@@Z");
-
 		return &m_registeredProperties[property];
 	}
 }
@@ -191,8 +181,6 @@ namespace Forge
 {
 	char const *CObjectPropertyManager::GetPropertyName(Forge::EObjectProperty property) // 0x10846D00
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetPropertyName@CObjectPropertyManager@Forge@@QAEPBDW4EObjectProperty@2@@Z");
-
 		return m_registeredProperties[property].name;
 	}
 }

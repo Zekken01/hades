@@ -100,7 +100,6 @@ static_assert(sizeof(c_vehicle_type_guardian) == 44, "Invalid c_vehicle_type_gua
 template<typename t_arg0>
 _inline t_arg0 *c_vehicle_type_component::get() const
 {
-	mangled_prefix_assert("??$get@");
 	return (t_arg0 *)this;
 
 }

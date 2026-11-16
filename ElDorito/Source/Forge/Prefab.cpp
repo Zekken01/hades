@@ -167,7 +167,6 @@ bool ReadHeader(std::ifstream &stream, Forge::Prefabs::PrefabHeader &header);
 
 /* ---------- public code */
 
-// mangled_x86(MANGLED_DEFAULT, "??4s_map_variant_placement_properties@@QAEAAU0@ABU0@@Z"); no body to assert in
 _inline s_map_variant_placement_properties &s_map_variant_placement_properties::operator=(s_map_variant_placement_properties const &__that) = default; // 0x1096F790
 
 namespace Forge
@@ -176,8 +175,6 @@ namespace Forge
 	{
 		bool Save(std::string const &author, std::string &name, std::string const &path) // 0x10970530
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Save@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@0@Z");
-
 			static PrefabPaletteEntry palette[256];
 			std::ofstream fs(path, std::ios::binary);
 			if (!fs.is_open())
@@ -244,8 +241,6 @@ namespace Forge
 
 		bool Load(std::string const &path) // 0x1096FAB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Load@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			static PrefabPaletteEntry palette[256];
 			std::ifstream fs(path, std::ios::binary);
 			if (!fs.is_open())
@@ -314,8 +309,6 @@ namespace Forge
 
 		bool ReadHeader(std::string const &path, Forge::Prefabs::PrefabHeader &header) // 0x109703E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ReadHeader@Prefabs@Forge@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUPrefabHeader@12@@Z");
-
 			std::ifstream fs(path, std::ios::binary);
 			return fs.is_open() && ::ReadHeader(fs, header);
 		}
@@ -324,13 +317,10 @@ namespace Forge
 
 /* ---------- private code */
 
-// mangled_x86(MANGLED_DEFAULT, "??0PrefabPlacement@hades_file_local@@QAE@XZ"); no body to assert in
 _inline PrefabPlacement::PrefabPlacement() = default; // 0x1096F6D0
 
 bool ReadHeader(std::ifstream &stream, Forge::Prefabs::PrefabHeader &header) // 0x10970330
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ReadHeader@@YA_NAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@AAUPrefabHeader@Prefabs@Forge@@@Z");
-
 	stream.read((char *)&header, 56);
 	return !stream.fail() && header.Magic == 1886545506 && header.Version == 1;
 }

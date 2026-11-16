@@ -156,8 +156,6 @@ namespace Web
 		{
 			void Init() // 0x10C8A6A0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@MpEventDispatcher@Ui@Web@@YAXXZ");
-
 				Patches::Events::OnEvent(::OnEvent);
 			}
 		}
@@ -168,8 +166,6 @@ namespace Web
 
 static void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10C8A700
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
-
 	unsigned __int32 (*GetLocalPlayer)(__int32) = reinterpret_cast<unsigned __int32 (*)(__int32)>(0x589C30);
 	if (player != GetLocalPlayer(0))
 		return;
@@ -189,8 +185,6 @@ static void OnEvent(unsigned long player, s_game_engine_event_data const *event,
 
 std::string GetEventName(unsigned __int32 stringId) // 0x10C8A3E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEventName@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@I@Z");
-
 	// Try to find the stringID in the event names list
 	std::string name;
 	auto it = EventNames.find(stringId);

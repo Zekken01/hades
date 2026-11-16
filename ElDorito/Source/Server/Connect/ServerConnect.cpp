@@ -185,8 +185,6 @@ namespace Blam
 
 void CServerConnectManager::Initialize() // 0x10B079E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CServerConnectManager@@QAEXXZ");
-
 	auto acquireModsHandler = std::make_shared<CServerConnectStateHandler_AcquireMods>();
 	acquireModsHandler->SetUI(Web::Ui::WebMods::GetDownloadUI());
 	m_stateManager = std::make_shared<CServerConnectStateManager>();
@@ -198,15 +196,11 @@ void CServerConnectManager::Initialize() // 0x10B079E0
 
 void CServerConnectManager::Update() // 0x10B08170
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CServerConnectManager@@QAEXXZ");
-
 	m_stateManager->Update();
 }
 
 bool CServerConnectManager::ConnectToServer(SServerConnectOptions const &options) // 0x10B07780
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ConnectToServer@CServerConnectManager@@QAE_NABUSServerConnectOptions@@@Z");
-
 	if (m_stateManager->InProgress())
 		return false;
 
@@ -221,8 +215,6 @@ bool CServerConnectManager::ConnectToServer(SServerConnectOptions const &options
 
 void CServerConnectManager::OnConnectionAborted(EServerConnectAbortReason reason) // 0x10B07D80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnConnectionAborted@CServerConnectManager@@AAEXW4EServerConnectAbortReason@@@Z");
-
 	std::string message;
 	bool allowRetry = false;
 	switch (reason)
@@ -269,24 +261,12 @@ void CServerConnectManager::OnConnectionAborted(EServerConnectAbortReason reason
 	Web::Ui::ScreenLayer::ShowDialog(dialogParams);
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateHandler_Connect@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateHandler_QueryServer@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0CServerConnectStateManager@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0SQueryInfoServerData@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??1CServerConnectStateManager@@QAE@XZ"); no body to assert in
 _inline CServerConnectStateManager::~CServerConnectStateManager() = default; // 0x10B06CD0
 
-// mangled_x86(MANGLED_DEFAULT, "??1SQueryInfoServerData@@QAE@XZ"); no body to assert in
 _inline SQueryInfoServerData::~SQueryInfoServerData() = default; // 0x10B06DB0
 
-// mangled_x86(MANGLED_DEFAULT, "??1SRequiredMod@SServerConnectState@@QAE@XZ"); no body to assert in
 _inline SServerConnectState::SRequiredMod::~SRequiredMod() = default; // 0x10B06E20
 
-// mangled_x86(MANGLED_DEFAULT, "??1SServerConnectState@@QAE@XZ"); no body to assert in
 _inline SServerConnectState::~SServerConnectState() = default; // 0x10B06EF0
 
 

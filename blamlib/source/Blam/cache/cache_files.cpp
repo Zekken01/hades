@@ -50,8 +50,6 @@ extern void (*const sub_503470)(void *, void *, long); // 0x1124B968
 
 void cache_file_tag_references_fixup() // 0x10F18FC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tag_references_fixup@@YAXXZ");
-
 	for (long i = 0; i < g_cache_file_tag_globals->loaded_instance_count; i++)
 	{
 		s_cache_tag_instance *instance = g_cache_file_tag_globals->instances[i];
@@ -69,8 +67,6 @@ void cache_file_tag_references_fixup() // 0x10F18FC0
 
 void cache_file_tags_close() // 0x10F190F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tags_close@@YAXXZ");
-
 	file_close(&g_cache_file_tag_globals->cache_file_reference);
 }
 

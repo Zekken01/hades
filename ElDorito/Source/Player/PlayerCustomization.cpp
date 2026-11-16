@@ -128,8 +128,6 @@ namespace Player
 {
 	__int32 FindPlayerInGameWithIdentifier(s_player_identifier const &identifier) // 0x10904010
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerInGameWithIdentifier@Player@@YAHABUs_player_identifier@@@Z");
-
 		c_data_array<s_player_datum> *players = players_get();
 		for (c_data_iterator<s_player_datum> it = players->begin(); it != players->end(); ++it)
 		{
@@ -145,8 +143,6 @@ namespace Player
 {
 	s_player_model_customization const *GetDefaultCharacterCustomization(__int32 playerIndex, __int32 characterIndex) // 0x10904100
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDefaultCharacterCustomization@Player@@YAPBUs_player_model_customization@@HH@Z");
-
 		if (playerIndex == -1)
 			return &nullCustomization;
 		__int32 absoluteIndex = playerIndex & 0xF;
@@ -163,8 +159,6 @@ namespace Player
 {
 	s_player_model_customization const *CPlayerCustomization::GetInGamePlayerCustomization(__int32 playerIndex) // 0x10904250
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetInGamePlayerCustomization@CPlayerCustomization@Player@@SAPBUs_player_model_customization@@H@Z");
-
 		s_player_datum *player = player_get(playerIndex);
 		if (!player)
 			return &nullCustomization;
@@ -209,8 +203,6 @@ namespace Player
 
 	unsigned __int32 CPlayerCustomization::GetPlayerPrimaryColor(signed char networkPlayerIndex) // 0x109044E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerPrimaryColor@CPlayerCustomization@Player@@SAIC@Z");
-
 		c_network_session *session;
 		if (!network_session_interface_get_squad_session(&session) || !session->established())
 			return 0;

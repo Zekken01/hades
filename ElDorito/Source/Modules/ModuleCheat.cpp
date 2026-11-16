@@ -161,8 +161,6 @@ namespace Modules
 {
 	ModuleCheat::ModuleCheat() : ModuleBase("Cheat") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x107955E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleCheat@Modules@@QAE@XZ");
-
 		AddCommand("AllWeapons", "cheat_all_weapons", "Gives the player all weapons", eCommandFlagsHostOnly, CheatAllWeapons);
 		AddCommand("AllVehicles", "cheat_all_vehicles", "Gives the player all vehicles", eCommandFlagsHostOnly, CheatAllVehicles);
 		AddCommand("AllEquipment", "cheat_all_equipment", "Gives the player all equipment", eCommandFlagsHostOnly, CheatAllEquipment);
@@ -175,8 +173,6 @@ namespace Modules
 
 void cheat_objects(long const *objects, __int32 count) // 0x107977F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cheat_objects@@YAXPBJH@Z");
-
 	void (*const c_map_variant__register_object)(long, long, bool) = reinterpret_cast<void (*)(long, long, bool)>(0x584790);
 	long player_index = ((unsigned long (*)(long))0x589C30)(0);
 	if (player_index == -1)
@@ -223,7 +219,6 @@ void cheat_objects(long const *objects, __int32 count) // 0x107977F0
 #line 252
 bool cheat_all_objects(long group_tag, bool everything) // 0x107971D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cheat_all_objects@@YA_NJ_N@Z");
 #line 272
 
 	long objects[256];
@@ -278,29 +273,21 @@ bool cheat_all_objects(long group_tag, bool everything) // 0x107971D0
 
 bool CheatAllWeapons(std::vector<std::string> const &args, std::string &returnValue) // 0x10796430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatAllWeapons@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	return cheat_all_objects(0x77656170, args.size() > 0 && args[0] == "1");
 }
 
 bool CheatAllVehicles(std::vector<std::string> const &args, std::string &returnValue) // 0x10796390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatAllVehicles@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	return cheat_all_objects(0x76656869, args.size() > 0 && args[0] == "1");
 }
 
 bool CheatAllEquipment(std::vector<std::string> const &args, std::string &returnValue) // 0x107962F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatAllEquipment@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	return cheat_all_objects(0x65716970, args.size() > 0 && args[0] == "1");
 }
 
 bool CheatDeleteWeapons(std::vector<std::string> const &args, std::string &returnValue) // 0x107964D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatDeleteWeapons@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Objects::CObjectMessaging::EnqueueAction([]()
 	{
 		void (*const object_delete)(long) = reinterpret_cast<void (*)(long)>(0xB2CF40);
@@ -324,8 +311,6 @@ bool CheatDeleteWeapons(std::vector<std::string> const &args, std::string &retur
 
 bool CheatSpawn(std::vector<std::string> const &args, std::string &returnValue) // 0x107965A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CheatSpawn@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (args.empty())
 	{
 		returnValue = "Invalid arguments";

@@ -85,8 +85,6 @@ struct lambda_1;
 
 void CJobManager::Initialize() // 0x1086A130
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CJobManager@@QAEXXZ");
-
 	__int32 const kNumberOfWorkerThreads = 4;
 	for (__int32 i = 0; i < kNumberOfWorkerThreads; i++)
 	{
@@ -96,8 +94,6 @@ void CJobManager::Initialize() // 0x1086A130
 
 void CJobManager::Dispose() // 0x10869F80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@CJobManager@@QAEXXZ");
-
 	std::unique_lock<std::mutex> lock(m_mutex);
 	m_disposing = true;
 	m_emptyCondition.notify_all();
@@ -108,8 +104,6 @@ void CJobManager::Dispose() // 0x10869F80
 
 void CJobManager::AddNewJob(std::function<enum EJobResult __cdecl(void)> function, __int32 priority, SJobCounter *counter) // 0x10869D00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AddNewJob@CJobManager@@QAEXV?$function@$$A6A?AW4EJobResult@@XZ@std@@HPAUSJobCounter@@@Z");
-
 	SJob job;
 	job.callback = function;
 	job.priority = priority;
@@ -126,24 +120,16 @@ void CJobManager::AddNewJob(std::function<enum EJobResult __cdecl(void)> functio
 	m_emptyCondition.notify_all();
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0SJob@CJobManager@@QAE@$$QAU01@@Z"); no body to assert in
 _inline CJobManager::SJob::SJob(CJobManager::SJob &&__that) = default; // 0x108692E0
 
-// mangled_x86(MANGLED_DEFAULT, "??0SJob@CJobManager@@QAE@ABU01@@Z"); no body to assert in
 _inline CJobManager::SJob::SJob(CJobManager::SJob const &__that) = default; // 0x10869380
 
-// mangled_x86(MANGLED_DEFAULT, "??0SJob@CJobManager@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??1SJob@CJobManager@@QAE@XZ"); no body to assert in
 _inline CJobManager::SJob::~SJob() = default; // 0x10869750
 
-// mangled_x86(MANGLED_DEFAULT, "??4SJob@CJobManager@@QAEAAU01@$$QAU01@@Z"); no body to assert in
 _inline CJobManager::SJob &CJobManager::SJob::operator=(CJobManager::SJob &&__that) = default; // 0x108698D0
 
 bool CJobManager::RunJobs() // 0x1086A250
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RunJobs@CJobManager@@QAE_NXZ");
-
 	std::unique_lock<std::mutex> lock(m_mutex);
 	m_emptyCondition.wait(lock, [this] { return !m_jobs.empty() || m_disposing; });
 	if (m_disposing)
@@ -171,8 +157,6 @@ bool CJobManager::RunJobs() // 0x1086A250
 
 void CJobManager::WorkerThreadProc() // 0x1086A490
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?WorkerThreadProc@CJobManager@@AAEXXZ");
-
 	while (RunJobs())
 	{
 		std::this_thread::yield();

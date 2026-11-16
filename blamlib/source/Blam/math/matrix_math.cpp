@@ -83,8 +83,6 @@ extern float arctangent(float y, float x);  // hades: added for 0x10EFF300
 
 void matrix4x3_multiply(real_matrix4x3 const *m1, real_matrix4x3 const *m2, real_matrix4x3 *result) // 0x10EFE7D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_multiply@@YAXPBUreal_matrix4x3@@0PAU1@@Z");
-
 	real_vector3d forward;
 	real_vector3d left;
 	real_vector3d up;
@@ -110,8 +108,6 @@ void matrix4x3_multiply(real_matrix4x3 const *m1, real_matrix4x3 const *m2, real
 
 void matrix4x3_identity(real_matrix4x3 *matrix) // 0x10EFDBE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_identity@@YAXPAUreal_matrix4x3@@@Z");
-
 	matrix->scale = 1.0f;
 	matrix->forward = global_forward3d;
 	matrix->left = global_left3d;
@@ -121,8 +117,6 @@ void matrix4x3_identity(real_matrix4x3 *matrix) // 0x10EFDBE0
 
 void matrix4x3_translation(real_matrix4x3 *matrix, real_point3d const *point) // 0x10EFFB10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_translation@@YAXPAUreal_matrix4x3@@PBUreal_point3d@@@Z");
-
 	matrix->scale = 1.0f;
 	matrix->forward = global_forward3d;
 	matrix->left = global_left3d;
@@ -132,8 +126,6 @@ void matrix4x3_translation(real_matrix4x3 *matrix, real_point3d const *point) //
 
 void matrix4x3_inverse(real_matrix4x3 const *matrix, real_matrix4x3 *result) // 0x10EFDCE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_inverse@@YAXPBUreal_matrix4x3@@PAU1@@Z");
-
 	real_vector3d vector = { -matrix->position.x, -matrix->position.y, -matrix->position.z };
 	float inv_scale = 1.0f;
 	if (matrix->scale != 1.0f)
@@ -164,8 +156,6 @@ void matrix4x3_inverse(real_matrix4x3 const *matrix, real_matrix4x3 *result) // 
 
 __declspec(safebuffers) real_vector3d *matrix4x3_transform_vector(real_matrix4x3 const *matrix, real_vector3d const *vector, real_vector3d *result) // 0x10EFF990
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_transform_vector@@YAPAUreal_vector3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
-
 	real_vector3d const v = *vector;
 
 	result->i = (matrix->forward.i * v.i + matrix->left.i * v.j + matrix->up.i * v.k) * matrix->scale;
@@ -176,8 +166,6 @@ __declspec(safebuffers) real_vector3d *matrix4x3_transform_vector(real_matrix4x3
 
 __declspec(safebuffers) real_point3d *matrix4x3_transform_point(real_matrix4x3 const *matrix, real_point3d const *point, real_point3d *result) // 0x10EFF760
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_transform_point@@YAPAUreal_point3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
-
 	real_point3d const p = *point;
 
 	result->x = (matrix->forward.i * p.x + matrix->left.i * p.y + matrix->up.i * p.z) * matrix->scale + matrix->position.x;
@@ -188,8 +176,6 @@ __declspec(safebuffers) real_point3d *matrix4x3_transform_point(real_matrix4x3 c
 
 real_vector3d *matrix4x3_inverse_transform_vector(real_matrix4x3 const *matrix, real_vector3d const *vector, real_vector3d *result) // 0x10EFE580
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_inverse_transform_vector@@YAPAUreal_vector3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
-
 	real_vector3d v = *vector;
 	if (matrix->scale != 1.0f)
 	{
@@ -206,8 +192,6 @@ real_vector3d *matrix4x3_inverse_transform_vector(real_matrix4x3 const *matrix, 
 
 real_point3d *matrix4x3_inverse_transform_point(real_matrix4x3 const *matrix, real_point3d const *point, real_point3d *result) // 0x10EFE320
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_inverse_transform_point@@YAPAUreal_point3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
-
 	real_vector3d v;
 	vector_from_points3d(&matrix->position, point, &v);
 	if (matrix->scale != 1.0f)
@@ -225,8 +209,6 @@ real_point3d *matrix4x3_inverse_transform_point(real_matrix4x3 const *matrix, re
 
 void matrix4x3_transform_points(real_matrix4x3 const *matrix, long point_count, real_point3d const *points, real_point3d *out_points) // 0x10EFF900
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_transform_points@@YAXPBUreal_matrix4x3@@JPBUreal_point3d@@PAU2@@Z");
-
 	long i;
 
 	for (i = 0; i < point_count; i++)
@@ -241,8 +223,6 @@ void matrix4x3_transform_points(real_matrix4x3 const *matrix, long point_count, 
 // not established - see the matrix-math note in memory.
 __declspec(safebuffers) real_vector3d *matrix4x3_transform_normal(real_matrix4x3 const *matrix, real_vector3d const *normal, real_vector3d *result) // 0x10EFF530
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_transform_normal@@YAPAUreal_vector3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
-
 	real_vector3d const v = *normal;
 
 	result->i = v.i * matrix->forward.i + v.j * matrix->left.i + v.k * matrix->up.i;
@@ -257,8 +237,6 @@ __declspec(safebuffers) real_vector3d *matrix4x3_transform_normal(real_matrix4x3
 // not established - see the matrix-math note in memory.
 __declspec(safebuffers) real_vector3d *matrix4x3_inverse_transform_normal(real_matrix4x3 const *matrix, real_vector3d const *normal, real_vector3d *result) // 0x10EFE050
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_inverse_transform_normal@@YAPAUreal_vector3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
-
 	real_vector3d const v = *normal;
 
 	result->i = v.i * matrix->forward.i + v.j * matrix->forward.j + v.k * matrix->forward.k;
@@ -269,8 +247,6 @@ __declspec(safebuffers) real_vector3d *matrix4x3_inverse_transform_normal(real_m
 
 real_plane3d *matrix4x3_inverse_transform_plane(real_matrix4x3 const *matrix, real_plane3d const *plane, real_plane3d *result) // 0x10EFE1C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_inverse_transform_plane@@YAPAUreal_plane3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
-
 	result->d = plane->d - dot_product3d((real_vector3d const *)&matrix->position, &plane->normal);
 	float scale = matrix->scale;
 	if (scale != 1.0f)
@@ -289,8 +265,6 @@ real_plane3d *matrix4x3_inverse_transform_plane(real_matrix4x3 const *matrix, re
 
 real_plane3d *matrix4x3_transform_plane(real_matrix4x3 const *matrix, real_plane3d const *plane, real_plane3d *result) // 0x10EFF6A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_transform_plane@@YAPAUreal_plane3d@@PBUreal_matrix4x3@@PBU1@PAU1@@Z");
-
 	matrix4x3_transform_normal(matrix, &plane->normal, &result->normal);
 	result->d = plane->d * matrix->scale + dot_product3d((real_vector3d const *)&matrix->position, &result->normal);
 	return result;
@@ -298,8 +272,6 @@ real_plane3d *matrix4x3_transform_plane(real_matrix4x3 const *matrix, real_plane
 
 void matrix4x3_to_point_and_vectors(real_matrix4x3 *matrix, real_point3d *point, real_vector3d *forward, real_vector3d *up) // 0x10EFF490
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_to_point_and_vectors@@YAXPAUreal_matrix4x3@@PAUreal_point3d@@PAUreal_vector3d@@2@Z");
-
 	*forward = matrix->forward;
 	*up = matrix->up;
 	*point = matrix->position;
@@ -307,8 +279,6 @@ void matrix4x3_to_point_and_vectors(real_matrix4x3 *matrix, real_point3d *point,
 
 void matrix4x3_rotation_from_vectors(real_matrix4x3 *matrix, real_vector3d const *forward, real_vector3d const *up) // 0x10EFF220
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_rotation_from_vectors@@YAXPAUreal_matrix4x3@@PBUreal_vector3d@@1@Z");
-
 	matrix->scale = 1.0f;
 	matrix->forward = *forward;
 	cross_product3d(up, forward, &matrix->left);
@@ -319,7 +289,6 @@ void matrix4x3_rotation_from_vectors(real_matrix4x3 *matrix, real_vector3d const
 #line 381
 void matrix4x3_from_point_and_vectors(real_matrix4x3 *matrix, real_point3d const *point, real_vector3d const *forward, real_vector3d const *up) // 0x10EFDB30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_from_point_and_vectors@@YAXPAUreal_matrix4x3@@PBUreal_point3d@@PBUreal_vector3d@@2@Z");
 #line 385
 
 	#line 383 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\math\\matrix_math.cpp"
@@ -331,8 +300,6 @@ void matrix4x3_from_point_and_vectors(real_matrix4x3 *matrix, real_point3d const
 
 void matrix4x3_rotation_to_angles(real_matrix4x3 const *matrix, real_euler_angles3d *angles) // 0x10EFF300
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_rotation_to_angles@@YAXPBUreal_matrix4x3@@PAUreal_euler_angles3d@@@Z");
-
 	angles->pitch = -arcsine(matrix->up.i);
 
 	float cos_pitch = cosine(angles->pitch);
@@ -350,8 +317,6 @@ void matrix4x3_rotation_to_angles(real_matrix4x3 const *matrix, real_euler_angle
 
 void matrix4x3_rotation_from_angles(real_matrix4x3 *matrix, float yaw, float pitch, float roll) // 0x10EFECF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_rotation_from_angles@@YAXPAUreal_matrix4x3@@MMM@Z");
-
 	float cos_roll = cosine(roll);
 	float sin_roll = sine(roll);
 	float cos_pitch = cosine(pitch);
@@ -375,8 +340,6 @@ void matrix4x3_rotation_from_angles(real_matrix4x3 *matrix, float yaw, float pit
 
 void matrix4x3_rotation_from_axis_and_angle(real_matrix4x3 *matrix, real_vector3d const *axis, float sin_theta, float cos_theta) // 0x10EFEF80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix4x3_rotation_from_axis_and_angle@@YAXPAUreal_matrix4x3@@PBUreal_vector3d@@MM@Z");
-
 	float x = axis->i;
 	float y = axis->j;
 	float z = axis->k;
@@ -409,8 +372,6 @@ void matrix4x3_rotation_from_axis_and_angle(real_matrix4x3 *matrix, real_vector3
 // not established - see the matrix-math note in memory.
 __declspec(safebuffers) real_vector3d *matrix3x3_transform_vector(real_matrix3x3 const *matrix, real_vector3d const *vector, real_vector3d *result) // 0x10EFD9D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_transform_vector@@YAPAUreal_vector3d@@PBUreal_matrix3x3@@PBU1@PAU1@@Z");
-
 	real_vector3d const v = *vector;
 
 	result->i = v.i * matrix->forward.i + v.j * matrix->left.i + v.k * matrix->up.i;
@@ -421,8 +382,6 @@ __declspec(safebuffers) real_vector3d *matrix3x3_transform_vector(real_matrix3x3
 
 __declspec(safebuffers) real_vector3d *matrix3x3_inverse_transform_vector(real_matrix3x3 const *matrix, real_vector3d const *vector, real_vector3d *result) // 0x10EFCC90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_inverse_transform_vector@@YAPAUreal_vector3d@@PBUreal_matrix3x3@@PBU1@PAU1@@Z");
-
 	real_vector3d const v = *vector;
 
 	result->i = v.i * matrix->forward.i + v.j * matrix->forward.j + v.k * matrix->forward.k;
@@ -433,8 +392,6 @@ __declspec(safebuffers) real_vector3d *matrix3x3_inverse_transform_vector(real_m
 
 real_matrix3x3 *matrix3x3_multiply(real_matrix3x3 *m1, real_matrix3x3 *m2, real_matrix3x3 *result) // 0x10EFCDF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_multiply@@YAPAUreal_matrix3x3@@PAU1@00@Z");
-
 	real_vector3d forward;
 	real_vector3d left;
 	real_vector3d up;
@@ -455,8 +412,6 @@ real_matrix3x3 *matrix3x3_multiply(real_matrix3x3 *m1, real_matrix3x3 *m2, real_
 
 void matrix3x3_from_angles(real_matrix3x3 *matrix, float yaw, float pitch, float roll) // 0x10EFC740
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_from_angles@@YAXPAUreal_matrix3x3@@MMM@Z");
-
 	float cos_roll = cosine(roll);
 	float sin_roll = sine(roll);
 	float cos_pitch = cosine(pitch);
@@ -478,8 +433,6 @@ void matrix3x3_from_angles(real_matrix3x3 *matrix, float yaw, float pitch, float
 
 void matrix3x3_from_axis_and_angle(real_matrix3x3 *matrix, real_vector3d const *axis, float sin_theta, float cos_theta) // 0x10EFC990
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_from_axis_and_angle@@YAXPAUreal_matrix3x3@@PBUreal_vector3d@@MM@Z");
-
 	float x = axis->i;
 	float y = axis->j;
 	float z = axis->k;
@@ -506,8 +459,6 @@ void matrix3x3_from_axis_and_angle(real_matrix3x3 *matrix, real_vector3d const *
 
 real_quaternion *matrix3x3_rotation_to_quaternion(real_matrix3x3 const *matrix, real_quaternion *quaternion) // 0x10EFD4D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_rotation_to_quaternion@@YAPAUreal_quaternion@@PBUreal_matrix3x3@@PAU1@@Z");
-
 	float trace = matrix->forward.i + matrix->left.j + matrix->up.k;
 	if (trace > 0.0f)
 	{
@@ -557,8 +508,6 @@ real_quaternion *matrix3x3_rotation_to_quaternion(real_matrix3x3 const *matrix, 
 
 real_matrix3x3 *matrix3x3_rotation_from_quaternion(real_matrix3x3 *matrix, real_quaternion const *quaternion) // 0x10EFD1A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_rotation_from_quaternion@@YAPAUreal_matrix3x3@@PAU1@PBUreal_quaternion@@@Z");
-
 	float x = quaternion->i;
 	float y = quaternion->j;
 	float z = quaternion->k;
@@ -588,8 +537,6 @@ real_matrix3x3 *matrix3x3_rotation_from_quaternion(real_matrix3x3 *matrix, real_
 
 real_matrix3x3 *matrix3x3_from_forward_and_up(real_matrix3x3 *matrix, real_vector3d const *forward, real_vector3d const *up) // 0x10EFCBF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?matrix3x3_from_forward_and_up@@YAPAUreal_matrix3x3@@PAU1@PBUreal_vector3d@@1@Z");
-
 	matrix->forward = *forward;
 	cross_product3d(up, forward, &matrix->left);
 	matrix->up = *up;

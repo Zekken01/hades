@@ -135,8 +135,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x108D6330
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Objects@Patches@@YAXXZ");
-
 			Hook(0x730BD8, object_type_new_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Pointer(0x194AB04).Write<unsigned int>(reinterpret_cast<unsigned int>(objects_handle_deleted_object_hook));
 			Hook(0x133887, objects_update_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -149,8 +147,6 @@ namespace Patches
 
 bool object_type_new_hook(long object_index, s_object_placement_data &placement_data, bool *unused) // 0x108D7240
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_type_new_hook@@YA_NJAAUs_object_placement_data@@PA_N@Z");
-
 	bool (__cdecl *const object_type_new)(long, s_object_placement_data &, bool *) = (bool(__cdecl *const)(long, s_object_placement_data &, bool *))0xb73c60;
 
 	bool result = object_type_new(object_index, placement_data, unused);
@@ -163,8 +159,6 @@ bool object_type_new_hook(long object_index, s_object_placement_data &placement_
 
 void objects_handle_deleted_object_hook(__int32 object_index) // 0x108D72C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?objects_handle_deleted_object_hook@@YAXH@Z");
-
 	void (__cdecl *const objects_handle_deleted_object)(__int32) = (void(__cdecl *const)(__int32))0xb35870;
 
 	objects_handle_deleted_object(object_index);
@@ -172,8 +166,6 @@ void objects_handle_deleted_object_hook(__int32 object_index) // 0x108D72C0
 
 void objects_update_hook() // 0x108D7320
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?objects_update_hook@@YAXXZ");
-
 	void (*const objects_update)() = reinterpret_cast<void (*)()>(0xB36840);
 	::Objects::CObjectMessaging::RunActions();
 	objects_update();
@@ -181,8 +173,6 @@ void objects_update_hook() // 0x108D7320
 
 float object_compute_service_tag_function_value(long object_index, short character_index) // 0x108D7060
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_compute_service_tag_function_value@@YAMJF@Z");
-
 	wchar_t character = 0;
 	if (character_index < 0 || character_index > 3)
 		return 0.0f;
@@ -212,8 +202,6 @@ float object_compute_service_tag_function_value(long object_index, short charact
 
 float object_compute_region_permutation_function_value(long object_index, long model_region_index) // 0x108D6D80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_compute_region_permutation_function_value@@YAMJJ@Z");
-
 	void (*const object_get_region_information)(long, long *, char const **, char const **, s_object_region_information const **) = reinterpret_cast<void (*)(long, long *, char const **, char const **, s_object_region_information const **)>(0xB2E770);
 	s_object_data const *object = object_get(object_index);
 	s_object_definition const *object_definition = (s_object_definition const *)tag_get('obje', object->definition_index);
@@ -241,8 +229,6 @@ float object_compute_region_permutation_function_value(long object_index, long m
 
 bool object_compute_function_value_hook(__int32 object_index, unsigned long name, long a4, float *out_value, bool *valid_value, bool *a7) // 0x108D6860
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_compute_function_value_hook@@YA_NHKJPAMPA_N1@Z");
-
 	bool (*const object_compute_function_value)(long, unsigned long, long, float *, bool *, bool *) = reinterpret_cast<bool (*)(long, unsigned long, long, float *, bool *, bool *)>(0xB2B120);
 	switch (name)
 	{

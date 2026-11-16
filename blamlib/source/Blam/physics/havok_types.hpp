@@ -553,36 +553,26 @@ static_assert(sizeof(hkpRigidBody) == 496, "Invalid hkpRigidBody size");
 
 inline float &hkVector4::operator()(__int32 i) // 0x10F07FA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??RhkVector4@@QAEAAMH@Z");
-
 	return ((float *)this)[i];
 }
 
 inline hkShapeContainer const *hkpShape::getContainer() const // 0x10F08110
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getContainer@hkpShape@@QBEPBUhkShapeContainer@@XZ");
-
 	return ((hkShapeContainer const *(__thiscall **)(hkpShape const *))vftable)[4](this);
 }
 
 inline unsigned __int32 hkShapeContainer::getFirstKey() const // 0x10F08190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getFirstKey@hkShapeContainer@@QBEIXZ");
-
 	return ((unsigned __int32(__thiscall **)(hkShapeContainer const *))vftable)[2](this);
 }
 
 inline unsigned __int32 hkShapeContainer::getNextKey(unsigned __int32 oldKey) const // 0x10F08210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getNextKey@hkShapeContainer@@QBEII@Z");
-
 	return ((unsigned __int32(__thiscall **)(hkShapeContainer const *, unsigned __int32))vftable)[3](this, oldKey);
 }
 
 inline hkpShape *hkShapeContainer::getChildShape(unsigned __int32 key, void *buffer) const // 0x10AAAAF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getChildShape@hkShapeContainer@@QBEPAUhkpShape@@IPAX@Z");
-
 	return ((hkpShape *(__thiscall **)(hkShapeContainer const *, unsigned __int32, void *))vftable)[5](this, key, buffer);
 }
 

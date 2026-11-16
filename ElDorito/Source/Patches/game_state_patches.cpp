@@ -164,8 +164,6 @@ using namespace hades_file_local;
 
 void game_state_patches_apply() // 0x10919BE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_state_patches_apply@@YAXXZ");
-
 	Hook(0x25DB10, game_state_read_file_from_storage).Apply();
 	Hook(0x25DBE0, game_state_write_file_to_storage).Apply();
 	Hook(0x1265E0, game_state_read_from_persistent_storage_blocking).Apply();
@@ -184,8 +182,6 @@ void game_state_patches_apply() // 0x10919BE0
 
 bool file_read_from_path(wchar_t const *path, unsigned long size, void *buffer) // 0x10919520
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?file_read_from_path@@YA_NPB_WKPAX@Z");
-
 	s_file_reference file;
 	file_reference_create_from_path_wide(&file, path, false);
 	unsigned long file_error;
@@ -199,8 +195,6 @@ bool file_read_from_path(wchar_t const *path, unsigned long size, void *buffer) 
 
 bool file_write_to_path(wchar_t const *path, unsigned long size, void *buffer) // 0x109196E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?file_write_to_path@@YA_NPB_WKPAX@Z");
-
 	s_file_reference file;
 	file_reference_create_from_path_wide(&file, path, false);
 	file_create_parent_directories_if_not_present(&file);
@@ -218,8 +212,6 @@ bool file_write_to_path(wchar_t const *path, unsigned long size, void *buffer) /
 
 std::wstring get_save_location(wchar_t const *filename) // 0x1091AE50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_save_location@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@PB_W@Z");
-
 	std::wstring combined;
 	std::string modhash = c_mod_system::get_current_package_hash();
 	c_mod_package_manager::s_entry mod_package;
@@ -238,8 +230,6 @@ std::wstring get_save_location(wchar_t const *filename) // 0x1091AE50
 
 bool game_state_read_file_from_storage(long storage_index, long flags) // 0x1091A6B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_state_read_file_from_storage@@YA_NJJ@Z");
-
 	bool result = false;
 	if (*(bool *)0x2497CD0)
 	{
@@ -253,15 +243,11 @@ bool game_state_read_file_from_storage(long storage_index, long flags) // 0x1091
 
 bool game_state_read_from_persistent_storage_blocking(long controller_index, void *buffer, unsigned long size) // 0x1091A850
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_state_read_from_persistent_storage_blocking@@YA_NJPAXK@Z");
-
 	return file_read_from_path(get_save_location(k_game_state_filename).c_str(), size, buffer);
 }
 
 void game_state_write_file_to_storage() // 0x1091AA70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_state_write_file_to_storage@@YAXXZ");
-
 	bool result = false;
 	if (*(bool *)0x2497CD0)
 		result = file_write_to_path(get_save_location(k_game_state_filename).c_str(), *(unsigned long *)0x2497CDC, *global_game_state_data);
@@ -274,15 +260,11 @@ void game_state_write_file_to_storage() // 0x1091AA70
 
 bool game_state_read_header_from_persistent_storage_blocking(long controller_index, void *buffer, unsigned long size) // 0x1091A960
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_state_read_header_from_persistent_storage_blocking@@YA_NJPAXK@Z");
-
 	return file_read_from_path(get_save_location(k_game_state_header_filename).c_str(), size, buffer);
 }
 
 void game_state_write_file_to_storage_blocking(void *header, unsigned long header_size, void *buffer, unsigned long buffer_size) // 0x1091AC70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_state_write_file_to_storage_blocking@@YAXPAXK0K@Z");
-
 	if (!reinterpret_cast<bool (*)(void *)>(0x50FCF0)(header))
 		return;
 	file_write_to_path(get_save_location(k_game_state_header_filename).c_str(), header_size, header);
@@ -294,8 +276,6 @@ void game_state_write_file_to_storage_blocking(void *header, unsigned long heade
 
 bool campaign_save_exists(__int32 __formal) // 0x109192C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?campaign_save_exists@@YA_NH@Z");
-
 	s_file_reference file;
 	file_reference_create_from_path_wide(&file, get_save_location(k_game_state_filename).c_str(), false);
 
@@ -309,8 +289,6 @@ bool campaign_save_exists(__int32 __formal) // 0x109192C0
 
 c_content_catalogue *content_catalogue_get_for_game_state_hook(long controller_index) // 0x10919460
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?content_catalogue_get_for_game_state_hook@@YAPAUc_content_catalogue@@J@Z");
-
 	c_content_catalogue *(__cdecl *const content_catalogue_get)(long) = (c_content_catalogue *(__cdecl *const)(long))0x5a5600;
 
 	c_content_catalogue *catalogue = content_catalogue_get(controller_index);
@@ -323,8 +301,6 @@ c_content_catalogue *content_catalogue_get_for_game_state_hook(long controller_i
 
 bool game_state_header_matches_current_network_session_settings_hook(s_game_state_header *header) // 0x10919B70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_state_header_matches_current_network_session_settings_hook@@YA_NPAUs_game_state_header@@@Z");
-
 	bool (*const game_state_header_matches_current_network_session_settings)(s_game_state_header *header) = (bool (*const)(s_game_state_header *header))0x50FAA0;
 
 	if (!game_state_header_matches_current_network_session_settings(header))
@@ -335,15 +311,11 @@ bool game_state_header_matches_current_network_session_settings_hook(s_game_stat
 
 bool hash_verification(void *data, unsigned long size, bool a3, void *input_hash, void *output_hash) // 0x1091B390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hash_verification@@YA_NPAXK_N00@Z");
-
 	return true;
 }
 
 void ai_initialize_for_saved_game_hook() // 0x10918EE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ai_initialize_for_saved_game_hook@@YAXXZ");
-
 	struct s_ai_mission_critical_actor
 	{
 		long unit_index;
@@ -366,8 +338,6 @@ void ai_initialize_for_saved_game_hook() // 0x10918EE0
 
 void fixup_player_identifier_for_saved_game(s_player_collection *player_collection) // 0x10919930
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_player_identifier_for_saved_game@@YAXPAUs_player_collection@@@Z");
-
 	void (*const simulation_player_collection_clear)(s_player_collection *) = reinterpret_cast<void (*)(s_player_collection *)>(0x4A7E50);
 	c_network_session *session;
 	if (network_session_interface_get_squad_session(&session) && session->established())
@@ -394,8 +364,6 @@ void fixup_player_identifier_for_saved_game(s_player_collection *player_collecti
 
 void c_saved_games__delete_campaign_save_blocking(long controller_index) // 0x10919010
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_saved_games__delete_campaign_save_blocking@@YAXJ@Z");
-
 	s_file_reference file;
 	file_reference_create_from_path_wide(&file, get_save_location(k_game_state_header_filename).c_str(), false);
 	if (file_exists(&file))

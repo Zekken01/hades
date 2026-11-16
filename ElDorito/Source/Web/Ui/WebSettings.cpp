@@ -199,16 +199,12 @@ namespace Web
 		{
 			void Init() // 0x10CB52B0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebSettings@Ui@Web@@YAXXZ");
-
 				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
 				Web::Ui::ScreenLayer::RegisterScreen(Web::Ui::ScreenLayer::Settings, std::make_shared<WebSettingsScreen>());
 			}
 
 			void Show() // 0x10CB57D0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebSettings@Ui@Web@@YAXXZ");
-
 				ScreenLayer::Show(ScreenLayer::ScreenId::Settings, "{}");
 			}
 		}
@@ -219,8 +215,6 @@ namespace Web
 
 static void OnGameInputUpdated() // 0x10CB53C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
-
 	if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarGamepadEnabled->ValueInt == 1)
 	{
 		if (Blam::Input::GetActionState(Blam::Input::eGameActionUiStart)->Ticks == 1 && strcmp((char *)Pointer(0x22AB018)(0x1A4, 1), "mainmenu") == 0 && !Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeEscape, Blam::Input::eInputTypeUi))
@@ -239,5 +233,4 @@ static void OnGameInputUpdated() // 0x10CB53C0
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0WebSettingsScreen@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline WebSettingsScreen::WebSettingsScreen() = default; // 0x10CB5130  // hades: defaulted on its declaration

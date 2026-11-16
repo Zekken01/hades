@@ -112,8 +112,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x107BA430
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@MotorSystem@Patches@@YAXXZ");
-
 			Hook(0x7901D0, motor_animation_task_busy_hook).Apply();
 			Hook(0x769B20, action_allow_interruption_hook).Apply();
 			Hook(0x769D20, action_update_hook).Apply();
@@ -131,8 +129,6 @@ namespace Patches
 
 bool action_allow_interruption_hook(e_action current_action, e_action desired_action, unsigned short *context) // 0x107BAC40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?action_allow_interruption_hook@@YA_NW4e_action@@0PAG@Z");
-
 	bool result = true;
 	if (desired_action != -1)
 	{
@@ -156,8 +152,6 @@ bool action_allow_interruption_hook(e_action current_action, e_action desired_ac
 
 bool motor_animation_task_busy_hook(long object_index, c_motor_task *task, long resource_type, bool a4, bool a5) // 0x107BB150
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?motor_animation_task_busy_hook@@YA_NJPAVc_motor_task@@J_N1@Z");
-
 	bool v5 = false;
 	if (task->valid() && !task->program_default())
 	{
@@ -177,15 +171,11 @@ bool motor_animation_task_busy_hook(long object_index, c_motor_task *task, long 
 
 s_action_definition *action_get_definition_hook(e_action action_type) // 0x107BADF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?action_get_definition_hook@@YAPAUs_action_definition@@W4e_action@@@Z");
-
 	return g_action_definitions[action_type];
 }
 
 bool action_submit_hook(long motor_index, s_action_request *request) // 0x107BAE20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?action_submit_hook@@YA_NJPAUs_action_request@@@Z");
-
 	static void (*const motor_task_reset)(long) = reinterpret_cast<void (*)(long)>(0xB34D00);
 	void (*const player_training_unit_submitted_action)(long, long, e_action, bool) = reinterpret_cast<void (*)(long, long, e_action, bool)>(0x68A0B0);
 	bool result = false;
@@ -207,8 +197,6 @@ bool action_submit_hook(long motor_index, s_action_request *request) // 0x107BAE
 
 void action_finished_hook(long motor_index, e_action action_type) // 0x107BAD60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?action_finished_hook@@YAXJW4e_action@@@Z");
-
 	if (g_action_definitions[action_type]->finished)
 	{
 		g_action_definitions[action_type]->finished(motor_index, action_type);
@@ -217,8 +205,6 @@ void action_finished_hook(long motor_index, e_action action_type) // 0x107BAD60
 
 bool action_update_hook(long motor_index) // 0x107BAF80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?action_update_hook@@YA_NJ@Z");
-
 	static c_motor_task *(*const motor_task_get)(long, long) = reinterpret_cast<c_motor_task *(*)(long, long)>(0xB91510);
 	bool result = false;
 	for (__int32 i = 0; i < 4; i++)
@@ -240,8 +226,6 @@ bool action_update_hook(long motor_index) // 0x107BAF80
 
 bool unit_movement_inhibited_hook(long unit_index) // 0x107BB2A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_movement_inhibited_hook@@YA_NJ@Z");
-
 	bool (*const unit_has_armor_lock)(long) = reinterpret_cast<bool (*)(long)>(0xB44EF0);
 	bool (*const biped_is_animation_controlled_by_equipment)(long) = reinterpret_cast<bool (*)(long)>(0xB6FA00);
 
@@ -265,8 +249,6 @@ bool unit_movement_inhibited_hook(long unit_index) // 0x107BB2A0
 
 bool custom_animation_submit_motor_task_allow_hook(long motor_index, e_action action, long mask) // 0x107BB0B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?custom_animation_submit_motor_task_allow_hook@@YA_NJW4e_action@@J@Z");
-
 	bool (__cdecl *const custom_animation_submit_motor_task_allow)(long, e_action, long) = (bool(__cdecl *const)(long, e_action, long))0xb90c80;
 
 	if (((bool(__cdecl *)(long, int))0xb69ba0)(motor_index, 87))

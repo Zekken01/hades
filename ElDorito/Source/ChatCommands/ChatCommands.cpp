@@ -210,8 +210,6 @@ namespace ChatCommands
 {
 	void RegisterCommands() // 0x106CFAB0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterCommands@ChatCommands@@YAXXZ");
-
 		RegisterCommand("list", "Returns the list of players in the server", (CommandFlags)0, ComamndListPlayers);
 		RegisterCommand("mod", "returns the mod information", (CommandFlags)0, ComamndModInfo);
 		RegisterCommand("listplayers", "Returns the list of players in the server", (CommandFlags)0, ComamndListPlayers);
@@ -221,30 +219,14 @@ namespace ChatCommands
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0mod_type@c_mod_package_manager@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_damage_data@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_damage_reporting_info@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_entry@c_mod_package_manager@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_file_reference@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_origin_info@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??1s_entry@c_mod_package_manager@@QAE@XZ"); no body to assert in
 // c_mod_package_manager::s_entry::~s_entry() is implicit; 0x106CDE70
 
-// mangled_x86(MANGLED_DEFAULT, "??1s_mod_origin_info@@QAE@XZ"); no body to assert in
 // s_mod_origin_info::~s_mod_origin_info() is implicit; 0x106CDED0
 
 /* ---------- private code */
 
 __int32 FindPlayerInGameWithIdentifier(s_player_identifier const &identifier) // 0x106CF7B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerInGameWithIdentifier@@YAHABUs_player_identifier@@@Z");
-
 	static bool (*const game_in_progress)() = reinterpret_cast<bool (*)()>(0x5314B0);
 	if (!game_in_progress())
 		return -1;
@@ -259,8 +241,6 @@ __int32 FindPlayerInGameWithIdentifier(s_player_identifier const &identifier) //
 
 __int32 FindNetworkPlayerInGame(char networkPlayerIndex) // 0x106CF690
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindNetworkPlayerInGame@@YAHD@Z");
-
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session) || !session->established())
 		return -1;
@@ -275,8 +255,6 @@ __int32 FindNetworkPlayerInGame(char networkPlayerIndex) // 0x106CF690
 
 bool CommandHelp(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF180
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandHelp@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	for (auto i : ChatCommands::getHelpText())
 		Server::Chat::SendServerMessage(i, peer);
 	return true;
@@ -284,8 +262,6 @@ bool CommandHelp(__int32 peer, std::vector<std::string> const &args, std::string
 
 bool ComamndListPlayers(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CE6E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ComamndListPlayers@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	__int32 peerIdx = session->MembershipInfo.FindFirstPeer();
 	while (peerIdx != -1)
@@ -303,8 +279,6 @@ bool ComamndListPlayers(__int32 peer, std::vector<std::string> const &args, std:
 
 bool CommandReportPlayer(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF550
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandReportPlayer@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (args.size() < 1 || args[0].length() <= 128)
 	{
 		returnValue = "Invalid or missing token";
@@ -318,8 +292,6 @@ bool CommandReportPlayer(__int32 peer, std::vector<std::string> const &args, std
 
 bool CommandKill(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CF2F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandKill@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	static bool (*const game_in_progress)() = reinterpret_cast<bool (*)()>(0x5314B0);
 	static c_game_engine *(*const current_game_engine)() = reinterpret_cast<c_game_engine *(*)()>(0x5CE150);
 	static bool (*const game_engine_round_in_progress)() = reinterpret_cast<bool (*)()>(0x531B20);
@@ -374,8 +346,6 @@ bool CommandKill(__int32 peer, std::vector<std::string> const &args, std::string
 
 bool ComamndModInfo(__int32 peer, std::vector<std::string> const &args, std::string &returnValue) // 0x106CEA80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ComamndModInfo@@YA_NHABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::string modhash = c_mod_system::get_current_package_hash();
 	c_mod_package_manager::s_entry mod_package;
 	bool hasModSet = c_mod_system::get_mod_info_by_hash(modhash.c_str(), &mod_package);

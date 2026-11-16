@@ -168,15 +168,11 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10ABEF90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@RawInput@Patches@@YAXXZ");
-
 			Hook(0x2E7A9, RawInputHook, 1).Apply();
 		}
 
 		void UpdateCameraYawPitch(float deltaX, float deltaY, float &yaw, float &pitch) // 0x10ABF8E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateCameraYawPitch@RawInput@Patches@@YAXMMAAM0@Z");
-
 			float weaponSensitivity = Pointer::Base(0x4CDEF14).Read<float>();
 			float maxVertAngle = Pointer::Base(0x14B49E4).Read<float>();
 			if (weaponSensitivity <= 0.0001f)
@@ -214,8 +210,6 @@ namespace Patches
 
 bool ShouldDisableRawInput() // 0x10ABF5C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldDisableRawInput@@YA_NXZ");
-
 	bool (*const game_engine_round_in_progress)() = reinterpret_cast<bool (*)()>(0x550F90);
 	if (game_engine_round_in_progress())
 	{
@@ -237,8 +231,6 @@ bool ShouldDisableRawInput() // 0x10ABF5C0
 
 bool RawInputHookImpl(tagRAWINPUT *rwInput) // 0x10ABF380
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RawInputHookImpl@@YA_NPAUtagRAWINPUT@@@Z");
-
 	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
 	bool isFlying = Patches::Camera::GetForcedCameraMode() == _camera_mode_flying;
 	if (isFlying)
@@ -260,8 +252,6 @@ bool RawInputHookImpl(tagRAWINPUT *rwInput) // 0x10ABF380
 
 void RawInputHook(__int32 unused, unsigned __int32 wParam, HRAWINPUT__ *hRawInput) // 0x10ABF0F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RawInputHook@@YAXHIPAUHRAWINPUT__@@@Z");
-
 	bool const mouseEnabled = *(bool *)0x512356;
 	RawMouseState *mouseState = (RawMouseState *)0x238E6BC;
 	if (!mouseEnabled)

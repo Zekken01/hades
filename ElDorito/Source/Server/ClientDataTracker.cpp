@@ -199,43 +199,34 @@ namespace Server
 	{
 		void MyNetworkSessionListener::SessionCreated() // 0x10B00680
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SessionCreated@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXXZ");
 		}
 
 		void MyNetworkSessionListener::SessionDestroyed() // 0x10B006A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SessionDestroyed@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXXZ");
 		}
 
 		void MyNetworkSessionListener::PeerAdded(__int32 peerIndex) // 0x10B00300
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PeerAdded@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
 		}
 
 		void MyNetworkSessionListener::PeerRemoved(__int32 peerIndex) // 0x10B00320
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PeerRemoved@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
 		}
 
 		void MyNetworkSessionListener::PlayerAdded(__int32 playerIndex) // 0x10B00340
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerAdded@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
 		}
 
 		void MyNetworkSessionListener::PlayerRemoved(__int32 playerIndex) // 0x10B00360
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerRemoved@MyNetworkSessionListener@ClientDataTracker@Server@@UAEXH@Z");
 		}
 
 		void Tick() // 0x10B006C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ClientDataTracker@Server@@YAXXZ");
 		}
 
 		void Initialize() // 0x10B000B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@ClientDataTracker@Server@@YAXXZ");
-
 			auto handler = std::make_shared<hades_file_local::ClientInfoDataPacketHandler>();
 			hades_file_local::PacketSender = Patches::CustomPackets::RegisterPacket<ClientInfoData>("eldewrito-test-packet", handler);
 			auto listener = std::make_shared<MyNetworkSessionListener>();
@@ -244,8 +235,6 @@ namespace Server
 
 		ClientInfoData::ClientInfoData(std::string const &body) // 0x10AFF060
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0ClientInfoData@ClientDataTracker@Server@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			memset(this, 0, sizeof(*this));
 			strncpy(Body, body.c_str(), sizeof(Body) - 1);
 		}
@@ -256,7 +245,6 @@ namespace Patches
 {
 	namespace Network
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??0NetworkSessionListener@Network@Patches@@QAE@XZ"); no body to assert in
 	}
 }
 
@@ -264,7 +252,6 @@ namespace Patches
 {
 	namespace CustomPackets
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??0RawPacketHandler@CustomPackets@Patches@@QAE@XZ"); no body to assert in
 		// _inline RawPacketHandler::RawPacketHandler() = default; // 0x10AFF250  // hades: defaulted on its declaration
 	}
 }
@@ -275,8 +262,6 @@ namespace Server
 	{
 		bool BroadcastClientInfoData(std::string const &body) // 0x10AFFCF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?BroadcastClientInfoData@ClientDataTracker@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished())
 				return false;
@@ -291,15 +276,11 @@ namespace Server
 
 _inline void ClientInfoDataPacketHandler::Serialize(Blam::BitStream *stream, Server::ClientDataTracker::ClientInfoData const *data) // 0x10B00590
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@ClientInfoDataPacketHandler@hades_file_local@@UAEXPAVBitStream@Blam@@PBUClientInfoData@ClientDataTracker@Server@@@Z");
-
 	stream->WriteString<char, 4096>(data->Body);
 }
 
 _inline bool ClientInfoDataPacketHandler::Deserialize(Blam::BitStream *stream, Server::ClientDataTracker::ClientInfoData *data) // 0x10AFFDE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@ClientInfoDataPacketHandler@hades_file_local@@UAE_NPAVBitStream@Blam@@PAUClientInfoData@ClientDataTracker@Server@@@Z");
-
 	memset(data, 0, sizeof(Server::ClientDataTracker::ClientInfoData));
 
 	if (!stream->ReadString<char, 4096>(data->Body))
@@ -312,8 +293,6 @@ _inline bool ClientInfoDataPacketHandler::Deserialize(Blam::BitStream *stream, S
 
 _inline void ClientInfoDataPacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<Server::ClientDataTracker::ClientInfoData> const *packet) // 0x10AFFF60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacket@ClientInfoDataPacketHandler@hades_file_local@@UAEXPAUObserverChannel@Network@Blam@@PBU?$Packet@UClientInfoData@ClientDataTracker@Server@@@CustomPackets@Patches@@@Z");
-
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session)
 	{
@@ -334,8 +313,6 @@ _inline void ClientInfoDataPacketHandler::HandlePacket(Blam::Network::ObserverCh
 
 bool SendMessagePacket(__int32 peer, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B00470
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SendMessagePacket@@YA_NHABUClientInfoData@ClientDataTracker@Server@@@Z");
-
 	if (peer < 0)
 		return false;
 	auto packet = hades_file_local::PacketSender->New();
@@ -346,15 +323,11 @@ bool SendMessagePacket(__int32 peer, Server::ClientDataTracker::ClientInfoData c
 
 bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B00090
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HostReceivedMessage@@YA_NPAUSession@Network@Blam@@HABUClientInfoData@ClientDataTracker@Server@@@Z");
-
 	return true;
 }
 
 bool SendClientMessage(Blam::Network::Session *session, Server::ClientDataTracker::ClientInfoData const &message) // 0x10B003E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SendClientMessage@@YA_NPAUSession@Network@Blam@@ABUClientInfoData@ClientDataTracker@Server@@@Z");
-
 	if (session->IsHost())
 	{
 		return HostReceivedMessage(session, session->MembershipInfo.LocalPeerIndex, message);
@@ -362,7 +335,6 @@ bool SendClientMessage(Blam::Network::Session *session, Server::ClientDataTracke
 	return SendMessagePacket(session->MembershipInfo.HostPeerIndex, message);
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0ClientInfoDataPacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline ClientInfoDataPacketHandler::ClientInfoDataPacketHandler() = default; // 0x10AFF100  // hades: defaulted on its declaration
 
 

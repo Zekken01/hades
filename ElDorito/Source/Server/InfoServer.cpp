@@ -264,15 +264,11 @@ namespace Server
 	{
 		bool IsInfoSocketOpen() // 0x10B1E450
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsInfoSocketOpen@InfoServer@Server@@YA_NXZ");
-
 			return infoSocketOpen;
 		}
 
 		bool StartInfoServer() // 0x10B1E850
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?StartInfoServer@InfoServer@Server@@YA_NXZ");
-
 			if (infoSocketOpen)
 				return true;
 			modListJson = GenerateModList();
@@ -312,8 +308,6 @@ namespace Server
 
 		bool StopInfoServer() // 0x10B1EEE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?StopInfoServer@InfoServer@Server@@YA_NXZ");
-
 			if (!infoSocketOpen)
 				return true;
 			closesocket(infoSocket);
@@ -327,8 +321,6 @@ namespace Server
 
 		__int32 __stdcall networkWndProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam, bool *outHandled) // 0x10B1F560
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?networkWndProc@InfoServer@Server@@YGHPAUHWND__@@IIJPA_N@Z");
-
 			if (msg != 0x939)
 				return 0;
 			*outHandled = true;
@@ -378,8 +370,6 @@ namespace Server
 
 		void Tick() // 0x10B1F050
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@InfoServer@Server@@YAXXZ");
-
 			time_t curTime;
 			time(&curTime);
 			if (infoSocketOpen && Utils::Singleton<Modules::ModuleServer>::Instance().VarServerShouldAnnounce->ValueInt)
@@ -398,8 +388,6 @@ namespace Server
 
 std::string BuildInfoServerPayload(std::string const &inDataBuffer) // 0x10B1B3F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildInfoServerPayload@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV12@@Z");
-
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session)
 		return "{}";
@@ -583,8 +571,6 @@ std::string BuildInfoServerPayload(std::string const &inDataBuffer) // 0x10B1B3F
 
 std::string GenerateModList() // 0x10B1DAF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateModList@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
 	c_mod_package_manager::c_threadsafe_iterator it = package_manager.lock_for_iteration();
 	rapidjson::StringBuffer buffer;
@@ -640,8 +626,6 @@ std::string GenerateModList() // 0x10B1DAF0
 
 bool ParseHttpRequestLine(std::string const &rawline, HttpRequestLine *outRequestLine) // 0x10B1E470
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ParseHttpRequestLine@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUHttpRequestLine@hades_file_local@@@Z");
-
 	enum s_state
 	{
 		STATE_METHOD_TOKEN,
@@ -691,15 +675,11 @@ bool ParseHttpRequestLine(std::string const &rawline, HttpRequestLine *outReques
 
 std::string BuildHttpResponse(std::string const &status, std::string const &contentType, std::string const &content, std::string const &additionalHeaders) // 0x10B1AF30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildHttpResponse@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV12@000@Z");
-
 	return "HTTP/1.1 " + status + "\r\nContent-Type: " + contentType + "\r\nAccess-Control-Allow-Origin: *\r\nServer: ElDewrito/" + Utils::Version::GetVersionString() + "\r\nContent-Length: " + std::to_string(content.length()) + "\r\nConnection: close\r\n" + additionalHeaders + "\r\n" + content;
 }
 
 std::string BuildInfoServerResponse(std::string const &rawRequest) // 0x10B1D250
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildInfoServerResponse@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV12@@Z");
-
 	long long curTime;
 	time(&curTime);
 	if (!Modules::ModuleServer::Instance().VarServerPassword->ValueString.empty() || curTime - timeSinceLastPoll > Modules::ModuleServer::Instance().VarHttpServerCacheTime->ValueInt)
@@ -711,16 +691,12 @@ std::string BuildInfoServerResponse(std::string const &rawRequest) // 0x10B1D250
 	return BuildHttpResponse("200 OK", "application/json", replyData, "");
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0HttpRequestLine@hades_file_local@@QAE@XZ"); no body to assert in
 _inline HttpRequestLine::HttpRequestLine() = default; // 0x10B1ACC0
 
-// mangled_x86(MANGLED_DEFAULT, "??1HttpRequestLine@hades_file_local@@QAE@XZ"); no body to assert in
 _inline HttpRequestLine::~HttpRequestLine() = default; // 0x10B1AD30
 
 std::string BuildModsServerResponse(std::string const &rawRequest) // 0x10B1D4F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildModsServerResponse@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV12@@Z");
-
 	bool authenticated = true;
 	if (!Modules::ModuleServer::Instance().VarServerPassword->ValueString.empty())
 	{
@@ -735,15 +711,11 @@ std::string BuildModsServerResponse(std::string const &rawRequest) // 0x10B1D4F0
 
 std::string BuildNotFoundResponse(std::string const &rawRequest) // 0x10B1D960
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildNotFoundResponse@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV12@@Z");
-
 	return BuildHttpResponse("404 Not Found", "text/html", "", "");
 }
 
 std::string BuildBadRequestResponse(std::string const &rawRequest) // 0x10B1ADA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildBadRequestResponse@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV12@@Z");
-
 	return BuildHttpResponse("400 Bad Request", "text/html", "", "");
 }
 

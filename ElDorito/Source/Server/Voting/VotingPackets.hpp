@@ -130,7 +130,6 @@ namespace Server
 	{
 		inline VotingMessageHandler::~VotingMessageHandler() // 0x10C9A7C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingMessageHandler@Voting@Server@@UAE@XZ");
 		}
 	}
 }

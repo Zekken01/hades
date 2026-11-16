@@ -247,8 +247,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A53110
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Equipment@Patches@@YAXXZ");
-
 			Hook(0x1394A0, player_examine_nearby_item_hook).Apply();
 			Hook(0x739110, unit_add_starting_profile_equipment_hook).Apply();
 			Hook(0x13D20D, unit_add_initial_loadout_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -283,8 +281,6 @@ namespace Patches
 
 		void PlayerConsiderEquipmentInteraction(long playerIndex, long equipmentIndex, s_player_action_context *outActionContext) // 0x10A54CF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerConsiderEquipmentInteraction@Equipment@Patches@@YAXJJPAUs_player_action_context@@@Z");
-
 			bool (*const player_evaluate_interaction)(long, s_player_interaction *, s_player_interaction *) = reinterpret_cast<bool (*)(long, s_player_interaction *, s_player_interaction *)>(0x539240);
 			s_player_datum const *player = player_get(playerIndex);
 			s_unit_data const *unit = (s_unit_data const *)object_try_and_get_and_verify_type(player->unit_index, 0x2003);
@@ -315,8 +311,6 @@ namespace Patches
 
 void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10A55750
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_examine_nearby_item_hook@@YAXJJ@Z");
-
 	struct s_unit_weapon_pickup_result
 	{
 		char data[4];
@@ -503,8 +497,6 @@ void player_examine_nearby_item_hook(long player_index, long item_index) // 0x10
 
 void unit_add_initial_loadout_hook(long unit_index) // 0x10A56920
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_add_initial_loadout_hook@@YAXJ@Z");
-
 	void (*const unit_add_initial_loadout)(long) = reinterpret_cast<void (*)(long)>(0x5A30F0);
 	if (game_is_campaign() || eldorado::game_is_survival())
 	{
@@ -529,8 +521,6 @@ void unit_add_initial_loadout_hook(long unit_index) // 0x10A56920
 
 void unit_add_starting_profile_equipment_hook(long unit_index, short profile_index, bool reset, bool mark_as_garbage) // 0x10A56BB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_add_starting_profile_equipment_hook@@YAXJF_N0@Z");
-
 	long (*const unit_create_starting_weapon)(long, s_starting_weapon_info *, bool) = reinterpret_cast<long (*)(long, s_starting_weapon_info *, bool)>(0xB3E9F0);
 	void (*const unit_delete_all_weapons)(long) = reinterpret_cast<void (*)(long)>(0xB3FAD0);
 	bool (*const unit_add_weapon_to_inventory)(long, long, long) = reinterpret_cast<bool (*)(long, long, long)>(0xB393D0);
@@ -567,8 +557,6 @@ void unit_add_starting_profile_equipment_hook(long unit_index, short profile_ind
 
 bool unit_update_weapons_hook(long unit_index) // 0x10A579B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_weapons_hook@@YA_NJ@Z");
-
 	bool (*const unit_update_weapons)(unsigned __int32) = reinterpret_cast<bool (*)(unsigned __int32)>(0xB4C6D0);
 	bool ret = unit_update_weapons(unit_index);
 	if (((bool (*)())0x5319C0)())
@@ -596,8 +584,6 @@ bool unit_update_weapons_hook(long unit_index) // 0x10A579B0
 
 void EquipmentUseHook(__int32 unitObjectIndex, __int32 slotIndex, unsigned __int32 isClient) // 0x10A54A70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?EquipmentUseHook@@YAXHHI@Z");
-
 	void (*const EquipmentUse)(__int32, __int32, unsigned __int32) = reinterpret_cast<void (*)(__int32, __int32, unsigned __int32)>(0xB4CE90);
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unitObjectIndex, 0x2003);
 	if (!unit)
@@ -616,8 +602,6 @@ void EquipmentUseHook(__int32 unitObjectIndex, __int32 slotIndex, unsigned __int
 
 __int32 GetMPGlobalsEquipmentBlockIndex(unsigned __int32 tagIndex) // 0x10A54C00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMPGlobalsEquipmentBlockIndex@@YAHI@Z");
-
 	s_game_globals *game_globals = game_globals_get();
 	s_multiplayer_globals_definition *multiplayer_globals = (s_multiplayer_globals_definition *)tag_get('mulg', game_globals->MultiplayerGlobals.index);
 	for (__int32 i = 1; i < multiplayer_globals->universal->consumables.count; i++)
@@ -655,15 +639,11 @@ void *Player_GetArmorAbilitiesCHUDHook(s_player_datum *playerDatum) // 0x10A54FB
 
 void unit_drop_on_death_hook(long unit_index) // 0x10A57680
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_on_death_hook@@YAXJ@Z");
-
 	unit_drop_grenades(unit_index);
 }
 
 void unit_drop_equipment_hook(long unit_index, long slot_index) // 0x10A574F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_equipment_hook@@YAXJJ@Z");
-
 	void (*const equipment_update_function)(long, long) = reinterpret_cast<void (*)(long, long)>(0xB88470);
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	long equipment_index = unit->equipment_object_indices[slot_index];
@@ -680,8 +660,6 @@ void unit_drop_equipment_hook(long unit_index, long slot_index) // 0x10A574F0
 
 void update_equipment_vision(long equipment_index, long unit_index) // 0x10A57C80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_equipment_vision@@YAXJJ@Z");
-
 	s_equipment_vision_block *(*const equipment_get_vision_definition)(long) = reinterpret_cast<s_equipment_vision_block *(*)(long)>(0xBA0650);
 	s_equipment_data *equipment = object_get<s_equipment_data>(equipment_index);
 	long time_since_used = game_time_get() - equipment->last_use_time;
@@ -701,8 +679,6 @@ void update_equipment_vision(long equipment_index, long unit_index) // 0x10A57C8
 
 void equipment_update_hook(long equipment_index, long unit_index) // 0x10A553F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?equipment_update_hook@@YAXJJ@Z");
-
 	const auto equipment_update = (void(*)(long, long))0xB891F0;
 	s_equipment_data *equipment;
 	equipment_update(equipment_index, unit_index);
@@ -715,8 +691,6 @@ void equipment_update_hook(long equipment_index, long unit_index) // 0x10A553F0
 
 void unit_toss_item_object_detach_hook(long item_index) // 0x10A576D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_toss_item_object_detach_hook@@YAXJ@Z");
-
 	void (*const object_detach)(long) = reinterpret_cast<void (*)(long)>(0xB2D180);
 	if (game_is_multiplayer() && Forge::GetObjectPhysicsMode(item_index) == static_cast<Forge::EForgeObjectPhysics>(1))
 	{
@@ -728,8 +702,6 @@ void unit_toss_item_object_detach_hook(long item_index) // 0x10A576D0
 
 __declspec(naked) void TankModeCrashFixHook() // 0x10A550B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?TankModeCrashFixHook@@YAXXZ");
-
 	__asm
 	{
 		cmp ecx, 10h
@@ -745,8 +717,6 @@ __declspec(naked) void TankModeCrashFixHook() // 0x10A550B0
 
 bool __fastcall c_simulation_unit_pickup_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long reference_gamestate_count, long *game_state_indices, long payload_size, s_simulation_unit_pickup_event_data *payload) // 0x10A55110
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_pickup_event_definition__apply_game_event_hook@@YI_NPAX0JPAJJPAUs_simulation_unit_pickup_event_data@@@Z");
-
 	long (*const tag_try_and_get_unsafe)(long, unsigned short) = reinterpret_cast<long (*)(long, unsigned short)>(0x503510);
 	long (*const simulation_gamestate_entity_get_and_verify_type)(long, long) = reinterpret_cast<long (*)(long, long)>(0x471F50);
 	long (*const unspatialized_impulse_sound_new)(long, float) = reinterpret_cast<long (*)(long, float)>(0x5DE300);
@@ -778,8 +748,6 @@ bool __fastcall c_simulation_unit_pickup_event_definition__apply_game_event_hook
 
 void simulation_action_pickup_healthpack(long unit_index, long definition_index) // 0x10A56750
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_pickup_healthpack@@YAXJJ@Z");
-
 	static void (*const simulation_action_unit_event)(long, long, long *, long, long, void const *) = reinterpret_cast<void (*)(long, long, long *, long, long, void const *)>(0x4E5810);
 	if (unit_index != -1 && definition_index != -1)
 	{
@@ -797,8 +765,6 @@ void simulation_action_pickup_healthpack(long unit_index, long definition_index)
 
 bool unit_can_pickup_healthpack(long unit_index, long equipment_index) // 0x10A57210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_can_pickup_healthpack@@YA_NJJ@Z");
-
 	s_unit_data *unit = object_get<s_unit_data>(unit_index);
 	s_equipment_data *equipment = object_get<s_equipment_data>(equipment_index);
 	if (!unit || !equipment)
@@ -826,8 +792,6 @@ bool unit_can_pickup_healthpack(long unit_index, long equipment_index) // 0x10A5
 
 bool unit_can_pickup_equipment_hook(long unit_index, long equipment_index) // 0x10A56F20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_can_pickup_equipment_hook@@YA_NJJ@Z");
-
 	bool (*const game_engine_running)() = reinterpret_cast<bool (*)()>(0x552410);
 	bool (__thiscall *const c_player_trait_weapons__get_weapon_pickup_allowed)(void *) = reinterpret_cast<bool (__thiscall *)(void *)>(0x5CC5C0);
 	s_equipment_data *equipment = object_get<s_equipment_data>(equipment_index);
@@ -863,8 +827,6 @@ bool unit_can_pickup_equipment_hook(long unit_index, long equipment_index) // 0x
 
 void unit_update_health_pack_hook(long unit_index) // 0x10A57780
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_health_pack_hook@@YAXJ@Z");
-
 	s_unit_data *unit = object_get<s_unit_data>(unit_index);
 	if (!(unit->damage_flags & 4) && unit->health_pack_end_time > game_time_get())
 	{

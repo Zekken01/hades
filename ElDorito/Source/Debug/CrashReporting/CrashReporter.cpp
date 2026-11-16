@@ -240,8 +240,6 @@ namespace Debug
 	{
 		char const *GetGameModeName(s_game_options *options) // 0x1068F380
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetGameModeName@CrashReporting@Debug@@YAPBDPAUs_game_options@@@Z");
-
 			switch ((e_game_mode)options->game_mode)
 			{
 			case 0:
@@ -268,16 +266,12 @@ namespace Debug
 	{
 		char const *FormatRegister(unsigned long value) // 0x1068F1A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FormatRegister@CrashReporting@Debug@@YAPBDK@Z");
-
 			buff.print("%08X", value);
 			return buff.get_string();
 		}
 
 		void BuildStackTraceJSON(_CONTEXT const &ctx, rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer) // 0x1068EA10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildStackTraceJSON@CrashReporting@Debug@@YAXABU_CONTEXT@@AAV?$PrettyWriter@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@@Z");
-
 			writer.StartArray();
 			StackWalker stackWalker(ctx);
 			while (stackWalker.Next())
@@ -314,8 +308,6 @@ namespace Debug
 
 		void AddSystemInfo(rapidjson::PrettyWriter<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer) // 0x1068E610
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?AddSystemInfo@CrashReporting@Debug@@YAXAAV?$PrettyWriter@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@@Z");
-
 			writer.Key("os");
 			writer.String(GetFriendlyOSName().c_str());
 			writer.Key("cpu");
@@ -343,8 +335,6 @@ namespace Debug
 
 		void WriteDumpForCrashReporter(rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator> &buffer, ::Debug::CrashReporting::s_crash_info const &crash) // 0x106913E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?WriteDumpForCrashReporter@CrashReporting@Debug@@YAXAAV?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@ABUs_crash_info@12@@Z");
-
 			rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
 			writer.StartObject();
 			writer.Key("timestamp");
@@ -470,8 +460,6 @@ namespace Debug
 
 		bool LaunchExternalCrashReporter(std::string &LaunchCommand) // 0x1068FF20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LaunchExternalCrashReporter@CrashReporting@Debug@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			_STARTUPINFOA info = { sizeof(info) };
 			_PROCESS_INFORMATION processInfo;
 			if (!CreateProcessA(nullptr, LaunchCommand.data(), nullptr, nullptr, FALSE, CREATE_BREAKAWAY_FROM_JOB | DETACHED_PROCESS, nullptr, nullptr, &info, &processInfo))
@@ -486,8 +474,6 @@ namespace Debug
 
 		void ReportCrash(::Debug::CrashReporting::s_crash_info const &crash) // 0x10690840
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ReportCrash@CrashReporting@Debug@@YAXABUs_crash_info@12@@Z");
-
 			std::string ReporterPath = "" + ElDorito::Instance().GetDirectory() + "crash_reporter.exe";
 			std::string CrashDumpPath = "" + ElDorito::Instance().GetDirectory() + "crash_dump.json";
 			std::string LaunchCommand = "\"" + ReporterPath + "\" \"" + CrashDumpPath + "\"";

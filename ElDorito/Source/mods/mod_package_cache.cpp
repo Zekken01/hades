@@ -102,50 +102,36 @@ extern bool mod_package_header_valid(s_mod_package_header const *header);
 
 c_mod_package::c_mod_package(char const *file_path) : m_valid(false), m_campaign_file_count(0), m_tags_section_offset(0), m_resource_cache_offset(0), m_file(file_path), m_metadata(), m_resource_cache_header{}, m_tag_cache_count(0), m_map_file_count(0) /* hades-mem-init:  */ // 0x1089CF00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_mod_package@@QAE@PBD@Z");
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_file_reference@@QAE@ABU0@@Z"); no body to assert in
 _inline s_file_reference::s_file_reference(s_file_reference const &__that) = default; // 0x1089D0D0
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_package_header@@QAE@XZ"); no body to assert in
 
 c_mod_package::~c_mod_package() // 0x1089D270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_mod_package@@QAE@XZ");
-
 	dispose();
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0c_file_reference@@QAE@ABV0@@Z"); no body to assert in
 _inline c_file_reference::c_file_reference(c_file_reference const &__that) = default; // 0x1089CEA0
 
 void c_mod_package::dispose() // 0x1089D8F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?dispose@c_mod_package@@QAEXXZ");
-
 	m_valid = false;
 	m_file.close();
 }
 
 bool c_mod_package::valid() const // 0x108A0080
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?valid@c_mod_package@@QBE_NXZ");
-
 	return m_valid == true;
 }
 
 char const *c_mod_package::get_file_name() const // 0x1089DBE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_file_name@c_mod_package@@QBEPBDXZ");
-
 	return m_file.filename;
 }
 
 #line 150
 s_mod_package_header const *c_mod_package::get_header() const // 0x1089DC10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_header@c_mod_package@@QBEPBUs_mod_package_header@@XZ");
 #line 154
 
 	#line 152 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -162,7 +148,6 @@ s_mod_package_header const *c_mod_package::get_header() const // 0x1089DC10
 
 s_mod_package_metadata const *c_mod_package::get_metadata() const // 0x1089DD50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_metadata@c_mod_package@@QBEPBUs_mod_package_metadata@@XZ");
 #line 171
 
 	#line 169 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -179,15 +164,11 @@ s_mod_package_metadata const *c_mod_package::get_metadata() const // 0x1089DD50
 
 long c_mod_package::get_map_count() const // 0x1089DCA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_map_count@c_mod_package@@QBEJXZ");
-
 	return m_map_file_count;
 }
 
 s_mod_package_map_file_entry const *c_mod_package::get_map_file_entry(long index) const // 0x1089DCD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_map_file_entry@c_mod_package@@QBEPBUs_mod_package_map_file_entry@@J@Z");
-
 	if (!valid_map_file_index(index))
 	{
 		return nullptr;
@@ -198,15 +179,12 @@ s_mod_package_map_file_entry const *c_mod_package::get_map_file_entry(long index
 
 bool c_mod_package::valid_map_file_index(long map_file_index) const // 0x108A00D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_map_file_index@c_mod_package@@QBE_NJ@Z");
-
 	return map_file_index >= 0 && map_file_index < m_map_file_count;
 }
 
 #line 213
 long c_mod_package::find_map_file_by_map_id(long map_id, unsigned long *out_size) // 0x1089D9C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?find_map_file_by_map_id@c_mod_package@@QAEJJPAK@Z");
 #line 219
 
 	#line 215 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -233,7 +211,6 @@ long c_mod_package::find_map_file_by_map_id(long map_id, unsigned long *out_size
 
 long c_mod_package::get_tag_cache_index_for_map_id(long map_id) // 0x1089DE60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_tag_cache_index_for_map_id@c_mod_package@@QAEJJ@Z");
 #line 247
 
 	#line 244 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -261,7 +238,6 @@ long c_mod_package::get_tag_cache_index_for_map_id(long map_id) // 0x1089DE60
 
 bool c_mod_package::read_campaign(c_file_reference &file, s_blf_campaign *out_campaign, bool *out_byte_swap) // 0x1089EA00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_campaign@c_mod_package@@QAE_NAAVc_file_reference@@PAUs_blf_campaign@@PA_N@Z");
 #line 283
 
 	long const k_required_campaign_size = 0x1348;
@@ -289,7 +265,6 @@ bool c_mod_package::read_campaign(c_file_reference &file, s_blf_campaign *out_ca
 
 bool c_mod_package::read_map_cache_file_header(c_file_reference &file, long map_index, s_cache_file_header *out_header) // 0x1089F120
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_map_cache_file_header@c_mod_package@@QAE_NAAVc_file_reference@@JPAUs_cache_file_header@@@Z");
 #line 315
 
 	#line 309 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -310,7 +285,6 @@ bool c_mod_package::read_map_cache_file_header(c_file_reference &file, long map_
 
 bool c_mod_package::read_map_blf_map_information(c_file_reference &file, long map_index, s_blf_map_information *out_information) // 0x1089EF10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_map_blf_map_information@c_mod_package@@QAE_NAAVc_file_reference@@JPAUs_blf_map_information@@@Z");
 #line 342
 
 	static constexpr unsigned __int32 const k_blf_map_information_offset = 0x33C0;
@@ -333,7 +307,6 @@ bool c_mod_package::read_map_blf_map_information(c_file_reference &file, long ma
 
 bool c_mod_package::verify_signature() // 0x108A03B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?verify_signature@c_mod_package@@QAE_NXZ");
 #line 373
 
 	#line 363 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -357,7 +330,6 @@ bool c_mod_package::verify_signature() // 0x108A03B0
 
 bool c_mod_package::compute_hash(unsigned char (&out_hash)[20]) // 0x1089D3D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?compute_hash@c_mod_package@@QAE_NAAY0BE@E@Z");
 #line 412
 
 	#line 395 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -394,7 +366,6 @@ bool c_mod_package::compute_hash(unsigned char (&out_hash)[20]) // 0x1089D3D0
 
 bool c_mod_package::verify_hash(unsigned char const (&hash)[20]) const // 0x108A0240
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?verify_hash@c_mod_package@@QBE_NAAY0BE@$$CBE@Z");
 #line 451
 
 	#line 447 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -413,8 +384,6 @@ bool c_mod_package::verify_hash(unsigned char const (&hash)[20]) const // 0x108A
 
 bool mod_package_header_valid(s_mod_package_header const *header) // 0x1089E480
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?mod_package_header_valid@@YA_NPBUs_mod_package_header@@@Z");
-
 	if (header->signature != 0x6D6F6421)
 	{
 		return false;
@@ -435,8 +404,6 @@ bool mod_package_header_valid(s_mod_package_header const *header) // 0x1089E480
 
 bool c_mod_package::read_metadata_section(s_mod_package_metadata *metadata) // 0x1089F610
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_metadata_section@c_mod_package@@AAE_NPAUs_mod_package_metadata@@@Z");
-
 	if (!((s_mod_package_section_header *)m_sections)[_mod_package_section_metadata].offset)
 	{
 		return false;
@@ -449,8 +416,6 @@ bool c_mod_package::read_metadata_section(s_mod_package_metadata *metadata) // 0
 
 bool c_mod_package::read_tags_section() // 0x1089FF00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_tags_section@c_mod_package@@AAE_NXZ");
-
 	unsigned long section_offset = ((s_mod_package_section_header *)m_sections)[_mod_package_section_tags].offset;
 	s_mod_package_section_table tag_cache_table;
 
@@ -478,8 +443,6 @@ bool c_mod_package::read_tags_section() // 0x1089FF00
 
 bool c_mod_package::read_resources_section(s_cache_file_segment_header *header) // 0x1089F6B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_resources_section@c_mod_package@@AAE_NPAUs_cache_file_segment_header@@@Z");
-
 	m_resource_cache_offset = ((s_mod_package_section_header *)m_sections)[_mod_package_section_resources].offset;
 
 	return m_file.read_from_position(m_resource_cache_offset, header);
@@ -487,8 +450,6 @@ bool c_mod_package::read_resources_section(s_cache_file_segment_header *header) 
 
 unsigned long c_mod_package::get_tag_cache_offset(__int32 tag_cache_index) const // 0x1089DF60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_tag_cache_offset@c_mod_package@@QBEKH@Z");
-
 	if (tag_cache_index < 0 || tag_cache_index >= m_tag_cache_count)
 	{
 		return -1;
@@ -500,15 +461,12 @@ unsigned long c_mod_package::get_tag_cache_offset(__int32 tag_cache_index) const
 
 unsigned long c_mod_package::get_resource_cache_offset() const // 0x1089DDE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_resource_cache_offset@c_mod_package@@QBEKXZ");
-
 	return m_resource_cache_offset;
 }
 
 #line 573
 std::shared_ptr<c_cache_file_tag_cache> c_mod_package::open_tag_cache(c_file_reference &file, long index) // 0x1089E770
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?open_tag_cache@c_mod_package@@QAE?AV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@AAVc_file_reference@@J@Z");
 #line 581
 
 	#line 575 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -522,7 +480,6 @@ std::shared_ptr<c_cache_file_tag_cache> c_mod_package::open_tag_cache(c_file_ref
 
 std::shared_ptr<Blam::Cache::StringIDCache> c_mod_package::open_string_id_cache(c_file_reference &file) // 0x1089E4E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?open_string_id_cache@c_mod_package@@QAE?AV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@AAVc_file_reference@@@Z");
 #line 601
 
 	#line 593 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
@@ -539,8 +496,6 @@ std::shared_ptr<Blam::Cache::StringIDCache> c_mod_package::open_string_id_cache(
 
 bool c_mod_package::read_section_headers() // 0x1089F8D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_section_headers@c_mod_package@@AAE_NXZ");
-
 	return m_file.read_from_position(
 		m_header.section_table.offset,
 		8 * m_header.section_table.count,
@@ -549,8 +504,6 @@ bool c_mod_package::read_section_headers() // 0x1089F8D0
 
 bool c_mod_package::read_map_files_section() // 0x1089F4A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_map_files_section@c_mod_package@@AAE_NXZ");
-
 	s_mod_package_section_table map_file_table;
 	s_mod_package_section_header &section = ((s_mod_package_section_header *)m_sections)[_mod_package_section_map_files];
 
@@ -589,7 +542,6 @@ bool c_mod_package::read_map_files_section() // 0x1089F4A0
 #line 671
 bool c_mod_package::read_map_file_into_buffer(c_file_reference &file, long map_file_index, unsigned long buffer_size, void *buffer) // 0x1089F380
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_map_file_into_buffer@c_mod_package@@QAE_NAAVc_file_reference@@JKPAX@Z");
 #line 675
 
 	if (!valid_map_file_index(map_file_index))
@@ -613,8 +565,6 @@ bool c_mod_package::read_map_file_into_buffer(c_file_reference &file, long map_f
 
 bool c_mod_package::read_font_package_blocking(c_file_reference &file, unsigned long offset, unsigned long size, void *buffer) // 0x1089ECE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_font_package_blocking@c_mod_package@@QAE_NAAVc_file_reference@@KKPAX@Z");
-
 	c_file_open_scope scope(file, 1);
 	s_mod_package_section_header *section = &m_sections[_mod_package_section_map_files];
 	if (!section->offset || section->size < size)
@@ -624,8 +574,6 @@ bool c_mod_package::read_font_package_blocking(c_file_reference &file, unsigned 
 
 std::unordered_map<int,std::string> c_mod_package::read_tag_names(c_file_reference &file, __int32 tag_cache_index) // 0x1089F960
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_tag_names@c_mod_package@@QAE?AV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@std@@AAVc_file_reference@@H@Z");
-
 	c_file_open_scope scope(file, 1);
 	std::unordered_map<int,std::string> tag_names;
 	if (tag_cache_index < 0 || tag_cache_index >= m_tag_cache_count)
@@ -656,8 +604,6 @@ std::unordered_map<int,std::string> c_mod_package::read_tag_names(c_file_referen
 
 c_file_reference c_mod_package::get_file() const // 0x1089DAB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_file@c_mod_package@@QBE?AVc_file_reference@@XZ");
-
 	c_file_reference copy(m_file.filename);
 
 	return copy;
@@ -665,8 +611,6 @@ c_file_reference c_mod_package::get_file() const // 0x1089DAB0
 
 bool c_mod_package::initialize(c_mod_package::e_error *out_error) // 0x1089DFD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_mod_package@@QAE_NPAW4e_error@1@@Z");
-
 	c_mod_package::e_error error = initialize_internal();
 	if (out_error)
 	{
@@ -678,8 +622,6 @@ bool c_mod_package::initialize(c_mod_package::e_error *out_error) // 0x1089DFD0
 
 c_mod_package::e_error c_mod_package::initialize_internal() // 0x1089E060
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize_internal@c_mod_package@@AAE?AW4e_error@1@XZ");
-
 	if (!m_file.exists())
 	{
 		return _error_not_found;
@@ -732,8 +674,6 @@ c_mod_package::e_error c_mod_package::initialize_internal() // 0x1089E060
 
 bool c_mod_package::get_section_header(e_mod_package_sections section, s_mod_package_section_header *header) // 0x1089DE10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_section_header@c_mod_package@@QAE_NW4e_mod_package_sections@@PAUs_mod_package_section_header@@@Z");
-
 	*header = ((s_mod_package_section_header *)m_sections)[section];
 	return true;
 }
@@ -741,8 +681,6 @@ bool c_mod_package::get_section_header(e_mod_package_sections section, s_mod_pac
 #line 850
 bool c_mod_package::read_section_data(c_file_reference &file, e_mod_package_sections section, unsigned long offset, unsigned long size, void *buffer) // 0x1089F740
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_section_data@c_mod_package@@QAE_NAAVc_file_reference@@W4e_mod_package_sections@@KKPAX@Z");
-
 	c_file_open_scope scope(file, 1);
 	if (!valid_section_offset(section, offset + size))
 	{
@@ -757,15 +695,11 @@ bool c_mod_package::read_section_data(c_file_reference &file, e_mod_package_sect
 
 bool c_mod_package::valid_section(e_mod_package_sections section) const // 0x108A0130
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_section@c_mod_package@@QBE_NW4e_mod_package_sections@@@Z");
-
 	return section >= 0 && section < k_number_of_mod_package_sections;
 }
 
 bool c_mod_package::valid_section_offset(e_mod_package_sections section, unsigned long offset) const // 0x108A0180
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_section_offset@c_mod_package@@QBE_NW4e_mod_package_sections@@K@Z");
-
 	#line 875 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_cache.cpp"
 		assert(valid_section(section));
 		#line 880 "F:\\Project Hades\\Hades\\Source\\ElDorito\\Source\\mods\\mod_package_cache.cpp"

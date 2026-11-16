@@ -136,8 +136,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x108CE320
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Devices@Patches@@YAXXZ");
-
 			Pointer(0x1948C2C).Write<unsigned long>(reinterpret_cast<unsigned long>(machine_update_hook));
 			Hook(0x7925D1, device_block_interaction_odst_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x139CE6, PlayerConsiderDeviceInteraction, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -152,8 +150,6 @@ namespace Patches
 
 		bool PlayerConsiderDeviceInteraction(long player_index, long device_index, s_player_action_context *out_action_context) // 0x108CED20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerConsiderDeviceInteraction@Devices@Patches@@YA_NJJPAUs_player_action_context@@@Z");
-
 			bool (__cdecl *const player_consider_device_interaction)(long, long, s_player_action_context *) = (bool(__cdecl *const)(long, long, s_player_action_context *))0x5388d0;
 
 			if (!device_allows_player_interaction(device_index, player_index))
@@ -166,16 +162,10 @@ namespace Patches
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0CForgeDeviceManager@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0IGameSystem@@QAE@XZ"); no body to assert in
-
 /* ---------- private code */
 
 void machine_update_hook(long machine_index) // 0x108CF450
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?machine_update_hook@@YAXJ@Z");
-
 	void (*const machine_update)(long) = reinterpret_cast<void (*)(long)>(0xBB5500);
 	CForgeDeviceManager &deviceManager = Utils::Singleton<CForgeDeviceManager>::Instance();
 	if (!deviceManager.IsForgeDevice(machine_index))
@@ -213,8 +203,6 @@ void machine_update_hook(long machine_index) // 0x108CF450
 
 bool device_block_interaction_odst_hook(long object_index) // 0x108CF0C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?device_block_interaction_odst_hook@@YA_NJ@Z");
-
 	s_device_data *device = (s_device_data *)object_get(object_index);
 	if (!device || device->parent_object_index == -1)
 		return false;
@@ -238,8 +226,6 @@ bool device_block_interaction_odst_hook(long object_index) // 0x108CF0C0
 
 bool device_allows_player_interaction(long device_index, long player_index) // 0x108CEF50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?device_allows_player_interaction@@YA_NJJ@Z");
-
 	if (game_is_campaign())
 		return true;
 	c_game_engine *game_engine = ((c_game_engine *(*)())0x5CE150)();
@@ -261,8 +247,6 @@ bool device_allows_player_interaction(long device_index, long player_index) // 0
 
 bool device_allows_object_interaction(long device_index, long object_index) // 0x108CEE80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?device_allows_object_interaction@@YA_NJJ@Z");
-
 	if (object_try_and_get_and_verify_type(object_index, 0x2003))
 	{
 		long unit_index = unit_get_ultimate_motion_control_unit_index(object_index);
@@ -278,8 +262,6 @@ bool device_allows_object_interaction(long device_index, long object_index) // 0
 
 void device_touched_hook(long device_index, long unit_index, bool a3) // 0x108CF270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?device_touched_hook@@YAXJJ_N@Z");
-
 	void (__cdecl *const device_touched)(long, long, bool) = (void(__cdecl *const)(long, long, bool))0xb94500;
 
 	if (!device_allows_object_interaction(device_index, unit_index))
@@ -292,8 +274,6 @@ void device_touched_hook(long device_index, long unit_index, bool a3) // 0x108CF
 
 bool machine_door_test_object_hook(long machine_index, long const *object_indices, short object_indices_count) // 0x108CF300
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?machine_door_test_object_hook@@YA_NJPBJF@Z");
-
 	bool (*const machine_door_test_object)(long, long const *, short) = reinterpret_cast<bool (*)(long, long const *, short)>(0xBB4FF0);
 	long new_object_indices[16];
 	short new_object_indices_count = 0;
@@ -309,8 +289,6 @@ bool machine_door_test_object_hook(long machine_index, long const *object_indice
 
 void control_touched_hook(long device_index, long unit_index) // 0x108CEDB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?control_touched_hook@@YAXJJ@Z");
-
 	void (*const device_touched)(long) = reinterpret_cast<void (*)(long)>(0xBBFC30);
 	s_object_data *control = object_get(device_index);
 	s_control_definition *control_definition = (s_control_definition *)tag_get(0x6374726C, control->definition_index);

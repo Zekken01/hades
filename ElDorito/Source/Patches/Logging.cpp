@@ -309,8 +309,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A84AE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Logging@Patches@@YAXXZ");
-
 			*(unsigned __int32 *)0x9053C7 = 0x7FF;
 			Patch(0x11C158, { 0x8D, 0x85, 0x00, 0xFC, 0xFF, 0xFF, 0x50 }).Apply();
 			Patch(0x11C165, { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 }).Apply();
@@ -342,8 +340,6 @@ namespace Patches
 
 void dbglog(char const *module, char const *format, ...) // 0x10A85ED0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?dbglog@@YAXPBD0ZZ");
-
 	char const *backupFormat = "";
 	if (!format)
 		format = backupFormat;
@@ -359,29 +355,21 @@ void dbglog(char const *module, char const *format, ...) // 0x10A85ED0
 
 void __stdcall debuglog_string(char *name, char *value) // 0x10A86160
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?debuglog_string@@YGXPAD0@Z");
-
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s: %s", name, value);
 }
 
 void __stdcall debuglog_int(char *name, __int32 value) // 0x10A860D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?debuglog_int@@YGXPADH@Z");
-
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s: %d", name, value);
 }
 
 void __stdcall debuglog_float(char *name, float value) // 0x10A86030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?debuglog_float@@YGXPADM@Z");
-
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s: %f", name, value);
 }
 
 void networkLogHook(char *format, ...) // 0x10A86440
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?networkLogHook@@YAXPADZZ");
-
 	if (!Utils::Singleton<Utils::Logger>::Instance().TestLevel(Utils::LogTypes::Network, Utils::LogLevel::Info))
 		return;
 	std::string formatStr = format;
@@ -406,8 +394,6 @@ namespace Debug
 
 void sslLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A86ED0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?sslLogHook@@YAXDHPAX0D@Z");
-
 	char const *str1 = *(char const **)a3;
 	char const *str2 = *(char const **)((unsigned char *)a3 + 8);
 	if (!str1)
@@ -421,7 +407,6 @@ void sslLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A86ED0
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Graphics, Utils::LogLevel::Info, "%s - %s", str1, str2);
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_per_thread_exception_info@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_per_thread_exception_info::s_per_thread_exception_info() = default; // 0x10A84A40
 
 namespace Debug
@@ -433,8 +418,6 @@ namespace Debug
 
 void uiLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A87380
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?uiLogHook@@YAXDHPAX0D@Z");
-
 	char const *logData1 = *(char **)a3;
 	if (logData1 == 0)
 		logData1 = "";
@@ -446,8 +429,6 @@ void uiLogHook(char a1, __int32 a2, void *a3, void *a4, char a5) // 0x10A87380
 
 bool __fastcall packetRecvHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 *packetIdOut, __int32 *packetSizeOut, void *packetBuffer) // 0x10A86C90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?packetRecvHook@@YI_NPAXHPAVBitStream@Blam@@PAH20@Z");
-
 	bool (__thiscall *packetRecv)(void *, Blam::BitStream *, __int32 *, __int32 *, void *) = (bool (__thiscall *)(void *, Blam::BitStream *, __int32 *, __int32 *, void *))0x47FF70;
 
 	if (!packetRecv(thisPtr, stream, packetIdOut, packetSizeOut, packetBuffer))
@@ -468,8 +449,6 @@ bool __fastcall packetRecvHook(void *thisPtr, __int32 unused, Blam::BitStream *s
 
 void __fastcall packetSendHook(void *thisPtr, __int32 unused, Blam::BitStream *stream, __int32 packetId, __int32 packetSize, void *packetBuffer) // 0x10A86DC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?packetSendHook@@YIXPAXHPAVBitStream@Blam@@HH0@Z");
-
 	void (__thiscall *sendPacket)(void *, Blam::BitStream *, __int32, __int32, void *) = (void (__thiscall *)(void *, Blam::BitStream *, __int32, __int32, void *))0x480090;
 	sendPacket(thisPtr, stream, packetId, packetSize, packetBuffer);
 
@@ -483,8 +462,6 @@ void __fastcall packetSendHook(void *thisPtr, __int32 unused, Blam::BitStream *s
 
 void build_tag_history_for_crash_report(::Debug::CrashReporting::s_crash_info &crash_info) // 0x10A85C70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?build_tag_history_for_crash_report@@YAXAAUs_crash_info@CrashReporting@Debug@@@Z");
-
 	if (g_cache_file_tag_globals->initialized)
 	{
 		for (long i = 0; i < g_extra_exception_info.tag_history_count; i++)
@@ -507,8 +484,6 @@ void build_tag_history_for_crash_report(::Debug::CrashReporting::s_crash_info &c
 
 void ExceptionHook(char *msg) // 0x10A85990
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ExceptionHook@@YAXPAD@Z");
-
 	g_gameIsCrashed.test_and_set();
 	s_exception_information *except = reinterpret_cast<s_exception_information *>(0x238E888);
 	HINSTANCE__ *hMod = Utils::ProcessUtils::GetModuleFromAddress((void *)except->exception_address);
@@ -533,8 +508,6 @@ void ExceptionHook(char *msg) // 0x10A85990
 
 void *__stdcall virtualAllocHook(void *address, unsigned __int32 size, unsigned __int32 allocationType, unsigned __int32 protect) // 0x10A87430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?virtualAllocHook@@YGPAXPAXIII@Z");
-
 	void *addr = reinterpret_cast<void *(__stdcall *)(void *, unsigned __int32, unsigned __int32, unsigned __int32)>(origVirtualAllocAddress)(address, size, allocationType, protect);
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Memory, Utils::LogLevel::Trace, "VirtualAlloc - Address: 0x%08X, Size: 0x%08X, Type: 0x%08X, Protect: 0x%08X, CallStack: %s", addr, size, allocationType, protect, Utils::GetStackTraceString(1, 5).c_str());
 	return addr;
@@ -542,8 +515,6 @@ void *__stdcall virtualAllocHook(void *address, unsigned __int32 size, unsigned 
 
 void notify_tag_get_failed(long cause_group, long cause_tag_index, e_tag_get_failed_reason reason) // 0x10A867F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?notify_tag_get_failed@@YAXJJW4e_tag_get_failed_reason@hades_file_local@@@Z");
-
 	unsigned long assertLevel = Modules::ModuleDebug::Instance().VarAssertLevel->ValueInt;
 	if (!assertLevel)
 		return;
@@ -582,8 +553,6 @@ void notify_tag_get_failed(long cause_group, long cause_tag_index, e_tag_get_fai
 
 void *tag_get_hook(unsigned long group, long index) // 0x10A87100
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_get_hook@@YAPAXKJ@Z");
-
 	if (index == -1)
 		return nullptr;
 	if (index < 0 || index >= 0xFFFF)
@@ -606,8 +575,6 @@ void *tag_get_hook(unsigned long group, long index) // 0x10A87100
 
 void system_build_exception_information_hook(_EXCEPTION_POINTERS const *exception_pointers, s_exception_information *out_info) // 0x10A86FB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?system_build_exception_information_hook@@YAXPBU_EXCEPTION_POINTERS@@PAUs_exception_information@hades_file_local@@@Z");
-
 	long count = 0;
 	c_static_sliding_buffer<s_tag_history_entry,4> &tag_history = perThreadExceptionInfo.tag_history;
 	s_extra_exception_info &extra_info = g_extra_exception_info;

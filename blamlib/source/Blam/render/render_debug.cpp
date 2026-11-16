@@ -132,17 +132,12 @@ extern float plane3d_distance_to_point(real_plane3d const *plane, real_point3d c
 
 void render_debug_enable_depth_test(bool enable) // 0x10F0A190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_enable_depth_test@@YAX_N@Z");
-
-
 	*(unsigned char *)0xa4587c = enable ? 1 : 2;
 	*(unsigned char *)0xa45baf = enable ? 1 : 2;
 }
 
 void render_debug_build_circle_points(float radius, real_point2d *points, long total_point_count) // 0x10F08820
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_build_circle_points@@YAXMPAUreal_point2d@@J@Z");
-
 	for (__int32 i = 0; i < total_point_count - 1; i++)
 	{
 		float t0 = (float)i / (total_point_count - 1) * 3.14159265f * 2.0f;
@@ -158,8 +153,6 @@ void render_debug_build_circle_points(float radius, real_point2d *points, long t
 
 float build_height_matrix(real_point3d const *base, real_vector3d const *height, real_matrix4x3 *matrix) // 0x10F08000
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?build_height_matrix@@YAMPBUreal_point3d@@PBUreal_vector3d@@PAUreal_matrix4x3@@@Z");
-
 	matrix->scale = 1.0f;
 	matrix->up = *height;
 	perpendicular3d(&matrix->up, &matrix->left);
@@ -172,8 +165,6 @@ float build_height_matrix(real_point3d const *base, real_vector3d const *height,
 
 void render_debug_build_pill_points(real_point3d const *base, real_vector3d const *height, float radius, real_point3d *p1, real_point3d *p2, real_point3d *p3, real_point3d *p4, real_point3d *p5, real_point3d *p6) // 0x10F08A60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_build_pill_points@@YAXPBUreal_point3d@@PBUreal_vector3d@@MPAU1@22222@Z");
-
 	real_matrix4x3 height_matrix;
 	float h = build_height_matrix(base, height, &height_matrix);
 	real_point2d circle_points[17];
@@ -208,8 +199,6 @@ void render_debug_build_pill_points(real_point3d const *base, real_vector3d cons
 
 void render_debug_sphere(real_point3d const &center, float radius, real_argb_color const &color) // 0x10F0B230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_sphere@@YAXABUreal_point3d@@MABUreal_argb_color@@@Z");
-
 	real_point2d circle_points[27];
 	render_debug_build_circle_points(radius, circle_points, 27);
 	s_debug_vertex vertices[162];
@@ -239,8 +228,6 @@ void render_debug_sphere(real_point3d const &center, float radius, real_argb_col
 
 void render_debug_triangle(real_point3d const &point1, real_point3d const &point2, real_point3d const &point3, real_argb_color const &color) // 0x10F0BC40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_triangle@@YAXABUreal_point3d@@00ABUreal_argb_color@@@Z");
-
 	s_debug_vertex vertices[3];
 
 	unsigned long pixel_color = ((unsigned long (__cdecl *)(real_argb_color const &))0x521810)(color);
@@ -255,24 +242,18 @@ void render_debug_triangle(real_point3d const &point1, real_point3d const &point
 
 void render_debug_line(real_point3d const &point0, real_point3d const &point1, real_argb_color const &color) // 0x10F0A240
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_line@@YAXABUreal_point3d@@0ABUreal_argb_color@@@Z");
-
 	unsigned int pixel_color = ((unsigned int (__cdecl *)(real_argb_color const &))0x521810)(color);
 	((void (__cdecl *)(real_point3d const &, real_point3d const &, unsigned int, unsigned int))0xa45830)(point0, point1, pixel_color, pixel_color);
 }
 
 void render_debug_quadrilateral(real_point3d const &point0, real_point3d const &point1, real_point3d const &point2, real_point3d const &point3, real_argb_color const &color) // 0x10F0B1B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_quadrilateral@@YAXABUreal_point3d@@000ABUreal_argb_color@@@Z");
-
 	render_debug_triangle(point0, point1, point2, color);
 	render_debug_triangle(point0, point2, point3, color);
 }
 
 void render_debug_box(real_rectangle3d const &bounds, real_argb_color const &color) // 0x10F083A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_box@@YAXABUreal_rectangle3d@@ABUreal_argb_color@@@Z");
-
 	real_point3d faces[6][4];
 	rectangle3d_build_faces(bounds, faces);
 	unsigned long pixel_color = eldorado::real_argb_color_to_pixel32(color);
@@ -284,8 +265,6 @@ void render_debug_box(real_rectangle3d const &bounds, real_argb_color const &col
 
 void render_debug_box_outline(real_rectangle3d const &bounds, real_argb_color const &color) // 0x10F086C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_box_outline@@YAXABUreal_rectangle3d@@ABUreal_argb_color@@@Z");
-
 	real_point3d edges[12][2];
 	rectangle3d_build_edges(bounds, 12, edges);
 	unsigned long pixel_color = eldorado::real_argb_color_to_pixel32(color);
@@ -297,8 +276,6 @@ void render_debug_box_outline(real_rectangle3d const &bounds, real_argb_color co
 
 void render_debug_box_oriented(real_rectangle3d const &bounds, real_matrix4x3 const &matrix, real_argb_color const &color) // 0x10F08540
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_box_oriented@@YAXABUreal_rectangle3d@@ABUreal_matrix4x3@@ABUreal_argb_color@@@Z");
-
 	real_point3d edges[12][2];
 
 	rectangle3d_build_edges(bounds, 12, edges);
@@ -312,8 +289,6 @@ void render_debug_box_oriented(real_rectangle3d const &bounds, real_matrix4x3 co
 
 void render_debug_point(real_point3d const &point, float size, real_argb_color const &color) // 0x10F0AF70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_point@@YAXABUreal_point3d@@MABUreal_argb_color@@@Z");
-
 	size *= 0.5f;
 	real_point3d vertices[6] =
 	{
@@ -330,16 +305,12 @@ void render_debug_point(real_point3d const &point, float size, real_argb_color c
 
 void render_debug_vector(real_point3d const &point, real_vector3d const &vector, real_argb_color const &color) // 0x10F0BDD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_vector@@YAXABUreal_point3d@@ABUreal_vector3d@@ABUreal_argb_color@@@Z");
-
 	render_debug_point(point, 0.0025f, color);
 	render_debug_line(point, real_point3d{ point.x + vector.i, point.y + vector.j, point.z + vector.k }, color);
 }
 
 void render_debug_pill(real_point3d const &base, real_vector3d const &height, float radius, real_argb_color const &color) // 0x10F0ABF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_pill@@YAXABUreal_point3d@@ABUreal_vector3d@@MABUreal_argb_color@@@Z");
-
 	real_point3d p1[17];
 	real_point3d p2[17];
 	real_point3d p3[17];
@@ -365,8 +336,6 @@ void render_debug_pill(real_point3d const &base, real_vector3d const &height, fl
 
 void render_debug_cylinder(real_point3d const &base, real_vector3d const &height, float radius, real_argb_color const &color) // 0x10F09EF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_cylinder@@YAXABUreal_point3d@@ABUreal_vector3d@@MABUreal_argb_color@@@Z");
-
 	real_point3d p1[17];
 	real_point3d p2[17];
 	render_debug_build_pill_points(&base, &height, radius, p1, p2, nullptr, nullptr, nullptr, nullptr);
@@ -386,8 +355,6 @@ void render_debug_cylinder(real_point3d const &base, real_vector3d const &height
 
 void render_debug_cone_outline(real_point3d const &base, real_vector3d const &up, float theta, float height, real_argb_color const &color) // 0x10F08FF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_cone_outline@@YAXABUreal_point3d@@ABUreal_vector3d@@MMABUreal_argb_color@@@Z");
-
 	float radius = tan(theta) * height;
 	real_point3d apex = base + height * up;
 	__int32 const points_count = 17;
@@ -410,8 +377,6 @@ void render_debug_cone_outline(real_point3d const &base, real_vector3d const &up
 
 void render_debug_string_at_point(real_point3d const &point, char const *string, real_argb_color const &color, long font_id, float scale) // 0x10F0B960
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_string_at_point@@YAXABUreal_point3d@@PBDABUreal_argb_color@@JM@Z");
-
 	real_point2d screen_point;
 	c_player_view *player_view = (c_player_view *)0x50DEE10;
 	if (render_camera_world_to_window(&player_view->rasterizer_camera, &player_view->rasterizer_projection, &player_view->rasterizer_camera.display_pixel_bounds, &point, &screen_point))
@@ -437,8 +402,6 @@ void render_debug_string_at_point(real_point3d const &point, char const *string,
 
 float point3d_distance(real_point3d const *pA, real_point3d const *pB) // 0x10F082A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?point3d_distance@@YAMPBUreal_point3d@@0@Z");
-
 	double x = pow(pA->x - pB->x, 2);
 	double y = pow(pA->y - pB->y, 2);
 	double z = pow(pA->z - pB->z, 2);
@@ -447,8 +410,6 @@ float point3d_distance(real_point3d const *pA, real_point3d const *pB) // 0x10F0
 
 bool vector_plane_intersection(real_point3d const *point, real_vector3d const *vector, real_plane3d const *plane, float *out_t) // 0x10F0BEC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?vector_plane_intersection@@YA_NPBUreal_point3d@@PBUreal_vector3d@@PBUreal_plane3d@@PAM@Z");
-
 	float n = dot_product3d(&plane->normal, vector);
 	float d = plane3d_distance_to_point(plane, point);
 	if (fabsf(n) < 0.00001f)
@@ -462,8 +423,6 @@ bool vector_plane_intersection(real_point3d const *point, real_vector3d const *v
 
 void render_debug_convex_vertices_shape(hkpConvexVerticesShape const *shape, real_matrix4x3 const *matrix, real_argb_color const *color) // 0x10F09390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_convex_vertices_shape@@YAXPBUhkpConvexVerticesShape@@PBUreal_matrix4x3@@PBUreal_argb_color@@@Z");
-
 	bool (*const line_from_planes3d)(real_plane3d *, real_plane3d *, real_point3d *, real_vector3d *) = (bool (*)(real_plane3d *, real_plane3d *, real_point3d *, real_vector3d *))0x4F2550;
 	hkpConvexVerticesShape::FourVectors *four_vector_vertices = (hkpConvexVerticesShape::FourVectors *)shape->m_rotatedVertices.m_data;
 	for (long i = 0; i < shape->m_rotatedVertices.m_size; i++)
@@ -554,8 +513,6 @@ void render_debug_convex_vertices_shape(hkpConvexVerticesShape const *shape, rea
 
 void render_debug_physics_shape(hkpShape const *shape, real_matrix4x3 const *matrix, real_argb_color const *color) // 0x10F0A2E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_debug_physics_shape@@YAXPBUhkpShape@@PBUreal_matrix4x3@@PBUreal_argb_color@@@Z");
-
 	switch (shape->m_type)
 	{
 	case HK_SHAPE_SPHERE:

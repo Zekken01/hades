@@ -472,8 +472,6 @@ namespace Web
 		{
 			void OnGameInputUpdated() // 0x10CB0C10
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@WebScoreboard@Ui@Web@@YAXXZ");
-
 				if (globals.scoreboard_state == _game_scoreboard_state_round_over || globals.scoreboard_state == _game_scoreboard_state_game_over)
 					return;
 				Blam::Input::ActionState *uiSelect = Blam::Input::GetActionState(Blam::Input::eGameActionUiSelect);
@@ -509,8 +507,6 @@ namespace Web
 
 			void OnLifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10CB10C0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnLifeCycleStateChanged@WebScoreboard@Ui@Web@@YAXW4LifeCycleState@Network@Blam@@@Z");
-
 				if (newState == Blam::Network::eLifeCycleStateStartGame)
 				{
 					Web::Ui::ScreenLayer::NotifyScreen("scoreboard", "scoreboard_reset", {});
@@ -519,8 +515,6 @@ namespace Web
 
 			void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10CB0990
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@WebScoreboard@Ui@Web@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
-
 				if (event->name == 0x4004D || event->name == 0x4005A)
 				{
 					globals.post_game_time = game_time_get();
@@ -554,8 +548,6 @@ namespace Web
 
 			void Init() // 0x10CB08F0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebScoreboard@Ui@Web@@YAXXZ");
-
 				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
 				Patches::Network::OnLifeCycleStateChanged(OnLifeCycleStateChanged);
 				Patches::Events::OnEvent(OnEvent);
@@ -563,8 +555,6 @@ namespace Web
 
 			void Show(bool locked, bool pregame, bool animate) // 0x10CB1200
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebScoreboard@Ui@Web@@YAX_N00@Z");
-
 				rapidjson::StringBuffer string_buff;
 				rapidjson::Writer<rapidjson::StringBuffer> writer(string_buff);
 				s_scoreboard_update update = { false };
@@ -585,8 +575,6 @@ namespace Web
 
 			void Hide() // 0x10CB0810
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebScoreboard@Ui@Web@@YAXXZ");
-
 				globals.shown = false;
 				globals.was_tapped_last_tick = false;
 				Web::Ui::ScreenLayer::Hide("scoreboard");
@@ -594,8 +582,6 @@ namespace Web
 
 			void Tick() // 0x10CB15A0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@WebScoreboard@Ui@Web@@YAXXZ");
-
 				static __int32 previousMapLoadingState = 0;
 				static __int32 previous_round_condition_flags = 0;
 				static bool previousHasUnit = false;
@@ -682,8 +668,6 @@ namespace Web
 		{
 			std::string getScoreboard() // 0x10CB37C0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?getScoreboard@WebScoreboard@Ui@Web@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 				rapidjson::StringBuffer string_buff;
 				rapidjson::Writer<rapidjson::StringBuffer> writer(string_buff);
 				s_session_update update{};
@@ -699,19 +683,14 @@ namespace Web
 
 _inline s_globals::s_globals() = default; // 0x10CAFEF0
 
-// mangled_x86(MANGLED_DEFAULT, "??1s_scoreboard_update@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_scoreboard_update::~s_scoreboard_update() = default; // 0x10CB0080
 
-// mangled_x86(MANGLED_DEFAULT, "??1s_session_player@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_session_player::~s_session_player() = default; // 0x10CB00D0
 
-// mangled_x86(MANGLED_DEFAULT, "??1s_session_update@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_session_update::~s_session_update() = default; // 0x10CB0140
 
 void serialize_session_player(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_session_player const &player) // 0x10CB4150
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?serialize_session_player@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUs_session_player@hades_file_local@@@Z");
-
 	writer.StartObject();
 	writer.Key("isHost");
 	writer.Bool(player.is_host);
@@ -738,8 +717,6 @@ void serialize_session_player(rapidjson::Writer<rapidjson::GenericStringBuffer<r
 
 void serialize_session_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_session_update const &update) // 0x10CB4390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?serialize_session_update@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUs_session_update@hades_file_local@@@Z");
-
 	writer.StartObject();
 	writer.Key("gameMode");
 	writer.Int(update.game_mode);
@@ -783,8 +760,6 @@ void serialize_session_update(rapidjson::Writer<rapidjson::GenericStringBuffer<r
 
 void serialize_scores_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_scores_update const &update) // 0x10CB3AF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?serialize_scores_update@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUs_scores_update@hades_file_local@@@Z");
-
 	writer.StartObject();
 	writer.Key("gameFinished");
 	writer.Bool(update.game_finished);
@@ -878,8 +853,6 @@ void serialize_scores_update(rapidjson::Writer<rapidjson::GenericStringBuffer<ra
 
 void serialize_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson::UTF8<char>,rapidjson::CrtAllocator>,rapidjson::UTF8<char>,rapidjson::UTF8<char>,rapidjson::CrtAllocator,0> &writer, s_scoreboard_update const &update) // 0x10CB4760
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?serialize_update@@YAXAAV?$Writer@V?$GenericStringBuffer@U?$UTF8@D@rapidjson@@VCrtAllocator@2@@rapidjson@@U?$UTF8@D@2@U32@VCrtAllocator@2@$0A@@rapidjson@@ABUs_scoreboard_update@hades_file_local@@@Z");
-
 	writer.StartObject();
 	if (update.session_update.valid)
 	{
@@ -896,8 +869,6 @@ void serialize_update(rapidjson::Writer<rapidjson::GenericStringBuffer<rapidjson
 
 void build_score_update(s_scores_update &update) // 0x10CB1DE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?build_score_update@@YAXAAUs_scores_update@hades_file_local@@@Z");
-
 	bool (*const player_is_vip)(long, __int32 *) = (bool (*)(long, __int32 *))0x9DEBD0;
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session))
@@ -962,8 +933,6 @@ void build_score_update(s_scores_update &update) // 0x10CB1DE0
 
 void build_session_update(s_session_update &update) // 0x10CB27C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?build_session_update@@YAXAAUs_session_update@hades_file_local@@@Z");
-
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session))
 		return;
@@ -1016,16 +985,12 @@ void build_session_update(s_session_update &update) // 0x10CB27C0
 
 void build_full_update(s_scoreboard_update &update) // 0x10CB1D80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?build_full_update@@YAXAAUs_scoreboard_update@hades_file_local@@@Z");
-
 	build_session_update(update.session_update);
 	build_score_update(update.scores_update);
 }
 
 void check_to_send_update() // 0x10CB3270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?check_to_send_update@@YAXXZ");
-
 	bool (*const game_results_get_game_finalized)() = reinterpret_cast<bool (*)()>(0x56E570);
 	c_network_session *session;
 	if (!network_session_interface_get_squad_session(&session) || !session->established())

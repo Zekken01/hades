@@ -53,22 +53,16 @@ void *offset_pointer(void *pointer, long offset);  // hades: added for 0X108D5DC
 
 inline long c_gui_list_item_widget::get_item_index() const // 0x108D5E90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_item_index@c_gui_list_item_widget@@QBEJXZ");
-
 	return item_index;
 }
 
 inline c_gui_list_item_widget *c_gui_list_item_widget::find_next_item() // 0x108D5D70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?find_next_item@c_gui_list_item_widget@@QAEPAV1@XZ");
-
 	return static_cast<c_gui_list_item_widget *>(find_next_sibling(_gui_widget_listItem));
 }
 
 inline real_point2d c_gui_list_item_widget::get_anchor_position() // 0x108D5DC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_anchor_position@c_gui_list_item_widget@@QAE?AUreal_point2d@@XZ");
-
 	return *(real_point2d *)offset_pointer(this, 152);
 }
 

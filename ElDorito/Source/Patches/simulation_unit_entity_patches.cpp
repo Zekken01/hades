@@ -155,8 +155,6 @@ namespace Patches
 	{
 		void apply_unit_entity_patches() // 0x106D6F20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?apply_unit_entity_patches@Simulation@Patches@@YAXXZ");
-
 			Pointer(0x1640FA8).Write(c_simulation_unit_entity_definition__build_object_creation_data_hook);
 			Pointer(0x1640FB4).Write(c_simulation_unit_entity_definition__create_object_hook);
 			Pointer(0x1640F68).Write(c_simulation_unit_entity_definition__entity_creation_encode_hook);
@@ -170,8 +168,6 @@ namespace Patches
 
 void __fastcall c_simulation_unit_entity_definition__build_object_creation_data_hook(void *thisptr, void *__formal, long unit_index, long creation_data_size, s_simulation_unit_creation_data *creation_data) // 0x106D71E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__build_object_creation_data_hook@@YIXPAX0JJPAUs_simulation_unit_creation_data@@@Z");
-
 	long (*const unit_get_last_associated_weak_player_index_for_appearance)(long) = reinterpret_cast<long (*)(long)>(0xB44340);
 	void (*const c_simulation_object_entity_definition__object_build_creation_data)(long, s_simulation_object_creation_data *) = reinterpret_cast<void (*)(long, s_simulation_object_creation_data *)>(0x4AD200);
 	memset(creation_data, 0, sizeof(s_simulation_unit_creation_data));
@@ -194,8 +190,6 @@ void __fastcall c_simulation_unit_entity_definition__build_object_creation_data_
 
 long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, unsigned long long *flags, long state_data_size, s_simulation_unit_state_data *state_data) // 0x106D7380
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__create_object_hook@@YIJPAX0JPAUs_simulation_unit_creation_data@@PA_KJPAUs_simulation_unit_state_data@@@Z");
-
 	void (*const Armor_Apply)(void *, long) = (void (*)(void *, long))0x5A4430;
 	tls_data *tls = &tls_getd();
 	s_object_placement_data placement_data;
@@ -251,8 +245,6 @@ long __fastcall c_simulation_unit_entity_definition__create_object_hook(void *th
 
 void __fastcall c_simulation_unit_entity_definition__entity_creation_encode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *creation_data, s_simulation_view_telemetry_data *telemetry_data, c_bitstream *bitstream, bool unknown) // 0x106D7BB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__entity_creation_encode_hook@@YIXPAX0JPAUs_simulation_unit_creation_data@@PAUs_simulation_view_telemetry_data@@PAVc_bitstream@@_N@Z");
-
 	((void (*)(s_simulation_object_creation_data *, c_bitstream *, long))0x4AD670)(creation_data, bitstream, creation_data_size);
 	for (long i = 0; i < 5; i++)
 		bitstream->write_integer("player-appearance-color", creation_data->player_appearance.colors[i], 24);
@@ -272,8 +264,6 @@ void __fastcall c_simulation_unit_entity_definition__entity_creation_encode_hook
 
 bool __fastcall c_simulation_unit_entity_definition__entity_creation_decode_hook(void *thisptr, void *__formal, long creation_data_size, s_simulation_unit_creation_data *data, c_bitstream *bitstream, bool a4) // 0x106D7980
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_unit_entity_definition__entity_creation_decode_hook@@YI_NPAX0JPAUs_simulation_unit_creation_data@@PAVc_bitstream@@_N@Z");
-
 	bool success = ((bool (*)(s_simulation_unit_creation_data *, c_bitstream *))0x4AD5E0)(data, bitstream);
 	for (long i = 0; i < 5; i++)
 		data->player_appearance.colors[i] = bitstream->read_integer("player-appearance-colors", 24);

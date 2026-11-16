@@ -79,8 +79,6 @@ std::string NormalizeLineEndings(std::string input);
 
 void ErrorDialog::Show(std::string const &title, std::string const &message) // 0x10787170
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Show@ErrorDialog@@SAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 	HINSTANCE__ *hModule = GetModuleHandleA("mtndew.dll");
 	std::unique_ptr<DialogInitParams> initParams = std::make_unique<DialogInitParams>();
 	initParams->message = NormalizeLineEndings(message);
@@ -92,8 +90,6 @@ void ErrorDialog::Show(std::string const &title, std::string const &message) // 
 
 __int32 __stdcall DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10786D50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?DialogProc@@YGHPAUHWND__@@IIJ@Z");
-
 	if (msg == WM_INITDIALOG)
 	{
 		MessageBeep(MB_ICONERROR);
@@ -127,16 +123,12 @@ __int32 __stdcall DialogProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int3
 	return FALSE;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0DialogInitParams@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline DialogInitParams::DialogInitParams() = default; // 0x10786AF0  // hades: defaulted on its declaration
 
-// mangled_x86(MANGLED_DEFAULT, "??1DialogInitParams@hades_file_local@@QAE@XZ"); no body to assert in
 _inline DialogInitParams::~DialogInitParams() = default; // 0x10786BD0
 
 std::string NormalizeLineEndings(std::string input) // 0x10787040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?NormalizeLineEndings@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@Z");
-
 	size_t pos = 0;
 	while ((pos = input.find("\n", pos)) != std::string::npos)
 	{

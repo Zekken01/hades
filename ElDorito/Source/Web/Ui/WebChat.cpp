@@ -242,16 +242,12 @@ namespace Web
 		{
 			void Init() // 0x10C9C760
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebChat@Ui@Web@@YAXXZ");
-
 				Server::Chat::AddHandler(std::make_shared<GameChatHandler>());
 				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
 			}
 
 			void Show(bool teamChat) // 0x10C9D080
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebChat@Ui@Web@@YAX_N@Z");
-
 				Blam::Network::Session *session = Blam::Network::GetActiveSession();
 				if (session && session->IsEstablished())
 				{
@@ -269,22 +265,16 @@ namespace Web
 
 			void Hide() // 0x10C9C710
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebChat@Ui@Web@@YAXXZ");
-
 				ScreenLayer::Hide(ScreenLayer::Chat);
 			}
 
 			void SetChatBoxVisible(bool visible) // 0x10C9D050
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?SetChatBoxVisible@WebChat@Ui@Web@@YAX_N@Z");
-
 				isChatBoxVisible = visible;
 			}
 
 			bool IsChatBoxVisible() // 0x10C9C860
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?IsChatBoxVisible@WebChat@Ui@Web@@YA_NXZ");
-
 				return isChatBoxVisible;
 			}
 		}
@@ -295,7 +285,6 @@ namespace Server
 {
 	namespace Chat
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??0ChatHandler@Chat@Server@@QAE@XZ"); no body to assert in
 	}
 }
 
@@ -303,13 +292,10 @@ namespace Server
 
 void GameChatHandler::MessageSent(__int32 senderPeer, Server::Chat::ChatMessage *message, bool *ignore) // 0x10C9CE80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?MessageSent@GameChatHandler@hades_file_local@@UAEXHPAUChatMessage@Chat@Server@@PA_N@Z");
 }
 
 void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) // 0x10C9C880
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?MessageReceived@GameChatHandler@hades_file_local@@UAEXABUChatMessage@Chat@Server@@@Z");
-
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session)
 		return;
@@ -361,14 +347,11 @@ void GameChatHandler::MessageReceived(Server::Chat::ChatMessage const &message) 
 	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::Chat, "chat", jsonBuffer.GetString());
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0GameChatHandler@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline GameChatHandler::GameChatHandler() = default; // 0x10C9C430  // hades: defaulted on its declaration
 
 
 static void OnGameInputUpdated() // 0x10C9CEA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
-
 	Blam::Input::BindingsTable bindings;
 	Blam::Input::GetBindings(0, &bindings);
 	if (game_engine_is_sandbox() && Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeCtrl, Blam::Input::eInputTypeGame) > 0)

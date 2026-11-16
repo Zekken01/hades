@@ -133,8 +133,6 @@ namespace Player
 	{
 		Player::Emblems::e_emblem_color HexToRgb(__int32 hexValue) // 0x1090D570
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?HexToRgb@Emblems@Player@@YA?AUe_emblem_color@12@H@Z");
-
 			Player::Emblems::e_emblem_color color;
 			color.red = (hexValue >> 16) & 0xFF;
 			color.green = (hexValue >> 8) & 0xFF;
@@ -144,8 +142,6 @@ namespace Player
 
 		bool CopyToGPUTexture(IDirect3DDevice9 *device, IDirect3DTexture9 *texture, IDirect3DTexture9 **outGpuTexture) // 0x1090C790
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CopyToGPUTexture@Emblems@Player@@YA_NPAUIDirect3DDevice9@@PAUIDirect3DTexture9@@PAPAU4@@Z");
-
 			IDirect3DTexture9 *gpuTexture;
 
 			if (device->CreateTexture(128, 128, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &gpuTexture, nullptr) != D3D_OK)
@@ -165,8 +161,6 @@ namespace Player
 
 		_inline void ColorPixel(float *pixelDest, Player::Emblems::e_emblem_color color, float alpha) // 0x1090C5E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ColorPixel@Emblems@Player@@YAXPAMUe_emblem_color@12@M@Z");
-
 			float dest_a = pixelDest[3];
 			float final_a = alpha + dest_a - dest_a * alpha;
 			pixelDest[0] = (color.blue / 255.0f * alpha + pixelDest[0] * dest_a * (1.0f - alpha)) / final_a;
@@ -177,8 +171,6 @@ namespace Player
 
 		bool GenerateEmblem(IDirect3DTexture9 *destTexture, IDirect3DTexture9 *backgroundTexture, IDirect3DTexture9 *foregroundTexture, bool secondaryEnabled, Player::Emblems::e_emblem_color const &background, Player::Emblems::e_emblem_color const &primary, Player::Emblems::e_emblem_color const &secondary) // 0x1090CBB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateEmblem@Emblems@Player@@YA_NPAUIDirect3DTexture9@@00_NABUe_emblem_color@12@22@Z");
-
 			bool result = false;
 			D3DLOCKED_RECT lockedDest;
 			if (SUCCEEDED(destTexture->LockRect(0, &lockedDest, nullptr, 0)))
@@ -235,29 +227,21 @@ namespace Player
 
 		Player::Emblems::e_emblem_color GetPrimaryColor(s_player_emblem_configuration const &config) // 0x1090D350
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPrimaryColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
-
 			return config.primaryHex ? Player::Emblems::HexToRgb(config.primaryColor) : color_list[config.primaryColor];
 		}
 
 		Player::Emblems::e_emblem_color GetSecondaryColor(s_player_emblem_configuration const &config) // 0x1090D460
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSecondaryColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
-
 			return config.secondaryHex ? Player::Emblems::HexToRgb(config.secondaryColor) : Player::Emblems::color_list[config.secondaryColor];
 		}
 
 		Player::Emblems::e_emblem_color GetBackgroundColor(s_player_emblem_configuration const &config) // 0x1090D240
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetBackgroundColor@Emblems@Player@@YA?AUe_emblem_color@12@ABUs_player_emblem_configuration@@@Z");
-
 			return config.backgroundHex ? Player::Emblems::HexToRgb(config.backgroundColor) : Player::Emblems::color_list[config.backgroundColor];
 		}
 
 		bool GenerateEmblem(s_player_emblem_configuration const &emblem_config, IDirect3DTexture9 **outEmblem, bool forGPU) // 0x1090C8C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateEmblem@Emblems@Player@@YA_NABUs_player_emblem_configuration@@PAPAUIDirect3DTexture9@@_N@Z");
-
 			if (emblem_config.foregroundIndex > 185 || emblem_config.backgroundIndex > 52)
 				return false;
 			IDirect3DDevice9Ex *device = c_rasterizer::get_device();

@@ -435,15 +435,11 @@ namespace Blam
 	{
 		inline bool PeerInfo::IsEstablished() const // 0x1092FC00
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsEstablished@PeerInfo@Network@Blam@@QBE_NXZ");
-
 			return ConnectionState >= ePeerConnectionStateEstablished;
 		}
 
 		inline Blam::Network::NetworkAddress NetworkAddress::FromInAddr(unsigned long address, unsigned short port) // 0x1092B950
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FromInAddr@NetworkAddress@Network@Blam@@SA?AU123@KG@Z");
-
 			NetworkAddress result;
 			result.Address.IPv4 = _byteswap_ulong(address);
 			result.Port = port;
@@ -453,22 +449,16 @@ namespace Blam
 
 		inline unsigned long NetworkAddress::ToInAddr() const // 0x1092CD40
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ToInAddr@NetworkAddress@Network@Blam@@QBEKXZ");
-
 			return _byteswap_ulong(Address.IPv4);
 		}
 
 		inline bool Session::IsEstablished() const // 0x106CFA00
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsEstablished@Session@Network@Blam@@QBE_NXZ");
-
 			return Type > 3;
 		}
 
 		inline bool Session::IsHost() const // 0x106CFA50
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsHost@Session@Network@Blam@@QBE_NXZ");
-
 			return Type == 6 || Type == 7;
 		}
 	}

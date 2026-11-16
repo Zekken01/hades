@@ -48,15 +48,11 @@ struct s_tag_name_entry;
 
 c_tag_names_csv_file_reader::c_tag_names_csv_file_reader(char const *filename) // 0x108C1850
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_tag_names_csv_file_reader@@QAE@PBD@Z");
-
 	m_filestream = std::ifstream(filename);
 }
 
 bool c_tag_names_csv_file_reader::read_next(s_tag_name_entry *entry) // 0x108C1C90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_next@c_tag_names_csv_file_reader@@QAE_NPAUs_tag_name_entry@@@Z");
-
 	std::string line;
 	if (!std::getline(m_filestream, line))
 		return false;
@@ -65,8 +61,6 @@ bool c_tag_names_csv_file_reader::read_next(s_tag_name_entry *entry) // 0x108C1C
 
 bool c_tag_names_csv_file_reader::parse_line(std::string const &line, s_tag_name_entry *entry) // 0x108C1960
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?parse_line@c_tag_names_csv_file_reader@@AAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_tag_name_entry@@@Z");
-
 	auto it = std::begin(line);
 	unsigned __int32 separator_pos = line.find(',');
 	if (separator_pos == std::string::npos)

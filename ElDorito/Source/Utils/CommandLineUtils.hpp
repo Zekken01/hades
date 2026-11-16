@@ -38,8 +38,6 @@ namespace Utils
 {
 	_inline std::string FormatCommandLine(std::vector<std::string> args) // 0x10981810
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?FormatCommandLine@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@3@@Z");
-
 		std::stringstream ss;
 		bool first = true;
 		for (std::string const &arg : args)

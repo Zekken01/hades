@@ -67,8 +67,6 @@ namespace Utils
 {
 	inline Utils::SemanticVersion &SemanticVersion::operator=(Utils::SemanticVersion &&__that) noexcept // 0x10765120
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??4SemanticVersion@Utils@@QAEAAU01@$$QAU01@@Z");
-
 		major = __that.major;
 		minor = __that.minor;
 		patch = __that.patch;
@@ -79,7 +77,6 @@ namespace Utils
 
 	inline SemanticVersion::~SemanticVersion() // 0x10764570
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1SemanticVersion@Utils@@QAE@XZ");
 	}
 }
 

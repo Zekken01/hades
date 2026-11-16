@@ -312,8 +312,6 @@ namespace Modules
 {
 	ModuleDebug::ModuleDebug() : ModuleBase("Debug") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x1097C0F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleDebug@Modules@@QAE@XZ");
-
 		teleportToCamera = 0;
 		VarCollisionTest = AddVariableInt("CollisionTest", "debug_collision_test", "Displays info about the collision surface under the crosshair", eCommandFlagsNone, 0);
 		VarClusters = AddVariableInt("Clusters", "debug_clusters", "Display the clusters of the current structure bsp", CommandFlags(eCommandFlagsClientAllowable | eCommandFlagsHostOnly), 0);
@@ -386,8 +384,6 @@ namespace Modules
 
 bool CommandCrash(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097F460
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCrash@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::stringstream ss;
 	ss << "FORCE CRASH\n";
 	ss << "You intentionally crashed the game!";
@@ -401,8 +397,6 @@ bool CommandCrash(std::vector<std::string> const &Arguments, std::string &return
 
 bool CommandNuke(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109807F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandNuke@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::stringstream ss;
 	ss << "Console Requested application TerminateProcess";
 	returnInfo = ss.str();
@@ -414,8 +408,6 @@ bool CommandNuke(std::vector<std::string> const &Arguments, std::string &returnI
 
 bool CommandDumpTags(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097FBB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDumpTags@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	char const *filename = "tag_dump.csv";
 	_iobuf *fp;
 	if (fopen_s(&fp, filename, "w"))
@@ -440,8 +432,6 @@ bool CommandDumpTags(std::vector<std::string> const &Arguments, std::string &ret
 
 bool CommandDialogTest(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097FA00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDialogTest@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() < 1)
 		return false;
 	Web::Ui::ScreenLayer::SDialogShowParams params;
@@ -457,8 +447,6 @@ bool CommandDialogTest(std::vector<std::string> const &Arguments, std::string &r
 
 bool CommandDebugTint(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097F5F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDebugTint@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() != 4)
 	{
 		std::stringstream ss;
@@ -476,8 +464,6 @@ bool CommandDebugTint(std::vector<std::string> const &Arguments, std::string &re
 
 bool CommandRasterizerSetZPlanes(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10980970
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandRasterizerSetZPlanes@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	static float near_clip_plane = 0.0f;
 	static float far_clip_plane = 0.0f;
 	if (Arguments.size() == 0)
@@ -515,16 +501,12 @@ bool CommandRasterizerSetZPlanes(std::vector<std::string> const &Arguments, std:
 
 bool CommandTeleportToCamera(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981480
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandTeleportToCamera@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Modules::ModuleDebug::Instance().teleportToCamera = true;
 	return true;
 }
 
 bool CommandReflectionDebug(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981050
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandReflectionDebug@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool &g_reflection_debug = *(bool *)0x5115AFC;
 	if (Arguments.size() < 1)
 	{
@@ -540,8 +522,6 @@ bool CommandReflectionDebug(std::vector<std::string> const &Arguments, std::stri
 
 bool CommandStartRandomTrace(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981370
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandStartRandomTrace@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() < 1)
 	{
 		returnInfo = "Expected path to trace file";
@@ -562,8 +542,6 @@ bool CommandStartRandomTrace(std::vector<std::string> const &Arguments, std::str
 
 bool CommandStopRandomTrace(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981420
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandStopRandomTrace@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Patches::DeterminismDebug::StopRandomTrace())
 	{
 		returnInfo = "Random trace stopped.";
@@ -575,8 +553,6 @@ bool CommandStopRandomTrace(std::vector<std::string> const &Arguments, std::stri
 
 bool CommandLaunchClient(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10980230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandLaunchClient@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	char exePath[260];
 	if (!GetModuleFileNameA(NULL, exePath, std::size(exePath)))
 	{
@@ -607,8 +583,6 @@ bool CommandLaunchClient(std::vector<std::string> const &Arguments, std::string 
 
 bool CommandTileWindows(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109814D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandTileWindows@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	__int32 posX = 0;
 	__int32 posY = 0;
 	__int32 rowHeight = 0;
@@ -648,8 +622,6 @@ bool CommandTileWindows(std::vector<std::string> const &Arguments, std::string &
 
 bool CommandRenderGeoHitTest(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10981240
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandRenderGeoHitTest@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool &globalVar = *(bool *)0x0471A33E;
 
 	if (Arguments.size() > 0)
@@ -662,8 +634,6 @@ bool CommandRenderGeoHitTest(std::vector<std::string> const &Arguments, std::str
 
 bool CommandGameShowCrte(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1097FE30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameShowCrte@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() < 1)
 		return false;
 	short tag_index = (short)tag_find_by_name('crte', Arguments[0].c_str());
@@ -680,8 +650,6 @@ bool CommandGameShowCrte(std::vector<std::string> const &Arguments, std::string 
 
 bool CommandHideForgeObjects(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10980000
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandHideForgeObjects@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	void (*const object_hide)(long, bool) = reinterpret_cast<void (*)(long, bool)>(0x96E230);
 	if (!game_engine_is_sandbox())
 	{

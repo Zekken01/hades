@@ -38,8 +38,6 @@ s_visible_items c_visible_items::m_items; // 0x124C2C90
 
 void c_visible_items::push_marker() // 0x10F0DF10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?push_marker@c_visible_items@@SAXXZ");
-
 	s_visible_items_stack_marker &top = m_marker_stack[++m_marker_stack_top];
 	top.object_hierarchy_marker = m_items.object_hierarchies.count;
 	top.objects_marker = m_items.objects.count;
@@ -55,7 +53,6 @@ void c_visible_items::push_marker() // 0x10F0DF10
 #line 57
 void c_visible_items::pop_marker() // 0x10F0DDB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?pop_marker@c_visible_items@@SAXXZ");
 #line 62
 
 	#line 59 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\visibility\\visibility_items.cpp"
@@ -73,12 +70,8 @@ void c_visible_items::pop_marker() // 0x10F0DDB0
 	m_items.cluster_group_count = top.cluster_count_marker;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_visible_items@@QAE@XZ"); no body to assert in
-
 void c_visible_items::clear_all() // 0x10F0DC80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?clear_all@c_visible_items@@SAXXZ");
-
 	csmemset((unsigned char *)&m_items + 0x5dffc, 0, *(short *)((unsigned char *)&m_items + 0x5e7fc) * sizeof(long));
 	*(short *)((unsigned char *)&m_items + 0x2) = 0;
 	*(short *)((unsigned char *)&m_items + 0x6006) = 0;
@@ -94,8 +87,6 @@ void c_visible_items::clear_all() // 0x10F0DC80
 
 s_visible_items_stack_marker &c_visible_items::get_current_markers() // 0x10F0DD50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_markers@c_visible_items@@SAAAUs_visible_items_stack_marker@@XZ");
-
 	return m_marker_stack[m_marker_stack_top];
 }
 

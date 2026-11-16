@@ -298,8 +298,6 @@ namespace Server
 	{
 		void Initialize() // 0x10C1F5A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@Chat@Server@@YAXXZ");
-
 					hades_file_local::LastTimeMs = system_milliseconds();
 					std::shared_ptr<ChatMessagePacketHandler> handler = std::make_shared<ChatMessagePacketHandler>();
 					hades_file_local::PacketSender = Patches::CustomPackets::RegisterPacket<Server::Chat::ChatMessage>("eldewrito-text-chat", handler);
@@ -307,8 +305,6 @@ namespace Server
 
 		void Tick() // 0x10C206C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Chat@Server@@YAXXZ");
-
 			unsigned long currentTimeMs = system_milliseconds();
 			unsigned long timeDeltaMs = currentTimeMs - LastTimeMs;
 			LastTimeMs = currentTimeMs;
@@ -337,8 +333,6 @@ namespace Server
 
 		bool SendGlobalMessage(std::string const &body) // 0x10C1FDB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendGlobalMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished())
 				return false;
@@ -348,8 +342,6 @@ namespace Server
 
 		bool SendServerMessage(std::string const &body) // 0x10C1FFB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendServerMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
 				return false;
@@ -361,8 +353,6 @@ namespace Server
 
 		bool SendTeamMessage(std::string const &body) // 0x10C20340
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendTeamMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			s_game_options *(*const game_options_get)() = reinterpret_cast<s_game_options *(*)()>(0x5322D0);
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished())
@@ -386,8 +376,6 @@ namespace Server
 
 		bool SetPlayerMuteStatus(__int32 peer, bool muted) // 0x10C20620
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetPlayerMuteStatus@Chat@Server@@YA_NH_N@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
 				return false;
@@ -396,8 +384,6 @@ namespace Server
 
 		void ClearAllPlayersMuteStatus() // 0x10C1DD10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ClearAllPlayersMuteStatus@Chat@Server@@YAXXZ");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
 			{
@@ -409,8 +395,6 @@ namespace Server
 
 		bool SendAndLogServerMessage(std::string const &body) // 0x10C1FB70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendAndLogServerMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
 				return false;
@@ -425,8 +409,6 @@ namespace Server
 
 		bool SendServerMessage(std::string const &body, __int32 peer) // 0x10C200F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendServerMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
 				return false;
@@ -438,8 +420,6 @@ namespace Server
 
 		bool SendServerMessage(std::string const &body, std::bitset<17> peers) // 0x10C20230
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendServerMessage@Chat@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$bitset@$0BB@@4@@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
 				return false;
@@ -449,8 +429,6 @@ namespace Server
 
 		void AddHandler(std::shared_ptr<Server::Chat::ChatHandler> handler) // 0x10C1D460
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?AddHandler@Chat@Server@@YAXV?$shared_ptr@VChatHandler@Chat@Server@@@std@@@Z");
-
 			chatHandlers.push_back(handler);
 		}
 	}
@@ -463,15 +441,11 @@ namespace Server
 	{
 		std::string GetSenderName(Server::Chat::ChatMessage const &message) // 0x10C1EBA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSenderName@Chat@Server@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABUChatMessage@12@@Z");
-
 			return ::GetSenderName(Blam::Network::GetActiveSession(), message);
 		}
 
 		ChatMessage::ChatMessage(Server::Chat::ChatMessageType type, std::string const &body) // 0x10C1B120
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatMessage@Chat@Server@@QAE@W4ChatMessageType@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			memset(this, 0, sizeof(*this));
 			Type = type;
 			strncpy(Body, body.c_str(), sizeof(Body) - 1);
@@ -483,8 +457,6 @@ namespace Server
 
 _inline ClientSpamStats::ClientSpamStats() // 0x10C1B230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ClientSpamStats@hades_file_local@@QAE@XZ");
-
 	SpamScore = 0;
 	TimeoutSeconds = 0;
 	NextTimeoutSeconds = 0;
@@ -494,8 +466,6 @@ _inline ClientSpamStats::ClientSpamStats() // 0x10C1B230
 
 _inline void ChatMessagePacketHandler::Serialize(Blam::BitStream *stream, Server::Chat::ChatMessage const *data) // 0x10C204D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@ChatMessagePacketHandler@hades_file_local@@UAEXPAVBitStream@Blam@@PBUChatMessage@Chat@Server@@@Z");
-
 	stream->WriteUnsigned(static_cast<unsigned int>(data->Type), 0U, static_cast<unsigned int>(Server::Chat::ChatMessageType::Count));
 	stream->WriteString(data->Body);
 	if (data->Type != Server::Chat::ChatMessageType::Server)
@@ -511,8 +481,6 @@ _inline void ChatMessagePacketHandler::Serialize(Blam::BitStream *stream, Server
 
 _inline bool ChatMessagePacketHandler::Deserialize(Blam::BitStream *stream, Server::Chat::ChatMessage *data) // 0x10C1DE70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@ChatMessagePacketHandler@hades_file_local@@UAE_NPAVBitStream@Blam@@PAUChatMessage@Chat@Server@@@Z");
-
 	memset(data, 0, sizeof(*data));
 
 	// Message type
@@ -537,8 +505,6 @@ _inline bool ChatMessagePacketHandler::Deserialize(Blam::BitStream *stream, Serv
 
 _inline void ChatMessagePacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender, Patches::CustomPackets::Packet<Server::Chat::ChatMessage> const *packet) // 0x10C1EF20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandlePacket@ChatMessagePacketHandler@hades_file_local@@UAEXPAUObserverChannel@Network@Blam@@PBU?$Packet@UChatMessage@Chat@Server@@@CustomPackets@Patches@@@Z");
-
 	auto session = Blam::Network::GetActiveSession();
 	if (!session)
 		return;
@@ -553,8 +519,6 @@ _inline void ChatMessagePacketHandler::HandlePacket(Blam::Network::ObserverChann
 
 bool SendMessagePacket(__int32 peer, Server::Chat::ChatMessage const &message) // 0x10C1FEA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SendMessagePacket@@YA_NHABUChatMessage@Chat@Server@@@Z");
-
 	if (peer < 0)
 		return false;
 	auto packet = hades_file_local::PacketSender->New();
@@ -565,8 +529,6 @@ bool SendMessagePacket(__int32 peer, Server::Chat::ChatMessage const &message) /
 
 bool BroadcastMessage(Blam::Network::Session *session, __int32 senderPeer, Server::Chat::ChatMessage *message, std::bitset<17> peers) // 0x10C1D500
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BroadcastMessage@@YA_NPAUSession@Network@Blam@@HPAUChatMessage@Chat@Server@@V?$bitset@$0BB@@std@@@Z");
-
 	if (senderPeer < 0)
 		return false;
 	bool ignore = false;
@@ -589,8 +551,6 @@ bool BroadcastMessage(Blam::Network::Session *session, __int32 senderPeer, Serve
 
 bool GetTeamPeers(Blam::Network::Session *session, __int32 senderPeer, std::bitset<17> *result) // 0x10C1EC20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetTeamPeers@@YA_NPAUSession@Network@Blam@@HPAV?$bitset@$0BB@@std@@@Z");
-
 	s_game_options *(*const game_options_get)() = reinterpret_cast<s_game_options *(*)()>(0x5322D0);
 	result->reset();
 	s_game_options *game = game_options_get();
@@ -627,8 +587,6 @@ bool GetTeamPeers(Blam::Network::Session *session, __int32 senderPeer, std::bits
 
 bool GetMessagePeers(Blam::Network::Session *session, __int32 senderPeer, Server::Chat::ChatMessage const &message, std::bitset<17> *result) // 0x10C1E9D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMessagePeers@@YA_NPAUSession@Network@Blam@@HABUChatMessage@Chat@Server@@PAV?$bitset@$0BB@@std@@@Z");
-
 	switch (message.Type)
 	{
 	case ChatMessageType::Global:
@@ -646,8 +604,6 @@ bool GetMessagePeers(Blam::Network::Session *session, __int32 senderPeer, Server
 
 std::string GetSenderName(Blam::Network::Session *session, Server::Chat::ChatMessage const &message) // 0x10C1EAA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetSenderName@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUSession@Network@Blam@@ABUChatMessage@Chat@Server@@@Z");
-
 	if (message.Type == (Server::Chat::ChatMessageType)3 || message.SenderPlayer >= 16)
 		return "SERVER";
 
@@ -658,8 +614,6 @@ std::string GetSenderName(Blam::Network::Session *session, Server::Chat::ChatMes
 
 __int32 CalculateSpamScore(unsigned __int32 ip, ClientSpamStats *stats, Server::Chat::ChatMessage const &message) // 0x10C1D740
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CalculateSpamScore@@YAHIPAUClientSpamStats@hades_file_local@@ABUChatMessage@Chat@Server@@@Z");
-
 	auto &serverModule = Modules::ModuleServer::Instance();
 	int shortScore = serverModule.VarFloodMessageScoreShort->ValueInt;
 	int longScore = serverModule.VarFloodMessageScoreLong->ValueInt;
@@ -669,8 +623,6 @@ __int32 CalculateSpamScore(unsigned __int32 ip, ClientSpamStats *stats, Server::
 
 bool ChangePlayerMuteStatus(Blam::Network::Session *session, __int32 peer, bool mute) // 0x10C1D7E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ChangePlayerMuteStatus@@YA_NPAUSession@Network@Blam@@H_N@Z");
-
 	unsigned __int32 ip = session->GetPeerAddress(peer).Address.IPv4;
 	bool playerInList = false;
 	if (!MutedPlayers.empty())
@@ -727,8 +679,6 @@ bool ChangePlayerMuteStatus(Blam::Network::Session *session, __int32 peer, bool 
 
 void UnmuteAllPlayers(Blam::Network::Session *session) // 0x10C209E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UnmuteAllPlayers@@YAXPAUSession@Network@Blam@@@Z");
-
 	for (auto ip : MutedPlayers)
 	{
 		__int32 peer = -1;
@@ -760,8 +710,6 @@ void UnmuteAllPlayers(Blam::Network::Session *session) // 0x10C209E0
 
 bool FloodFilterMessage(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message) // 0x10C1E000
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FloodFilterMessage@@YA_NPAUSession@Network@Blam@@HABUChatMessage@Chat@Server@@@Z");
-
 	unsigned __int32 ip = session->GetPeerAddress(peer).Address.IPv4;
 	auto spamIt = SpamStats.find(ip);
 	if (spamIt == SpamStats.end())
@@ -793,8 +741,6 @@ bool FloodFilterMessage(Blam::Network::Session *session, __int32 peer, Server::C
 
 std::string GetLogString(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message) // 0x10C1E500
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetLogString@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUSession@Network@Blam@@HABUChatMessage@Chat@Server@@@Z");
-
 	std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<__int64, std::ratio<1, 10000000> > > now = std::chrono::system_clock::now();
 	long long time = std::chrono::system_clock::to_time_t(now);
 	tm gmTime;
@@ -820,8 +766,6 @@ std::string GetLogString(Blam::Network::Session *session, __int32 peer, Server::
 
 void LogMessage(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message) // 0x10C1F730
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LogMessage@@YAXPAUSession@Network@Blam@@HABUChatMessage@Chat@Server@@@Z");
-
 	Modules::ModuleServer &serverModule = Modules::ModuleServer::Instance();
 	if (!serverModule.VarChatLogEnabled->ValueInt)
 		return;
@@ -838,8 +782,6 @@ void LogMessage(Blam::Network::Session *session, __int32 peer, Server::Chat::Cha
 
 std::string toLower(std::string const &str) // 0x10C26790
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?toLower@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV12@@Z");
-
 	std::string lowerStr;
 	for (char c : str)
 	{
@@ -851,8 +793,6 @@ std::string toLower(std::string const &str) // 0x10C26790
 
 std::string replaceAllCaseInsensitive(std::string const &str, std::string const &find, std::string const &replace) // 0x10C26230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?replaceAllCaseInsensitive@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV12@00@Z");
-
 	if (find.empty())
 		return str;
 	std::string lowerStr = toLower(str);
@@ -876,8 +816,6 @@ std::string replaceAllCaseInsensitive(std::string const &str, std::string const 
 
 char *handleWordFilter(char const *input) // 0x10C255D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?handleWordFilter@@YAPADPBD@Z");
-
 	std::string strInput = input;
 	std::unordered_set<std::string> FilteredWords = Utils::Singleton<Modules::ModuleServer>::Instance().GetFilteredWordsList();
 	std::unordered_set<std::string> FilteredPatterns = Utils::Singleton<Modules::ModuleServer>::Instance().GetFilteredPatternsList();
@@ -925,8 +863,6 @@ char *handleWordFilter(char const *input) // 0x10C255D0
 
 bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::Chat::ChatMessage const &message) // 0x10C1F070
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HostReceivedMessage@@YA_NPAUSession@Network@Blam@@HABUChatMessage@Chat@Server@@@Z");
-
 	if (peer < 0 || !message.Body[0] || message.Type == Server::Chat::ChatMessageType::Server)
 		return false;
 	Server::Chat::ChatMessage broadcastMessage = message;
@@ -972,8 +908,6 @@ bool HostReceivedMessage(Blam::Network::Session *session, __int32 peer, Server::
 
 void ClientReceivedMessage(Server::Chat::ChatMessage const &message) // 0x10C1DDA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ClientReceivedMessage@@YAXABUChatMessage@Chat@Server@@@Z");
-
 	// Send the message out to handlers
 	for (auto &&handler : chatHandlers)
 		handler->MessageReceived(message);
@@ -981,8 +915,6 @@ void ClientReceivedMessage(Server::Chat::ChatMessage const &message) // 0x10C1DD
 
 bool SendClientMessage(Blam::Network::Session *session, Server::Chat::ChatMessage const &message) // 0x10C1FD20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SendClientMessage@@YA_NPAUSession@Network@Blam@@ABUChatMessage@Chat@Server@@@Z");
-
 	if (session->IsHost())
 	{
 		return HostReceivedMessage(session, session->MembershipInfo.LocalPeerIndex, message);
@@ -991,7 +923,6 @@ bool SendClientMessage(Blam::Network::Session *session, Server::Chat::ChatMessag
 	return SendMessagePacket(session->MembershipInfo.HostPeerIndex, message);
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0ChatMessagePacketHandler@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline ChatMessagePacketHandler::ChatMessagePacketHandler() = default; // 0x10C1B1D0  // hades: defaulted on its declaration
 
 /* ---------- template instantiations */

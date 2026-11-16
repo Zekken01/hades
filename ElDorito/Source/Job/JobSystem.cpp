@@ -69,7 +69,6 @@ namespace Job
 {
 	void RunJob(std::function<enum EJobResult __cdecl(void)> function, SJobCounter *counter, __int32 priority) // 0x1086CEA0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?RunJob@Job@@YAXV?$function@$$A6A?AW4EJobResult@@XZ@std@@PAUSJobCounter@@H@Z");
 #line 74
 
 		#line 72 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Job\\JobSystem.cpp"
@@ -80,25 +79,16 @@ namespace Job
 
 	void Initialize() // 0x1086CE50
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@Job@@YAXXZ");
-
 		initialized = true;
 		jobManager.Initialize();
 	}
 
 	void Dispose() // 0x1086CE00
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@Job@@YAXXZ");
-
 			jobManager.Dispose();
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0CJobManager@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0SJobCounter@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??1CJobManager@@QAE@XZ"); no body to assert in
 _inline CJobManager::~CJobManager() = default; // 0x1086CD80
 
 /* ---------- private code */

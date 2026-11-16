@@ -56,8 +56,6 @@ namespace Utils
 	{
 		Utils::Network::EResolveAddressResult ResolveAddress(std::string const &hostname, unsigned __int32 *outAddr) // 0x1090D620
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ResolveAddress@Network@Utils@@YA?AW4EResolveAddressResult@12@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAI@Z");
-
 			addrinfo *info = nullptr;
 			__int32 retval = getaddrinfo(hostname.c_str(), nullptr, nullptr, &info);
 			if (retval != 0)

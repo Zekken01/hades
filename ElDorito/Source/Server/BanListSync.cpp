@@ -236,16 +236,12 @@ namespace Server
 	{
 		void Init() // 0x10B18E20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@BanListSync@Server@@YAXXZ");
-
 			CreateThread(nullptr, 0, BanListSyncThreadProc, nullptr, 0, nullptr);
 			Patches::Core::OnShutdown(::OnShutdown);
 		}
 
 		void Tick() // 0x10B199C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@BanListSync@Server@@YAXXZ");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
 				return;
@@ -289,8 +285,6 @@ namespace Server
 
 bool GetEndpoints() // 0x10B18BA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEndpoints@@YA_NXZ");
-
 	if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 		return false;
 	auto json = Utils::Singleton<Utils::DewritoReader>::Instance().GetDewritoJson();
@@ -315,8 +309,6 @@ _inline s_sharedState::~s_sharedState() = default; // 0x10B17E80
 
 void CheckToBootPlayers() // 0x10B183A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CheckToBootPlayers@@YAXXZ");
-
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || !session->IsEstablished() || !session->IsHost())
 		return;
@@ -361,8 +353,6 @@ void CheckToBootPlayers() // 0x10B183A0
 
 bool SyncBanList() // 0x10B18F00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SyncBanList@@YA_NXZ");
-
 	if (!GetEndpoints())
 		return false;
 	sharedState.Ips.clear();
@@ -420,8 +410,6 @@ bool SyncBanList() // 0x10B18F00
 
 unsigned long __stdcall BanListSyncThreadProc(void *lpParam) // 0x10B18260
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BanListSyncThreadProc@@YGKPAX@Z");
-
 	for (;;)
 	{
 		std::unique_lock<std::mutex> lk(hades_file_local::mutex);
@@ -435,16 +423,12 @@ unsigned long __stdcall BanListSyncThreadProc(void *lpParam) // 0x10B18260
 
 static void OnShutdown() // 0x10B18EB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
-
 	shouldExit = true;
 	syncSignal.notify_one();
 }
 
 bool TryParseSubnet(std::string const &cidr, unsigned long *outNetwork, unsigned long *outMask) // 0x10B19ED0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseSubnet@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAK1@Z");
-
 	auto pos = cidr.find_first_of('/');
 	if (pos == std::string::npos || pos + 1 >= cidr.length())
 		return false;

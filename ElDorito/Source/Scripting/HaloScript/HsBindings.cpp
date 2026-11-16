@@ -81,8 +81,6 @@ namespace Scripting
 	{
 		void RegisterBindings() // 0x106ECC30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterBindings@HS@Scripting@@YAXXZ");
-
 			Scripting::HS::ScriptMethodMap &methods = Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();
 			Methods::Player::RegisterMethods(methods);
 			Methods::PlayerPodium::RegisterMethods(methods);

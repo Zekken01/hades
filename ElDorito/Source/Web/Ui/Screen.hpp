@@ -128,27 +128,22 @@ namespace Web
 	{
 		inline void WebScreen::OnCreate(Web::Browser::Bridge::WebRendererQueryHandler &queryHandler) // 0x10C7D930
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnCreate@WebScreen@Ui@Web@@UAEXAAVWebRendererQueryHandler@Bridge@Browser@3@@Z");
 		}
 
 		inline void WebScreen::OnDestroy() // 0x10C7D970
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnDestroy@WebScreen@Ui@Web@@UAEXXZ");
 		}
 
 		inline void WebScreen::OnShow() // 0x10C7DFF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnShow@WebScreen@Ui@Web@@UAEXXZ");
 		}
 
 		inline void WebScreen::OnHide() // 0x10C7DFB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnHide@WebScreen@Ui@Web@@UAEXXZ");
 		}
 
 		inline void WebScreen::OnUpdate() // 0x10C7E030
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@WebScreen@Ui@Web@@UAEXXZ");
 		}
 	}
 }

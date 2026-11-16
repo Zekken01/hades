@@ -156,15 +156,11 @@ namespace Forge
 {
 	s_map_variant *GetMapVariant() // 0x109699F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapVariant@Forge@@YAPAUs_map_variant@@XZ");
-
 		return game_engine_get_runtime_map_variant();
 	}
 
 	void PrintKillFeedText(long user_index, wchar_t const *message, long unused) // 0x10969F50
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?PrintKillFeedText@Forge@@YAXJPB_WJ@Z");
-
 		eldorado::chud_messaging_post(user_index, message, _chud_message_context_self);
 	}
 }
@@ -174,8 +170,6 @@ namespace Forge
 {
 	real_rectangle3d const *GetObjectBoundingBox(long tag_index) // 0x10969A40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetObjectBoundingBox@Forge@@YAPBUreal_rectangle3d@@J@Z");
-
 		s_object_definition *object_definition = (s_object_definition *)tag_get('obje', tag_index);
 		if (!object_definition || object_definition->model.index == -1)
 		{
@@ -204,8 +198,6 @@ namespace Forge
 
 	void DeleteObject(long player_index, long map_variant_index) // 0x109695C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?DeleteObject@Forge@@YAXJJ@Z");
-
 		void (__cdecl *const game_engine_sandbox_apply_delete_object)(long, long) = (void(__cdecl *const)(long, long))0x59cbe0;
 
 		game_engine_sandbox_apply_delete_object(player_index, map_variant_index);
@@ -213,8 +205,6 @@ namespace Forge
 
 	long CloneObject(long player_index, long object_index, float depth, real_vector3d const &normal) // 0x10968A20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?CloneObject@Forge@@YAJJJMABUreal_vector3d@@@Z");
-
 		s_map_variant *mapv = game_engine_get_runtime_map_variant();
 		s_object_data *object = object_get(object_index);
 		if (!mapv || player_index == -1 || object_index == -1 || !object)
@@ -261,8 +251,6 @@ namespace Forge
 
 	void ThrowObject(long player_index, long object_index, float throwForce) // 0x1096A240
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ThrowObject@Forge@@YAXJJM@Z");
-
 		void (*const simulation_action_generic_object_update)(long, unsigned long) = (void (*)(long, unsigned long))0x580AD0;
 		void (*const start_tracking_object)(long) = (void (*)(long))0x59EA10;
 		real_matrix4x3 objectTransform;
@@ -299,8 +287,6 @@ namespace Forge
 {
 	real_vector3d GetClosestCardianalAxix(real_vector3d const &v) // 0x10969630
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetClosestCardianalAxix@Forge@@YA?AUreal_vector3d@@ABU2@@Z");
-
 		float xn = abs(v.i);
 		float yn = abs(v.j);
 		float zn = abs(v.k);
@@ -315,8 +301,6 @@ namespace Forge
 
 	Forge::ForgeObjectQuota CalculateObjectQuota() // 0x10968910
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?CalculateObjectQuota@Forge@@YA?AUForgeObjectQuota@1@XZ");
-
 		unsigned short totalAvailable = 0;
 		unsigned short totalUsed = 0;
 		s_map_variant *mapv = GetMapVariant();
@@ -335,8 +319,6 @@ namespace Forge
 
 	bool PointInWorldBounds(real_point3d const &point) // 0x10969E50
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?PointInWorldBounds@Forge@@YA_NABUreal_point3d@@@Z");
-
 		s_map_variant *mapv = Forge::GetMapVariant();
 		return point.x >= mapv->world_bounds.x0
 			&& mapv->world_bounds.x1 >= point.x
@@ -348,8 +330,6 @@ namespace Forge
 
 	bool ObjectInWorldBounds(long objectIndex) // 0x10969C30
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectInWorldBounds@Forge@@YA_NJ@Z");
-
 		real_point3d worldPos;
 
 		eldorado::object_get_origin(objectIndex, &worldPos);
@@ -359,8 +339,6 @@ namespace Forge
 
 	void SetObjectPhysicsMode(long objectIndex, Forge::EForgeObjectPhysics mode, bool atRest) // 0x1096A0F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetObjectPhysicsMode@Forge@@YAXJW4EForgeObjectPhysics@1@_N@Z");
-
 		void (*const change_object_physics_mode)(long, bool) = reinterpret_cast<void (*)(long, bool)>(0x59A620);
 		s_object_data *object = object_get(objectIndex);
 		if (!object)
@@ -393,8 +371,6 @@ namespace Forge
 
 	Forge::EForgeObjectPhysics GetObjectPhysicsMode(long objectIndex) // 0x10969B90
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetObjectPhysicsMode@Forge@@YA?AW4EForgeObjectPhysics@1@J@Z");
-
 		s_multiplayer_object_properties *multiplayerProperties = object_get_multiplayer(objectIndex);
 
 		if (multiplayerProperties && (char)multiplayerProperties->boundary_shape == 4)
@@ -409,8 +385,6 @@ namespace Forge
 
 	bool ObjectIsForgeScenery(long objectIndex) // 0x10969CF0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectIsForgeScenery@Forge@@YA_NJ@Z");
-
 		s_object_data *object = object_try_and_get_and_verify_type(objectIndex, 0x80);
 		if (!object)
 		{
@@ -439,8 +413,6 @@ namespace Forge
 
 	void ScaleForgeSceneryObject(long objectIndex, float scale) // 0x10969FB0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ScaleForgeSceneryObject@Forge@@YAXJM@Z");
-
 		s_object_data *object = object_try_and_get_and_verify_type(objectIndex, 0x80);
 		if (!object)
 			return;

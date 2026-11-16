@@ -104,8 +104,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10914A40
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@CustomObjects@Patches@@YAXXZ");
-
 			g_custom_object_data_definition.name = nullptr;
 			g_custom_object_data_definition.group_tag = 'cobj';
 			g_custom_object_data_definition.datum_size = 0x178;
@@ -177,8 +175,6 @@ namespace Patches
 
 bool object_test_vector_hook(unsigned long flags, unsigned long collision_flags, bool a3, real_vector3d *origin, real_vector3d *vector, long ignore_object_index1, long ignore_object_index2, long ignore_object_index3, s_collision_result *results) // 0x10916500
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_test_vector_hook@@YA_NKK_NPAUreal_vector3d@@1JJJPAUs_collision_result@@@Z");
-
 	if ((collision_flags & 1) != 0)
 	{
 		collision_flags |= 0x10000;

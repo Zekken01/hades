@@ -151,20 +151,15 @@ using namespace hades_file_local;
 
 void c_map_variant_loader::initialzie() // 0x1088AB10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialzie@c_map_variant_loader@@SAXXZ");
-
 	c_mod_system::GetModManager().AddListener(new ModListener());
 }
 
 void c_map_variant_loader::update() // 0x1088BB60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_map_variant_loader@@SAXXZ");
 }
 
 bool c_map_variant_loader::load_from_buffer(long blf_size, unsigned char const *blf, s_map_variant *out_map_variant) // 0x1088B4B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load_from_buffer@c_map_variant_loader@@SA_NJPBEPAUs_map_variant@@@Z");
-
 	last_error = _map_variant_load_success;
 	s_blf_chunk_header mapv_chunk;
 	unsigned char const *mapv_data;
@@ -195,8 +190,6 @@ bool c_map_variant_loader::load_from_buffer(long blf_size, unsigned char const *
 
 bool c_map_variant_loader::load_from_file(char const *filename, s_map_variant *out_map_variant) // 0x1088B6C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load_from_file@c_map_variant_loader@@SA_NPBDPAUs_map_variant@@@Z");
-
 	char logmessage[4096];
 	sprintf_s(logmessage, "Loading map variant '%s'...", filename);
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Info, logmessage);
@@ -216,8 +209,6 @@ bool c_map_variant_loader::load_from_file(char const *filename, s_map_variant *o
 
 bool c_map_variant_loader::load_default(long map_id, s_map_variant *out_map_variant) // 0x1088AC90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load_default@c_map_variant_loader@@SA_NJPAUs_map_variant@@@Z");
-
 	extern void (*const levels_get_map_name)(unsigned long, unsigned long, char *, int);
 	char file_path[256];
 	levels_get_map_name(0xFFFFFFFF, map_id, file_path, 256);
@@ -274,20 +265,13 @@ bool c_map_variant_loader::load_default(long map_id, s_map_variant *out_map_vari
 
 e_map_variant_load_error c_map_variant_loader::get_last_error() // 0x1088AAF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_last_error@c_map_variant_loader@@SA?AW4e_map_variant_load_error@@XZ");
-
 	return last_error;
 }
 
 /* ---------- private code */
 
-// mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
-
-
 void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x1088A3F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@UAEXW4EModIndex@@PAVIMod@@@Z");
-
 	if (stored_blf.size() < 1)
 		return;
 	void *(*const global_preferences_get_last_game_setup)() = reinterpret_cast<void *(*)()>(0x50B560);

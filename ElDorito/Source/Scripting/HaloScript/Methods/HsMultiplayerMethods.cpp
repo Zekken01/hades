@@ -256,8 +256,6 @@ namespace Scripting
 			{
 				void RegisterMethods(Scripting::HS::ScriptMethodMap &methods) // 0x106F6DD0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterMethods@Multiplayer@Methods@HS@Scripting@@YAXAAVScriptMethodMap@34@@Z");
-
 					methods.AddMethod("hide_all_players", "Hide all players currently in the game", NetworkSafe, hs_hide_all_players_evaluate, _hs_type_void, { { _hs_type_boolean, "visible", "True to hide, false to make visible" } });
 					methods.AddMethod("hide_all_objects", "Hides all game objects leaving just the map itself and any built in objects", NetworkSafe, hs_hide_all_objects_evaluate, _hs_type_void, { { _hs_type_boolean, "visible", "True to hide, false to make visible" } });
 					methods.AddMethod("delete_all_objects", "deletes all game objects leaving just the map itself and any built in objects", NetworkSafe, hs_delete_all_objects_evaluate, _hs_type_void, { { _hs_type_boolean, "delete_modifiers", "Whether to delete all forge modifier objects like the map modifier and lights" } });
@@ -284,8 +282,6 @@ namespace Scripting
 
 void hs_hide_all_players_evaluate(short op, long thread_index, bool initial) // 0x106F8D50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_hide_all_players_evaluate@@YAXFJ_N@Z");
-
 	void (*const object_hide)(long, bool) = reinterpret_cast<void (*)(long, bool)>(0x96E230);
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -309,8 +305,6 @@ void hs_hide_all_players_evaluate(short op, long thread_index, bool initial) // 
 
 void hs_hide_all_objects_evaluate(short op, long thread_index, bool initial) // 0x106F87C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_hide_all_objects_evaluate@@YAXFJ_N@Z");
-
 	extern char const *tag_get_name(long);
 	extern s_forge_globals_definition *forge_globals_get_definition();
 	extern bool (*const game_engine_is_sandbox)();
@@ -368,8 +362,6 @@ void hs_hide_all_objects_evaluate(short op, long thread_index, bool initial) // 
 
 void hs_delete_all_objects_evaluate(short op, long thread_index, bool initial) // 0x106F7D00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_delete_all_objects_evaluate@@YAXFJ_N@Z");
-
 	extern char const *tag_get_name(long);
 	extern s_forge_globals_definition *forge_globals_get_definition();
 	extern s_scenario *global_scenario_get();
@@ -490,8 +482,6 @@ void hs_delete_all_objects_evaluate(short op, long thread_index, bool initial) /
 
 void hs_respawn_map_objects_evaluate(short op, long thread_index, bool initial) // 0x106FA150
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_respawn_map_objects_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -523,8 +513,6 @@ void hs_respawn_map_objects_evaluate(short op, long thread_index, bool initial) 
 
 void hs_lobby_size_evaluate(short op, long thread_index, bool initial) // 0x106F8F40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_lobby_size_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = eldorado::hs_macro_function_evaluate(op, thread_index, initial);
 	if (args)
 	{
@@ -542,8 +530,6 @@ void hs_lobby_size_evaluate(short op, long thread_index, bool initial) // 0x106F
 
 void hs_disable_prematch_camera_evaluate(short op, long thread_index, bool initial) // 0x106F86D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_disable_prematch_camera_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -560,8 +546,6 @@ void hs_disable_prematch_camera_evaluate(short op, long thread_index, bool initi
 
 void hs_mp_show_scoreboard_evaluate(short op, long thread_index, bool initial) // 0x106F9940
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_mp_show_scoreboard_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -583,8 +567,6 @@ void hs_mp_show_scoreboard_evaluate(short op, long thread_index, bool initial) /
 
 void hs_mp_hide_scoreboard_evaluate(short op, long thread_index, bool initial) // 0x106F97B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_mp_hide_scoreboard_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -597,8 +579,6 @@ void hs_mp_hide_scoreboard_evaluate(short op, long thread_index, bool initial) /
 
 void hs_mp_team_get_score_evaluate(short op, long thread_index, bool initial) // 0x106F9E40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_mp_team_get_score_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -620,8 +600,6 @@ void hs_mp_team_get_score_evaluate(short op, long thread_index, bool initial) //
 
 void hs_mp_team_set_score_evaluate(short op, long thread_index, bool initial) // 0x106F9FD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_mp_team_set_score_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -640,8 +618,6 @@ void hs_mp_team_set_score_evaluate(short op, long thread_index, bool initial) //
 
 void hs_mp_end_round_evaluate(short op, long thread_index, bool initial) // 0x106F9050
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_mp_end_round_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -657,8 +633,6 @@ void hs_mp_end_round_evaluate(short op, long thread_index, bool initial) // 0x10
 
 void hs_mp_get_round_count_evaluate(short op, long thread_index, bool initial) // 0x106F9660
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_mp_get_round_count_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -678,8 +652,6 @@ void hs_mp_get_round_count_evaluate(short op, long thread_index, bool initial) /
 
 void hs_mp_get_current_round_evaluate(short op, long thread_index, bool initial) // 0x106F9170
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_mp_get_current_round_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -695,8 +667,6 @@ void hs_mp_get_current_round_evaluate(short op, long thread_index, bool initial)
 
 void hs_mp_get_remaining_match_time_evaluate(short op, long thread_index, bool initial) // 0x106F9490
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_mp_get_remaining_match_time_evaluate@@YAXFJ_N@Z");
-
 	long (*const game_engine_get_time_left_in_ticks)(bool) = reinterpret_cast<long (*)(bool)>(0x550D70);
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -714,8 +684,6 @@ void hs_mp_get_remaining_match_time_evaluate(short op, long thread_index, bool i
 
 void hs_mp_get_match_time_elapsed_evaluate(short op, long thread_index, bool initial) // 0x106F92D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_mp_get_match_time_elapsed_evaluate@@YAXFJ_N@Z");
-
 	long (*const game_engine_get_time_left_in_ticks)(bool) = reinterpret_cast<long (*)(bool)>(0x550D70);
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
@@ -733,8 +701,6 @@ void hs_mp_get_match_time_elapsed_evaluate(short op, long thread_index, bool ini
 
 void hs_mp_sync_global_evaluate(short op, long thread_index, bool initial) // 0x106F9BE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_mp_sync_global_evaluate@@YAXFJ_N@Z");
-
 	s_hs_thread *thread = tls_getd().hs_thread_deterministic_data->try_and_get(thread_index);
 	s_hs_syntax_node *node = ((s_hs_syntax_node *(*)(long))0x598A10)(*(long *)&thread->stack[thread->stack_offset]);
 	node = ((s_hs_syntax_node *(*)(long))0x598A10)(*(long *)node->data);

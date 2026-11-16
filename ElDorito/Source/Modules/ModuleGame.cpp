@@ -400,8 +400,6 @@ namespace Modules
 {
 	ModuleGame::ModuleGame() : ModuleBase("Game") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x1098BDE0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleGame@Modules@@QAE@XZ");
-
 		AddCommand("AnnoucementViewed", "annoucementviewed", "Retrieves or sets the date of the last viewed annoucement message", eCommandFlagsHidden, CommandAnnoucementViewedDate);
 		AddCommand("LogLevel", "loglevel", "Debug log verbosity level", eCommandFlagsNone, CommandGameLogLevel, { "trace|info|warning|error|none The log verbosity level" });
 		AddCommand("LogTypes", "logtypes", "Chooses which kinds of debug messages to print to the log file", eCommandFlagsNone, CommandGameLogTypes, { "game|network|graphics|memory|sound|input|debug|all|none The message types to log" });
@@ -521,8 +519,6 @@ void GetMapNameList(std::vector<std::string> &mapNames) // 0x1099C4E0
 
 bool CommandGameLogLevel(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10997E90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameLogLevel@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	for (auto arg : Arguments)
 	{
 		if (arg.compare("none") == 0)
@@ -557,8 +553,6 @@ bool CommandGameLogLevel(std::vector<std::string> const &Arguments, std::string 
 
 bool CommandGameLogTypes(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109981A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameLogTypes@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	unsigned __int32 types = (unsigned __int32)Utils::Singleton<Utils::Logger>::Instance().Types;
 	for (auto arg : Arguments)
 	{
@@ -596,8 +590,6 @@ bool CommandGameLogTypes(std::vector<std::string> const &Arguments, std::string 
 
 bool CommandGameLogFilter(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109974D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameLogFilter@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::stringstream ss;
 	if (Arguments.size() != 3)
 	{
@@ -643,8 +635,6 @@ bool CommandGameLogFilter(std::vector<std::string> const &Arguments, std::string
 
 bool CommandGameInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10994D20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameInfo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::stringstream ss;
 	std::string ArgList((char *)Pointer(0x199C0A4)[0]);
 	std::string LocalSecureKey((char *)Pointer(0x50CCDB5));
@@ -686,16 +676,12 @@ bool CommandGameInfo(std::vector<std::string> const &Arguments, std::string &ret
 
 bool CommandGameExit(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993FF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameExit@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	*reinterpret_cast<bool *>(0x22B473C) = true;
 	return true;
 }
 
 bool CommandGameRestart(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109984F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameRestart@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool ret = true;
 	std::string str = GetCommandLineA();
 	_STARTUPINFOA si = {};
@@ -716,8 +702,6 @@ bool CommandGameRestart(std::vector<std::string> const &Arguments, std::string &
 
 bool CommandGameForceLoad(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10994020
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameForceLoad@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	extern char const *game_mode_get_string(e_game_mode);
 	std::stringstream ss;
 	if (Arguments.size() <= 0)
@@ -793,8 +777,6 @@ bool CommandGameForceLoad(std::vector<std::string> const &Arguments, std::string
 
 bool CommandGameShowUI(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998800
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameShowUI@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() <= 0)
 	{
 		returnInfo = "You must specify at least a dialog ID!";
@@ -839,8 +821,6 @@ bool CommandGameShowUI(std::vector<std::string> const &Arguments, std::string &r
 
 unsigned __int32 GetFileSize(std::ifstream &file) // 0x1099C310
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileSize@@YAIAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@@Z");
-
 	auto originalPos = file.tellg();
 	file.seekg(0, std::ios::end);
 	auto size = static_cast<size_t>(file.tellg());
@@ -850,8 +830,6 @@ unsigned __int32 GetFileSize(std::ifstream &file) // 0x1099C310
 
 __int32 GetMapId(std::string const &mapName) // 0x1099C410
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMapId@@YAHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	s_level_datum level;
 
 	if (levels_find_map_by_name(mapName.c_str(), &level))
@@ -866,8 +844,6 @@ __int32 GetMapId(std::string const &mapName) // 0x1099C410
 
 bool LoadDefaultMapVariant(std::string const &mapName, unsigned char *out) // 0x1099CE50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadDefaultMapVariant@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAE@Z");
-
 	__int32 mapId = GetMapId(mapName);
 	if (mapId < 0)
 	{
@@ -884,8 +860,6 @@ bool LoadDefaultMapVariant(std::string const &mapName, unsigned char *out) // 0x
 
 __int32 GetUiGameMode() // 0x1099C5E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetUiGameMode@@YAHXZ");
-
 	__int32 (__cdecl *GetUiGameModeImpl)() = (__int32(__cdecl *)())0x435640;
 
 	return GetUiGameModeImpl();
@@ -893,8 +867,6 @@ __int32 GetUiGameMode() // 0x1099C5E0
 
 void SetOwnedContentData(s_owned_content_item *content_item, bool built_in, char const *file_path) // 0x1099D9B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetOwnedContentData@@YAXPAUs_owned_content_item@hades_file_local@@_NPBD@Z");
-
 	c_controller_interface *(*const controller_get)(long) = reinterpret_cast<c_controller_interface *(*)(long)>(0xA7CD50);
 	s_player_identifier *(__thiscall *const c_controller_interface__get_player_identifier)(void *, s_player_identifier *) = reinterpret_cast<s_player_identifier *(__thiscall *)(void *, s_player_identifier *)>(0xA7D500);
 	memset(content_item, 0, sizeof(content_item));
@@ -907,8 +879,6 @@ void SetOwnedContentData(s_owned_content_item *content_item, bool built_in, char
 
 void SaveMapVariantToPreferences(unsigned char const *data, bool built_in, char const *file_path) // 0x1099D8D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SaveMapVariantToPreferences@@YAXPBE_NPBD@Z");
-
 	unsigned __int32 variantOffset;
 	switch (GetUiGameMode())
 	{
@@ -931,8 +901,6 @@ void SaveMapVariantToPreferences(unsigned char const *data, bool built_in, char 
 
 void SaveGameVariantToPreferences(unsigned char const *data, bool built_in, char const *file_path) // 0x1099D830
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SaveGameVariantToPreferences@@YAXPBE_NPBD@Z");
-
 	if (GetUiGameMode() != 2)
 	{
 		return;
@@ -946,8 +914,6 @@ void SaveGameVariantToPreferences(unsigned char const *data, bool built_in, char
 
 bool CommandGameLoadMap(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10996D90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameLoadMap@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() != 1)
 	{
 		returnInfo = "You must specify an internal map or Forge map name!";
@@ -1003,8 +969,6 @@ bool CommandGameLoadMap(std::vector<std::string> const &Arguments, std::string &
 
 bool LoadGameVariant(std::ifstream &file, unsigned char *out) // 0x1099CF20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadGameVariant@@YA_NAAV?$basic_ifstream@DU?$char_traits@D@std@@@std@@PAE@Z");
-
 	// Verify file size
 	const auto GameVariantBlfSize = 0x3BC;
 	if (GetFileSize(file) < GameVariantBlfSize)
@@ -1021,8 +985,6 @@ bool LoadGameVariant(std::ifstream &file, unsigned char *out) // 0x1099CF20
 
 __int32 FindDefaultGameVariant(s_game_engine_settings_definition const *wezr, e_game_engine_type type, std::string const &name) // 0x1099C080
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindDefaultGameVariant@@YAHPBUs_game_engine_settings_definition@@W4e_game_engine_type@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	switch (type)
 	{
 	case _game_engine_type_ctf:
@@ -1049,8 +1011,6 @@ __int32 FindDefaultGameVariant(s_game_engine_settings_definition const *wezr, e_
 
 bool LoadDefaultGameVariant(std::string const &name, unsigned char *out) // 0x1099CD30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadDefaultGameVariant@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAE@Z");
-
 	s_game_engine_settings_definition const *wezr = eldorado::game_engine_settings_try_and_get();
 	if (!wezr)
 	{
@@ -1082,8 +1042,6 @@ bool LoadDefaultGameVariant(std::string const &name, unsigned char *out) // 0x10
 
 bool CommandAnnoucementViewedDate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109931F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandAnnoucementViewedDate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() == 1)
 	{
 		PersistentMemory::SetLastAnnoucementViewedDate(Arguments[0]);
@@ -1101,8 +1059,6 @@ bool CommandAnnoucementViewedDate(std::vector<std::string> const &Arguments, std
 
 bool CommandGameType(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10999240
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameType@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() != 1)
 	{
 		returnInfo = "You must specify a built-in gametype or custom gametype name!";
@@ -1157,8 +1113,6 @@ bool CommandGameType(std::vector<std::string> const &Arguments, std::string &ret
 
 bool CommandGameStart(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998CE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameStart@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto session = Blam::Network::GetActiveSession();
 	if (!session || !session->Parameters.SetSessionMode(2))
 	{
@@ -1171,8 +1125,6 @@ bool CommandGameStart(std::vector<std::string> const &Arguments, std::string &re
 
 bool CommandGameStartCountdown(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998D80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameStartCountdown@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool (__cdecl *const StartCountdownImpl)(int, int) = (bool(__cdecl *const)(int, int))0xa83cf0;
 
 	if (StartCountdownImpl(0, 6))
@@ -1186,8 +1138,6 @@ bool CommandGameStartCountdown(std::vector<std::string> const &Arguments, std::s
 
 bool CommandGameStop(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998E20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameStop@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto session = Blam::Network::GetActiveSession();
 	if (!session || !session->Parameters.SetSessionMode(1))
 	{
@@ -1200,8 +1150,6 @@ bool CommandGameStop(std::vector<std::string> const &Arguments, std::string &ret
 
 bool CommandGameLeave(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10996C80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameLeave@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	c_network_session *session = nullptr;
 	network_session_interface_get_squad_session(&session);
 	if (!session || !session->established())
@@ -1218,8 +1166,6 @@ bool CommandGameLeave(std::vector<std::string> const &Arguments, std::string &re
 
 bool CommandGameEnd(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993DE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameEnd@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || !session->IsEstablished() || !session->IsHost())
 	{
@@ -1244,8 +1190,6 @@ bool CommandGameEnd(std::vector<std::string> const &Arguments, std::string &retu
 
 bool CommandGameEndRound(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993F10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameEndRound@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || !session->IsEstablished() || !session->IsHost() || !((__int32(__cdecl *)())0x5ce150)())
 	{
@@ -1260,16 +1204,12 @@ bool CommandGameEndRound(std::vector<std::string> const &Arguments, std::string 
 
 bool CommandGameVersion(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10999BD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameVersion@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	returnInfo = Utils::Version::GetVersionString();
 	return true;
 }
 
 bool CommandListMaps(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10999F30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandListMaps@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::vector<std::string> mapNames;
 	GetMapNameList(mapNames);
 
@@ -1285,8 +1225,6 @@ bool CommandListMaps(std::vector<std::string> const &arguments, std::string &ret
 
 bool CommandShowScreen(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099B0D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowScreen@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (arguments.size() == 0)
 	{
 		returnInfo = "Usage: Game.ShowScreen <screen name> <opt json>";
@@ -1317,8 +1255,6 @@ bool CommandShowScreen(std::vector<std::string> const &arguments, std::string &r
 
 bool CommandPlayUiSound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099A270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPlayUiSound@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (arguments.size() < 1)
 	{
 		returnInfo = "Invalid arguments";
@@ -1339,8 +1275,6 @@ bool CommandPlayUiSound(std::vector<std::string> const &arguments, std::string &
 
 bool CommandPlaySound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099A180
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPlaySound@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (arguments.size() < 1)
 	{
 		returnInfo = "Invalid arguments";
@@ -1361,8 +1295,6 @@ bool CommandPlaySound(std::vector<std::string> const &arguments, std::string &re
 
 bool CommandPlayLoopingSound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099A090
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandPlayLoopingSound@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (arguments.size() < 1)
 	{
 		returnInfo = "Invalid arguments";
@@ -1383,8 +1315,6 @@ bool CommandPlayLoopingSound(std::vector<std::string> const &arguments, std::str
 
 bool CommandStopLoopingSound(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x1099B7F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandStopLoopingSound@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (arguments.size() < 1)
 	{
 		returnInfo = "Invalid arguments";
@@ -1405,8 +1335,6 @@ bool CommandStopLoopingSound(std::vector<std::string> const &arguments, std::str
 
 bool CommandGameTakeScreenshot(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10998EC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameTakeScreenshot@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	wchar_t *(*TakeScreenshotImpl)() = (wchar_t *(*)())0x60f420;
 	return TakeScreenshotImpl();
 	wchar_t *path = TakeScreenshotImpl();
@@ -1428,8 +1356,6 @@ bool CommandGameTakeScreenshot(std::vector<std::string> const &Arguments, std::s
 
 bool CommandExecuteScenarioScript(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993800
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandExecuteScenarioScript@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() == 0)
 	{
 		returnInfo = "Expected script name";
@@ -1465,8 +1391,6 @@ bool CommandExecuteScenarioScript(std::vector<std::string> const &Arguments, std
 
 bool CommandExecutePrintScript(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109936A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandExecutePrintScript@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() == 0)
 	{
 		returnInfo = "Expected script name";
@@ -1498,8 +1422,6 @@ bool CommandExecutePrintScript(std::vector<std::string> const &Arguments, std::s
 
 bool CommandGetTagAddress(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10999C70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGetTagAddress@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() <= 0)
 	{
 		returnInfo = "You must specify a tag index!";
@@ -1526,8 +1448,6 @@ bool CommandGetTagAddress(std::vector<std::string> const &Arguments, std::string
 
 bool CommandDisableScreenEffect(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109933F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDisableScreenEffect@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() < 2)
 	{
 		returnInfo = "You must include an index and a range!";
@@ -1602,8 +1522,6 @@ bool VariableLanguageUpdated(std::vector<std::string> const &arguments, std::str
 
 bool ShowTickrate() // 0x1099DB70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ShowTickrate@@YA_NXZ");
-
 	auto Tickrate = Pointer(0x22B47FC);
 	Tickrate.Write(!Tickrate.Read<bool>());
 	return Tickrate.Read<bool>();
@@ -1611,8 +1529,6 @@ bool ShowTickrate() // 0x1099DB70
 
 bool CommandShowTickrate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099B650
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowTickrate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::stringstream ss;
 	ss << "Tickrate: " << (ShowTickrate() ? "shown." : "hidden.");
 	returnInfo = ss.str();
@@ -1621,8 +1537,6 @@ bool CommandShowTickrate(std::vector<std::string> const &Arguments, std::string 
 
 bool CommandGameUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10999910
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGameUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	_STARTUPINFOW si = {};
 	_PROCESS_INFORMATION pi = {};
 	si.cb = sizeof(si);
@@ -1648,8 +1562,6 @@ bool CommandGameUpdate(std::vector<std::string> const &Arguments, std::string &r
 
 bool CommandFullScreenBlurLayer(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993A10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandFullScreenBlurLayer@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() == 1 && Arguments[0] == "reset")
 	{
 		layerBlurMap.clear();
@@ -1682,8 +1594,6 @@ bool CommandFullScreenBlurLayer(std::vector<std::string> const &Arguments, std::
 
 bool CommandFontPackage(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109939A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandFontPackage@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() < 1)
 	{
 		return false;
@@ -1696,8 +1606,6 @@ bool CommandFontPackage(std::vector<std::string> const &Arguments, std::string &
 
 bool CommandSetMainMenuMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099A820
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetMainMenuMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	void (*const main_menu_launch_force)() = reinterpret_cast<void (*)()>(0x568190);
 	if (Arguments.empty())
 		return false;
@@ -1715,8 +1623,6 @@ bool CommandSetMainMenuMod(std::vector<std::string> const &Arguments, std::strin
 
 bool CommandSetCampaignMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099A3A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetCampaignMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (!((bool(__cdecl *)())0x5314B0)())
 		return true;
 	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
@@ -1734,8 +1640,6 @@ bool CommandSetCampaignMod(std::vector<std::string> const &Arguments, std::strin
 
 bool CommandSetFirefightMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099A5E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetFirefightMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (!((bool(__cdecl *)())0x5314B0)())
 		return true;
 	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
@@ -1753,8 +1657,6 @@ bool CommandSetFirefightMod(std::vector<std::string> const &Arguments, std::stri
 
 bool CommandSetMultiplayerMod(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099ABC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetMultiplayerMod@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (!((bool(__cdecl *)())0x5314B0)())
 		return true;
 	bool (*const game_is_mainmenu)() = reinterpret_cast<bool (*)()>(0x531E90);
@@ -1772,8 +1674,6 @@ bool CommandSetMultiplayerMod(std::vector<std::string> const &Arguments, std::st
 
 bool CommandCloseStartMenu(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10993350
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandCloseStartMenu@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	c_gui_screen_widget *screen = c_gui_screen_manager::get()->find_screen(4, 0x10084);
 
 	if (screen)
@@ -1788,8 +1688,6 @@ bool CommandCloseStartMenu(std::vector<std::string> const &Arguments, std::strin
 
 bool CommandShowLocalServersUI(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AE10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowLocalServersUI@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool (__cdecl *const IsMainMenu)() = (bool(__cdecl *const)())0x531e90;
 
 	if (IsMainMenu())
@@ -1806,8 +1704,6 @@ bool CommandShowLocalServersUI(std::vector<std::string> const &Arguments, std::s
 
 bool CommandShowModBrowser(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AE90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowModBrowser@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool (*const game_in_main_menu)() = reinterpret_cast<bool (*)()>(0x531E90);
 	if (game_in_main_menu())
 	{
@@ -1823,8 +1719,6 @@ bool CommandShowModBrowser(std::vector<std::string> const &Arguments, std::strin
 
 bool CommandShowServerModBrowser(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099B510
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowServerModBrowser@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool (*const game_in_main_menu)() = reinterpret_cast<bool (*)()>(0x531E90);
 	if (game_in_main_menu())
 	{
@@ -1840,16 +1734,12 @@ bool CommandShowServerModBrowser(std::vector<std::string> const &Arguments, std:
 
 bool CommandShowModInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099AFD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandShowModInfo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Web::Ui::ScreenLayer::Show("mod_info", "{}");
 	return true;
 }
 
 bool CommandVersionCompat(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x1099B8D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandVersionCompat@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	returnInfo = Utils::Version::GetCompatibleVersionString();
 	return true;
 }

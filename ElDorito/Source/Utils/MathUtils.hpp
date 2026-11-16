@@ -32,8 +32,6 @@ namespace Utils
 	{
 		float NormalizeAngle(float a) // 0x10AB72A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?NormalizeAngle@Math@Utils@@YAMM@Z");
-
 			a = fmodf(a, 360.0f);
 			a = fmodf(a + 360.0f, 360.0f);
 			if (a > 180.0f)
@@ -43,8 +41,6 @@ namespace Utils
 
 		float DeltaAngle(float a, float b) // 0x10AB6B50
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?DeltaAngle@Math@Utils@@YAMMM@Z");
-
 			float d = Utils::Math::NormalizeAngle(a - b);
 			if (180.0f >= d)
 				return d;
@@ -54,8 +50,6 @@ namespace Utils
 
 		float EaseOutCubic(float x) // 0x10AB6BF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?EaseOutCubic@Math@Utils@@YAMM@Z");
-
 			return (float)(1.0 - pow(1.0f - x, 3));
 		}
 	}

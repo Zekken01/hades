@@ -217,15 +217,11 @@ namespace Web
 		{
 			void Init() // 0x10CA4A60
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebEmote@Ui@Web@@YAXXZ");
-
 				Patches::Input::RegisterDefaultInputHandler(OnInput);
 			}
 
 			void Show() // 0x10CA4DD0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebEmote@Ui@Web@@YAXXZ");
-
 				Modules::ModuleServer &serverModule = Modules::ModuleServer::Instance();
 				bool enabled = serverModule.VarServerEmotesEnabledClient->ValueInt != 0;
 				if (!enabled)
@@ -318,8 +314,6 @@ namespace Web
 
 			void Tick() // 0x10CA5810
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@WebEmote@Ui@Web@@YAXXZ");
-
 				static __int32 previousMapLoadingState = 0;
 
 				if (!game_is_multiplayer() && !((bool(__cdecl *)())0x531E90)())
@@ -338,8 +332,6 @@ namespace Web
 
 			void Hide() // 0x10CA4990
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebEmote@Ui@Web@@YAXXZ");
-
 				ScreenLayer::Hide("emote");
 			}
 		}
@@ -350,8 +342,6 @@ namespace Web
 
 void OnInput() // 0x10CA4AB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnInput@@YAXXZ");
-
 	struct ControllerAxes
 	{
 		short LeftX;

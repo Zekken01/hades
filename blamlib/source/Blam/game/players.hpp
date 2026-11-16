@@ -372,16 +372,12 @@ extern s_player_datum *player_get(unsigned long player_index);
 
 inline void c_player_output_user_iterator::begin(long player_index) // 0x10A550D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?begin@c_player_output_user_iterator@@QAEXJ@Z");
-
 	m_player_index = player_index;
 	m_output_user_index = 0xFFFFFFFF;
 }
 
 inline bool c_player_output_user_iterator::next() // 0x10A55640
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?next@c_player_output_user_iterator@@QAE_NXZ");
-
 	if (m_player_index != -1)
 		m_output_user_index = ((long(__cdecl *)(long, long))0x589b90)(m_player_index, m_output_user_index);
 
@@ -390,8 +386,6 @@ inline bool c_player_output_user_iterator::next() // 0x10A55640
 
 inline long c_player_output_user_iterator::get_output_user_index() const // 0x10A55610
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_output_user_index@c_player_output_user_iterator@@QBEJXZ");
-
 	return m_output_user_index;
 }
 

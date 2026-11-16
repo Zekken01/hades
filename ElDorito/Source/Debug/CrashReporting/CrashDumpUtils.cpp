@@ -84,15 +84,11 @@ namespace Debug
 	{
 		bool IsRunningUnderProton() // 0x1068A850
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsRunningUnderProton@CrashReporting@Debug@@YA_NXZ");
-
 			return GetEnvironmentVariableA("STEAM_COMPAT_DATA_PATH", nullptr, 0) > 0;
 		}
 
 		bool GetOSVersionInfo(_OSVERSIONINFOW *info) // 0x1068A710
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetOSVersionInfo@CrashReporting@Debug@@YA_NPAU_OSVERSIONINFOW@@@Z");
-
 			HINSTANCE__ *ntdll = LoadLibraryA("ntdll.dll");
 			if (!ntdll)
 				return false;
@@ -114,8 +110,6 @@ namespace Debug
 	{
 		std::string GetFriendlyOSName() // 0x1068A260
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetFriendlyOSName@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 			if (IsRunningUnderProton())
 				return "Proton";
 			_OSVERSIONINFOW ovi;
@@ -148,8 +142,6 @@ namespace Debug
 	{
 		std::string GetCPUName() // 0x1068A060
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetCPUName@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 			HKEY__ *hKey;
 			long result = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey);
 			if (result != ERROR_SUCCESS)
@@ -168,8 +160,6 @@ namespace Debug
 
 		bool GetGPUInfo(std::string &description, std::string &driverVersion) // 0x1068A4F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetGPUInfo@CrashReporting@Debug@@YA_NAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 			__int32 gpuAdapterCount = *(__int32 *)0x50DD6F0;
 			if (!gpuAdapterCount)
 				return false;

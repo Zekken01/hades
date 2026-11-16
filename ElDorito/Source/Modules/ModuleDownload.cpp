@@ -111,8 +111,6 @@ namespace Modules
 {
 	ModuleDownload::ModuleDownload() : ModuleBase("Download") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x108563E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleDownload@Modules@@QAE@XZ");
-
 		AddCommand("DownloadHttp", "download_http", "", eCommandFlagsInternal, CommandDownloadHttp);
 		VarDebugTrace = AddVariableInt("DebugTrace", "download_debug_trace", "", eCommandFlagsNone, 0);
 		VarMaxHttpConnections = AddVariableInt("MaxHttpConnections", "download_max_http_connections", "Controls the maximum number of http connections per download", eCommandFlagsArchived, 6);
@@ -121,15 +119,12 @@ namespace Modules
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0SCallbackEntry@?$CEventSink@$$V@@QAE@$$QAU01@@Z"); no body to assert in
 // _inline CEventSink<>::SCallbackEntry::SCallbackEntry(CEventSink<>::SCallbackEntry &&__that) = default; // 0x10856850  // hades: implicit (SCallbackEntry is an aggregate)
 
 /* ---------- private code */
 
 bool CommandDownloadHttp(std::vector<std::string> const &args, std::string &retValue) // 0x10856F10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDownloadHttp@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	struct ScopedDebugTrace
 	{
 		__int32 m_oldValue;

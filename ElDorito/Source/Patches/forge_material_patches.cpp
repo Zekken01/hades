@@ -117,8 +117,6 @@ void calculate_havok_shape_properties_hook2(hkpShape *shape, hkpEntity *rigidbod
 
 void forge_material_patches_apply() // 0x109186F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?forge_material_patches_apply@@YAXXZ");
-
 	Hook(0x1EB992, sub_5E0EA0_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 	Hook(0x2D8FFD, collision_get_global_material_index, static_cast<__int32>(HookFlags::IsCall)).Apply();
 	Hook(0x3151AB, calculate_havok_shape_properties_hook2, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -128,15 +126,11 @@ void forge_material_patches_apply() // 0x109186F0
 
 bool object_is_reforge_object(long object_index) // 0x10918AD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_is_reforge_object@@YA_NJ@Z");
-
 	return Forge::Reforge::IsReforgeObject(object_index);
 }
 
 bool reforge_get_object_global_material_override(long object_index, s_forge_material_type **out_type) // 0x10918B20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?reforge_get_object_global_material_override@@YA_NJPAPAUs_forge_material_type@@@Z");
-
 	if (!object_try_and_get_and_verify_type(object_index, -1))
 		return false;
 	s_multiplayer_object_properties *multiplayer_properties = object_get_multiplayer(object_index);
@@ -154,8 +148,6 @@ bool reforge_get_object_global_material_override(long object_index, s_forge_mate
 
 long __fastcall sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, char a4, __int32 a5, __int32 a6, long object_index, bool a8, long a9, long a10, float a11, float a12, c_global_material_type global_material_type_a, c_global_material_type global_material_type_b) // 0x10918C90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_5E0EA0_hook@@YIJPAX0FDDHHJ_NJJMMUc_global_material_type@hades_file_local@@2@Z");
-
 	s_forge_material_type *material_override;
 	if (reforge_get_object_global_material_override(object_index, &material_override))
 	{
@@ -167,8 +159,6 @@ long __fastcall sub_5E0EA0_hook(void *thisptr, void *unused, short a2, char a3, 
 
 c_global_material_type *collision_get_global_material_index(c_global_material_type *global_material_type, long object_index, long material_index) // 0x10918610
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?collision_get_global_material_index@@YAPAUc_global_material_type@hades_file_local@@PAU12@JJ@Z");
-
 	s_forge_material_type *material_override;
 	if (reforge_get_object_global_material_override(object_index, &material_override))
 	{
@@ -180,8 +170,6 @@ c_global_material_type *collision_get_global_material_index(c_global_material_ty
 
 void calculate_havok_shape_properties_hook2(hkpShape *shape, hkpEntity *rigidbody, real_vector3d *position, __int32 a4, float *out_friction, float *out_restitution, c_global_material_type *out_global_material_type) // 0x109184D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?calculate_havok_shape_properties_hook2@@YAXPAUhkpShape@@PAUhkpEntity@@PAUreal_vector3d@@HPAM3PAUc_global_material_type@hades_file_local@@@Z");
-
 	((void (*)(hkpShape *, hkpEntity *, real_vector3d *, __int32, float *, float *, c_global_material_type *))0x714A20)(shape, rigidbody, position, a4, out_friction, out_restitution, out_global_material_type);
 	long havok_component_index = havok_entity_get_havok_component_index(rigidbody);
 	c_havok_component *havok_component = havok_component_get(havok_component_index);

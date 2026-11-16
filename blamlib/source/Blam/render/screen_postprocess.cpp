@@ -79,8 +79,6 @@ void *offset_pointer(void *pointer, long offset);  // hades: added for 0x10F10B4
 
 e_surface c_screen_postprocess::blur_display(float blur_x, float blur_y) // 0x10F10B40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?blur_display@c_screen_postprocess@@SA?AW4e_surface@@MM@Z");
-
 	if (((e_surface (*)(long))0xA48720)(0) == 29)
 	{
 		e_surface blur_surface = _surface_screenshot_display;
@@ -99,8 +97,6 @@ e_surface c_screen_postprocess::blur_display(float blur_x, float blur_y) // 0x10
 
 e_surface c_screen_postprocess::blur_display(float blur_x, float blur_y, e_surface blur_surface) // 0x10F10D20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?blur_display@c_screen_postprocess@@SA?AW4e_surface@@MMW42@@Z");
-
 	if (((e_surface (*)(long))0xA48720)(0) == 29)
 	{
 		((e_surface (*)(long, e_surface, long))0xA48E40)(0, _surface_aux_small, -1);
@@ -115,8 +111,6 @@ e_surface c_screen_postprocess::blur_display(float blur_x, float blur_y, e_surfa
 
 void c_screen_postprocess::render_screen_effect_blur(float x_blur, float y_blur) // 0x10F113D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_screen_effect_blur@c_screen_postprocess@@SAXMM@Z");
-
 	if (x_blur > 0.0f || y_blur > 0.0f)
 	{
 		float blur_x = fmaxf(x_blur - 0.5f, 0.35f);
@@ -134,8 +128,6 @@ void c_screen_postprocess::render_screen_effect_blur(float x_blur, float y_blur)
 
 bool c_screen_postprocess::smaa_initialize(long resolution_x, long resolution_y) // 0x10F116D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?smaa_initialize@c_screen_postprocess@@SA_NJJ@Z");
-
 	if (smaa_globals.valid && !smaa_globals.reinit_next_frame)
 	{
 		return true;
@@ -164,8 +156,6 @@ bool c_screen_postprocess::smaa_initialize(long resolution_x, long resolution_y)
 
 void c_screen_postprocess::smaa_render_velocity(IDirect3DDevice9 *device, e_surface dst_surface, long debug_mode) // 0x10F12980
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?smaa_render_velocity@c_screen_postprocess@@SAXPAUIDirect3DDevice9@@W4e_surface@@J@Z");
-
 	void (*const combine_projection_and_view_matrix)(real_matrix4x3 *, float *, float *) = reinterpret_cast<void (*)(real_matrix4x3 *, float *, float *)>(0xA29440);
 	c_player_view *const player_view = c_player_view::get_current();
 	float view_proj[4][4];
@@ -197,8 +187,6 @@ void c_screen_postprocess::smaa_render_velocity(IDirect3DDevice9 *device, e_surf
 
 bool c_screen_postprocess::smaa_render(e_surface src_surface, e_surface dst_surface, long debug_mode) // 0x10F117F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?smaa_render@c_screen_postprocess@@SA_NW4e_surface@@0J@Z");
-
 	IDirect3DDevice9Ex *const device = c_rasterizer::get_device();
 	if (smaa_initialize(eldorado::c_rasterizer_get_surface_width(dst_surface), eldorado::c_rasterizer_get_surface_height(dst_surface)))
 	{

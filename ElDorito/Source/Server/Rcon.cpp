@@ -280,8 +280,6 @@ namespace Server
 	{
 		void Initialize() // 0x10BB4150
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@Rcon@Server@@YAXXZ");
-
 			if (Modules::ModuleServer::Instance().VarRconPassword->ValueString == "")
 			{
 				Utils::Cryptography::RandomPassword(32, Modules::ModuleServer::Instance().VarRconPassword->ValueString);
@@ -296,8 +294,6 @@ namespace Server
 
 		void SendMessageToClients(std::string message) // 0x10BB57C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendMessageToClients@Rcon@Server@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			if (!rconServer.is_listening())
 				return;
 			for (std::weak_ptr<void> const &it : authenticatedConnections)
@@ -315,8 +311,6 @@ namespace Server
 
 		void Tick() // 0x10BB5A10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Rcon@Server@@YAXXZ");
-
 			rconServer.poll();
 		}
 	}
@@ -326,8 +320,6 @@ namespace Server
 
 _inline void RconConsoleOutputHandler::WriteLine(std::string const &line) // 0x10BB5A60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteLine@RconConsoleOutputHandler@hades_file_local@@EAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	if (Utils::Singleton<Modules::ModuleServer>::Instance().VarRconConsoleOutputEnabled->ValueInt == 1)
 	{
 		Server::Rcon::SendMessageToClients(line);
@@ -336,8 +328,6 @@ _inline void RconConsoleOutputHandler::WriteLine(std::string const &line) // 0x1
 
 static void ForceStopServer() // 0x10BB3A60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ForceStopServer@@YAXXZ");
-
 	if (rconServer.is_listening())
 	{
 		rconServer.stop();
@@ -346,8 +336,6 @@ static void ForceStopServer() // 0x10BB3A60
 
 void InitServer() // 0x10BB3E50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitServer@@YAXXZ");
-
 	try
 	{
 		rconServer.set_access_channels(websocketpp::log::alevel::all);
@@ -368,8 +356,6 @@ void InitServer() // 0x10BB3E50
 
 static bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl) // 0x10BB4B10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnValidate@@YA_NPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@@Z");
-
 	auto connection = rconServer->get_con_from_hdl(hdl);
 	std::vector<std::string> subprotocols = connection->get_requested_subprotocols();
 	if (std::find(subprotocols.begin(), subprotocols.end(), ProtocolName) == subprotocols.end())
@@ -381,8 +367,6 @@ static bool OnValidate(websocketpp::server<Utils::WebSocket::Config> *rconServer
 
 static void OnMessage(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10BB4850
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMessage@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@V?$shared_ptr@V?$message@Vcon_msg_manager@alloc@message_buffer@websocketpp@@@message_buffer@websocketpp@@@4@@Z");
-
 	try
 	{
 		if (authenticatedConnections.find(hdl) != authenticatedConnections.end())
@@ -398,8 +382,6 @@ static void OnMessage(websocketpp::server<Utils::WebSocket::Config> *rconServer,
 
 void ProcessCommand(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10BB4E60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessCommand@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@V?$shared_ptr@V?$message@Vcon_msg_manager@alloc@message_buffer@websocketpp@@@message_buffer@websocketpp@@@4@@Z");
-
 	Modules::Command *cmd = Utils::Singleton<Modules::CommandMap>::Instance().FindCommand(msg->get_payload().c_str());
 	if (cmd && (cmd->Flags & eCommandFlagsNoRcon))
 		rconServer->send(hdl, "Command cannot be executed through rcon", websocketpp::frame::opcode::text);
@@ -413,8 +395,6 @@ void ProcessCommand(websocketpp::server<Utils::WebSocket::Config> *rconServer, s
 
 void ProcessPassword(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::shared_ptr<websocketpp::message_buffer::message<websocketpp::message_buffer::alloc::con_msg_manager> > msg) // 0x10BB52E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessPassword@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@V?$shared_ptr@V?$message@Vcon_msg_manager@alloc@message_buffer@websocketpp@@@message_buffer@websocketpp@@@4@@Z");
-
 	std::string inPassword = msg->get_payload();
 	std::string actualPassword = Utils::Singleton<Modules::ModuleServer>::Instance().VarRconPassword->ValueString;
 	if (inPassword == actualPassword)
@@ -433,16 +413,12 @@ void ProcessPassword(websocketpp::server<Utils::WebSocket::Config> *rconServer, 
 
 static void OnClose(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl) // 0x10BB4770
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnClose@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@@Z");
-
 	authenticatedConnections.erase(hdl);
 	LogMessage(rconServer, hdl, "Client Connection Closed");
 }
 
 void LogMessage(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::string message) // 0x10BB4330
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LogMessage@@YAXPAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
-
 	Modules::ModuleServer &serverModule = Utils::Singleton<Modules::ModuleServer>::Instance();
 	if (!serverModule.VarRconLogEnabled->ValueInt)
 		return;
@@ -459,8 +435,6 @@ void LogMessage(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::
 
 std::string GetLogString(websocketpp::server<Utils::WebSocket::Config> *rconServer, std::weak_ptr<void> hdl, std::string message) // 0x10BB3AC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetLogString@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAV?$server@UConfig@WebSocket@Utils@@@websocketpp@@V?$weak_ptr@X@2@V12@@Z");
-
 	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 	long long time = std::chrono::system_clock::to_time_t(now);
 	tm gmTime;
@@ -475,7 +449,6 @@ std::string GetLogString(websocketpp::server<Utils::WebSocket::Config> *rconServ
 	return ss.str();
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0RconConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline RconConsoleOutputHandler::RconConsoleOutputHandler() = default; // 0x10B95270  // hades: defaulted on its declaration
 
 /* ---------- data definitions */

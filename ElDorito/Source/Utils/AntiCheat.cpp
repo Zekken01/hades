@@ -117,8 +117,6 @@ namespace Utils
 	{
 		void AntiSpeed() // 0x10C53880
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?AntiSpeed@AntiCheat@Utils@@YAXXZ");
-
 			HMODULE hMods[1024];
 			DWORD cbNeeded;
 			EnumProcessModules(GetCurrentProcess(), hMods, sizeof(hMods), &cbNeeded);
@@ -135,8 +133,6 @@ namespace Utils
 
 		__int32 __stdcall AntiTrainer(HWND__ *hwnd, long lParam) // 0x10C53A90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?AntiTrainer@AntiCheat@Utils@@YGHPAUHWND__@@J@Z");
-
 			char title[80];
 			GetWindowText(hwnd, title, sizeof(title));
 			if (strcmp(title, "Halo Online Trainer") == 0)
@@ -154,7 +150,6 @@ namespace Utils
 
 		void OnTickCheck() // 0x10C53C20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnTickCheck@AntiCheat@Utils@@YAXXZ");
 		}
 	}
 }

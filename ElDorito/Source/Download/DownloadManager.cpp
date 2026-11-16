@@ -82,22 +82,16 @@ namespace Download
 {
 	void Init() // 0x10820440
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Download@@YAXXZ");
-
 		Download::CHttpFileDownloadManager::Instance().Init();
 	}
 
 	void Shutdown() // 0x10820640
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@Download@@YAXXZ");
-
 		Download::CHttpFileDownloadManager::Instance().Shutdown();
 	}
 
 	void Tick() // 0x108207D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Download@@YAXXZ");
-
 		Download::CHttpFileDownloadManager::Instance().Tick();
 	}
 }
@@ -107,12 +101,8 @@ namespace Download
 {
 	std::shared_ptr<Download::CHttpFileDownload> CreateHttpFileDownload() // 0x108203B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateHttpFileDownload@Download@@YA?AV?$shared_ptr@VCHttpFileDownload@Download@@@std@@XZ");
-
 		return std::make_shared<Download::CHttpFileDownload>();
 	}
-
-	// mangled_x86(MANGLED_DEFAULT, "??0CHttpFileDownloadManager@Download@@QAE@XZ"); no body to assert in
 }
 
 /* ---------- private code */

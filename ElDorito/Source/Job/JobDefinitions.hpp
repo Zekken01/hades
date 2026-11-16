@@ -39,22 +39,16 @@ static_assert(sizeof(SJobCounter) == 4, "Invalid SJobCounter size");
 
 inline __int32 SJobCounter::GetValue() const // 0x1086D250
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetValue@SJobCounter@@QBEHXZ");
-
 	return m_value.load();
 }
 
 inline __int32 SJobCounter::Increment() // 0x1086A0D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Increment@SJobCounter@@QAEHXZ");
-
 	return m_value.fetch_add(1);
 }
 
 inline __int32 SJobCounter::Decrement() // 0x10869F20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Decrement@SJobCounter@@QAEHXZ");
-
 	return m_value.fetch_sub(1);
 }
 

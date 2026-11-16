@@ -171,8 +171,6 @@ extern s_static_string<256> g_font_package_file_path; // 0x123B8908
 
 c_font_cache_scope_lock::c_font_cache_scope_lock() // 0x10888520
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_font_cache_scope_lock@@QAE@XZ");
-
 	void **font_character = (void **)tls_get(0xF8);
 
 	m_locked = false;
@@ -187,8 +185,6 @@ c_font_cache_scope_lock::c_font_cache_scope_lock() // 0x10888520
 
 c_font_cache_scope_lock::~c_font_cache_scope_lock() // 0x108885D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_font_cache_scope_lock@@QAE@XZ");
-
 	void **font_character = (void **)tls_get(0xF8);
 
 	if (*font_character)
@@ -201,8 +197,6 @@ c_font_cache_scope_lock::~c_font_cache_scope_lock() // 0x108885D0
 
 void font_package_do_work(bool blocking, s_font_package_cache_entry *entry) // 0x108893C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?font_package_do_work@@YAX_NPAUs_font_package_cache_entry@@@Z");
-
 	bool has_completed = ((c_async_completion_flag *)entry->completion_flag)->peek() != 0;
 	long package_index = entry->package_index;
 	if (package_index == -1)
@@ -245,8 +239,6 @@ void font_package_do_work(bool blocking, s_font_package_cache_entry *entry) // 0
 
 void font_package_cache_flush() // 0x10889280
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?font_package_cache_flush@@YAXXZ");
-
 	c_font_cache_scope_lock lock;
 	for (s_font_package_cache_entry &entry : *g_font_package_cache_entries)
 	{
@@ -258,8 +250,6 @@ void font_package_cache_flush() // 0x10889280
 
 void font_package_idle() // 0x10889730
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?font_package_idle@@YAXXZ");
-
 	if (g_font_package_system_ready->peek() && !font_in_emergency_mode())
 	{
 		c_font_cache_scope_lock lock;
@@ -275,8 +265,6 @@ void font_package_idle() // 0x10889730
 
 bool font_package_begin_load_package(char const *filename) // 0x10889120
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?font_package_begin_load_package@@YA_NPBD@Z");
-
 	c_font_cache_scope_lock lock;
 
 	g_font_package_file_path.set(filename);
@@ -288,8 +276,6 @@ bool font_package_begin_load_package(char const *filename) // 0x10889120
 
 bool fonts_begin_loading_internal(bool blocking) // 0x108898F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fonts_begin_loading_internal@@YA_N_N@Z");
-
 	bool (__cdecl *const F)(s_font_loading_state *, int, const char *, bool) = (bool(__cdecl *const)(s_font_loading_state *, int, const char *, bool))0x509480;
 
 	return F(g_font_loading_state, -1, g_font_package_file_path.get_string(), blocking);
@@ -297,15 +283,11 @@ bool fonts_begin_loading_internal(bool blocking) // 0x108898F0
 
 void font_package_set_defaults() // 0x108898A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?font_package_set_defaults@@YAXXZ");
-
 	g_font_package_file_path.set("font_package.bin");
 }
 
 bool font_load_from_file_blocking(s_font_loading_state *loading_state, unsigned long size, void *buffer, s_font_package_file_header **out_header) // 0x10888DC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?font_load_from_file_blocking@@YA_NPAUs_font_loading_state@@KPAXPAPAUs_font_package_file_header@@@Z");
-
 	unsigned long error;
 	if (loading_state->file_opened || file_open((s_file_reference *)loading_state->file, 1, &error))
 	{
@@ -323,8 +305,6 @@ bool font_load_from_file_blocking(s_font_loading_state *loading_state, unsigned 
 
 bool font_load_from_mod_package_blocking(c_mod_package *mod_package, unsigned long size, void *buffer, s_font_package_file_header **out_header) // 0x10888F50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?font_load_from_mod_package_blocking@@YA_NPAVc_mod_package@@KPAXPAPAUs_font_package_file_header@@@Z");
-
 	c_file_reference file = mod_package->get_file();
 	c_file_open_scope scope(file, 1);
 	if (mod_package->read_font_package_blocking(file, 0, 0x8000, buffer) && fixup_and_validate_font_package_file(buffer))
@@ -337,8 +317,6 @@ bool font_load_from_mod_package_blocking(c_mod_package *mod_package, unsigned lo
 
 e_async_completion font_load_callback(void *data) // 0x10888CD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?font_load_callback@@YA?AW4e_async_completion@@PAX@Z");
-
 	s_font_loading_task *task_data = (s_font_loading_task *)data;
 	s_font_loading_state *loading_state = task_data->loading_state;
 	s_font_package_file_header *header;
@@ -357,8 +335,6 @@ e_async_completion font_load_callback(void *data) // 0x10888CD0
 
 void font_load(s_font_loading_state *loading_state, long font_index, char const *filename, bool blocking) // 0x108888F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?font_load@@YAXPAUs_font_loading_state@@JPBD_N@Z");
-
 	loading_state->font_index = font_index;
 	loading_state->base_file_offset = 0;
 	Ref<IMod> mod = c_mod_system::GetModManager().GetModShared(g_mod_package_index);
@@ -393,8 +369,6 @@ void font_load(s_font_loading_state *loading_state, long font_index, char const 
 
 bool font_initialize_for_new_map(s_game_options *options) // 0x10888840
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?font_initialize_for_new_map@@YA_NPAUs_game_options@@@Z");
-
 	g_mod_package_index = kGame;
 
 	if (options->game_mode == _game_mode_mainmenu)
@@ -409,8 +383,6 @@ bool font_initialize_for_new_map(s_game_options *options) // 0x10888840
 
 extern "C" bool font_get_package_file_handle(s_file_handle *out_handle) // 0x108887B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_font_get_package_file_handle");
-
 	if (g_font_loading_state->file_opened)
 	{
 		*out_handle = *(s_file_handle *)&((s_file_reference *)g_font_loading_state->file)->handle;
@@ -421,15 +393,11 @@ extern "C" bool font_get_package_file_handle(s_file_handle *out_handle) // 0x108
 
 extern "C" bool font_in_emergency_mode() // 0x10888820
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_font_in_emergency_mode");
-
 	return *(bool *)0x22b7fae;
 }
 
 extern "C" bool validate_fonts(s_font_package_file_header const *header) // 0x108899F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_validate_fonts");
-
 	if (header->fonts_count < 0)
 	{
 		return false;
@@ -462,8 +430,6 @@ extern "C" bool validate_fonts(s_font_package_file_header const *header) // 0x10
 
 extern "C" bool fixup_and_validate_font_package_file(void *buffer) // 0x10888710
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_fixup_and_validate_font_package_file");
-
 	s_font_package_file_header *header = (s_font_package_file_header *)buffer;
 	bool failed = false;
 

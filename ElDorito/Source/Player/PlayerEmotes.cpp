@@ -269,8 +269,6 @@ namespace Player
 {
 	bool CPlayerEmotes::RequestStartEmote(short emoteIndex) // 0x107EBE20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStartEmote@CPlayerEmotes@Player@@SA_NF@Z");
-
 		long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 		if (playerIndex == -1)
 			return false;
@@ -315,8 +313,6 @@ namespace Player
 
 	void CPlayerEmotes::RequestStopEmote() // 0x107EC1B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStopEmote@CPlayerEmotes@Player@@SAXXZ");
-
 		long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 		if (playerIndex == -1)
 		{
@@ -331,16 +327,12 @@ namespace Player
 
 	bool CPlayerEmotes::PlayerIsEmoting(__int32 playerIndex) // 0x107EB8D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerIsEmoting@CPlayerEmotes@Player@@SA_NH@Z");
-
 		s_player_datum *player = player_get(playerIndex);
 		return player && player->unit_index != -1 && ((bool(__cdecl *)(long, int))0xb69ba0)(player->unit_index, 87);
 	}
 
 	bool CPlayerEmotes::UnitRequiresThirdPersonCamera(__int32 unitIndex) // 0x107EC7E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?UnitRequiresThirdPersonCamera@CPlayerEmotes@Player@@SA_NH@Z");
-
 		if (!((bool(__cdecl *)(int, int))0xb69ba0)(unitIndex, 87))
 			return false;
 		SActionStateData *stateData = Player::CPlayerEmotes::GetUnitActionState(unitIndex);
@@ -353,8 +345,6 @@ namespace Player
 
 	bool CPlayerEmotes::UnitCameraMovementInhibited(__int32 unitIndex) // 0x107EC4B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?UnitCameraMovementInhibited@CPlayerEmotes@Player@@SA_NH@Z");
-
 		if (!((bool(__cdecl *)(long, long))0xb69ba0)(unitIndex, 87))
 		{
 			return false;
@@ -371,8 +361,6 @@ namespace Player
 
 	bool CPlayerEmotes::UnitMovementInhibited(__int32 unitIndex) // 0x107EC6D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?UnitMovementInhibited@CPlayerEmotes@Player@@SA_NH@Z");
-
 		if (!((bool (__cdecl *)(int, int))0xb69ba0)(unitIndex, 87))
 			return false;
 		SActionStateData *stateData = Player::CPlayerEmotes::GetUnitActionState(unitIndex);
@@ -385,8 +373,6 @@ namespace Player
 
 	bool CPlayerEmotes::UnitCancelInhibited(__int32 unitIndex) // 0x107EC5C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?UnitCancelInhibited@CPlayerEmotes@Player@@SA_NH@Z");
-
 		if (!((bool(__cdecl *)(long, long))0xb69ba0)(unitIndex, 87))
 		{
 			return false;
@@ -403,8 +389,6 @@ namespace Player
 
 	bool CPlayerEmotes::GetUnitCamera(__int32 unitIndex, s_unit_camera_definition **camera) // 0x107EB640
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetUnitCamera@CPlayerEmotes@Player@@SA_NHPAPAUs_unit_camera_definition@@@Z");
-
 		if (!((bool(__cdecl *)(long, long))0xb69ba0)(unitIndex, 87))
 		{
 			return false;
@@ -426,8 +410,6 @@ namespace Player
 
 	Player::CPlayerEmotes::SActionStateData *CPlayerEmotes::GetUnitActionState(__int32 unitIndex) // 0x107EB590
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetUnitActionState@CPlayerEmotes@Player@@SAPAUSActionStateData@12@H@Z");
-
 		s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unitIndex, 0x2003);
 
 		if (!unit)
@@ -440,8 +422,6 @@ namespace Player
 
 	void CPlayerEmotes::RegisterSimulationTypes(c_simulation_type_collection *type_collection, __int32 *enitty_type_count, __int32 *event_type_count) // 0x107EBDD0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterSimulationTypes@CPlayerEmotes@Player@@SAXPAVc_simulation_type_collection@@PAH1@Z");
-
 		type_collection->register_event_definition(_simulation_event_type_player_taunt_request, &emote_definition);
 	}
 }
@@ -450,8 +430,6 @@ namespace Player
 
 _inline CPlayerEmoteAction::SActionRequest::SActionRequest(__int32 definitionIndex, __int32 emoteIndex) // 0x107EB2F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SActionRequest@CPlayerEmoteAction@hades_file_local@@QAE@HH@Z");
-
 	this->definitionIndex = definitionIndex;
 	this->emoteIndex = emoteIndex;
 	action_type = _action_player_emote;
@@ -459,16 +437,12 @@ _inline CPlayerEmoteAction::SActionRequest::SActionRequest(__int32 definitionInd
 
 _inline void CPlayerEmoteAction::SActionRequest::Submit(long unit_index) // 0x107EC430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Submit@SActionRequest@CPlayerEmoteAction@hades_file_local@@QAEXJ@Z");
-
 	eldorado::action_submit0(unit_index, this);
 	submit_unit_holograms(unit_index);
 }
 
 _inline void CPlayerEmoteAction::SActionRequest::submit_unit_holograms(__int32 unit_index) // 0x107ECF90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?submit_unit_holograms@SActionRequest@CPlayerEmoteAction@hades_file_local@@QAEXH@Z");
-
 	c_data_array<s_object_header> *object_headers = object_headers_get();
 	for (c_data_iterator<s_object_header> it = object_headers->begin(); it != object_headers->end(); ++it)
 	{
@@ -482,8 +456,6 @@ _inline void CPlayerEmoteAction::SActionRequest::submit_unit_holograms(__int32 u
 
 _inline void CPlayerEmoteAction::unit_put_away_weapons(long unit_index) // 0x107ED270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_put_away_weapons@CPlayerEmoteAction@hades_file_local@@SAXJ@Z");
-
 	bool (*const weapon_put_away)(long, bool, bool) = reinterpret_cast<bool (*)(long, bool, bool)>(0xB65530);
 	void (*const unit_send_message_to_first_person)(long, e_unit_messages) = reinterpret_cast<void (*)(long, e_unit_messages)>(0xBA5750);
 	void (*const unit_action_weapon_put_away_end)(long, bool, char) = reinterpret_cast<void (*)(long, bool, char)>(0xBA5940);
@@ -511,8 +483,6 @@ _inline void CPlayerEmoteAction::unit_put_away_weapons(long unit_index) // 0x107
 
 _inline bool CPlayerEmoteAction::ActionSubmit(long unit_index, s_action_request const *action_request) // 0x107EA0D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ActionSubmit@CPlayerEmoteAction@hades_file_local@@SA_NJPBUs_action_request@@@Z");
-
 	SActionRequest *request = (SActionRequest *)action_request;
 	s_mod_player_actions_set_definition *actionSet = s_mod_player_actions_set_definition::get(request->definitionIndex);
 	s_mod_player_action *actionDef = actionSet->actions.get_element(request->emoteIndex);
@@ -541,8 +511,6 @@ _inline bool CPlayerEmoteAction::ActionSubmit(long unit_index, s_action_request 
 
 _inline bool CPlayerEmoteAction::ActionUpdate(long unit_index, e_action action_type) // 0x107EA320
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ActionUpdate@CPlayerEmoteAction@hades_file_local@@SA_NJW4e_action@@@Z");
-
 	Player::CPlayerEmotes::SActionStateData *emoteStateData = Player::CPlayerEmotes::GetUnitActionState(unit_index);
 	s_mod_player_actions_set_definition *actionSet = s_mod_player_actions_set_definition::get(emoteStateData->definitionIndex);
 	s_mod_player_action *actionDef = actionSet->actions.get_element(emoteStateData->emoteIndex);
@@ -571,8 +539,6 @@ _inline bool CPlayerEmoteAction::ActionUpdate(long unit_index, e_action action_t
 
 _inline void CPlayerEmoteAction::ActionFinished(long unit_index, e_action action_type) // 0x107EA4F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ActionFinished@CPlayerEmoteAction@hades_file_local@@SAXJW4e_action@@@Z");
-
 	Player::CPlayerEmotes::SActionStateData *emoteStateData = Player::CPlayerEmotes::GetUnitActionState(unit_index);
 	s_mod_player_actions_set_definition *actionSet = s_mod_player_actions_set_definition::get(emoteStateData->definitionIndex);
 	s_mod_player_action *actionDef = actionSet->actions.get_element(emoteStateData->emoteIndex);
@@ -585,18 +551,14 @@ _inline void CPlayerEmoteAction::ActionFinished(long unit_index, e_action action
 
 _inline void CPlayerEmoteAction::ActionInterrupt(long unit_index, e_action action_type) // 0x107EA5D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ActionInterrupt@CPlayerEmoteAction@hades_file_local@@SAXJW4e_action@@@Z");
 }
 
 _inline void CPlayerEmoteAction::ActionAnimationEvent(long unit_index, e_action action_type, unsigned long flags) // 0x107EA5F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ActionAnimationEvent@CPlayerEmoteAction@hades_file_local@@SAXJW4e_action@@K@Z");
 }
 
 _inline bool CPlayerEmoteAction::StartAnimation(long unit_index, unsigned long mode, unsigned long state) // 0x107EC2F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?StartAnimation@CPlayerEmoteAction@hades_file_local@@SA_NJKK@Z");
-
 	c_motor_request motor_request{};
 
 	motor_request.unknown0 = 1;
@@ -612,71 +574,51 @@ _inline bool CPlayerEmoteAction::StartAnimation(long unit_index, unsigned long m
 
 _inline e_simulation_event_type c_simulation_player_emote_event_definition::event_type() const // 0x107EA610
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?event_type@c_simulation_player_emote_event_definition@hades_file_local@@EBE?AW4e_simulation_event_type@@XZ");
-
 	return _simulation_event_type_player_taunt_request;
 }
 
 _inline char const *c_simulation_player_emote_event_definition::event_name() const // 0x107EA640
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?event_name@c_simulation_player_emote_event_definition@hades_file_local@@EBEPBDXZ");
-
 	return "emote";
 }
 
 _inline long c_simulation_player_emote_event_definition::payload_size() const // 0x107EA670
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?payload_size@c_simulation_player_emote_event_definition@hades_file_local@@EBEJXZ");
-
 	return 0xC;
 }
 
 _inline long c_simulation_player_emote_event_definition::number_of_entity_references() const // 0x107EA6A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?number_of_entity_references@c_simulation_player_emote_event_definition@hades_file_local@@EBEJXZ");
-
 	return 0;
 }
 
 _inline bool c_simulation_player_emote_event_definition::reference_delays_entity_deletion() const // 0x107EA6C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?reference_delays_entity_deletion@c_simulation_player_emote_event_definition@hades_file_local@@EBE_NXZ");
-
 	return false;
 }
 
 _inline bool c_simulation_player_emote_event_definition::event_can_be_transmitted(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1) const // 0x107EA6E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?event_can_be_transmitted@c_simulation_player_emote_event_definition@hades_file_local@@EBE_NPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@@Z");
-
 	return true;
 }
 
 _inline long c_simulation_player_emote_event_definition::minimum_required_bits(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, long *__formal2) const // 0x107EA700
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?minimum_required_bits@c_simulation_player_emote_event_definition@hades_file_local@@EBEJPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@PAJ@Z");
-
 	return 0x38;
 }
 
 _inline float c_simulation_player_emote_event_definition::calculate_relevance(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2) const // 0x107EA730
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?calculate_relevance@c_simulation_player_emote_event_definition@hades_file_local@@EBEMPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@M@Z");
-
 	return 0.0f;
 }
 
 _inline void c_simulation_player_emote_event_definition::write_description_to_string(c_replication_outgoing_event const *__formal, s_simulation_view_telemetry_data const *__formal1, float __formal2, long __formal3, char *description) const // 0x107EA750
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?write_description_to_string@c_simulation_player_emote_event_definition@hades_file_local@@EBEXPBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@MJPAD@Z");
-
 	sprintf(description, "blam");
 }
 
 _inline simulation_event_definition_return_value *c_simulation_player_emote_event_definition::gather_requirements_data(simulation_event_definition_return_value *data, c_replication_outgoing_event const *e, s_simulation_view_telemetry_data const *telemetry) const // 0x107EA7B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?gather_requirements_data@c_simulation_player_emote_event_definition@hades_file_local@@EBEPAUsimulation_event_definition_return_value@@PAU3@PBUc_replication_outgoing_event@@PBUs_simulation_view_telemetry_data@@@Z");
-
 	data->value = data->value & 0xFFFFFF01 | 0x101;
 	data->value = data->value & 0x1FF | 0xA800;
 	return data;
@@ -684,8 +626,6 @@ _inline simulation_event_definition_return_value *c_simulation_player_emote_even
 
 _inline void c_simulation_player_emote_event_definition::event_payload_encode(long payload_size, void const *payload, c_bitstream *packet, bool predicted) const // 0x107EA810
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?event_payload_encode@c_simulation_player_emote_event_definition@hades_file_local@@EBEXJPBXPAVc_bitstream@@_N@Z");
-
 	Blam::BitStream *packet_impl = (Blam::BitStream *)packet;
 	s_simulation_player_emote_event_data *const data = (s_simulation_player_emote_event_data *)payload;
 
@@ -701,8 +641,6 @@ _inline void c_simulation_player_emote_event_definition::event_payload_encode(lo
 
 _inline bool c_simulation_player_emote_event_definition::event_payload_decode(long payload_size, void *payload, c_bitstream *packet, bool predicted) const // 0x107EA8D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?event_payload_decode@c_simulation_player_emote_event_definition@hades_file_local@@EBE_NJPAXPAVc_bitstream@@_N@Z");
-
 	Blam::BitStream *packet_impl = (Blam::BitStream *)packet;
 	s_simulation_player_emote_event_data *data = (s_simulation_player_emote_event_data *)payload;
 
@@ -720,13 +658,10 @@ _inline bool c_simulation_player_emote_event_definition::event_payload_decode(lo
 
 _inline void c_simulation_player_emote_event_definition::prepare_event_data_for_gameworld(long payload_size, void *payload) // 0x107EA980
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?prepare_event_data_for_gameworld@c_simulation_player_emote_event_definition@hades_file_local@@EAEXJPAX@Z");
 }
 
 _inline bool c_simulation_player_emote_event_definition::apply_game_event(long reference_gamestate_count, long const *gamestate_indices, long payload_size, void const *payload) // 0x107EA9A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?apply_game_event@c_simulation_player_emote_event_definition@hades_file_local@@EAE_NJPBJJPBX@Z");
-
 	s_simulation_player_emote_event_data *data = (s_simulation_player_emote_event_data *)payload;
 	s_player_datum *player = players_get()->try_and_get_absolute(data->player_index);
 
@@ -751,8 +686,6 @@ _inline bool c_simulation_player_emote_event_definition::apply_game_event(long r
 
 bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteIndex) // 0x107EB750
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerCanEmote@@YA_NHHF@Z");
-
 	s_player_datum *player = player_get(playerIndex);
 	if (!player)
 		return false;
@@ -783,8 +716,6 @@ bool PlayerCanEmote(__int32 playerIndex, __int32 definitionIndex, short emoteInd
 
 void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex) // 0x107EB980
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerStartEmote@@YAXHJJ@Z");
-
 	if (!PlayerCanEmote(playerIndex, definitionIndex, emoteIndex))
 		return;
 	s_player_datum *player = player_get(playerIndex);
@@ -803,8 +734,6 @@ void PlayerStartEmote(__int32 playerIndex, long definitionIndex, long emoteIndex
 
 void PlayerStopEmote(__int32 playerIndex) // 0x107EBB50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerStopEmote@@YAXH@Z");
-
 	s_player_datum *player = player_get(playerIndex);
 	if (!player)
 		return;

@@ -72,22 +72,16 @@ static_assert(sizeof(CServerConnectStateManager) == 308, "Invalid CServerConnect
 
 inline SServerConnectState &CServerConnectStateManager::GetStateMutable() // 0x10907590
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetStateMutable@CServerConnectStateManager@@QAEAAUSServerConnectState@@XZ");
-
 	return m_state;
 }
 
 inline SServerConnectState const &CServerConnectStateManager::GetState() const // 0x10907560
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetState@CServerConnectStateManager@@QBEABUSServerConnectState@@XZ");
-
 	return m_state;
 }
 
 inline bool CServerConnectStateManager::InProgress() const // 0x10B07950
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InProgress@CServerConnectStateManager@@QBE_NXZ");
-
 	return !(m_currentHandler == nullptr);
 }
 

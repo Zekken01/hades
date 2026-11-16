@@ -85,8 +85,6 @@ namespace Blam
 	{
 		bool CTagCacheFileReader::Open(std::string const &filename, long long baseOffset, std::unordered_map<int,std::string> &&tagNames) // 0x107F4F10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Open@CTagCacheFileReader@Cache@Blam@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_J$$QAV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@5@@Z");
-
 			m_baseOffset = baseOffset;
 			m_stream = std::ifstream(filename, std::ios::binary);
 			m_tagNames = std::move(tagNames);
@@ -95,15 +93,11 @@ namespace Blam
 
 		void CTagCacheFileReader::Close() // 0x107F4A30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Close@CTagCacheFileReader@Cache@Blam@@QAEXXZ");
-
 			m_stream.close();
 		}
 
 		__int32 CTagCacheFileReader::FindTagByName(__int32 group, std::string_view name) // 0x107F4A80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindTagByName@CTagCacheFileReader@Cache@Blam@@QAEHHV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
-
 			for (__int32 i = 0; i < m_tagCount; i++)
 			{
 				auto nameIt = m_tagNames.find(i);
@@ -120,8 +114,6 @@ namespace Blam
 
 		bool CTagCacheFileReader::ReadTag(__int32 index, std::vector<char> &buffer) // 0x107F5140
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ReadTag@CTagCacheFileReader@Cache@Blam@@QAE_NHAAV?$vector@DV?$allocator@D@std@@@std@@@Z");
-
 			s_cache_tag_instance header;
 			if (!ReadTagData(index, &header, 0, sizeof(header)))
 				return false;
@@ -131,8 +123,6 @@ namespace Blam
 
 		bool CTagCacheFileReader::ReadAndFixupTag(__int32 index, std::vector<char> &buffer) // 0x107F5040
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ReadAndFixupTag@CTagCacheFileReader@Cache@Blam@@QAE_NHAAV?$vector@DV?$allocator@D@std@@@std@@@Z");
-
 			if (!ReadTag(index, buffer))
 				return false;
 			s_cache_tag_instance *instance = (s_cache_tag_instance *)buffer.data();
@@ -144,8 +134,6 @@ namespace Blam
 
 		bool CTagCacheFileReader::ReadTagData(__int32 index, void *buffer, unsigned __int32 offset, __int32 size) // 0x107F5230
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ReadTagData@CTagCacheFileReader@Cache@Blam@@QAE_NHPAXIH@Z");
-
 			if (!ValidTagIndex(index))
 				return false;
 			m_stream.seekg(m_tagTableOffset + m_baseOffset + index * 4LL);
@@ -160,8 +148,6 @@ namespace Blam
 
 		bool CTagCacheFileReader::Initialize() // 0x107F4DA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CTagCacheFileReader@Cache@Blam@@AAE_NXZ");
-
 			m_stream.seekg(m_baseOffset);
 			s_cache_file_segment_header header;
 			m_stream.read((char *)&header, sizeof(header));

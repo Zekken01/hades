@@ -208,25 +208,19 @@ namespace Server
 	{
 		VotingSystem::VotingSystem() : AbstractVotingSystem(), winnerChosenTime(0), mapSetTime(0), enumerationTime(0), numberOfRevotesUsed(0), numberOfRematchesUsed(0), isFirstVote(true), shouldRunPreviousCommands(false) /* hades-mem-init:  */ // 0x10C4D570
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingSystem@Voting@Server@@QAE@XZ");
 		}
 
 		void VotingSystem::Init() // 0x10C4EBC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@VotingSystem@Voting@Server@@UAEXXZ");
 		}
 
 		bool VotingSystem::isEnabled() // 0x10C51440
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@VotingSystem@Voting@Server@@UAE_NXZ");
-
 			return Modules::ModuleVoting::Instance().VarServerVotingType->ValueInt == 1;
 		}
 
 		void VotingSystem::Reset() // 0x10C4F230
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@VotingSystem@Voting@Server@@UAEXXZ");
-
 			numberOfRevotesUsed = 0;
 			winnerChosenTime = 0;
 			enumerationTime = 0;
@@ -239,16 +233,12 @@ namespace Server
 
 		void VotingSystem::NewVote() // 0x10C4F1B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?NewVote@VotingSystem@Voting@Server@@UAEXXZ");
-
 			Reset();
 			StartVoting();
 		}
 
 		void VotingSystem::EndVote() // 0x10C4DAB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?EndVote@VotingSystem@Voting@Server@@UAEXXZ");
-
 			Server::Voting::VotingMessage newmessage(VoteEnded);
 
 			newmessage.voteEnded = true;
@@ -257,8 +247,6 @@ namespace Server
 
 		void VotingSystem::LogVote(Server::Voting::VotingMessage const &message, std::string name) // 0x10C4EE90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LogVote@VotingSystem@Voting@Server@@UAEXABUVotingMessage@23@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			if (!voteStartedTime || Utils::Singleton<Modules::ModuleVoting>::Instance().VarServerVotingType->ValueInt != 1)
 				return;
 			unsigned __int32 vote = message.Vote;
@@ -274,8 +262,6 @@ namespace Server
 
 		void VotingSystem::SendVoteCountsToEveryone() // 0x10C4F300
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendVoteCountsToEveryone@VotingSystem@Voting@Server@@UAEXXZ");
-
 			if (winnerChosen)
 			{
 				time_t curTime1;
@@ -311,8 +297,6 @@ namespace Server
 
 		void VotingSystem::loadDefaultMapsAndTypes() // 0x10C514C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?loadDefaultMapsAndTypes@VotingSystem@Voting@Server@@EAEXXZ");
-
 			for (auto &m : GetDefaultMapList())
 			{
 				if (m.name == "mainmenu")
@@ -334,8 +318,6 @@ namespace Server
 
 		double getRandom(double fMin, double fMax) // 0x10C512A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?getRandom@Voting@Server@@YANNN@Z");
-
 			std::mt19937 rng;
 			std::uniform_real_distribution<double> dist(fMin, fMax);
 
@@ -346,8 +328,6 @@ namespace Server
 
 		Server::Voting::MapAndType VotingSystem::GenerateVotingOption() // 0x10C4E190
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateVotingOption@VotingSystem@Voting@Server@@EAE?AUMapAndType@23@XZ");
-
 			HaloType gametype;
 			HaloMap map;
 			float gametype_sum_of_weights = 0.0f;
@@ -388,15 +368,11 @@ namespace Server
 
 		bool AbstractVotingSystem::ShouldSendVotingOptions() // 0x10C4F670
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldSendVotingOptions@AbstractVotingSystem@Voting@Server@@UAE_NXZ");
-
 			return voteStartedTime || winnerChosen;
 		}
 
 		Server::Voting::VotingMessage VotingSystem::GenerateVotingOptionsMessage(bool updateTime) // 0x10C4E800
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateVotingOptionsMessage@VotingSystem@Voting@Server@@UAE?AUVotingMessage@23@_N@Z");
-
 			VotingMessage newmessage(VotingMessageType::VotingOptions);
 			__int32 i = 0;
 			for (auto const &option : currentVotingOptions)
@@ -433,8 +409,6 @@ namespace Server
 	{
 		std::vector<Server::Voting::MapAndType> VotingSystem::countQuickVotes() // 0x10C50E80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?countQuickVotes@VotingSystem@Voting@Server@@AAE?AV?$vector@UMapAndType@Voting@Server@@V?$allocator@UMapAndType@Voting@Server@@@std@@@std@@XZ");
-
 			std::vector<Server::Voting::MapAndType> tmp = currentVotingOptions;
 			for (std::pair<std::string const ,int> const &vote : mapVotes)
 			{
@@ -447,8 +421,6 @@ namespace Server
 
 		void VotingSystem::countVotes() // 0x10C51090
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?countVotes@VotingSystem@Voting@Server@@AAEXXZ");
-
 			for (auto const &vote : mapVotes)
 			{
 				if (vote.second > (int)currentVotingOptions.size() || vote.second < 1)
@@ -459,8 +431,6 @@ namespace Server
 
 		void VotingSystem::FindWinner() // 0x10C4DB80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindWinner@VotingSystem@Voting@Server@@AAEXXZ");
-
 			countVotes();
 			std::vector<MapAndType> finalVotingOptions = currentVotingOptions;
 			std::sort(finalVotingOptions.begin(), finalVotingOptions.end());
@@ -513,8 +483,6 @@ namespace Server
 
 		void VotingSystem::StartVoting() // 0x10C4F6F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?StartVoting@VotingSystem@Voting@Server@@UAEXXZ");
-
 			if (idle)
 				return;
 			if (!gameTypes.size())
@@ -576,15 +544,11 @@ namespace Server
 
 		__int32 getVotesNeededToInstantSkip() // 0x10C513C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?getVotesNeededToInstantSkip@Voting@Server@@YAHXZ");
-
 			return (__int32)round((Blam::Network::GetNumPlayers() - 1) * 51 / 100 + 1);
 		}
 
 		void VotingSystem::Tick() // 0x10C4FEE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@VotingSystem@Voting@Server@@UAEXXZ");
-
 			long long curTime1;
 			time(&curTime1);
 			if (idle)
@@ -666,8 +630,6 @@ namespace Server
 
 		void VotingSystem::onExit() // 0x10C51970
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?onExit@VotingSystem@Voting@Server@@UAEXXZ");
-
 			isFirstVote = true;
 			if (shouldRunPreviousCommands)
 			{
@@ -681,8 +643,6 @@ namespace Server
 
 		bool VotingSystem::LoadJson(std::string filename) // 0x10C4EBE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadJson@VotingSystem@Voting@Server@@EAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			haloMaps.clear();
 			gameTypes.clear();
 			Server::Voting::VotingJson voting;

@@ -55,36 +55,26 @@ extern long (*const game_time_get)();  // hades: added for 0x108626A0
 
 bool CForgeUndoManager::CanUndo() // 0x10862920
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CanUndo@CForgeUndoManager@@QAE_NXZ");
-
 	return m_undoStack.size() > 0;
 }
 
 bool CForgeUndoManager::CanRedo() // 0x108628A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CanRedo@CForgeUndoManager@@QAE_NXZ");
-
 	return m_redoStack.size() > 0;
 }
 
 void CForgeUndoManager::RequestUndo() // 0x10862EE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestUndo@CForgeUndoManager@@QAEXXZ");
-
 	m_undoRequested = true;
 }
 
 void CForgeUndoManager::RequestRedo() // 0x10862EB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestRedo@CForgeUndoManager@@QAEXXZ");
-
 	m_redoRequested = true;
 }
 
 void CForgeUndoManager::AddUndo(std::string const &summary, std::shared_ptr<IForgeUndo> undo) // 0x108626A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AddUndo@CForgeUndoManager@@QAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$shared_ptr@UIForgeUndo@@@3@@Z");
-
 	if (!m_recording)
 		return;
 	SUndoEntry entry;
@@ -105,18 +95,12 @@ void CForgeUndoManager::AddUndo(std::string const &summary, std::shared_ptr<IFor
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0SUndoEntry@CForgeUndoManager@@QAE@ABU01@@Z"); no body to assert in
 _inline CForgeUndoManager::SUndoEntry::SUndoEntry(CForgeUndoManager::SUndoEntry const &__that) = default; // 0x10862260
 
-// mangled_x86(MANGLED_DEFAULT, "??0SUndoEntry@CForgeUndoManager@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??1SUndoEntry@CForgeUndoManager@@QAE@XZ"); no body to assert in
 _inline CForgeUndoManager::SUndoEntry::~SUndoEntry() = default; // 0x10862540
 
 void CForgeUndoManager::Update() // 0x10862F70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeUndoManager@@QAEXXZ");
-
 	if (m_undoRequested)
 	{
 		m_undoRequested = false;
@@ -132,8 +116,6 @@ void CForgeUndoManager::Update() // 0x10862F70
 
 void CForgeUndoManager::PerformUndo() // 0x10862D50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PerformUndo@CForgeUndoManager@@AAEXXZ");
-
 	if (m_undoStack.size() > 0)
 	{
 		SUndoEntry entry = static_cast<SUndoEntry const &>(m_undoStack.front());
@@ -147,8 +129,6 @@ void CForgeUndoManager::PerformUndo() // 0x10862D50
 
 void CForgeUndoManager::PerformRedo() // 0x10862BF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PerformRedo@CForgeUndoManager@@AAEXXZ");
-
 	if (m_redoStack.size() > 0)
 	{
 		SUndoEntry entry = static_cast<SUndoEntry const &>(m_redoStack.front());
@@ -162,8 +142,6 @@ void CForgeUndoManager::PerformRedo() // 0x10862BF0
 
 void CForgeUndoManager::Clear() // 0x108629A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@CForgeUndoManager@@QAEXXZ");
-
 	m_undoRequested = false;
 	m_redoRequested = false;
 
@@ -180,29 +158,22 @@ void CForgeUndoManager::Clear() // 0x108629A0
 
 bool CForgeUndoManager::IsRecording() const // 0x10862BC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?IsRecording@CForgeUndoManager@@QBE_NXZ");
-
 	return m_recording;
 }
 
 void CForgeUndoManager::StopRecording() // 0x10862F40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?StopRecording@CForgeUndoManager@@QAEXXZ");
-
 	m_recording = false;
 }
 
 void CForgeUndoManager::StartRecording() // 0x10862F10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?StartRecording@CForgeUndoManager@@QAEXXZ");
-
 	m_recording = true;
 }
 
 #line 229
 std::string CForgeUndoManager::GetNextUndoSummary() const // 0x10862B00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetNextUndoSummary@CForgeUndoManager@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 #line 233
 
 	#line 231 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Forge\\ForgeUndo.cpp"
@@ -213,7 +184,6 @@ std::string CForgeUndoManager::GetNextUndoSummary() const // 0x10862B00
 
 std::string CForgeUndoManager::GetNextRedoSummary() const // 0x10862A40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetNextRedoSummary@CForgeUndoManager@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 #line 244
 
 	#line 242 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Forge\\ForgeUndo.cpp"

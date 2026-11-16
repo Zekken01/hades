@@ -70,8 +70,6 @@ extern bool (*const unit_is_dual_wielding)(unsigned long); // 0x11249FDC
 
 long unit_get_ultimate_motion_control_unit_index(long unit_index) // 0x10F0CF80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_ultimate_motion_control_unit_index@@YAJJ@Z");
-
 	for (;;)
 	{
 		s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
@@ -86,8 +84,6 @@ long unit_get_ultimate_motion_control_unit_index(long unit_index) // 0x10F0CF80
 
 long unit_get_current_or_last_weak_player_index(long unit_index) // 0x10F0CE10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_current_or_last_weak_player_index@@YAJJ@Z");
-
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	if (!unit)
 		return -1;
@@ -100,8 +96,6 @@ long unit_get_current_or_last_weak_player_index(long unit_index) // 0x10F0CE10
 
 long unit_get_player_index(long unit_index) // 0x10F0CED0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_get_player_index@@YAJJ@Z");
-
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	if (!unit)
 		return NONE;
@@ -111,8 +105,6 @@ long unit_get_player_index(long unit_index) // 0x10F0CED0
 
 void unit_drop_grenades(long unit_index) // 0x10F0CB70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_grenades@@YAXJ@Z");
-
 	s_game_globals *game_globals = game_globals_get();
 	s_unit_data *unit = (s_unit_data *)object_get(unit_index);
 	for (long i = 0; i < 4 && i < game_globals->Grenades.count; i++)
@@ -138,8 +130,6 @@ void unit_drop_grenades(long unit_index) // 0x10F0CB70
 
 void unit_drop_equipment(long unit_index, long slot_index) // 0x10F0C8F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_drop_equipment@@YAXJJ@Z");
-
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	long equipment_index = unit->equipment_object_indices[slot_index];
 	if (equipment_index == -1 || !((bool (*)())0x5319C0)())
@@ -162,8 +152,6 @@ void unit_drop_equipment(long unit_index, long slot_index) // 0x10F0C8F0
 
 bool unit_is_holding_objective(long unit_index) // 0x10F0D1B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_is_holding_objective@@YA_NJ@Z");
-
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	if (!unit)
 		return false;
@@ -183,8 +171,6 @@ bool unit_is_holding_objective(long unit_index) // 0x10F0D1B0
 
 bool unit_has_vision(long unit_index) // 0x10F0D040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_has_vision@@YA_NJ@Z");
-
 	s_unit_data *unit = object_get<s_unit_data>(unit_index);
 	if (!unit)
 		return false;

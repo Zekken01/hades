@@ -103,8 +103,6 @@ namespace Scripting
 	{
 		bool ValidIdentifier(std::string_view name) // 0x10702520
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ValidIdentifier@HS@Scripting@@YA_NV?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
-
 			if (name.empty())
 				return false;
 			if (!isalpha(name[0]))
@@ -122,7 +120,6 @@ namespace Scripting
 #line 124
 		void ScriptMethodMap::AddMethod(Scripting::HS::ScriptMethod &&method) // 0x10701260
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?AddMethod@ScriptMethodMap@HS@Scripting@@AAEX$$QAUScriptMethod@23@@Z");
 #line 132
 
 			#line 126 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
@@ -158,13 +155,10 @@ namespace Scripting
 			#line 164 "C:\\Users\\zekken\\Desktop\\Project Hades\\Hades\\Source\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??0ScriptMethod@HS@Scripting@@QAE@ABU012@@Z"); no body to assert in
 		// _inline ScriptMethod::ScriptMethod(Scripting::HS::ScriptMethod const &__that) = default; // 0x10700770  // hades: implicit (ScriptMethod is an aggregate)
 
 		void ScriptMethodMap::AddMethod(std::string_view name, std::string_view description, Scripting::HS::ScriptMethodFlags flags, void (*evaluate)(short, long, bool), e_hs_type returnType, std::initializer_list<Scripting::HS::ScriptParameter> parameters) // 0x10701690
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?AddMethod@ScriptMethodMap@HS@Scripting@@QAEXV?$basic_string_view@DU?$char_traits@D@std@@@std@@0W4ScriptMethodFlags@23@P6AXFJ_N@ZW4e_hs_type@@V?$initializer_list@UScriptParameter@HS@Scripting@@@5@@Z");
-
 			ScriptMethod method = {};
 			method.name = name;
 			method.description = description;
@@ -178,7 +172,6 @@ namespace Scripting
 #line 188
 		Scripting::HS::ScriptMethod const *ScriptMethodMap::FindMethod(std::string_view name) const // 0x10701880
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindMethod@ScriptMethodMap@HS@Scripting@@QBEPBUScriptMethod@23@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@Z");
 #line 196
 
 			#line 190 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
@@ -198,8 +191,6 @@ namespace Scripting
 	{
 		std::string ScriptMethodMap::GenerateHelp(Scripting::HS::ScriptMethod const *method) // 0x10701E00
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateHelp@ScriptMethodMap@HS@Scripting@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBUScriptMethod@23@@Z");
-
 			return std::string(method->description);
 		}
 	}
@@ -212,8 +203,6 @@ namespace Scripting
 	{
 		std::string ScriptMethodMap::GenerateMethodDeclaration(Scripting::HS::ScriptMethod const *method) // 0x10701E90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateMethodDeclaration@ScriptMethodMap@HS@Scripting@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBUScriptMethod@23@@Z");
-
 			if (!method)
 				return "(null)";
 			std::string_view returnType = hs_get_type_name(method->returnType);
@@ -249,7 +238,6 @@ namespace Scripting
 #line 277
 		std::string ScriptMethodMap::GenerateDocs() const // 0x10701A20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateDocs@ScriptMethodMap@HS@Scripting@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
 #line 293
 
 			#line 279 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"
@@ -276,7 +264,6 @@ namespace Scripting
 
 		void ScriptMethodMap::Finalize() // 0x107017F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Finalize@ScriptMethodMap@HS@Scripting@@QAEXXZ");
 #line 320
 
 			#line 318 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Scripting\\HaloScript\\HsMethodMap.cpp"

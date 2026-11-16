@@ -219,8 +219,6 @@ __int32 __stdcall WndProcHook(HWND__ *hWnd, unsigned __int32 msg, unsigned __int
 
 void EnableImmersiveDarkMode(HWND__ *hWnd) // 0x10ACBBA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?EnableImmersiveDarkMode@@YAXPAUHWND__@@@Z");
-
 	__int32 appsUseLightTheme;
 	unsigned long cb = sizeof(appsUseLightTheme);
 	if (RegGetValueW(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", L"AppsUseLightTheme", RRF_RT_REG_DWORD, nullptr, &appsUseLightTheme, &cb) == ERROR_SUCCESS && !appsUseLightTheme)
@@ -242,8 +240,6 @@ __int32 __stdcall SetWindowPosHook(HWND__ *hWnd, HWND__ *hWndInsertAfter, __int3
 
 void DisplayCreateWindowError() // 0x10ACBAA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?DisplayCreateWindowError@@YAXXZ");
-
 	char buffer[1024];
 
 	FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buffer, 0, NULL);
@@ -252,8 +248,6 @@ void DisplayCreateWindowError() // 0x10ACBAA0
 
 static HWND__ *CreateGameWindowHook() // 0x10ACB3C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateGameWindowHook@@YAPAUHWND__@@XZ");
-
 	bool (*const global_preferences_get_fullscreen)() = (bool (*)())0x50B250;
 	long *resolution = (long *)0x19106C8;
 	long *client_resolution = (long *)0x19106E4;

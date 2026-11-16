@@ -64,8 +64,6 @@ namespace Http
 {
 	inline Http::WinHttpErrorCategory &WinHttpErrorCategory::Get() // 0x10808960
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Get@WinHttpErrorCategory@Http@@SAAAU12@XZ");
-
 		static Http::WinHttpErrorCategory instance;
 		return instance;
 	}
@@ -76,8 +74,6 @@ namespace Http
 {
 	inline char const *WinHttpErrorCategory::name() const noexcept // 0x1080C0F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?name@WinHttpErrorCategory@Http@@UBEPBDXZ");
-
 		return "WinHttp";
 	}
 }
@@ -87,8 +83,6 @@ namespace Http
 {
 	inline std::string WinHttpErrorCategory::message(__int32 error) const // 0x1080BE40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?message@WinHttpErrorCategory@Http@@UBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-
 		HINSTANCE__ *hInst = LoadLibraryA("winhttp.dll");
 		if (!hInst)
 			return "";
@@ -104,8 +98,6 @@ namespace Http
 
 	inline void WinHttpHandlerDeleter::operator()(void *handle) // 0x107F71C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??RWinHttpHandlerDeleter@Http@@QAEXPAX@Z");
-
 		WinHttpCloseHandle(handle);
 	}
 }

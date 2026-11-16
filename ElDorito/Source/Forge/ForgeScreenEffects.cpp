@@ -67,8 +67,6 @@ namespace Forge
 {
 	void CForgeScreenEffects::ApplyScreenEffectOverride(long output_user_index, long datum_index, s_single_screen_effect_definition *definition) // 0x106D1C10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyScreenEffectOverride@CForgeScreenEffects@Forge@@SAXJJPAUs_single_screen_effect_definition@@@Z");
-
 		s_screen_effect_datum *screenEffectDatum = tls_getd().screen_effects->try_and_get(datum_index);
 		s_object_data *object = object_get(screenEffectDatum->attach_object_index);
 		if (!object || object->map_variant_index == -1)

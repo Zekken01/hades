@@ -186,8 +186,6 @@ namespace Blam
 
 void CModBrowserManager::Initialize() // 0x1070C4E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CModBrowserManager@@QAEXXZ");
-
 	auto acquireModsHandler = std::make_shared<CModBrowserStateHandler_AcquireMod>();
 	acquireModsHandler->SetUI(Web::Ui::WebServerModBrowser::GetDownloadUISingle());
 	m_stateManager = std::make_shared<CModBrowserStateManager>();
@@ -197,8 +195,6 @@ void CModBrowserManager::Initialize() // 0x1070C4E0
 
 bool CModBrowserManager::ShouldDownloadPackage(SModBrowserState::SRequestedMod const &package) // 0x1070C940
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldDownloadPackage@CModBrowserManager@@AAE_NABUSRequestedMod@SModBrowserState@@@Z");
-
 	unsigned char remote_hash[20];
 	Utils::String::HexStringToBytes(package.hash, remote_hash, sizeof(remote_hash));
 	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
@@ -220,8 +216,6 @@ bool CModBrowserManager::ShouldDownloadPackage(SModBrowserState::SRequestedMod c
 
 bool CModBrowserManager::DownloadMod(SModBrowserState const &options) // 0x1070C070
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?DownloadMod@CModBrowserManager@@QAE_NABUSModBrowserState@@@Z");
-
 	if (m_stateManager->InProgress())
 		return false;
 	if (!ShouldDownloadPackage(options.requestedMod))
@@ -245,15 +239,11 @@ bool CModBrowserManager::DownloadMod(SModBrowserState const &options) // 0x1070C
 
 void CModBrowserManager::Update() // 0x1070CCA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CModBrowserManager@@QAEXXZ");
-
 	m_stateManager->Update();
 }
 
 void CModBrowserManager::OnDownloadAborted(EModBrowserAbortReason reason) // 0x1070C750
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadAborted@CModBrowserManager@@AAEXW4EModBrowserAbortReason@@@Z");
-
 	std::string message;
 	switch (reason)
 	{
@@ -274,7 +264,6 @@ void CModBrowserManager::OnDownloadAborted(EModBrowserAbortReason reason) // 0x1
 	Web::Ui::ScreenLayer::ShowDialog(dialogParams);
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0CModBrowserStateManager@@QAE@XZ"); no body to assert in
 // _inline CModBrowserStateManager::CModBrowserStateManager() = default; // 0x1070A870  // hades: defaulted on its declaration
 
 namespace Web
@@ -283,12 +272,10 @@ namespace Web
 	{
 		namespace ScreenLayer
 		{
-			// mangled_x86(MANGLED_DEFAULT, "??0SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ"); no body to assert in
 		}
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1CModBrowserStateManager@@QAE@XZ"); no body to assert in
 _inline CModBrowserStateManager::~CModBrowserStateManager() = default; // 0x1070B500
 
 namespace Web
@@ -297,25 +284,19 @@ namespace Web
 	{
 		namespace ScreenLayer
 		{
-			// mangled_x86(MANGLED_DEFAULT, "??1SDialogShowParams@ScreenLayer@Ui@Web@@QAE@XZ"); no body to assert in
 			_inline SDialogShowParams::~SDialogShowParams() = default; // 0x1070B5E0
 		}
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1SModBrowserState@@QAE@XZ"); no body to assert in
 _inline SModBrowserState::~SModBrowserState() = default; // 0x1070B670
 
-// mangled_x86(MANGLED_DEFAULT, "??1SRequestedMod@SModBrowserState@@QAE@XZ"); no body to assert in
 _inline SModBrowserState::SRequestedMod::~SRequestedMod() = default; // 0x1070B700
 
-// mangled_x86(MANGLED_DEFAULT, "??4SModBrowserState@@QAEAAU0@$$QAU0@@Z"); no body to assert in
 _inline SModBrowserState &SModBrowserState::operator=(SModBrowserState &&__that) noexcept = default; // 0x1070B930
 
-// mangled_x86(MANGLED_DEFAULT, "??4SRequestedMod@SModBrowserState@@QAEAAU01@$$QAU01@@Z"); no body to assert in
 _inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operator=(SModBrowserState::SRequestedMod &&__that) noexcept = default; // 0x1070BAC0
 
-// mangled_x86(MANGLED_DEFAULT, "??4SRequestedMod@SModBrowserState@@QAEAAU01@ABU01@@Z"); no body to assert in
 _inline SModBrowserState::SRequestedMod &SModBrowserState::SRequestedMod::operator=(SModBrowserState::SRequestedMod const &__that) = default; // 0x1070BC10
 
 /* ---------- private code */

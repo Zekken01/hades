@@ -85,15 +85,11 @@ namespace Blam
 
 CModPackageFileSystemView::CModPackageFileSystemView(std::string const &filePath) : m_baseOffset(0), m_filePath(filePath) /* hades-mem-init:  */ // 0x10880470
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModPackageFileSystemView@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	Initialize();
 }
 
 bool CModPackageFileSystemView::GetFileEntry(std::string const &virtualPath, CModPackageFileSystemView::SFileEntry *outEntry) // 0x10881150
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileEntry@CModPackageFileSystemView@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUSFileEntry@1@@Z");
-
 	if (auto it = m_files.find(virtualPath); it != std::end(m_files))
 	{
 		*outEntry = it->second;
@@ -104,23 +100,17 @@ bool CModPackageFileSystemView::GetFileEntry(std::string const &virtualPath, CMo
 
 std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> CModPackageFileSystemView::GetFileList() // 0x10881310
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFileList@CModPackageFileSystemView@@QAE?AV?$unordered_map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@U?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@@std@@@2@@std@@XZ");
-
 	return m_files;
 }
 
 void CModPackageFileSystemView::Initialize() // 0x10881390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CModPackageFileSystemView@@AAEXXZ");
-
 	std::ifstream stream(m_filePath, std::ios::binary);
 	ReadFileTable(stream);
 }
 
 bool CModPackageFileSystemView::ReadFileTable(std::istream &stream) // 0x108814A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ReadFileTable@CModPackageFileSystemView@@AAE_NAAV?$basic_istream@DU?$char_traits@D@std@@@std@@@Z");
-
 	m_files.clear();
 	s_mod_package_header packageHeader = {};
 	if (!stream.read((char *)&packageHeader, sizeof(packageHeader)))

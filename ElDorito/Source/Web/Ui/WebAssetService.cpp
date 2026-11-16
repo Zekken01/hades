@@ -152,8 +152,6 @@ namespace Web
 	{
 		std::string AssetService::FindAssetInModVfs(std::string const &modIdentifier, std::string const &path, std::vector<std::string_view> const &fileTypes) // 0x1077E320
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindAssetInModVfs@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@0ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
-
 			std::vector<std::string_view> const &actualFileTypes = !fileTypes.empty() ? fileTypes : std::vector<std::string_view>{ "" };
 			std::string vfsId;
 			std::shared_ptr<CModPackageFileSystemView> vfs = GetModVFS(modIdentifier, vfsId);
@@ -179,8 +177,6 @@ namespace Web
 	{
 		std::string AssetService::FindAssetInBaseDir(std::string const &path, std::vector<std::string_view> const &fileTypes) // 0x1077DCA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindAssetInBaseDir@AssetService@Ui@Web@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV45@ABV?$vector@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V?$allocator@V?$basic_string_view@DU?$char_traits@D@std@@@std@@@2@@5@@Z");
-
 			std::vector<std::string_view> const &actualFileTypes = !fileTypes.empty() ? fileTypes : std::vector<std::string_view>{ "" };
 			std::filesystem::path baseDir("ui\\");
 			for (std::string_view const &ext : actualFileTypes)
@@ -194,14 +190,10 @@ namespace Web
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0CModPackageFileSystemViewManager@@QAE@XZ"); no body to assert in
-
 /* ---------- private code */
 
 std::shared_ptr<CModPackageFileSystemView> GetModVFS(std::string const &identifier, std::string &vfsId) // 0x1077E970
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModVFS@@YA?AV?$shared_ptr@VCModPackageFileSystemView@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@AAV32@@Z");
-
 	EModIndex modIndex = kInvalid;
 	if (identifier == "game")
 		modIndex = kGame;

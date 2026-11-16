@@ -239,23 +239,17 @@ namespace Patches
 	{
 		void ApplyAll() // 0x108D17D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@MenuBlur@Patches@@YAXXZ");
-
 			Hook(0x6B9F75, ui_draw_bitmap_widget_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x71C050, ui_draw_bitmap_widget_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
 
 		void Tick() // 0x108D1FE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@MenuBlur@Patches@@YAXXZ");
-
 			g_fullscreenMenuBlur.Update();
 		}
 
 		void RenderUIPostProcess() // 0x108D1F80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RenderUIPostProcess@MenuBlur@Patches@@YAXXZ");
-
 			g_fullscreenMenuBlur.Render();
 			CustomBitmapManager::Get()->UpdateRender();
 		}
@@ -266,8 +260,6 @@ namespace Patches
 
 void get_blur_factors(float *blur_x, float *blur_y) // 0x108D3330
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_blur_factors@@YAXPAM0@Z");
-
 	s_user_interface_shared_globals *ui_shared_globals = ((s_user_interface_shared_globals *(*)())0xA84D20)();
 
 	if (ui_shared_globals)
@@ -284,8 +276,6 @@ void get_blur_factors(float *blur_x, float *blur_y) // 0x108D3330
 
 e_surface blur_display() // 0x108D2190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?blur_display@@YA?AW4e_surface@@XZ");
-
 	float blur_x, blur_y;
 	get_blur_factors(&blur_x, &blur_y);
 
@@ -304,8 +294,6 @@ e_surface blur_display() // 0x108D2190
 
 void scale_ui_screen_vertices(real_point2d *vertices) // 0x108D3490
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?scale_ui_screen_vertices@@YAXPAUreal_point2d@@@Z");
-
 	unsigned long *g_game_resolution = (unsigned long *)0x19106C0;
 
 	float width_scale = (float)g_game_resolution[0] / (float)g_game_resolution[2];
@@ -323,8 +311,6 @@ void scale_ui_screen_vertices(real_point2d *vertices) // 0x108D3490
 
 void draw_widget_blur(s_gui_bitmap_widget_render_info *info, short_rectangle2d *display_bounds) // 0x108D2C70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_widget_blur@@YAXPAUs_gui_bitmap_widget_render_info@@PAUshort_rectangle2d@@@Z");
-
 	e_surface blur_surface = blur_display();
 	s_rasterizer_screen_geometry_parameters params;
 	memset(&params.texture_datum_index, 0, 0x94);
@@ -415,8 +401,6 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, short_rectangle2d
 
 void draw_custom_emblem(s_gui_bitmap_widget_render_info *info, short_rectangle2d *display_bounds, __int32 player_index) // 0x108D2BE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_custom_emblem@@YAXPAUs_gui_bitmap_widget_render_info@@PAUshort_rectangle2d@@H@Z");
-
 	long *g_sampler_texture_refs = (long *)0x1910560;
 
 	::Player::PlayerEmblem::set_emblem_texture(0, player_index, 0, 1);
@@ -426,8 +410,6 @@ void draw_custom_emblem(s_gui_bitmap_widget_render_info *info, short_rectangle2d
 
 void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, IDirect3DTexture9 *texture, short_rectangle2d *display_bounds) // 0x108D22F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?draw_custom_bitmap@@YAXPAUs_gui_bitmap_widget_render_info@@PAUIDirect3DTexture9@@PAUshort_rectangle2d@@@Z");
-
 	void (*const interface_get_current_display_or_window_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *) = (void (*const)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *))0xA9FA40;
 	void (*const c_vertex_declaration_table__vertex_shader_declaration_set)(long, long, long) = (void (*const)(long, long, long))0xA729B0;
 	long (*const DrawPrimitiveUP)(long, long, void *, long) = (long (*const)(long, long, void *, long))0xA28330;
@@ -443,8 +425,6 @@ void draw_custom_bitmap(s_gui_bitmap_widget_render_info *info, IDirect3DTexture9
 
 void ui_draw_bitmap_widget_hook(s_gui_bitmap_widget_render_info *data, short_rectangle2d *display_bounds) // 0x108D37E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ui_draw_bitmap_widget_hook@@YAXPAUs_gui_bitmap_widget_render_info@@PAUshort_rectangle2d@@@Z");
-
 	void (*const ui_draw_bitmap_widget)(s_gui_bitmap_widget_render_info *, short_rectangle2d *) = (void (*)(s_gui_bitmap_widget_render_info *, short_rectangle2d *))0xB170F0;
 	if ((data->flags >> 2) & 1)
 	{
@@ -482,8 +462,6 @@ void ui_draw_bitmap_widget_hook(s_gui_bitmap_widget_render_info *data, short_rec
 
 void CRenderFullScreenBlur::Render() // 0x108D1A10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@CRenderFullScreenBlur@hades_file_local@@QAEXXZ");
-
 	if (m_alpha == 0.0f)
 		return;
 	e_surface blur_surface = blur_display();
@@ -520,8 +498,6 @@ void CRenderFullScreenBlur::Render() // 0x108D1A10
 
 void CRenderFullScreenBlur::Update() // 0x108D2030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CRenderFullScreenBlur@hades_file_local@@QAEXXZ");
-
 	bool enabled = Utils::Singleton<Modules::ModuleGame>::Instance().VarFullscreenBlur->ValueInt != 0;
 	float m_transitionRateSeconds = Utils::Singleton<Modules::ModuleGame>::Instance().VarFullscreenBlurTime->ValueFloat;
 

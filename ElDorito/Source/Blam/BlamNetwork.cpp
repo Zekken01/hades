@@ -144,17 +144,12 @@ namespace Blam
 	{
 		Blam::Network::Session *GetActiveSession() // 0x1092BB10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetActiveSession@Network@Blam@@YAPAUSession@12@XZ");
-
-
 			Pointer networkSessionPtr = Pointer::Base(0x15AB848, 1);
 			return networkSessionPtr.Read<Blam::Network::Session *>();
 		}
 
 		__int32 SessionMembership::FindFirstPeer() const // 0x1092B580
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindFirstPeer@SessionMembership@Network@Blam@@QBEHXZ");
-
 			__int32 (__thiscall *FindFirstPeer)(const SessionMembership *) = (__int32(__thiscall *)(const SessionMembership *))0x44E690;
 
 			return FindFirstPeer(this);
@@ -162,8 +157,6 @@ namespace Blam
 
 		__int32 SessionMembership::FindNextPeer(__int32 lastPeer) const // 0x1092B660
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindNextPeer@SessionMembership@Network@Blam@@QBEHH@Z");
-
 			__int32 (__thiscall *FindNextPeerImpl)(const SessionMembership *, __int32) = (__int32(__thiscall *)(const SessionMembership *, __int32))0x44e710;
 
 			return FindNextPeerImpl(this, lastPeer);
@@ -171,8 +164,6 @@ namespace Blam
 
 		__int32 SessionMembership::FindFirstPlayer() const // 0x1092B5F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindFirstPlayer@SessionMembership@Network@Blam@@QBEHXZ");
-
 			__int32 (__thiscall *FindFirstPlayerImpl)(const SessionMembership *) = (__int32(__thiscall *)(const SessionMembership *))0x44e6c0;
 
 			return FindFirstPlayerImpl(this);
@@ -180,8 +171,6 @@ namespace Blam
 
 		__int32 SessionMembership::FindNextPlayer(__int32 lastPlayer) const // 0x1092B6E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindNextPlayer@SessionMembership@Network@Blam@@QBEHH@Z");
-
 			__int32 (__thiscall *FindNextPlayerImpl)(const SessionMembership *, __int32) = (__int32(__thiscall *)(const SessionMembership *, __int32))0x44e750;
 
 			return FindNextPlayerImpl(this, lastPlayer);
@@ -189,8 +178,6 @@ namespace Blam
 
 		__int32 SessionMembership::GetPeerPlayer(__int32 peer) const // 0x1092C0E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPeerPlayer@SessionMembership@Network@Blam@@QBEHH@Z");
-
 			typedef int(*MembershipGetPeerPlayerPtr)(const uint32_t *playerMasks, int max);
 			auto MembershipGetPeerPlayer = reinterpret_cast<MembershipGetPeerPlayerPtr>(0x52E280);
 			return MembershipGetPeerPlayer(Peers[peer].PlayerMasks, 16);
@@ -198,8 +185,6 @@ namespace Blam
 
 		__int32 SessionMembership::GetPlayerPeer(__int32 player) const // 0x1092C1F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerPeer@SessionMembership@Network@Blam@@QBEHH@Z");
-
 			if (player < 0 || player >= 16)
 			{
 				return -1;
@@ -210,8 +195,6 @@ namespace Blam
 
 		__int32 SessionMembership::GetPeerTeam(__int32 peer) const // 0x1092C170
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPeerTeam@SessionMembership@Network@Blam@@QBEHH@Z");
-
 			__int32 playerIndex = GetPeerPlayer(peer);
 			if (playerIndex < 0)
 				return -1;
@@ -220,8 +203,6 @@ namespace Blam
 
 		__int32 SessionMembership::FindPlayerByName(std::string const &name) // 0x1092B760
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerByName@SessionMembership@Network@Blam@@QAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished())
 				return -1;
@@ -238,23 +219,17 @@ namespace Blam
 
 		Blam::Network::PlayerSession SessionMembership::GetLocalPlayerSession() const // 0x1092BD50
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLocalPlayerSession@SessionMembership@Network@Blam@@QBE?AUPlayerSession@23@XZ");
-
 			return PlayerSessions[GetPeerPlayer(LocalPeerIndex)];
 		}
 
 		void SessionMembership::Update() // 0x1092CED0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@SessionMembership@Network@Blam@@QAEXXZ");
-
 			++PlayerUpdateCount;
 			++PeerUpdateCount;
 		}
 
 		void Observer::ObserverChannelSendMessage(__int32 ownerIndex, __int32 channelIndex, bool secure, __int32 id, __int32 packetSize, void const *packet) // 0x1092C570
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ObserverChannelSendMessage@Observer@Network@Blam@@QAEXHH_NHHPBX@Z");
-
 			void (__thiscall *ObserverChannelSendMessageImpl)(Observer *, __int32, __int32, bool, __int32, __int32, void const *) = (void(__thiscall *)(Observer *, __int32, __int32, bool, __int32, __int32, void const *))0x4474f0;
 
 			ObserverChannelSendMessageImpl(this, ownerIndex, channelIndex, secure, id, packetSize, packet);
@@ -262,16 +237,12 @@ namespace Blam
 
 		void Observer::Ping(__int32 ownerIndex, __int32 channelIndex, unsigned short id) // 0x1092C860
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Ping@Observer@Network@Blam@@QAEXHHG@Z");
-
 			auto packet = MakePingPacket(id);
 			ObserverChannelSendMessage(ownerIndex, channelIndex, true, ePacketIDPing, sizeof(packet), &packet);
 		}
 
 		PacketHeader::PacketHeader() // 0x1092B3A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PacketHeader@Network@Blam@@QAE@XZ");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session)
 			{
@@ -287,8 +258,6 @@ namespace Blam
 
 		__int32 Session::GetChannelPeer(Blam::Network::ObserverChannel const *channel) const // 0x1092BC20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetChannelPeer@Session@Network@Blam@@QBEHPBUObserverChannel@23@@Z");
-
 			// Look up the channel index
 			typedef int(__thiscall *GetChannelIndexPtr)(const Network::Observer *thisPtr, uint32_t unk0, const ObserverChannel *channel);
 			auto GetChannelIndex = reinterpret_cast<GetChannelIndexPtr>(0x447150);
@@ -304,9 +273,6 @@ namespace Blam
 
 		bool Session::HasTeams() const // 0x1092C330
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?HasTeams@Session@Network@Blam@@QBE_NXZ");
-
-
 			Blam::Network::GameVariantSessionParameter const *gameVariantParameter = &Parameters.GameVariant;
 			if (!gameVariantParameter->IsAvailable())
 				return false;
@@ -318,8 +284,6 @@ namespace Blam
 
 		Blam::Network::NetworkAddress Session::GetPeerAddress(__int32 peerIndex) const // 0x1092BFD0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPeerAddress@Session@Network@Blam@@QBE?AUNetworkAddress@23@H@Z");
-
 			if (peerIndex != MembershipInfo.LocalPeerIndex)
 			{
 				auto channelIndex = MembershipInfo.PeerChannels[peerIndex].ChannelIndex;
@@ -331,15 +295,11 @@ namespace Blam
 
 		Blam::Network::NetworkAddress Session::GetServerIPAddress() const // 0x1092C240
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetServerIPAddress@Session@Network@Blam@@QBE?AUNetworkAddress@23@XZ");
-
 			return Observer->Channels[MembershipInfo.PeerChannels[MembershipInfo.HostPeerIndex].ChannelIndex].Address;
 		}
 
 		__int32 SessionParameters::GetSessionMode() // 0x1092C2C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSessionMode@SessionParameters@Network@Blam@@QAEHXZ");
-
 			__int32 (__thiscall *F)(Blam::Network::SessionParameters *) = (__int32(__thiscall *)(Blam::Network::SessionParameters *))0x458FE0;
 
 			return F(this);
@@ -347,8 +307,6 @@ namespace Blam
 
 		bool SessionParameters::SetSessionMode(__int32 mode) // 0x1092CCC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetSessionMode@SessionParameters@Network@Blam@@QAE_NH@Z");
-
 			bool (__thiscall *SetSessionModeImpl)(SessionParameters *, __int32) = (bool(__thiscall *)(SessionParameters *, __int32))0x459a40;
 
 			return SetSessionModeImpl(this, mode);
@@ -356,8 +314,6 @@ namespace Blam
 
 		bool SessionParameter::IsAvailable() const // 0x1092C3D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsAvailable@SessionParameter@Network@Blam@@QBE_NXZ");
-
 			bool (__thiscall *IsAvailableImpl)(const SessionParameter *) = (bool(__thiscall *)(const SessionParameter *))0x450cf0;
 
 			return IsAvailableImpl(this);
@@ -372,8 +328,6 @@ namespace Blam
 	{
 		c_game_variant *GameVariantSessionParameter::Get() const // 0x1092BA30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Get@GameVariantSessionParameter@Network@Blam@@QBEPAUc_game_variant@@XZ");
-
 			c_game_variant *(__thiscall *F)(Blam::Network::GameVariantSessionParameter const *) = (c_game_variant *(__thiscall *)(Blam::Network::GameVariantSessionParameter const *))0x456140;
 
 			return F(this);
@@ -388,8 +342,6 @@ namespace Blam
 	{
 		s_map_variant *MapVariantSessionParameter::Get() const // 0x1092BAA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Get@MapVariantSessionParameter@Network@Blam@@QBEPAUs_map_variant@@XZ");
-
 			s_map_variant *(__thiscall *MapVariantGet)(const MapVariantSessionParameter *) = (s_map_variant *(__thiscall *)(const MapVariantSessionParameter *))0x456410;
 
 			return MapVariantGet(this);
@@ -397,25 +349,18 @@ namespace Blam
 
 		Blam::Network::PacketTable *GetPacketTable() // 0x1092BEC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPacketTable@Network@Blam@@YAPAUPacketTable@12@XZ");
-
-
 			Pointer packetTablePtr = Pointer::Base(0x1E4A498, 1);
 			return packetTablePtr.Read<Blam::Network::PacketTable *>();
 		}
 
 		void SetPacketTable(Blam::Network::PacketTable const *newTable) // 0x1092CBC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetPacketTable@Network@Blam@@YAXPBUPacketTable@12@@Z");
-
 			Pointer packetTablePtr = Pointer::Base(0x1E4A498, 1);
 			packetTablePtr.Write<Blam::Network::PacketTable const *>(newTable);
 		}
 
 		void PacketTable::Register(__int32 index, char const *name, __int32 unk8, __int32 minSize, __int32 maxSize, void (*serializeFunc)(Blam::BitStream *, __int32, void const *), bool (*deserializeFunc)(Blam::BitStream *, __int32, void *), __int32 unk1C, __int32 unk20) // 0x1092C980
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Register@PacketTable@Network@Blam@@QAEXHPBDHHHP6AXPAVBitStream@3@HPBX@ZP6A_N1HPAX@ZHH@Z");
-
 			void (__thiscall *RegisterImpl)(Blam::Network::PacketTable *, __int32, char const *, __int32, __int32, __int32, void (*)(Blam::BitStream *, __int32, void const *), bool (*)(Blam::BitStream *, __int32, void *), __int32, __int32) = (void(__thiscall *)(Blam::Network::PacketTable *, __int32, char const *, __int32, __int32, __int32, void (*)(Blam::BitStream *, __int32, void const *), bool (*)(Blam::BitStream *, __int32, void *), __int32, __int32))0x4801b0;
 
 			RegisterImpl(this, index, name, unk8, minSize, maxSize, serializeFunc, deserializeFunc, unk1C, unk20);
@@ -423,8 +368,6 @@ namespace Blam
 
 		bool MessageGateway::SendDirectedMessage(Blam::Network::NetworkAddress const &address, __int32 id, __int32 packetSize, void const *packet) // 0x1092CA20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SendDirectedMessage@MessageGateway@Network@Blam@@QAE_NABUNetworkAddress@23@HHPBX@Z");
-
 			bool (__thiscall *Impl)(Blam::Network::MessageGateway *, Blam::Network::NetworkAddress const *, __int32, __int32, void const *) = (bool(__thiscall *)(Blam::Network::MessageGateway *, Blam::Network::NetworkAddress const *, __int32, __int32, void const *))0x4840c0;
 
 			return Impl(this, &address, id, packetSize, packet);
@@ -432,16 +375,12 @@ namespace Blam
 
 		bool MessageGateway::Ping(Blam::Network::NetworkAddress &address, unsigned short id) // 0x1092C750
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Ping@MessageGateway@Network@Blam@@QAE_NAAUNetworkAddress@23@G@Z");
-
 			auto packet = MakePingPacket(id);
 			return SendDirectedMessage(address, ePacketIDPing, sizeof(packet), &packet);
 		}
 
 		__int32 GetNumPlayers() // 0x1092BE50
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetNumPlayers@Network@Blam@@YAHXZ");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 				return session->MembershipInfo.PlayerCount;
@@ -450,8 +389,6 @@ namespace Blam
 
 		bool BootPlayer(__int32 playerIndex, __int32 reason) // 0x1092B450
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?BootPlayer@Network@Blam@@YA_NHH@Z");
-
 			bool (__cdecl *Boot)(__int32, __int32) = (bool(__cdecl *)(__int32, __int32))0x437d60;
 
 			return Boot(playerIndex, reason);
@@ -459,8 +396,6 @@ namespace Blam
 
 		bool EndGame() // 0x1092B520
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?EndGame@Network@Blam@@YA_NXZ");
-
 			bool (__cdecl *Network_squad_session_end_game)() = (bool(__cdecl *)())0x438780;
 
 			return Network_squad_session_end_game();
@@ -468,8 +403,6 @@ namespace Blam
 
 		__int32 GetLobbyType() // 0x1092BCF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLobbyType@Network@Blam@@YAHXZ");
-
 			__int32 (__cdecl *Get_Type)() = (__int32(__cdecl *)())0x435640;
 
 			return Get_Type();
@@ -477,8 +410,6 @@ namespace Blam
 
 		__int32 GetNetworkMode() // 0x1092BDF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetNetworkMode@Network@Blam@@YAHXZ");
-
 			__int32 (__cdecl *Get_Mode)() = (__int32(__cdecl *)())0xa7f160;
 
 			return Get_Mode();
@@ -486,8 +417,6 @@ namespace Blam
 
 		bool SetLobbyType(__int32 type) // 0x1092CAB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetLobbyType@Network@Blam@@YA_NH@Z");
-
 			bool (__cdecl *F)(int) = (bool(__cdecl *)(int))0xa7ee70;
 
 			return F(type);
@@ -495,8 +424,6 @@ namespace Blam
 
 		bool SetNetworkMode(__int32 mode) // 0x1092CB20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetNetworkMode@Network@Blam@@YA_NH@Z");
-
 			bool (*Set_Network_Mode)(__int32) = reinterpret_cast<bool (*)(__int32)>(0xA7F950);
 			bool success = Set_Network_Mode(mode);
 			Utils::Singleton<Discord::DiscordRPC>::Instance().UpdatePresence(mode);
@@ -505,8 +432,6 @@ namespace Blam
 
 		bool Disconnect() // 0x1092B4C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Disconnect@Network@Blam@@YA_NXZ");
-
 			bool (__cdecl *Network_network_life_cycle_end)() = (bool(__cdecl *)())0x454b40;
 
 			return Network_network_life_cycle_end();
@@ -514,8 +439,6 @@ namespace Blam
 
 		void LeaveGame() // 0x1092C440
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LeaveGame@Network@Blam@@YAXXZ");
-
 			void (__cdecl *Network_LeaveGame)() = (void(__cdecl *)())0xa81270;
 
 			Network_LeaveGame();
@@ -523,8 +446,6 @@ namespace Blam
 
 		bool NetworkAddress::Parse(std::string const &addr, unsigned short port, Blam::Network::NetworkAddress *result) // 0x1092C600
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Parse@NetworkAddress@Network@Blam@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@GPAU123@@Z");
-
 			in_addr inAddr;
 			if (!inet_pton(AF_INET, addr.c_str(), &inAddr))
 				return false;
@@ -541,8 +462,6 @@ namespace Blam
 	{
 		std::string NetworkAddress::ToString() const // 0x1092CDA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ToString@NetworkAddress@Network@Blam@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 			in_addr inAddr;
 			inAddr.s_addr = ToInAddr();
 			char ipStr[22];
@@ -557,9 +476,6 @@ namespace Blam
 
 Blam::Network::PingPacket MakePingPacket(unsigned short id) // 0x1092C4A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?MakePingPacket@@YA?AUPingPacket@Network@Blam@@G@Z");
-
-
 	Blam::Network::PingPacket packet;
 	packet.ID = id;
 	packet.QosResponse = false;

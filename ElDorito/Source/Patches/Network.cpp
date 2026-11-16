@@ -417,8 +417,6 @@ namespace Patches
 
 		void ApplyAll() // 0x10A90670
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Network@Patches@@YAXXZ");
-
 			Hook(0x9C864, c_network_message_handler__handle_parameters_request_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x9CDD0, c_network_message_handler__handle_delegate_leadership_hook).Apply();
 			Hook(0x38640, network_squad_session_delegate_leadership_hook).Apply();
@@ -503,8 +501,6 @@ namespace Patches
 
 		void ForceDedicated() // 0x10A95310
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ForceDedicated@Network@Patches@@YAXXZ");
-
 			//pit
 			Hook(0x2D0EAC, reinterpret_cast<void*>(0x6D0EBC)).Apply();
 
@@ -569,8 +565,6 @@ namespace Patches
 
 		void ForceBotClient() // 0x10A94A20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ForceBotClient@Network@Patches@@YAXXZ");
-
 			Patch(0x1075A0, { 0xC3 }).Apply();
 			Patch(0x24E190, { 0xC3 }).Apply();
 			Patch(0x5DFBC0, { 0xC3 }).Apply();
@@ -581,8 +575,6 @@ namespace Patches
 
 		unsigned short OnPong(std::function<void __cdecl(Blam::Network::NetworkAddress const &,unsigned int,unsigned short,unsigned int)> callback) // 0x10A9A490
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnPong@Network@Patches@@YAGV?$function@$$A6AXABUNetworkAddress@Network@Blam@@IGI@Z@std@@@Z");
-
 			pongCallbacks.push_back(callback);
 			static unsigned short id;
 			return id++;
@@ -590,29 +582,21 @@ namespace Patches
 
 		void OnLifeCycleStateChanged(std::function<void __cdecl(enum Blam::Network::LifeCycleState)> callback) // 0x10A9A350
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnLifeCycleStateChanged@Network@Patches@@YAXV?$function@$$A6AXW4LifeCycleState@Network@Blam@@@Z@std@@@Z");
-
 			lifeCycleStateChangedCallbacks.push_back(callback);
 		}
 
 		void RegisterSessionListener(std::shared_ptr<Patches::Network::NetworkSessionListener> observer) // 0x10A9AB60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterSessionListener@Network@Patches@@YAXV?$shared_ptr@VNetworkSessionListener@Network@Patches@@@std@@@Z");
-
 			sessionObserver = observer;
 		}
 
 		void OnMapVariantRequestChange(std::function<void __cdecl(s_map_variant *)> callback) // 0x10A9A3F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapVariantRequestChange@Network@Patches@@YAXV?$function@$$A6AXPAUs_map_variant@@@Z@std@@@Z");
-
 			mapVariantRequestChangeCallbacks.push_back(callback);
 		}
 
 		void Tick() // 0x10A9B020
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Network@Patches@@YAXXZ");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -645,8 +629,6 @@ namespace Patches
 
 unsigned long Network_managed_session_create_session_internalHook(__int32 a1, __int32 a2) // 0x10A995B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_managed_session_create_session_internalHook@@YAKHH@Z");
-
 	unsigned long isOnline = *(unsigned long *)a2;
 	bool isHost = *(unsigned short *)(a2 + 284) & 1;
 	unsigned long (__cdecl *managed_session_create_session_internal)(__int32, __int32) = (unsigned long(__cdecl *)(__int32, __int32))0x481550;
@@ -669,15 +651,11 @@ unsigned long Network_managed_session_create_session_internalHook(__int32 a1, __
 
 void __fastcall network_session_send_peer_establish_hook(c_network_session *thisPtr, void *unused, long transmission_type, long peer_index, long message_type, long data_length, void const *data) // 0x10A9E630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?network_session_send_peer_establish_hook@@YIXPAVc_network_session@@PAXJJJJPBX@Z");
-
 	((void(__thiscall *)(c_network_session *, long, long, long, long, void const *))0x45eb50)(thisPtr, transmission_type, peer_index, message_type, data_length, data);
 }
 
 char *Network_GetIPStringFromInAddr(void *inaddr) // 0x10A98EC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_GetIPStringFromInAddr@@YAPADPAX@Z");
-
 	static char ipAddrStr[64];
 	memset(ipAddrStr, 0, sizeof(ipAddrStr));
 	unsigned char ip3 = *(unsigned char *)inaddr;
@@ -704,8 +682,6 @@ unsigned __int32 GetPlayerPropertiesPacketSize() // 0x10A98140
 
 void __fastcall RegisterPlayerPropertiesPacketHook(void *thisPtr, void *unused, __int32 packetId, char const *packetName, __int32 arg8, __int32 size1, __int32 size2, void *serializeFunc, void *deserializeFunc, __int32 arg1C, __int32 arg20) // 0x10A9AAB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterPlayerPropertiesPacketHook@@YIXPAX0HPBDHHH00HH@Z");
-
 	unsigned int newSize = GetPlayerPropertiesPacketSize();
 	void (__thiscall *RegisterPacket)(void *, __int32, char const *, __int32, unsigned int, unsigned int, void *, void *, __int32, __int32) = (void(__thiscall *)(void *, __int32, char const *, __int32, unsigned int, unsigned int, void *, void *, __int32, __int32))0x4801b0;
 
@@ -714,8 +690,6 @@ void __fastcall RegisterPlayerPropertiesPacketHook(void *thisPtr, void *unused, 
 
 bool IsNameNotAllowed(std::string name) // 0x10A98410
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?IsNameNotAllowed@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	for (std::string s : Modules::ModuleServer::Instance().NonAllowedNames) {
 		if (name.find(s) != std::string::npos)
 			return true;
@@ -725,8 +699,6 @@ bool IsNameNotAllowed(std::string name) // 0x10A98410
 
 void SanitizePlayerName(wchar_t *name) // 0x10A9ABC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SanitizePlayerName@@YAXPA_W@Z");
-
 	__int32 i;
 	__int32 dest = 0;
 	bool space = false;
@@ -766,8 +738,6 @@ void SanitizePlayerName(wchar_t *name) // 0x10A9ABC0
 
 void __fastcall ApplyPlayerPropertiesExtended(Blam::Network::SessionMembership *thisPtr, void *unused, __int32 playerIndex, unsigned __int32 arg4, unsigned __int32 arg8, unsigned char *data, unsigned __int32 arg10) // 0x10A934B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyPlayerPropertiesExtended@@YIXPAUSessionMembership@Network@Blam@@PAXHIIPAEI@Z");
-
 	s_player_configuration *properties = &thisPtr->PlayerSessions[playerIndex].Properties;
 	bool isNewMember = false;
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
@@ -866,8 +836,6 @@ void __fastcall ApplyPlayerPropertiesExtended(Blam::Network::SessionMembership *
 
 bool __fastcall Network_leader_request_boot_machineHook(void *thisPtr, void *unused, Blam::Network::PeerInfo *peer, __int32 reason) // 0x10A99390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_leader_request_boot_machineHook@@YI_NPAX0PAUPeerInfo@Network@Blam@@H@Z");
-
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	Blam::Network::SessionMembership *membership = &session->MembershipInfo;
 	__int32 peerIndex = peer - membership->Peers;
@@ -884,8 +852,6 @@ bool __fastcall Network_leader_request_boot_machineHook(void *thisPtr, void *unu
 
 bool __fastcall Network_session_handle_join_requestHook(Blam::Network::Session *thisPtr, void *unused, Blam::Network::NetworkAddress const &address, void *request) // 0x10A996B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_session_handle_join_requestHook@@YI_NPAUSession@Network@Blam@@PAXABUNetworkAddress@23@1@Z");
-
 	in_addr inAddr;
 	inAddr.s_addr = address.ToInAddr();
 	char ipStr[22];
@@ -910,23 +876,17 @@ bool __fastcall Network_session_handle_join_requestHook(Blam::Network::Session *
 
 __int32 Network_GetMaxPlayersHook() // 0x10A98FA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_GetMaxPlayersHook@@YAHXZ");
-
 	__int32 maxPlayers = Utils::Singleton<Modules::ModuleServer>::Instance().VarServerMaxPlayers->ValueInt;
 	return Utils::Clamp(maxPlayers, 1, 16);
 }
 
 __int32 Pregame_Lobby_Max_Player_Count_Offline_hook() // 0x10A9AA90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Pregame_Lobby_Max_Player_Count_Offline_hook@@YAHXZ");
-
 	return 1;
 }
 
 bool __fastcall PeerRequestPlayerDesiredPropertiesUpdateHook(Blam::Network::Session *thisPtr, void *unused, unsigned __int32 arg0, unsigned __int32 arg4, s_player_configuration_from_client *properties, unsigned __int32 argC) // 0x10A9A570
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PeerRequestPlayerDesiredPropertiesUpdateHook@@YI_NPAUSession@Network@Blam@@PAXIIPAUs_player_configuration_from_client@@I@Z");
-
 	if (thisPtr->Type == 3)
 		return false;
 	Blam::Network::SessionMembership *membership = &thisPtr->MembershipInfo;
@@ -964,8 +924,6 @@ bool __fastcall PeerRequestPlayerDesiredPropertiesUpdateHook(Blam::Network::Sess
 
 bool __fastcall Network_Session_Membership__Add_Peer_Hook(c_network_session_membership *thisptr, void *unused, long peer_index, Blam::Network::PeerConnectionState connection_state, long version, void *xnaddr, unsigned long long unknown_nonce, unsigned long long join_nonce) // 0x10A99250
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_Session_Membership__Add_Peer_Hook@@YI_NPAVc_network_session_membership@@PAXJW4PeerConnectionState@Network@Blam@@J1_K3@Z");
-
 	bool result = ((bool (__thiscall *)(c_network_session_membership *, long, Blam::Network::PeerConnectionState, long, void *, unsigned long long, unsigned long long))0x44cde0)(thisptr, peer_index, connection_state, version, xnaddr, unknown_nonce, join_nonce);
 
 	if (Blam::Network::GetActiveSession()->IsHost())
@@ -981,8 +939,6 @@ bool __fastcall Network_Session_Membership__Add_Peer_Hook(c_network_session_memb
 
 char __fastcall Network_Session_Membership_Remove_Peer_Hook(c_network_session_membership *thisptr, void *unused, long peer_index) // 0x10A99000
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_Session_Membership_Remove_Peer_Hook@@YIDPAVc_network_session_membership@@PAXJ@Z");
-
 	static char (__thiscall *const c_network_session_membership__remove_peer)(c_network_session_membership *, long) = (char (__thiscall *)(c_network_session_membership *, long))0x44FE30;
 	if (Blam::Network::GetActiveSession()->IsHost())
 	{
@@ -1000,8 +956,6 @@ char __fastcall Network_Session_Membership_Remove_Peer_Hook(c_network_session_me
 
 void SerializePlayerPropertiesHook(Blam::BitStream *stream, unsigned char *buffer, bool flag) // 0x10A9AF80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SerializePlayerPropertiesHook@@YAXPAVBitStream@Blam@@PAE_N@Z");
-
 	void (*SerializePlayerProperties)(Blam::BitStream *, unsigned char *, bool) = (void(*)(Blam::BitStream *, unsigned char *, bool))0x4433c0;
 
 	SerializePlayerProperties(stream, buffer, flag);
@@ -1010,8 +964,6 @@ void SerializePlayerPropertiesHook(Blam::BitStream *stream, unsigned char *buffe
 
 bool DeserializePlayerPropertiesHook(Blam::BitStream *stream, unsigned char *buffer, bool flag) // 0x10A94970
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?DeserializePlayerPropertiesHook@@YA_NPAVBitStream@Blam@@PAE_N@Z");
-
 	bool (*DeserializePlayerProperties)(Blam::BitStream *, unsigned char *, bool) = (bool(*)(Blam::BitStream *, unsigned char *, bool))0x4432e0;
 
 	bool succeeded = DeserializePlayerProperties(stream, buffer, flag);
@@ -1023,8 +975,6 @@ bool DeserializePlayerPropertiesHook(Blam::BitStream *stream, unsigned char *buf
 
 char __fastcall Network_state_end_game_write_stats_enterHook(void *thisPtr, __int32 unused, __int32 a2, __int32 a3, __int32 a4) // 0x10A9A240
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_state_end_game_write_stats_enterHook@@YIDPAXHHHH@Z");
-
 	char (__thiscall *Network_state_end_game_write_stats_enter)(void *, __int32, __int32, __int32) = (char(__thiscall *)(void *, __int32, __int32, __int32))0x492b50;
 
 	return Network_state_end_game_write_stats_enter(thisPtr, a2, a3, a4);
@@ -1032,8 +982,6 @@ char __fastcall Network_state_end_game_write_stats_enterHook(void *thisPtr, __in
 
 char __fastcall Network_state_leaving_enterHook(void *thisPtr, __int32 unused, __int32 a2, __int32 a3, __int32 a4) // 0x10A9A2C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_state_leaving_enterHook@@YIDPAXHHHH@Z");
-
 	Server::InfoServer::StopInfoServer();
 	Server::Signaling::StopServer();
 
@@ -1044,8 +992,6 @@ char __fastcall Network_state_leaving_enterHook(void *thisPtr, __int32 unused, _
 
 void __fastcall c_network_session__host_connection_refused_hook(void *session, void *unused, __int32 a2, __int32 type) // 0x10A9D920
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_session__host_connection_refused_hook@@YIXPAX0HH@Z");
-
 	switch (type)
 	{
 	case 0x2b:
@@ -1058,16 +1004,12 @@ void __fastcall c_network_session__host_connection_refused_hook(void *session, v
 
 void PongReceivedHookImpl(Blam::Network::NetworkAddress const &from, Blam::Network::PongPacket const &pong, unsigned __int32 latency) // 0x10A9A9E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PongReceivedHookImpl@@YAXABUNetworkAddress@Network@Blam@@ABUPongPacket@23@I@Z");
-
 	for (auto &&callback : pongCallbacks)
 		callback(from, pong.Timestamp, pong.ID, latency);
 }
 
 __declspec(naked) void PongReceivedHook() // 0x10A9A9C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PongReceivedHook@@YAXXZ");
-
 	__asm
 	{
 		push esi
@@ -1082,8 +1024,6 @@ __declspec(naked) void PongReceivedHook() // 0x10A9A9C0
 
 void LifeCycleStateChangedHookImpl(Blam::Network::LifeCycleState newState) // 0x10A98600
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChangedHookImpl@@YAXW4LifeCycleState@Network@Blam@@@Z");
-
 	switch (newState)
 	{
 	case Blam::Network::eLifeCycleStateEndGameWriteStats:
@@ -1107,8 +1047,6 @@ void LifeCycleStateChangedHookImpl(Blam::Network::LifeCycleState newState) // 0x
 
 __declspec(naked) void LifeCycleStateChangedHook() // 0x10A985E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChangedHook@@YAXXZ");
-
 	__asm
 	{
 		pop esi
@@ -1123,8 +1061,6 @@ __declspec(naked) void LifeCycleStateChangedHook() // 0x10A985E0
 
 __declspec(naked) void GetTextureDimensionsHook() // 0x10A981B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetTextureDimensionsHook@@YAXXZ");
-
 	__asm
 	{
 		cmp ecx, [eax + 34h]
@@ -1142,8 +1078,6 @@ __declspec(naked) void GetTextureDimensionsHook() // 0x10A981B0
 
 bool __fastcall Network_GetEndpointHook(char *thisPtr, void *unused) // 0x10A98C50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_GetEndpointHook@@YI_NPADPAX@Z");
-
 	char* socket = thisPtr + 12;
 	uint32_t port = Modules::ModuleServer::Instance().VarServerGamePort->ValueInt;
 	bool success = false;
@@ -1181,8 +1115,6 @@ bool __fastcall Network_GetEndpointHook(char *thisPtr, void *unused) // 0x10A98C
 
 char __fastcall Network_session_join_remote_sessionHook(void *thisPtr, __int32 unused, char a2, __int32 a3, __int32 a4, __int32 a5, __int32 a6, __int32 a7, __int32 a8, __int32 a9, __int32 a10, __int32 a11, void *a12, __int32 a13, __int32 a14) // 0x10A99BB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_session_join_remote_sessionHook@@YIDPAXHDHHHHHHHHH0HH@Z");
-
 	rapidjson::StringBuffer jsonBuffer;
 	rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
 	jsonWriter.StartObject();
@@ -1201,8 +1133,6 @@ char __fastcall Network_session_join_remote_sessionHook(void *thisPtr, __int32 u
 
 __int32 __fastcall Network_session_initiate_leave_protocolHook(void *thisPtr, __int32 unused, char forceClose) // 0x10A99960
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_session_initiate_leave_protocolHook@@YIHPAXHD@Z");
-
 	rapidjson::StringBuffer jsonBuffer;
 	rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
 	jsonWriter.StartObject();
@@ -1221,8 +1151,6 @@ __int32 __fastcall Network_session_initiate_leave_protocolHook(void *thisPtr, __
 
 __int32 __fastcall Network_session_parameters_clearHook(void *thisPtr, __int32 unused) // 0x10A99F00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_session_parameters_clearHook@@YIHPAXH@Z");
-
 	rapidjson::StringBuffer jsonBuffer;
 	rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
 	jsonWriter.StartObject();
@@ -1241,8 +1169,6 @@ __int32 __fastcall Network_session_parameters_clearHook(void *thisPtr, __int32 u
 
 __int32 __fastcall Network_session_remove_peerHook(Blam::Network::SessionMembership *membership, void *unused, __int32 peerIndex) // 0x10A9A150
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_session_remove_peerHook@@YIHPAUSessionMembership@Network@Blam@@PAXH@Z");
-
 	if (membership->HostPeerIndex == membership->LocalPeerIndex)
 		Server::Signaling::RemovePeer(peerIndex);
 
@@ -1255,8 +1181,6 @@ __int32 __fastcall Network_session_remove_peerHook(Blam::Network::SessionMembers
 
 bool __fastcall Network_session_parameter_countdown_timer_request_change_hook(void *thisPtr, void *unused, __int32 state, __int32 value) // 0x10A99E40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Network_session_parameter_countdown_timer_request_change_hook@@YI_NPAX0HH@Z");
-
 	if (state == 2)
 	{
 		unsigned long countDownTimer = Modules::ModuleServer::Instance().VarServerCountdownLobby->ValueInt;
@@ -1270,8 +1194,6 @@ bool __fastcall Network_session_parameter_countdown_timer_request_change_hook(vo
 
 bool __fastcall c_network_session_parameter_map_variant__request_change_hook(void *thisptr, void *unused, s_map_variant *mapVariant) // 0x10A9DB70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_session_parameter_map_variant__request_change_hook@@YI_NPAX0PAUs_map_variant@@@Z");
-
 	bool (__thiscall *const c_network_session_parameter_map_variant__request_change)(void *, s_map_variant *) = (bool(__thiscall *const)(void *, s_map_variant *))0x456480;
 
 	bool ret = c_network_session_parameter_map_variant__request_change(thisptr, mapVariant);
@@ -1286,15 +1208,11 @@ bool __fastcall c_network_session_parameter_map_variant__request_change_hook(voi
 
 unsigned long long local_user_get_identifier_hook() // 0x10A9E2A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?local_user_get_identifier_hook@@YA_KXZ");
-
 	return *(unsigned long long *)0x199FAB2;
 }
 
 void network_broadcast_search_handle_reply_hook(s_transport_address const *usable_address, void *data) // 0x10A9E4E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?network_broadcast_search_handle_reply_hook@@YAXPBUs_transport_address@@PAX@Z");
-
 	void (*const xnet_shim_table_add)(s_transport_address const *, void const *, void const *) = (void(*const)(s_transport_address const *, void const *, void const *))0x430cd0;
 	void (*const network_broadcast_search_handle_reply)(s_transport_address const *, void *) = (void(*const)(s_transport_address const *, void *))0x4d9d30;
 
@@ -1322,8 +1240,6 @@ void network_broadcast_search_handle_reply_hook(s_transport_address const *usabl
 
 void __fastcall c_network_session_membership__build_membership_update_hook(c_network_session_membership *thisptr, void *__formal, long peer_index, s_network_session_shared_membership const *membership, s_network_session_shared_membership const *baseline, s_network_session_membership_update_message *update) // 0x10A9DA60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_session_membership__build_membership_update_hook@@YIXPAVc_network_session_membership@@PAXJPBUs_network_session_shared_membership@@2PAUs_network_session_membership_update_message@@@Z");
-
 	void (__thiscall *const build_membership_update)(c_network_session_membership *, long, s_network_session_shared_membership const *, s_network_session_shared_membership const *, s_network_session_membership_update_message *) = (void(__thiscall *const)(c_network_session_membership *, long, s_network_session_shared_membership const *, s_network_session_shared_membership const *, s_network_session_membership_update_message *))0x44d400;
 
 	build_membership_update(thisptr, peer_index, thisptr->get_current_membership(), baseline, update);
@@ -1331,8 +1247,6 @@ void __fastcall c_network_session_membership__build_membership_update_hook(c_net
 
 void __fastcall c_network_session_membership__copy_current_to_transmitted_hook(c_network_session_membership *thisptr, void *__formal, long peer_index, s_network_session_shared_membership const *current) // 0x10A9DAF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_session_membership__copy_current_to_transmitted_hook@@YIXPAVc_network_session_membership@@PAXJPBUs_network_session_shared_membership@@@Z");
-
 	void (__thiscall *const copy_current_to_transmitted)(c_network_session_membership *, long, s_network_session_shared_membership const *) = (void(__thiscall *const)(c_network_session_membership *, long, s_network_session_shared_membership const *))0x4509b0;
 
 	copy_current_to_transmitted(thisptr, peer_index, thisptr->get_current_membership());
@@ -1340,8 +1254,6 @@ void __fastcall c_network_session_membership__copy_current_to_transmitted_hook(c
 
 void __fastcall c_network_message_handler__handle_parameters_request_hook(c_network_message_handler *thisptr, void *__formal, void *channel, void *message) // 0x10A9D870
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_message_handler__handle_parameters_request_hook@@YIXPAUc_network_message_handler@@PAX11@Z");
-
 	if (!((bool(*)())0x5314B0)() || !game_is_campaign())
 		return;
 	const auto c_network_message_handler__handle_parameters_request = (void(__thiscall *)(c_network_message_handler *, void *, void *))0x49D4E0;
@@ -1350,13 +1262,10 @@ void __fastcall c_network_message_handler__handle_parameters_request_hook(c_netw
 
 void __fastcall c_network_message_handler__handle_delegate_leadership_hook(c_network_message_handler *__formal, void *__formal1, void *channel, void *message) // 0x10A9D840
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_message_handler__handle_delegate_leadership_hook@@YIXPAUc_network_message_handler@@PAX11@Z");
 }
 
 bool network_squad_session_delegate_leadership_hook(long playerIndex) // 0x10A9E6B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?network_squad_session_delegate_leadership_hook@@YA_NJ@Z");
-
 	return false;
 }
 

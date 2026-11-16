@@ -281,8 +281,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10956FE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Camera@Patches@@YAXXZ");
-
 			Hook(0x687B3C, director_perspective_for_sprint_meter_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x32161E, director_game_desired_perspective_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x321B62, director_game_desired_perspective_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -314,13 +312,10 @@ namespace Patches
 
 		void ApplyAfterTagsLoaded() // 0x10956FC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterTagsLoaded@Camera@Patches@@YAXXZ");
 		}
 
 		bool SetForcedCameraMode(std::string const mode) // 0x10958AF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetForcedCameraMode@Camera@Patches@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			static bool (*const player_terminal_chud_set)(bool) = (bool (*)(bool))0xA89F50;
 			cameraMode = _camera_mode_none;
 			if (!mode.compare("flying"))
@@ -380,8 +375,6 @@ namespace Patches
 	{
 		e_camera_mode GetForcedCameraMode() // 0x109589A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetForcedCameraMode@Camera@Patches@@YA?AW4e_camera_mode@@XZ");
-
 			return cameraMode;
 		}
 	}
@@ -391,8 +384,6 @@ namespace Patches
 
 long director_game_desired_perspective_hook(long unit_index, long *out_seat_state) // 0x1095A750
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?director_game_desired_perspective_hook@@YAJJPAJ@Z");
-
 	long player_index = unit_get_current_or_last_weak_player_index(unit_index);
 	s_player_datum *player = player_get(player_index);
 
@@ -408,8 +399,6 @@ long director_game_desired_perspective_hook(long unit_index, long *out_seat_stat
 
 bool weapon_prevents_sprinting(long weapon_index) // 0x1095F230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_prevents_sprinting@@YA_NJ@Z");
-
 	s_object_data *weapon = object_try_and_get_and_verify_type(weapon_index, 4);
 
 	if (!weapon)
@@ -422,8 +411,6 @@ bool weapon_prevents_sprinting(long weapon_index) // 0x1095F230
 
 long director_perspective_for_sprint_meter_hook(long output_user_index) // 0x1095AB10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?director_perspective_for_sprint_meter_hook@@YAJJ@Z");
-
 	long perspective = ((long (*)(long))0x591A40)(output_user_index);
 	if (perspective == 1)
 	{
@@ -448,8 +435,6 @@ long director_perspective_for_sprint_meter_hook(long output_user_index) // 0x109
 
 bool director_inhibited_facing_hook(long output_user_index) // 0x1095AA40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?director_inhibited_facing_hook@@YA_NJ@Z");
-
 	unsigned long unit_index = ((unsigned long (*)(long))0x589CC0)(output_user_index);
 
 	if (unit_index != NONE && Player::CPlayerEmotes::UnitCameraMovementInhibited(unit_index))
@@ -462,8 +447,6 @@ bool director_inhibited_facing_hook(long output_user_index) // 0x1095AA40
 
 bool unit_camera_override_hook(long unit_index, s_unit_camera_definition **camera) // 0x1095ED00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_camera_override_hook@@YA_NJPAPAUs_unit_camera_definition@@@Z");
-
 	const auto equipment_get_unit_camera = (bool(*)(long, s_unit_camera_definition **))0xB40BF0;
 
 	if (equipment_get_unit_camera(unit_index, camera))
@@ -481,8 +464,6 @@ bool unit_camera_override_hook(long unit_index, s_unit_camera_definition **camer
 
 void unit_update_aiming_hook(long unit_index) // 0x1095EDA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_aiming_hook@@YAXJ@Z");
-
 	if (Player::CPlayerEmotes::UnitMovementInhibited(unit_index))
 	{
 		return;
@@ -494,8 +475,6 @@ void unit_update_aiming_hook(long unit_index) // 0x1095EDA0
 
 __int32 equipped_weap_allows_3p_zoom() // 0x1095B110
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?equipped_weap_allows_3p_zoom@@YAHXZ");
-
 	static e_director_perspective (*const director_get_perspective)(long) = reinterpret_cast<e_director_perspective (*)(long)>(0x591A40);
 	static unsigned long (*const player_get_unit_index)(long) = reinterpret_cast<unsigned long (*)(long)>(0x589CC0);
 	static bool (*const weapon_has_zoom)(long) = reinterpret_cast<bool (*)(long)>(0xB64300);
@@ -522,8 +501,6 @@ __int32 equipped_weap_allows_3p_zoom() // 0x1095B110
 
 void camera_globals_initialize_from_tags_hook() // 0x10959F90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?camera_globals_initialize_from_tags_hook@@YAXXZ");
-
 	s_camera_globals *camera_globals_definition = &game_globals_get()->Camera->global_defaults;
 	s_camera_globals *g_camera_globals = (s_camera_globals *)0x18ECE00;
 	s_camera_globals *g_old_camera_globals = (s_camera_globals *)0x471AF40;
@@ -609,8 +586,6 @@ void camera_globals_initialize_from_tags_hook() // 0x10959F90
 
 void CameraModeReset() // 0x10958800
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CameraModeReset@@YAXXZ");
-
 	static bool (*const player_terminal_chud_set)(bool) = (bool (*)(bool))0xA89F50;
 
 	Modules::ModuleCamera::Instance().VarCameraFocusDistance->ValueInt = 0;
@@ -629,15 +604,11 @@ void CameraModeReset() // 0x10958800
 
 static void OnMapLoaded(char const *mapPath) // 0x10958AB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@@YAXPBD@Z");
-
 	CameraModeReset();
 }
 
 float GetScriptedCameraFovHook() // 0x109589C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetScriptedCameraFovHook@@YAMXZ");
-
 	const auto game_is_mainmenu = (bool(*)())(0x00531E90);
 
 	auto fov = 0.0f;
@@ -660,8 +631,6 @@ float GetScriptedCameraFovHook() // 0x109589C0
 
 void __fastcall c_following_camera__update_hook(void *thisptr, void *unused, __int32 localPlayerIndex, __int32 a4, unsigned char *state) // 0x10959C60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_following_camera__update_hook@@YIXPAX0HHPAE@Z");
-
 	struct s_camera_definition
 	{
 		real_point3d Position;
@@ -711,8 +680,6 @@ void __fastcall c_following_camera__update_hook(void *thisptr, void *unused, __i
 
 __int32 unit_use_third_person_camera(unsigned long object_index, __int32 *a2) // 0x1095EE20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_use_third_person_camera@@YAHKPAH@Z");
-
 	static __int32 (*const weapon_uses_third_person_camera)(short) = (__int32 (*)(short))0xB69A20;
 	static __int32 (*const sub_B444F0)(unsigned long) = (__int32 (*)(unsigned long))0xB444F0;
 	static bool (*const secondary_skull_is_active)(unsigned long) = (bool (*)(unsigned long))0x60AE50;
@@ -765,8 +732,6 @@ __int32 unit_use_third_person_camera(unsigned long object_index, __int32 *a2) //
 
 bool director_scripting_get_hook() // 0x1095B0B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?director_scripting_get_hook@@YA_NXZ");
-
 	if (Patches::Camera::GetForcedCameraMode() == _camera_mode_flying)
 		return true;
 	return ((bool(__cdecl *)())0x591b80)();
@@ -774,8 +739,6 @@ bool director_scripting_get_hook() // 0x1095B0B0
 
 bool __fastcall c_director__set_camera_mode_internal_hook(void *thisPtr, void *unused, __int32 camera_mode, float camera_speed, bool a4) // 0x10959450
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_director__set_camera_mode_internal_hook@@YI_NPAX0HM_N@Z");
-
 	if (Patches::Camera::GetForcedCameraMode() == _camera_mode_flying || Patches::Camera::GetForcedCameraMode() == _camera_mode_static)
 		return false;
 	return eldorado::c_director_set_camera_mode_internal(thisPtr, camera_mode, camera_speed, a4);
@@ -783,8 +746,6 @@ bool __fastcall c_director__set_camera_mode_internal_hook(void *thisPtr, void *u
 
 __int32 scripted_camera__player_mapping_get_input_controller_hook(short a1) // 0x1095D2A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?scripted_camera__player_mapping_get_input_controller_hook@@YAHF@Z");
-
 	bool controllerEnabled = Pointer::Base(0x204DE98).Read<bool>();
 
 	if (!controllerEnabled)
@@ -795,8 +756,6 @@ __int32 scripted_camera__player_mapping_get_input_controller_hook(short a1) // 0
 
 void debug_teleport_to_camera() // 0x1095A660
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?debug_teleport_to_camera@@YAXXZ");
-
 	auto &debugModule = Utils::Singleton<Modules::ModuleDebug>::Instance();
 
 	if (debugModule.teleportToCamera)
@@ -817,8 +776,6 @@ void debug_teleport_to_camera() // 0x1095A660
 
 void director_game_tick_hook() // 0x1095A810
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?director_game_tick_hook@@YAXXZ");
-
 	static float previousVert;
 	static float previousHoriz;
 	bool controllerEnabled = Pointer::Base(0x204DE98, 1).Read<bool>();
@@ -845,8 +802,6 @@ void director_game_tick_hook() // 0x1095A810
 
 void director_render_hook() // 0x1095ACD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?director_render_hook@@YAXXZ");
-
 	static void (*const interface_get_current_display_settings)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *) = reinterpret_cast<void (*)(short_rectangle2d *, short_rectangle2d *, short_rectangle2d *, short_rectangle2d *)>(0xA9FAA0);
 	if (!Utils::Singleton<Modules::ModuleCamera>::Instance().VarCameraShowCoordinates->ValueInt)
 		return;
@@ -877,8 +832,6 @@ void director_render_hook() // 0x1095ACD0
 
 void offset_and_scale_position_easing_type_one(real_point3d *position, real_vector3d *offset, float scale) // 0x1095CCF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?offset_and_scale_position_easing_type_one@@YAXPAUreal_point3d@@PAUreal_vector3d@@M@Z");
-
 	position->x = (position->x - offset->i) * scale + offset->i;
 	position->y = (position->y - offset->j) * scale + offset->j;
 	position->z = (position->z - offset->k) * scale + offset->k;
@@ -886,8 +839,6 @@ void offset_and_scale_position_easing_type_one(real_point3d *position, real_vect
 
 void offset_and_scale_position_easing_type_two(real_point3d *position, real_vector3d *offset, real_vector3d *offset_2, float scale) // 0x1095CD90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?offset_and_scale_position_easing_type_two@@YAXPAUreal_point3d@@PAUreal_vector3d@@1M@Z");
-
 	float stored_pos;
 	float offset_d;
 	stored_pos = position->x;
@@ -912,8 +863,6 @@ void offset_and_scale_position_easing_type_two(real_point3d *position, real_vect
 
 void lerp_vector(real_vector3d *out_vec, real_vector3d *vec1, real_vector3d *vec2, float s) // 0x1095B720
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?lerp_vector@@YAXPAUreal_vector3d@@00M@Z");
-
 	out_vec->i = s * vec2->i + (1.0f - s) * vec1->i;
 	out_vec->j = s * vec2->j + (1.0f - s) * vec1->j;
 	out_vec->k = s * vec2->k + (1.0f - s) * vec1->k;
@@ -921,15 +870,11 @@ void lerp_vector(real_vector3d *out_vec, real_vector3d *vec1, real_vector3d *vec
 
 void lerp_real(float *out_val, float a, float b, float s) // 0x1095B6D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?lerp_real@@YAXPAMMMM@Z");
-
 	*out_val = s * b + (1.0f - s) * a;
 }
 
 void slerp_rotational_vectors(real_vector3d *out_f, real_vector3d *out_up, real_vector3d *a, real_vector3d *a_up, real_vector3d *b, real_vector3d *b_up, float s) // 0x1095E7D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?slerp_rotational_vectors@@YAXPAUreal_vector3d@@00000M@Z");
-
 	void (*const matrix4x3_from_point_and_vectors)(real_matrix4x3 *, real_point3d const *, real_vector3d *, real_vector3d *) = reinterpret_cast<void (*)(real_matrix4x3 *, real_point3d const *, real_vector3d *, real_vector3d *)>(0x5B20C0);
 	void (*const matrix4x3_rotation_to_quaternion)(real_matrix4x3 *, real_quaternion *) = reinterpret_cast<void (*)(real_matrix4x3 *, real_quaternion *)>(0x5B37D0);
 	void (*const quaternions_slerp_interpolate_and_normalize)(real_quaternion *, real_quaternion *, float, real_quaternion *) = reinterpret_cast<void (*)(real_quaternion *, real_quaternion *, float, real_quaternion *)>(0x4FB430);
@@ -953,8 +898,6 @@ void slerp_rotational_vectors(real_vector3d *out_f, real_vector3d *out_up, real_
 
 void build_interpolated_camera_frame(s_camera_frame *out_frame, s_camera_frame *a, s_camera_frame *b, float s) // 0x10959160
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?build_interpolated_camera_frame@@YAXPAUs_camera_frame@@00M@Z");
-
 	lerp_vector((real_vector3d *)&out_frame->position, (real_vector3d *)&a->position, (real_vector3d *)&b->position, s);
 	slerp_rotational_vectors(&out_frame->forward, &out_frame->up, &a->forward, &a->up, &b->forward, &b->up, s);
 	lerp_real(&out_frame->unknown_00, a->unknown_00, b->unknown_00, s);
@@ -969,8 +912,6 @@ void build_interpolated_camera_frame(s_camera_frame *out_frame, s_camera_frame *
 
 void observer_set_camera_frame(s_observer_command *observer_command, real_matrix4x3 *camera_matrix, s_camera_frame *frame) // 0x1095CB60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_set_camera_frame@@YAXPAUs_observer_command@@PAUreal_matrix4x3@@PAUs_camera_frame@@@Z");
-
 	float (*const calculate_field_of_view)(float) = (float (*const)(float))0x72bfe0;
 
 	observer_command->camera.forward = camera_matrix->forward;
@@ -993,8 +934,6 @@ void observer_set_camera_frame(s_observer_command *observer_command, real_matrix
 
 void scripted_camera_update_call_hook(void *a1, void *camera_control, s_observer_command *observer_command) // 0x1095D3B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?scripted_camera_update_call_hook@@YAXPAX0PAUs_observer_command@@@Z");
-
 	void (*const scripted_camera_update)(void *, void *, s_observer_command *) = reinterpret_cast<void (*)(void *, void *, s_observer_command *)>(0x72E170);
 	float (*const observer_suggested_field_of_view)() = reinterpret_cast<float (*)()>(0x613730);
 	void (*const scripted_camera_get_deterministic_cinematic_camera_matrix)(s_camera_frame const *, real_matrix4x3 *) = reinterpret_cast<void (*)(s_camera_frame const *, real_matrix4x3 *)>(0x72CE60);
@@ -1198,8 +1137,6 @@ void scripted_camera_update_call_hook(void *a1, void *camera_control, s_observer
 
 void __fastcall c_flying_camera__update_hook(c_flying_camera *thisptr, void *__formal, long user_index, float dt, s_observer_command *result) // 0x109594F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_flying_camera__update_hook@@YIXPAUc_flying_camera@@PAXJMPAUs_observer_command@@@Z");
-
 	float k_camera_pitch_threshold = 1.4922565f;
 	long player_index = eldorado::player_mapping_get_player_by_output_user(0);
 	if (player_index == -1)
@@ -1253,8 +1190,6 @@ void __fastcall c_flying_camera__update_hook(c_flying_camera *thisptr, void *__f
 
 void player_effect_apply_camera_effect_matrix_hook(long output_user_index, real_matrix4x3 *camera_matrix) // 0x1095D0D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_effect_apply_camera_effect_matrix_hook@@YAXJPAUreal_matrix4x3@@@Z");
-
 	void (*const player_effect_apply_camera_effect_matrix)(long, real_matrix4x3 *) = (void (*const)(long, real_matrix4x3 *))0x683b30;
 	void (*const get_shake_matrix)(float, float, real_matrix4x3 *) = (void (*const)(float, float, real_matrix4x3 *))0x683a30;
 
@@ -1274,8 +1209,6 @@ void player_effect_apply_camera_effect_matrix_hook(long output_user_index, real_
 
 void observer_compute_result_hook(long output_user_index, s_focus_and_distance *focus_and_distance) // 0x1095B7E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_compute_result_hook@@YAXJPAUs_focus_and_distance@@@Z");
-
 	void (*const observer_result_compute_parameters)(s_observer_result *) = (void (*)(s_observer_result *))0x6131E0;
 	void (*const observer_result_set_position)(long, real_point3d const *, float, real_vector3d *) = (void (*)(long, real_point3d const *, float, real_vector3d *))0x613460;
 	bool (*const valid_real_vector3d_axes2)(real_vector3d const *, real_vector3d const *) = (bool (*)(real_vector3d const *, real_vector3d const *))0x4AB450;
@@ -1366,8 +1299,6 @@ void observer_compute_result_hook(long output_user_index, s_focus_and_distance *
 
 void observer_compute_view_offset_matrix_hook(long output_user_index, real_matrix4x3 *view_matrix) // 0x1095C2E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_compute_view_offset_matrix_hook@@YAXJPAUreal_matrix4x3@@@Z");
-
 	float view_offset_scale = !Utils::Singleton<Modules::ModuleCamera>::Instance().VarOldViewOffsetScale->ValueInt ? 0.785f : 1.0f;
 	if (!Utils::Singleton<Modules::ModuleCamera>::Instance().VarOldViewOffsetScale->ValueInt)
 	{
@@ -1393,8 +1324,6 @@ void observer_compute_view_offset_matrix_hook(long output_user_index, real_matri
 
 void observer_result_compute_parameters_hook(s_observer_result *result) // 0x1095C610
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_result_compute_parameters_hook@@YAXPAUs_observer_result@@@Z");
-
 	float view_offset_scale = !Utils::Singleton<Modules::ModuleCamera>::Instance().VarOldViewOffsetScale->ValueInt ? 0.785f : 1.0f;
 	float hfov = result->horizontal_field_of_view;
 	float vfov = atan2f(tanf(hfov * 0.5f) / result->aspect_ratio, 1.0f) * 2.0f;

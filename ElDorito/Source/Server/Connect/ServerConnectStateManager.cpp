@@ -56,7 +56,6 @@ class CServerConnectStateManager;
 
 void CServerConnectStateManager::RegisterStateHandler(EServerConnectState state, std::shared_ptr<CServerConnectStateHandler> const &handler) // 0x10B0D750
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterStateHandler@CServerConnectStateManager@@QAEXW4EServerConnectState@@ABV?$shared_ptr@VCServerConnectStateHandler@@@std@@@Z");
 #line 61
 
 	#line 59 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\Connect\\ServerConnectStateManager.cpp"
@@ -68,7 +67,6 @@ void CServerConnectStateManager::RegisterStateHandler(EServerConnectState state,
 
 void CServerConnectStateManager::Update() // 0x10B0DC10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CServerConnectStateManager@@QAEXXZ");
 #line 76
 
 	if (m_abortReason)
@@ -98,29 +96,21 @@ void CServerConnectStateManager::Update() // 0x10B0DC10
 
 void CServerConnectStateManager::RequestStateChange(EServerConnectState state) // 0x10B0D9D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStateChange@CServerConnectStateManager@@QAEXW4EServerConnectState@@@Z");
-
 	m_requestedState = state;
 }
 
 void CServerConnectStateManager::Abort(EServerConnectAbortReason reason) // 0x10B0D610
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CServerConnectStateManager@@QAEXW4EServerConnectAbortReason@@@Z");
-
 	m_abortReason = reason;
 }
 
 void CServerConnectStateManager::Complete() // 0x10B0D640
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CServerConnectStateManager@@QAEXXZ");
-
 	SetStateInternal((EServerConnectState)0);
 }
 
 void CServerConnectStateManager::SetStateInternal(EServerConnectState state) // 0x10B0DA00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetStateInternal@CServerConnectStateManager@@AAEXW4EServerConnectState@@@Z");
-
 	if (m_currentHandler)
 		m_currentHandler->OnExit();
 

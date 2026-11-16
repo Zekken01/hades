@@ -115,8 +115,6 @@ using namespace hades_file_local;
 
 void levels_yield_until_enumerate_done() // 0x10F07D10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_yield_until_enumerate_done@@YAXXZ");
-
 	if (g_level_globals->enumeration_async_task_id != -1)
 	{
 		eldorado::internal_async_yield_until_done_attributed((c_async_completion_flag *)0x189ece4, false, false);
@@ -125,8 +123,6 @@ void levels_yield_until_enumerate_done() // 0x10F07D10
 
 bool const levels_find_map_by_name_internal(s_data_array *level_data, char const *name, s_level_datum *out_level) // 0x10F07550
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_find_map_by_name_internal@@YA?B_NPAUs_data_array@@PBDPAUs_level_datum@@@Z");
-
 	*out_level = {};
 	bool result = false;
 	critical_section_enter(_critical_section_levels);
@@ -151,8 +147,6 @@ bool const levels_find_map_by_name_internal(s_data_array *level_data, char const
 
 bool levels_find_level_by_map_id_internal(s_data_array *level_array, long map_id, s_level_datum *out_level) // 0x10F07350
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_find_level_by_map_id_internal@@YA_NPAUs_data_array@@JPAUs_level_datum@@@Z");
-
 	s_data_iterator iterator;
 	data_iterator_new(&iterator, level_array);
 	while (s_level_datum *level = (s_level_datum *)data_iterator_next(&iterator))
@@ -168,8 +162,6 @@ bool levels_find_level_by_map_id_internal(s_data_array *level_array, long map_id
 
 bool levels_find_level_by_map_id(long map_id, s_level_datum *out_level) // 0x10F071F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_find_level_by_map_id@@YA_NJPAUs_level_datum@@@Z");
-
 	critical_section_enter(_critical_section_levels);
 
 	bool found = levels_find_level_by_map_id_internal(g_level_globals->multiplayer_levels, map_id, out_level)
@@ -186,8 +178,6 @@ bool levels_find_level_by_map_id(long map_id, s_level_datum *out_level) // 0x10F
 
 void levels_iterate_multiplayer_maps(std::function<void __cdecl(s_level_datum *)> func) // 0x10F07B60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_iterate_multiplayer_maps@@YAXV?$function@$$A6AXPAUs_level_datum@@@Z@std@@@Z");
-
 	critical_section_enter(_critical_section_levels);
 	s_data_iterator iterator;
 	data_iterator_new(&iterator, g_level_globals->multiplayer_levels);
@@ -198,8 +188,6 @@ void levels_iterate_multiplayer_maps(std::function<void __cdecl(s_level_datum *)
 
 void levels_iterate_campaign_maps(std::function<void __cdecl(s_level_datum *)> func) // 0x10F079B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_iterate_campaign_maps@@YAXV?$function@$$A6AXPAUs_level_datum@@@Z@std@@@Z");
-
 	critical_section_enter(_critical_section_levels);
 	s_data_iterator iterator;
 	data_iterator_new(&iterator, g_level_globals->campaign_levels);
@@ -210,8 +198,6 @@ void levels_iterate_campaign_maps(std::function<void __cdecl(s_level_datum *)> f
 
 bool levels_find_by_path_internal(s_data_array *level_data, char const *path, s_level_datum *out_level) // 0x10F070A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_find_by_path_internal@@YA_NPAUs_data_array@@PBDPAUs_level_datum@@@Z");
-
 	s_data_iterator iterator;
 	data_iterator_new(&iterator, level_data);
 	while (s_level_datum *level = (s_level_datum *)data_iterator_next(&iterator))
@@ -227,16 +213,12 @@ bool levels_find_by_path_internal(s_data_array *level_data, char const *path, s_
 
 bool levels_find_map_by_name(char const *name, s_level_datum *out_level) // 0x10F07490
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_find_map_by_name@@YA_NPBDPAUs_level_datum@@@Z");
-
 	return levels_find_map_by_name_internal(g_level_globals->multiplayer_levels, name, out_level)
 		|| levels_find_map_by_name_internal(g_level_globals->campaign_levels, name, out_level);
 }
 
 bool levels_find_map_by_path(char const *path, s_level_datum *out_level) // 0x10F07890
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_find_map_by_path@@YA_NPBDPAUs_level_datum@@@Z");
-
 	critical_section_enter(_critical_section_levels);
 	bool result = levels_find_by_path_internal(g_level_globals->multiplayer_levels, path, out_level)
 		|| levels_find_by_path_internal(g_level_globals->campaign_levels, path, out_level);
@@ -246,8 +228,6 @@ bool levels_find_map_by_path(char const *path, s_level_datum *out_level) // 0x10
 
 void levels_close_all_multiplayer_in_directory(char const *directory) // 0x10F06C30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_close_all_multiplayer_in_directory@@YAXPBD@Z");
-
 	critical_section_enter(_critical_section_levels);
 
 	s_static_string<256> safe_directory;
@@ -268,8 +248,6 @@ void levels_close_all_multiplayer_in_directory(char const *directory) // 0x10F06
 
 void levels_close_map_internal(s_data_array *level_data, long map_id) // 0x10F06EB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_close_map_internal@@YAXPAUs_data_array@@J@Z");
-
 	critical_section_enter(_critical_section_levels);
 	s_data_iterator iterator;
 	data_iterator_new(&iterator, level_data);
@@ -283,8 +261,6 @@ void levels_close_map_internal(s_data_array *level_data, long map_id) // 0x10F06
 
 void levels_close_all_campaigns() // 0x10F06B60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_close_all_campaigns@@YAXXZ");
-
 	critical_section_enter(_critical_section_levels);
 	data_delete_all(g_level_globals->campaigns);
 	critical_section_leave(_critical_section_levels);
@@ -292,22 +268,16 @@ void levels_close_all_campaigns() // 0x10F06B60
 
 void levels_close_multiplayer_map(long map_id) // 0x10F07040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_close_multiplayer_map@@YAXJ@Z");
-
 	levels_close_map_internal(g_level_globals->multiplayer_levels, map_id);
 }
 
 void levels_close_campaign_map(long map_id) // 0x10F06E50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_close_campaign_map@@YAXJ@Z");
-
 	levels_close_map_internal(g_level_globals->campaign_levels, map_id);
 }
 
 void levels_clear_and_enumerate_async() // 0x10F069F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_clear_and_enumerate_async@@YAXXZ");
-
 	critical_section_enter(_critical_section_levels);
 	data_delete_all(g_level_globals->campaigns);
 	data_delete_all(g_level_globals->campaign_levels);

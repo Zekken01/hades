@@ -99,21 +99,11 @@ namespace Utils
 
 CForgeUndoMapVariant::CForgeUndoMapVariant(std::string const &summary, s_map_variant const &mapVariant) : m_summary(summary) /* hades-mem-init:  */ // 0x10864890
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CForgeUndoMapVariant@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABUs_map_variant@@@Z");
-
 	memcpy(&m_storedMapVariant, &mapVariant, sizeof(s_map_variant));
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0IForgeUndo@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_map_variant@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_variant_datum@@QAE@XZ"); no body to assert in
-
 void CForgeUndoMapVariant::Undo() // 0x10864F40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Undo@CForgeUndoMapVariant@@EAEXXZ");
-
 	void (*const breakable_surfaces_reset)() = reinterpret_cast<void (*)()>(0x56B960);
 	void (*const effects_reset)() = reinterpret_cast<void (*)()>(0x5BD040);
 	void (*const lights_delete_all)() = reinterpret_cast<void (*)()>(0xB933E0);
@@ -162,8 +152,6 @@ void CForgeUndoMapVariant::Undo() // 0x10864F40
 	g_havok_garbage_collection_locked = false;
 	((void (*)(long))0x507940)(lock_flags);
 }
-
-// mangled_x86(MANGLED_DEFAULT, "??0CForgeUndoManager@@QAE@XZ"); no body to assert in
 
 /* ---------- private code */
 

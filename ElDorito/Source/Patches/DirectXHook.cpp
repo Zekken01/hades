@@ -236,8 +236,6 @@ namespace DirectXHook
 {
 	void ApplyAll() // 0x10960980
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@DirectXHook@@YAXXZ");
-
 		Hook(0x620386, InitializeDeviceHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Hook(0x62152B, HandleTakeScreenshotHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		Hook(0x645D4F, set_viewport_window, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -252,8 +250,6 @@ namespace DirectXHook
 
 bool HookDirectX(IDirect3DDevice9 *device) // 0x109616C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HookDirectX@@YA_NPAUIDirect3DDevice9@@@Z");
-
 	unsigned __int32 *directXVTable = *(unsigned __int32 **)device;
 	Video_CallsD3DEndSceneOrginal = reinterpret_cast<void (*)()>(0xA21510);
 	origResetPtr = reinterpret_cast<HRESULT (__stdcall *)(IDirect3DDevice9 *, _D3DPRESENT_PARAMETERS_ *)>(directXVTable[16]);
@@ -283,8 +279,6 @@ bool HookDirectX(IDirect3DDevice9 *device) // 0x109616C0
 
 HRESULT __stdcall EndSceneHook(IDirect3DDevice9 *device) // 0x109610E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?EndSceneHook@@YGJPAUIDirect3DDevice9@@@Z");
-
 	//Fixes the viewport if the game is in fullscreen with an incorrect aspect ratio.
 	auto *windowResolution = reinterpret_cast<int *>(0x19106E4);
 	D3DVIEWPORT9 viewport;
@@ -308,8 +302,6 @@ HRESULT __stdcall EndSceneHook(IDirect3DDevice9 *device) // 0x109610E0
 
 bool InitializeDeviceHook(bool useDesktopDC, bool nullRefDevice) // 0x10961A10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeDeviceHook@@YA_N_N0@Z");
-
 	bool (__cdecl *const InitializeDevice)(bool, bool) = (bool (__cdecl *const)(bool, bool))0xA21B40;
 
 	if (Utils::Singleton<ElDorito>::Instance().IsHeadless())
@@ -326,8 +318,6 @@ bool InitializeDeviceHook(bool useDesktopDC, bool nullRefDevice) // 0x10961A10
 
 HRESULT __stdcall ResetHook(IDirect3DDevice9 *device, _D3DPRESENT_PARAMETERS_ *params) // 0x10961B00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetHook@@YGJPAUIDirect3DDevice9@@PAU_D3DPRESENT_PARAMETERS_@@@Z");
-
 	auto webRenderer = WebRenderer::GetInstance();
 	webRenderer->PreReset();
 	auto result = origResetPtr(device, params);
@@ -337,8 +327,6 @@ HRESULT __stdcall ResetHook(IDirect3DDevice9 *device, _D3DPRESENT_PARAMETERS_ *p
 
 void HandleTakeScreenshotHook() // 0x109613D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleTakeScreenshotHook@@YAXXZ");
-
 	const auto write_jpeg = (bool(*)(BYTE *pBits, int width, int height, wchar_t *path))(0x0060F5D0);
 
 	auto &takeScreenshot = *(uint8_t*)0x0244DEE8;
@@ -372,8 +360,6 @@ void HandleTakeScreenshotHook() // 0x109613D0
 
 HRESULT set_viewport_window(short_rectangle2d *rect, float min_z, float max_z) // 0x109621A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_viewport_window@@YAJPAUshort_rectangle2d@@MM@Z");
-
 	unsigned long *g_client_resolution = (unsigned long *)0x19106E4;
 	unsigned long *g_game_resolution = (unsigned long *)0x19106C0;
 	short_rectangle2d new_rect;
@@ -397,8 +383,6 @@ HRESULT set_viewport_window(short_rectangle2d *rect, float min_z, float max_z) /
 
 char const *GetD3DPoolName(_D3DPOOL pool) // 0x10961350
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetD3DPoolName@@YAPBDW4_D3DPOOL@@@Z");
-
 	switch (pool)
 	{
 	case D3DPOOL_DEFAULT:
@@ -416,8 +400,6 @@ char const *GetD3DPoolName(_D3DPOOL pool) // 0x10961350
 
 HRESULT check_create_texture(__int32 type, _D3DPOOL pool, char const *tag_name, HRESULT hr) // 0x10961F60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?check_create_texture@@YAJHW4_D3DPOOL@@PBDJ@Z");
-
 	if (hr < 0)
 	{
 		char buff[4096];
@@ -430,32 +412,24 @@ HRESULT check_create_texture(__int32 type, _D3DPOOL pool, char const *tag_name, 
 
 HRESULT c_d3d_resource_allocator__create_texture_hook(unsigned __int32 width, unsigned __int32 height, unsigned __int32 levels, unsigned __int32 usage, _D3DFORMAT format, _D3DPOOL pool, IDirect3DTexture9 **out_texture, __int32 a8, __int32 a9, void *data_address, char const *name) // 0x10961D50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_d3d_resource_allocator__create_texture_hook@@YAJIIIIW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DTexture9@@HHPAXPBD@Z");
-
 	HRESULT hr = c_d3d_resource_allocator__create_texture(width, height, levels, usage, format, pool, out_texture, a8, a9, data_address, name);
 	return check_create_texture(0, pool, name, hr);
 }
 
 HRESULT c_d3d_resource_allocator__create_cube_texture_hook(unsigned __int32 edge_length, unsigned __int32 levels, unsigned __int32 usage, _D3DFORMAT format, _D3DPOOL pool, IDirect3DCubeTexture9 **out_texture, __int32 a7, void *a8, __int32 a9, char const *name) // 0x10961CA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_d3d_resource_allocator__create_cube_texture_hook@@YAJIIIW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DCubeTexture9@@HPAXHPBD@Z");
-
 	HRESULT hr = c_d3d_resource_allocator__create_cube_texture(edge_length, levels, usage, format, pool, out_texture, a7, a8, a9, name);
 	return check_create_texture(1, pool, name, hr);
 }
 
 HRESULT c_d3d_resource_allocator__create_volume_texture_hook(unsigned __int32 width, unsigned __int32 height, unsigned __int32 depth, unsigned __int32 levels, unsigned __int32 usage, _D3DFORMAT format, _D3DPOOL pool, IDirect3DVolumeTexture9 **out_texture, void *unk, void *data, __int32 a11, char const *name) // 0x10961E10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_d3d_resource_allocator__create_volume_texture_hook@@YAJIIIIIW4_D3DFORMAT@@W4_D3DPOOL@@PAPAUIDirect3DVolumeTexture9@@PAX3HPBD@Z");
-
 	HRESULT hr = c_d3d_resource_allocator__create_volume_texture(width, height, depth, levels, usage, format, pool, out_texture, unk, data, a11, name);
 	return check_create_texture(2, pool, name, hr);
 }
 
 c_rasterizer_texture_ref *c_rasterizer_texture_ref__allocate_hook(c_rasterizer_texture_ref *data, s_bitmap_image *bitmap_data, char const *name, bool a4) // 0x10961ED0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer_texture_ref__allocate_hook@@YAPAUc_rasterizer_texture_ref@@PAU1@PAUs_bitmap_image@@PBD_N@Z");
-
 	c_rasterizer_texture_ref *(__cdecl *const allocate)(c_rasterizer_texture_ref *, s_bitmap_image *, char const *, bool) = (c_rasterizer_texture_ref *(__cdecl *const)(c_rasterizer_texture_ref *, s_bitmap_image *, char const *, bool))0xa6dff0;
 
 	name = tag_get_name(*(long *)0x190e460);
@@ -464,16 +438,12 @@ c_rasterizer_texture_ref *c_rasterizer_texture_ref__allocate_hook(c_rasterizer_t
 
 void update_present_parameters(_D3DPRESENT_PARAMETERS_ *present_params) // 0x109622F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_present_parameters@@YAXPAU_D3DPRESENT_PARAMETERS_@@@Z");
-
 	Modules::ModuleSettings &module_settings = Utils::Singleton<Modules::ModuleSettings>::Instance();
 	present_params->PresentationInterval = module_settings.VarVSync->ValueInt ? 1 : 0x80000000;
 }
 
 _D3DPRESENT_PARAMETERS_ *get_presentation_parameters_hook() // 0x10962140
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_presentation_parameters_hook@@YAPAU_D3DPRESENT_PARAMETERS_@@XZ");
-
 	_D3DPRESENT_PARAMETERS_ *present_params = (_D3DPRESENT_PARAMETERS_ *)0x50dd928;
 
 	update_present_parameters(present_params);
@@ -482,8 +452,6 @@ _D3DPRESENT_PARAMETERS_ *get_presentation_parameters_hook() // 0x10962140
 
 _D3DPRESENT_PARAMETERS_ *get_last_presentation_parameters_hook() // 0x109620E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_last_presentation_parameters_hook@@YAPAU_D3DPRESENT_PARAMETERS_@@XZ");
-
 	_D3DPRESENT_PARAMETERS_ *last_present_params = (_D3DPRESENT_PARAMETERS_ *)0x50dd960;
 
 	update_present_parameters(last_present_params);

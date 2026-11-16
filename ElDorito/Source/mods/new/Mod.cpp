@@ -114,7 +114,6 @@ namespace Blam
 struct ModCache :
 	public c_cache_file_interface
 {
-	// mangled_x86(MANGLED_KNOWN_GOOD, "??1ModCache@@UAE@XZ"); defaulted on its declaration
 	virtual ~ModCache() = default; // 0x1078be40
 	virtual std::shared_ptr<Blam::Cache::StringIDCache> get_string_cache() const;
 	virtual std::shared_ptr<c_cache_file_tag_cache> get_tag_cache() const;
@@ -171,82 +170,58 @@ static_assert32(sizeof(ModCache) == 20, "Invalid ModCache size");
 
 Mod::Mod(Mod::IClient *client, EModIndex index, char const *filename) : m_error((EModResult)1), m_pakLoadEvent(false), m_cacheLoadEvent(false), m_cache(), m_index(index), m_client(client), m_cacheIndex(-1), m_filename(filename) /* hades-mem-init: : m_pakLoadEvent(todo_result<WaitEvent>()), m_cacheLoadEvent(todo_result<WaitEvent>()) */ // 0x1078B5A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0Mod@@QAE@PAVIClient@0@W4EModIndex@@PBD@Z");
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0ModCache@@QAE@XZ"); no body to assert in
 // _inline ModCache::ModCache() = default; // 0x1078B730  // hades: defaulted on its declaration
-
-// mangled_x86(MANGLED_DEFAULT, "??0c_cache_file_interface@@QAE@XZ"); no body to assert in
 
 Mod::~Mod() // 0x1078BD60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1Mod@@UAE@XZ");
-
 	Finish();
 }
 
 void Mod::AddRef() // 0x1078C9E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AddRef@Mod@@UAEXXZ");
-
 	m_refCount++;
 }
 
 void Mod::Release() // 0x1078D920
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Release@Mod@@UAEXXZ");
-
 	if (m_refCount-- == 1)
 		delete this;
 }
 
 EModIndex Mod::GetIndex() const // 0x1078CE10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetIndex@Mod@@QBE?AW4EModIndex@@XZ");
-
 	return m_index;
 }
 
 __int32 Mod::GetCacheIndex() const // 0x1078CCD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCacheIndex@Mod@@QBEHXZ");
-
 	return m_cacheIndex;
 }
 
 char const *Mod::GetFilename() const // 0x1078CDC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFilename@Mod@@UBEPBDXZ");
-
 	return m_filename.c_str();
 }
 
 bool Mod::GetPakIsLoading() const // 0x1078CEC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPakIsLoading@Mod@@UBE_NXZ");
-
 	return !m_pakLoadEvent.Wait(0);
 }
 
 bool Mod::GetCacheIsLoading() const // 0x1078CD00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCacheIsLoading@Mod@@UBE_NXZ");
-
 	return !m_cacheLoadEvent.Wait(0);
 }
 
 EModResult Mod::GetError() const // 0x1078CD90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetError@Mod@@UBE?AW4EModResult@@XZ");
-
 	return m_error;
 }
 
 c_mod_package *Mod::GetPak(bool wait) const // 0x1078CE40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPak@Mod@@UBEPAVc_mod_package@@_N@Z");
-
 	if (wait)
 	{
 		m_pakLoadEvent.Wait(-1);
@@ -257,8 +232,6 @@ c_mod_package *Mod::GetPak(bool wait) const // 0x1078CE40
 
 std::shared_ptr<c_cache_file_interface> Mod::GetCache(bool wait) const // 0x1078CC20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCache@Mod@@UBE?AV?$shared_ptr@Uc_cache_file_interface@@@std@@_N@Z");
-
 	if (wait)
 		m_cacheLoadEvent.Wait(-1);
 	return m_cache;
@@ -267,7 +240,6 @@ std::shared_ptr<c_cache_file_interface> Mod::GetCache(bool wait) const // 0x1078
 #line 270
 EModResult Mod::Load(bool async) // 0x1078CF50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Load@Mod@@QAE?AW4EModResult@@_N@Z");
 #line 274
 
 	#line 272 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\Mod.cpp"
@@ -289,8 +261,6 @@ EModResult Mod::Load(bool async) // 0x1078CF50
 
 EModResult Mod::LoadCache(__int32 cacheIndex, bool async) // 0x1078D130
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadCache@Mod@@QAE?AW4EModResult@@H_N@Z");
-
 	if (m_cacheIndex == cacheIndex)
 		return m_error;
 	m_cacheLoadEvent.Reset();
@@ -308,8 +278,6 @@ EModResult Mod::LoadCache(__int32 cacheIndex, bool async) // 0x1078D130
 
 EModResult Mod::LoadPakBlocking() // 0x1078D6C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadPakBlocking@Mod@@AAE?AW4EModResult@@XZ");
-
 	auto pak = std::make_unique<c_mod_package>(m_filename.c_str());
 	c_mod_package::e_error err;
 	if (!pak->initialize(&err))
@@ -324,8 +292,6 @@ EModResult Mod::LoadPakBlocking() // 0x1078D6C0
 
 EModResult Mod::FinishLoadPak(EModResult error) // 0x1078CB60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FinishLoadPak@Mod@@AAE?AW4EModResult@@W42@@Z");
-
 	m_error = error;
 	m_pakLoadEvent.Set();
 	if (error)
@@ -339,20 +305,14 @@ EModResult Mod::FinishLoadPak(EModResult error) // 0x1078CB60
 
 EModResult Mod::FinishLoadCache(EModResult error) // 0x1078CAB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FinishLoadCache@Mod@@AAE?AW4EModResult@@W42@@Z");
-
 	m_error = error;
 	m_cacheLoadEvent.Set();
 	m_client->OnModLoadStateChanged(this);
 	return error;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0IMod@@QAE@XZ"); no body to assert in
-
 EModResult Mod::LoadCacheBlocking(__int32 cacheIndex) // 0x1078D2F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadCacheBlocking@Mod@@AAE?AW4EModResult@@H@Z");
-
 	m_pakLoadEvent.Wait(4294967295);
 	auto cache = std::make_shared<ModCache>();
 	auto file = m_pak->get_file();
@@ -369,8 +329,6 @@ EModResult Mod::LoadCacheBlocking(__int32 cacheIndex) // 0x1078D2F0
 
 void Mod::Finish() // 0x1078CA40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Finish@Mod@@QAEXXZ");
-
 	m_cacheLoadEvent.Wait(4294967295);
 	m_loadThread.detach();
 }
@@ -392,14 +350,10 @@ template Ref<Mod>::~Ref();
 // at the end of the file so the functions above keep their line numbers.
 std::shared_ptr<Blam::Cache::StringIDCache> ModCache::get_string_cache() const // 0x1078E000
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_string_cache@ModCache@@UBE?AV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@XZ");
-
 	return m_stringCache;
 }
 
 std::shared_ptr<c_cache_file_tag_cache> ModCache::get_tag_cache() const // 0x1078E080
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_tag_cache@ModCache@@UBE?AV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@XZ");
-
 	return m_tagCache;
 }

@@ -88,8 +88,6 @@ namespace Utils
 {
 	std::string GetStackTraceString(__int32 framesToSkip, __int32 framesToCapture) // 0x10C56120
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetStackTraceString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@HH@Z");
-
 		std::stringstream ss;
 		std::vector<unsigned int> backTrace(framesToCapture);
 		__int32 capturedFrames = RtlCaptureStackBackTrace(framesToSkip + 1, framesToCapture, (void **)backTrace.data(), nullptr);
@@ -105,8 +103,6 @@ namespace Utils
 
 	void LogEthernetAdapterInfo() // 0x10C56450
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?LogEthernetAdapterInfo@Utils@@YAXXZ");
-
 		PIP_ADAPTER_INFO pAdapterInfo;
 		PIP_ADAPTER_INFO pAdapter;
 		Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Info, "GetAdaptersInfo");
@@ -174,8 +170,6 @@ namespace Utils
 {
 	char const *GetLastErrorToText(unsigned long lastError) // 0x10C55FC0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastErrorToText@Utils@@YAPBDK@Z");
-
 		thread_local char buf[256];
 		FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, lastError, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 256, nullptr);
 		for (char *ptr = &buf[strlen(buf) - 1]; ptr >= buf; ptr--)
@@ -194,8 +188,6 @@ namespace Utils
 {
 	std::string GetLastErrorToString(unsigned long lastError) // 0x10C55F40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetLastErrorToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@K@Z");
-
 		return GetLastErrorToText(lastError);
 	}
 }

@@ -125,8 +125,6 @@ static_assert(sizeof(c_screen_postprocess) == 1, "Invalid c_screen_postprocess s
 
 inline bool c_screen_postprocess::s_smaa_globals::init_surface(IDirect3DDevice9 *device, IDirect3DTexture9 **tex, IDirect3DSurface9 **srf, _D3DFORMAT format) // 0x10F11160
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?init_surface@s_smaa_globals@c_screen_postprocess@@AAE_NPAUIDirect3DDevice9@@PAPAUIDirect3DTexture9@@PAPAUIDirect3DSurface9@@W4_D3DFORMAT@@@Z");
-
 	if (FAILED(device->CreateTexture(res_x, res_y, 1, D3DUSAGE_RENDERTARGET, format, D3DPOOL_DEFAULT, tex, nullptr)))
 		return false;
 
@@ -142,24 +140,18 @@ inline bool c_screen_postprocess::s_smaa_globals::init_surface(IDirect3DDevice9 
 
 inline void c_screen_postprocess::s_smaa_globals::set_reinit() // 0x10A22100
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_reinit@s_smaa_globals@c_screen_postprocess@@QAEXXZ");
-
 	valid = false;
 	reinit_next_frame = true;
 }
 
 inline void c_screen_postprocess::s_smaa_globals::set_resolution(long res_x, long res_y) // 0x10F11660
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_resolution@s_smaa_globals@c_screen_postprocess@@QAEXJJ@Z");
-
 	this->res_x = res_x;
 	this->res_y = res_y;
 }
 
 inline bool c_screen_postprocess::s_smaa_globals::init_surfaces(IDirect3DDevice9 *device) // 0x10F11290
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?init_surfaces@s_smaa_globals@c_screen_postprocess@@QAE_NPAUIDirect3DDevice9@@@Z");
-
 	if (!init_surface(device, &edge_buffer, &edge_srf, D3DFMT_A8R8G8B8) ||
 		!init_surface(device, &blend_buffer, &blend_srf, D3DFMT_A8R8G8B8) ||
 		!init_surface(device, &velocity_buffer, &velocity_srf, D3DFMT_A8R8G8B8) ||
@@ -174,8 +166,6 @@ inline bool c_screen_postprocess::s_smaa_globals::init_surfaces(IDirect3DDevice9
 
 inline void c_screen_postprocess::s_smaa_globals::destroy_surfaces() // 0x10F10EC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?destroy_surfaces@s_smaa_globals@c_screen_postprocess@@QAEXXZ");
-
 	if (edge_srf)
 	{
 		edge_srf->Release();

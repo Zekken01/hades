@@ -142,10 +142,7 @@ namespace Modules
 {
 	Command::Command() : UpdateEvent(nullptr), ValueInt(0), ValueFloat(0.0f), DefaultValueInt(0), DefaultValueFloat(0.0f), ValueIntMin(0), ValueIntMax(0), ValueFloatMin(0.0f), ValueFloatMax(0.0f), IsDirty(false) /* hades-mem-init:  */ // 0x10944CB0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0Command@Modules@@QAE@XZ");
 	}
-
-	// mangled_x86(MANGLED_DEFAULT, "??0CommandScriptStack@Modules@@QAE@XZ"); no body to assert in
 }
 
 
@@ -153,8 +150,6 @@ namespace Modules
 {
 	std::string Command::GenerateHelpText() // 0x10949150
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateHelpText@Command@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		std::stringstream ss;
 		ss << Name << " - " << Description << "." << std::endl;
 		ss << "Usage: " << Name << " ";
@@ -206,28 +201,20 @@ namespace Modules
 		return ss.str();
 	}
 
-	// mangled_x86(MANGLED_DEFAULT, "??1Command@Modules@@QAE@XZ"); no body to assert in
 	// _inline Command::~Command() = default; // 0x10945510  // hades: implicit
 
-	// mangled_x86(MANGLED_DEFAULT, "??1CommandScript@Modules@@QAE@XZ"); no body to assert in
 	_inline CommandScript::~CommandScript() = default; // 0x109455E0
 
-	// mangled_x86(MANGLED_DEFAULT, "??1CommandScriptStack@Modules@@QAE@XZ"); no body to assert in
 	_inline CommandScriptStack::~CommandScriptStack() = default; // 0x10945660
 
-	// mangled_x86(MANGLED_DEFAULT, "??4Command@Modules@@QAEAAU01@$$QAU01@@Z"); no body to assert in
 	// _inline Modules::Command &Command::operator=(Modules::Command &&__that) = default; // 0x109456B0  // hades: implicit
 
-	// mangled_x86(MANGLED_DEFAULT, "??0Command@Modules@@QAE@$$QAU01@@Z"); no body to assert in
 	// _inline Command::Command(Modules::Command &&__that) = default; // 0x109445D0  // hades: implicit
 
-	// mangled_x86(MANGLED_DEFAULT, "??0Command@Modules@@QAE@ABU01@@Z"); no body to assert in
 	// _inline Command::Command(Modules::Command const &__that) = default; // 0x10944910  // hades: implicit
 
 	Modules::Command *CommandMap::FindCommand(std::string const &name) // 0x10948CA0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?FindCommand@CommandMap@Modules@@QAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		for (auto it = Commands.begin(); it < Commands.end(); it++)
 		{
 			if ((it->Name.length() > 0 && !_stricmp(it->Name.c_str(), name.c_str())) || (it->ShortName.length() > 0 && !_stricmp(it->ShortName.c_str(), name.c_str())))
@@ -238,8 +225,6 @@ namespace Modules
 
 	Modules::Command *CommandMap::AddCommand(Modules::Command command) // 0x109469C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AddCommand@CommandMap@Modules@@QAEPAUCommand@2@U32@@Z");
-
 		if (FindCommand(command.Name) || FindCommand(command.ShortName))
 		{
 			return nullptr;
@@ -251,8 +236,6 @@ namespace Modules
 
 	void CommandMap::FinishAddCommands() // 0x10948EF0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?FinishAddCommands@CommandMap@Modules@@QAEXXZ");
-
 		std::string previousValue;
 		for (auto command : Commands)
 		{
@@ -270,8 +253,6 @@ namespace Modules
 {
 	std::string CommandMap::ExecuteCommand(std::vector<std::string> command, bool isUserInput) // 0x10946DC0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteCommand@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@4@_N@Z");
-
 		auto commandEnd = command.end();
 		std::stringstream buff;
 		for (auto it = command.begin(); it != commandEnd; ++it)
@@ -285,8 +266,6 @@ namespace Modules
 
 	bool CommandMap::ExecuteCommandWithStatus(std::string command, bool isUserInput, std::string *output) // 0x10947090
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteCommandWithStatus@CommandMap@Modules@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_NPAV34@@Z");
-
 		*output = "";
 		bool SkipHostCheck = false;
 		bool opReset = false;
@@ -403,8 +382,6 @@ namespace Modules
 {
 	std::string GetDefaultValueString(Modules::Command *command) // 0x10949E80
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetDefaultValueString@Modules@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUCommand@1@@Z");
-
 		switch (command->Type)
 		{
 		case eCommandTypeVariableInt:
@@ -423,8 +400,6 @@ namespace Modules
 {
 	VariableSetReturnValue CommandMap::ResetVariable(Modules::Command *command, std::string &previousValue, bool markDirty) // 0x1094A370
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ResetVariable@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@PAUCommand@2@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
-
 		return SetVariable(command, GetDefaultValueString(command), previousValue, markDirty);
 	}
 }
@@ -434,8 +409,6 @@ namespace Modules
 {
 	std::string CommandMap::ExecuteCommand(std::string command, bool isUserInput) // 0x10946C60
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteCommand@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V34@_N@Z");
-
 		std::string output;
 		ExecuteCommandWithStatus(command, isUserInput, &output);
 		return output;
@@ -443,8 +416,6 @@ namespace Modules
 
 	bool CommandMap::GetVariableInt(std::string const &name, unsigned long &value) // 0x1094A100
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetVariableInt@CommandMap@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAK@Z");
-
 		Modules::Command *command = FindCommand(name);
 		if (!command || command->Type != eCommandTypeVariableInt)
 			return false;
@@ -454,8 +425,6 @@ namespace Modules
 
 	bool CommandMap::GetVariableInt64(std::string const &name, unsigned long long &value) // 0x1094A070
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetVariableInt64@CommandMap@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AA_K@Z");
-
 		Modules::Command *command = FindCommand(name);
 		if (!command || command->Type != eCommandTypeVariableInt64)
 			return false;
@@ -465,8 +434,6 @@ namespace Modules
 
 	bool CommandMap::GetVariableFloat(std::string const &name, float &value) // 0x10949FE0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetVariableFloat@CommandMap@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAM@Z");
-
 		Modules::Command *command = FindCommand(name);
 		if (!command || command->Type != eCommandTypeVariableFloat)
 			return false;
@@ -476,8 +443,6 @@ namespace Modules
 
 	bool CommandMap::GetVariableString(std::string const &name, std::string &value) // 0x1094A180
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetVariableString@CommandMap@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 		Modules::Command *command = FindCommand(name);
 		if (!command || command->Type != eCommandTypeVariableString)
 			return false;
@@ -491,8 +456,6 @@ namespace Modules
 {
 	VariableSetReturnValue CommandMap::SetVariable(std::string const &name, std::string const &value, bool markDirty) // 0x1094B130
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetVariable@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0_N@Z");
-
 		std::string previousValue;
 		return SetVariable(name, value, previousValue, markDirty);
 	}
@@ -503,8 +466,6 @@ namespace Modules
 {
 	VariableSetReturnValue CommandMap::SetVariable(std::string const &name, std::string const &value, std::string &previousValue, bool markDirty) // 0x1094B0A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetVariable@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0AAV45@_N@Z");
-
 		Modules::Command *command = FindCommand(name);
 		if (!command)
 			return eVariableSetReturnValueError;
@@ -517,8 +478,6 @@ namespace Modules
 {
 	VariableSetReturnValue CommandMap::SetVariable(Modules::Command *command, std::string const &value, bool markDirty) // 0x1094B880
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetVariable@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@PAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
-
 		std::string previousValue;
 		return SetVariable(command, value, previousValue, markDirty);
 	}
@@ -529,8 +488,6 @@ namespace Modules
 {
 	VariableSetReturnValue CommandMap::SetVariable(Modules::Command *command, std::string const &value, std::string &previousValue, bool markDirty) // 0x1094B250
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetVariable@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@PAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV56@_N@Z");
-
 		if (command->Flags & eCommandFlagsInternal)
 			return eVariableSetReturnValueError;
 		try
@@ -596,8 +553,6 @@ namespace Modules
 {
 	VariableSetReturnValue CommandMap::SetVariable2(Modules::Command *command, std::string const &value, std::string &previousValue) // 0x1094AAC0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetVariable2@CommandMap@Modules@@QAE?AW4VariableSetReturnValue@@PAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV56@@Z");
-
 		try
 		{
 			switch (command->Type)
@@ -652,8 +607,6 @@ namespace Modules
 
 	bool compare_commands(Modules::Command const &lhs, Modules::Command const &rhs) // 0x1094DC20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?compare_commands@Modules@@YA_NABUCommand@1@0@Z");
-
 		return (lhs.Name <=> rhs.Name) < 0;
 	}
 }
@@ -663,8 +616,6 @@ namespace Modules
 {
 	std::string CommandMap::GenerateHelpText(std::string moduleFilter) // 0x109498B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateHelpText@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V34@@Z");
-
 		std::deque<Modules::Command> tempCommands = Commands;
 		std::sort(tempCommands.begin(), tempCommands.end(), compare_commands);
 		std::stringstream ss;
@@ -694,8 +645,6 @@ namespace Modules
 {
 	std::string CommandMap::SaveVariables() // 0x1094A750
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SaveVariables@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		std::stringstream ss;
 		for (Modules::Command &cmd : Commands)
 		{
@@ -722,8 +671,6 @@ namespace Modules
 {
 	std::string CommandMap::SaveKeys() // 0x1094A480
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SaveKeys@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		std::stringstream ss;
 		for (Modules::Command cmd : Commands)
 		{
@@ -740,8 +687,6 @@ namespace Modules
 {
 	std::string CommandMap::ExecuteCommands(std::string &commands, bool isUserInput, bool stopOnFirstError) // 0x109486F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteCommands@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@_N1@Z");
-
 		std::shared_ptr<Modules::CommandScript> script = std::make_shared<Modules::CommandScript>(std::make_unique<std::stringstream>(commands), isUserInput, stopOnFirstError);
 		script->Execute();
 		if (script->IsFinished())
@@ -756,8 +701,6 @@ namespace Modules
 {
 	std::string CommandMap::ExecuteQueue() // 0x10948A20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteQueue@CommandMap@Modules@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		std::stringstream ss;
 		for (std::string cmd : queuedCommands)
 			ss << ExecuteCommand(cmd, true) << std::endl;
@@ -767,23 +710,17 @@ namespace Modules
 
 	void CommandMap::NotifyVariableUpdated(Modules::Command const *command) // 0x1094A210
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyVariableUpdated@CommandMap@Modules@@QAEXPBUCommand@2@@Z");
-
 		for (auto &&callback : variableUpdateCallbacks)
 			callback(command);
 	}
 
 	void CommandMap::OnVariableUpdate(std::function<void __cdecl(Modules::Command const *)> callback) // 0x1094A2B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?OnVariableUpdate@CommandMap@Modules@@QAEXV?$function@$$A6AXPBUCommand@Modules@@@Z@std@@@Z");
-
 		variableUpdateCallbacks.push_back(callback);
 	}
 
 	void CommandMap::CommitDirtyVariables() // 0x10946AE0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?CommitDirtyVariables@CommandMap@Modules@@QAEXXZ");
-
 		for (auto &cmd : Commands)
 		{
 			if (cmd.Type == 0 || !(cmd.Flags & 4) || (cmd.Flags & 0x100))
@@ -799,8 +736,6 @@ namespace Modules
 
 	void CommandMap::Update() // 0x1094B9A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CommandMap@Modules@@QAEXXZ");
-
 		scriptStack.Update();
 	}
 }

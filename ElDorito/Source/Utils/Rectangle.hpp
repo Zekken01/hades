@@ -49,8 +49,6 @@ namespace Utils
 {
 	inline Rectangle::Rectangle() // 0x10C5C800
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0Rectangle@Utils@@QAE@XZ");
-
 		X = 0;
 		Y = 0;
 		Width = 0;
@@ -59,8 +57,6 @@ namespace Utils
 
 	inline Rectangle::Rectangle(__int32 x, __int32 y, __int32 width, __int32 height) // 0x10C5C7B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0Rectangle@Utils@@QAE@HHHH@Z");
-
 		X = x;
 		Y = y;
 		Width = width;
@@ -69,8 +65,6 @@ namespace Utils
 
 	inline bool Rectangle::operator==(Utils::Rectangle const &other) const // 0x10CEB160
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??8Rectangle@Utils@@QBE_NABU01@@Z");
-
 		return X == other.X && Y == other.Y && Width == other.Width && Height == other.Height;
 	}
 }

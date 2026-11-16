@@ -464,33 +464,10 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-// mangled_x86(MANGLED_DEFAULT, "??0c_async_completion_flag@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0c_game_variant@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0c_map_load_crash_recovery_helper@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0c_map_load_error_helper@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0c_mod_cache_tag_remapper@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_game_options@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_game_player_options@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_player_appearance@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_player_configuration@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_player_configuration_from_host@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??1c_map_load_crash_recovery_helper@@QAE@XZ"); no body to assert in
 _inline c_map_load_crash_recovery_helper::~c_map_load_crash_recovery_helper() = default; // 0x10922050
 
-// mangled_x86(MANGLED_DEFAULT, "??1c_map_load_error_helper@@QAE@XZ"); no body to assert in
 _inline c_map_load_error_helper::~c_map_load_error_helper() = default; // 0x109220A0
 
-// mangled_x86(MANGLED_DEFAULT, "??1c_mod_cache_tag_remapper@@QAE@XZ"); no body to assert in
 _inline c_mod_cache_tag_remapper::~c_mod_cache_tag_remapper() = default; // 0x109220F0
 
 namespace Patches
@@ -499,8 +476,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10922620
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@ModSync@Patches@@YAXXZ");
-
 			Hook(0x1679C4, main_game_initialize_for_new_map_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0xEA5EE, main_load_map_internal_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x161E0A, cache_file_tag_load_resource_table_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -525,8 +500,6 @@ namespace Patches
 
 		void Tick() // 0x10923950
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ModSync@Patches@@YAXXZ");
-
 					crash_recovery_helper.tick();
 		}
 	}
@@ -534,8 +507,6 @@ namespace Patches
 
 s_cache_tag_instance *cache_tag_instance_get(long tag_index) // 0x109265E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_tag_instance_get@@YAPAUs_cache_tag_instance@@J@Z");
-
 	if (tag_index < 0 || tag_index >= k_maximum_number_of_cache_tag_instances)
 	{
 		return nullptr;
@@ -552,8 +523,6 @@ s_cache_tag_instance *cache_tag_instance_get(long tag_index) // 0x109265E0
 
 char const *tag_get_name(long tag_index) // 0x10929D50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_get_name@@YAPBDJ@Z");
-
 	if (!g_cache_file_tag_globals->initialized)
 	{
 		return nullptr;
@@ -570,8 +539,6 @@ char const *tag_get_name(long tag_index) // 0x10929D50
 
 long tag_find_by_name(unsigned long group_tag, char const *name) // 0x10929C10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_find_by_name@@YAJKPBD@Z");
-
 	for (long i = 0; i < g_cache_file_tag_globals->loaded_instance_count; i++)
 	{
 		long tag_index = g_cache_file_tag_globals->absolute_index_index_map[i];
@@ -591,7 +558,6 @@ long tag_find_by_name(unsigned long group_tag, char const *name) // 0x10929C10
 #line 585
 bool fixup_mod_tag(long tag_index, s_cache_tag_instance *instance) // 0x109278B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_mod_tag@@YA_NJPAUs_cache_tag_instance@@@Z");
 #line 604
 
 	long **tag_reference_fixups = reinterpret_cast<long **>(reinterpret_cast<long *>(&instance[1]) + instance->dependency_count + instance->fixup_count + instance->resource_fixup_count);
@@ -639,7 +605,6 @@ bool fixup_mod_tag(long tag_index, s_cache_tag_instance *instance) // 0x109278B0
 
 bool cache_file_load_tag(long tag_index) // 0x10925170
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_load_tag@@YA_NJ@Z");
 #line 672
 
 	s_cache_file_tag_globals *global_state = g_cache_file_tag_globals;
@@ -737,7 +702,6 @@ bool cache_file_load_tag(long tag_index) // 0x10925170
 
 bool cache_file_allocate_tags() // 0x10924670
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_allocate_tags@@YA_NXZ");
 #line 775
 
 	s_cache_file_tag_globals *global_state = g_cache_file_tag_globals;
@@ -785,8 +749,6 @@ bool cache_file_allocate_tags() // 0x10924670
 
 void cache_file_compute_and_verify_signature() // 0x10924960
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_compute_and_verify_signature@@YAXXZ");
-
 	s_cache_file_secure_memory *(*const cache_file_get_secure_working_memory)() = reinterpret_cast<s_cache_file_secure_memory *(*)()>(0x5018F0);
 	void (*const cache_file_builder_security_clean_header)(s_cache_file_header *) = reinterpret_cast<void (*)(s_cache_file_header *)>(0x601BF0);
 	s_cache_file_secure_memory *secure_memory = cache_file_get_secure_working_memory();
@@ -835,8 +797,6 @@ void cache_file_compute_and_verify_signature() // 0x10924960
 
 void cache_file_invalidate_signature() // 0x10924D90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_invalidate_signature@@YAXXZ");
-
 	void *secure_memory;
 	long secure_memory_size;
 	security_get_working_memory(0, &secure_memory, &secure_memory_size);
@@ -849,8 +809,6 @@ void cache_file_invalidate_signature() // 0x10924D90
 
 bool cache_file_load_allocate_tags() // 0x10924E90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_load_allocate_tags@@YA_NXZ");
-
 	cache_file_invalidate_signature();
 	long scenario_tag_index = loader_state.base_cache->find_by_name('scnr', g_cache_file_tag_globals->cache_file_header.scenario_path);
 	if (loader_state.mod_cache != nullptr)
@@ -879,8 +837,6 @@ bool cache_file_load_allocate_tags() // 0x10924E90
 
 bool open_mod_package_resource_cache(char const *filepath) // 0x109294C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?open_mod_package_resource_cache@@YA_NPBD@Z");
-
 	if (!eldorado::cached_map_file_open(&g_cached_map_files[6], filepath))
 	{
 		return false;
@@ -897,8 +853,6 @@ bool open_mod_package_resource_cache(char const *filepath) // 0x109294C0
 
 void close_mod_package_resource_cache() // 0x10926750
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?close_mod_package_resource_cache@@YAXXZ");
-
 	void (__cdecl *const close_resource_cache)(int) = (void(__cdecl *const)(int))0x5ab630;
 
 	close_resource_cache(6);
@@ -906,8 +860,6 @@ void close_mod_package_resource_cache() // 0x10926750
 
 bool do_load_main_menu_mod_package() // 0x10926D30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?do_load_main_menu_mod_package@@YA_NXZ");
-
 	s_static_string<256> file_path;
 	std::string &MainMenuMod = Utils::Singleton<Modules::ModuleGame>::Instance().VarMainMenuMod->ValueString;
 	if (MainMenuMod.empty())
@@ -923,8 +875,6 @@ bool do_load_main_menu_mod_package() // 0x10926D30
 
 void loader_reset() // 0x10928790
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?loader_reset@@YAXXZ");
-
 	loader_state.tag_remapper.reset();
 	loader_state.base_cache = nullptr;
 	loader_state.mod_cache = nullptr;
@@ -938,8 +888,6 @@ void loader_reset() // 0x10928790
 
 bool load_string_id_cache() // 0x10927E90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load_string_id_cache@@YA_NXZ");
-
 	std::shared_ptr<Blam::Cache::StringIDCache> string_id_cache;
 	IMod *mod = c_mod_system::GetModManager().GetMod(loader_state.loading_main_menu ? kMainMenu : kGame);
 	if (mod)
@@ -963,8 +911,6 @@ bool load_string_id_cache() // 0x10927E90
 
 bool loader_initialize(long map_id, bool is_mainmenu) // 0x10928210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?loader_initialize@@YA_NJ_N@Z");
-
 	error_helper.reset();
 	loader_reset();
 	loader_state.loading_main_menu = is_mainmenu;
@@ -1002,8 +948,6 @@ bool loader_initialize(long map_id, bool is_mainmenu) // 0x10928210
 
 bool main_load_map_internal_hook(char const *map_path) // 0x109289F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?main_load_map_internal_hook@@YA_NPBD@Z");
-
 	crash_recovery_helper.map_load_start();
 	c_physical_memory_manager::prepare_for_new_map();
 	s_cache_file_tag_globals *global_state = g_cache_file_tag_globals;
@@ -1030,8 +974,6 @@ bool main_load_map_internal_hook(char const *map_path) // 0x109289F0
 
 void canonicalize_map_path_hook(char const *path, char *canonical_path) // 0x10926660
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?canonicalize_map_path_hook@@YAXPBDPAD@Z");
-
 	if (strstr(path, "mods\\") == path)
 	{
 		char const *directory = tag_name_get_directory(path);
@@ -1049,8 +991,6 @@ void canonicalize_map_path_hook(char const *path, char *canonical_path) // 0x109
 
 bool open_mod_package_map_file(EModIndex index, IMod *mod, long map_file_index, char const *virtual_file_path) // 0x10929090
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?open_mod_package_map_file@@YA_NW4EModIndex@@PAVIMod@@JPBD@Z");
-
 	c_mod_package *package = mod->GetPak(true);
 	if (!package)
 		return false;
@@ -1093,8 +1033,6 @@ bool open_mod_package_map_file(EModIndex index, IMod *mod, long map_file_index, 
 
 bool cache_file_open_internal_hook(long map_file_index, char *map_file_path) // 0x10925720
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_open_internal_hook@@YA_NJPAD@Z");
-
 	char (*const cache_file_open_internal)(__int32, char *) = reinterpret_cast<char (*)(__int32, char *)>(0x5ABAD0);
 	IMod *mod = nullptr;
 	EModIndex index;
@@ -1121,7 +1059,6 @@ bool cache_file_open_internal_hook(long map_file_index, char *map_file_path) // 
 #line 1283
 void cache_file_tag_resource_table_read(s_cache_file_tag_resource_table *out_table) // 0x109260E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tag_resource_table_read@@YAXPAUs_cache_file_tag_resource_table@@@Z");
 #line 1312
 
 	static __int32 (*const async_read_position)(s_file_handle, void *, long, unsigned long, long, long, c_synchronized_int32 *, c_async_completion_flag *) = reinterpret_cast<__int32 (*)(s_file_handle, void *, long, unsigned long, long, long, c_synchronized_int32 *, c_async_completion_flag *)>(0x5ADA80);
@@ -1186,7 +1123,6 @@ void cache_file_tag_resource_table_read(s_cache_file_tag_resource_table *out_tab
 
 s_tag_resource_data *cache_file_tag_load_resource_table_hook() // 0x10925930
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tag_load_resource_table_hook@@YAPAUs_tag_resource_data@@XZ");
 #line 1407
 
 	s_cache_file_tag_resource_table resource_table;
@@ -1274,7 +1210,6 @@ s_tag_resource_data *cache_file_tag_load_resource_table_hook() // 0x10925930
 
 bool __fastcall c_cache_file_tag_resource_runtime_manager__get_page_hook(c_indirect_cache_file_location_atlas *thisptr, void *unused, long index, long a4, s_indirect_cache_file_page *out_location) // 0x10924330
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_cache_file_tag_resource_runtime_manager__get_page_hook@@YI_NPAUc_indirect_cache_file_location_atlas@@PAXJJPAUs_indirect_cache_file_page@@@Z");
 #line 1507
 
 	static s_tag_resource_page *(__thiscall *const c_cache_file_tag_resource_page_handler__get_physical_location)(c_cache_file_tag_resource_page_handler *, long) = reinterpret_cast<s_tag_resource_page *(__thiscall *)(c_cache_file_tag_resource_page_handler *, long)>(0x6EC770);
@@ -1323,8 +1258,6 @@ bool __fastcall c_cache_file_tag_resource_runtime_manager__get_page_hook(c_indir
 
 void display_dirty_disk() // 0x10926A30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?display_dirty_disk@@YAXXZ");
-
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, std::format("Dirty Disk: {}", error_helper.get_last_error()));
 	if (Utils::Singleton<ElDorito>::Instance().IsHeadless())
 		return;
@@ -1340,8 +1273,6 @@ void display_dirty_disk() // 0x10926A30
 
 void main_menu_launch_safe() // 0x10928EB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?main_menu_launch_safe@@YAXXZ");
-
 	bool (*const main_menu_is_loaded)() = (bool(*const)())0x454db0;
 	void (*const main_menu_launch)(int) = (void(*const)(int))0x455260;
 	void (*const main_menu_reset)() = (void(*const)())0x454b40;
@@ -1360,8 +1291,6 @@ void main_menu_launch_safe() // 0x10928EB0
 
 void dirty_disk_hook() // 0x109267B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?dirty_disk_hook@@YAXXZ");
-
 	if (*(bool *)0x22B7FAF)
 		Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Error, std::format("Dirty Disk: Failed to load font package"));
 	if (GetCurrentThreadId() != ElDorito::GetMainThreadID())
@@ -1385,7 +1314,6 @@ void dirty_disk_hook() // 0x109267B0
 #line 1628
 c_basic_buffer<void> *cache_file_tag_resource_runtime_manager__allocate_memory_buffer_hook(c_basic_buffer<void> *buffer) // 0x10925F70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?cache_file_tag_resource_runtime_manager__allocate_memory_buffer_hook@@YAPAV?$c_basic_buffer@X@@PAV1@@Z");
 #line 1642
 
 	void (*const physical_memory_stage_push)(__int32) = reinterpret_cast<void (*)(__int32)>(0x51DC00);
@@ -1411,8 +1339,6 @@ c_basic_buffer<void> *cache_file_tag_resource_runtime_manager__allocate_memory_b
 
 bool main_game_initialize_for_new_map_hook(bool a1, s_game_options *options) // 0x10928950
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?main_game_initialize_for_new_map_hook@@YA_N_NPAUs_game_options@@@Z");
-
 	bool (*const main_game_initialize_for_new_map)(bool, s_game_options *) = (bool(*const)(bool, s_game_options *))0x567560;
 
 	if (!a1 && !font_initialize_for_new_map(options))
@@ -1426,8 +1352,6 @@ bool main_game_initialize_for_new_map_hook(bool a1, s_game_options *options) // 
 
 void scenario_tags_mark_necessary_bitmaps() // 0x10929660
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?scenario_tags_mark_necessary_bitmaps@@YAXXZ");
-
 	auto mark_bitmap = [](long bitmap_index)
 	{
 		if (bitmap_index == -1)
@@ -1465,8 +1389,6 @@ void scenario_tags_mark_necessary_bitmaps() // 0x10929660
 
 void __fastcall begin_tracking_resource_hook(void *thisptr, void *unused, tag_resource_tracking_setup *setup) // 0x10924170
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?begin_tracking_resource_hook@@YIXPAX0PAUtag_resource_tracking_setup@hades_file_local@@@Z");
-
 	void (__thiscall *const sub_9EA6E0)(void *, long, bool) = reinterpret_cast<void (__thiscall *)(void *, long, bool)>(0x9EA6E0);
 	s_cache_file_tag_resource_table_runtime *resource_table = *((s_cache_file_tag_resource_table_runtime **)setup->datum_handler + 1);
 	if ((setup->control_state_datum->flags >> 5) & 1)
@@ -1490,22 +1412,16 @@ void __fastcall begin_tracking_resource_hook(void *thisptr, void *unused, tag_re
 
 static void OnMapLoaded(char const *mapPath) // 0x109238B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@@YAXPBD@Z");
-
 	crash_recovery_helper.map_load_end();
 }
 
 static void OnShutdown() // 0x10923900
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
-
 	crash_recovery_helper.shutdown();
 }
 
 void main_menu_launch_force_hook() // 0x10928C40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?main_menu_launch_force_hook@@YAXXZ");
-
 	void (*const main_menu_build_game_options)(s_game_options *) = reinterpret_cast<void (*)(s_game_options *)>(0x568080);
 	void (*const main_game_change)(s_game_options *) = reinterpret_cast<void (*)(s_game_options *)>(0x566E70);
 	void (__thiscall *const s_game_options__ctor)(s_game_options *) = reinterpret_cast<void (__thiscall *)(s_game_options *)>(0x485420);
@@ -1523,13 +1439,10 @@ void main_menu_launch_force_hook() // 0x10928C40
 	main_game_change(&options);
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_cache_file_loaded_state@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_cache_file_loaded_state::s_cache_file_loaded_state() = default; // 0x109218B0
 
 void main_menu_launch_hook() // 0x10928DF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?main_menu_launch_hook@@YAXXZ");
-
 	char (*const main_menu_launch_safe_func)() = (char (*const)())0x505860;
 	void (*const main_menu_launch_func)() = (void (*const)())0xa84330;
 
@@ -1546,7 +1459,6 @@ void main_menu_launch_hook() // 0x10928DF0
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1s_cache_file_loaded_state@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_cache_file_loaded_state::~s_cache_file_loaded_state() = default; // 0x10922160
 
 /* ---------- template instantiations */

@@ -222,8 +222,6 @@ namespace Web
 		{
 			void Init() // 0x10CAAAE0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebLoadingScreen@Ui@Web@@YAXXZ");
-
 				std::shared_ptr<WebLoadingScreenUi> ui = std::make_shared<WebLoadingScreenUi>();
 				Patches::LoadingScreen::SetUi(ui);
 			}
@@ -235,7 +233,6 @@ namespace Patches
 {
 	namespace LoadingScreen
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??0LoadingScreenUi@LoadingScreen@Patches@@QAE@XZ"); no body to assert in
 	}
 }
 
@@ -243,14 +240,11 @@ namespace Patches
 
 _inline WebLoadingScreenUi::WebLoadingScreenUi() : currentBytes(0), totalBytes(0) /* hades-mem-init:  */ // 0x10CA9FE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0WebLoadingScreenUi@hades_file_local@@QAE@XZ");
 }
 
 
 void WebLoadingScreenUi::Show(Patches::LoadingScreen::LoadingScreenShowInfo const &info) // 0x10CAAC00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebLoadingScreenUi@hades_file_local@@UAEXABULoadingScreenShowInfo@LoadingScreen@Patches@@@Z");
-
 	benchmark_start = std::chrono::steady_clock::now();
 	unsigned __int32 separatorIndex = info.MapPath.find_last_of("\\/");
 	std::string mapName = info.MapPath.substr(separatorIndex + 1);
@@ -315,8 +309,6 @@ void WebLoadingScreenUi::Show(Patches::LoadingScreen::LoadingScreenShowInfo cons
 
 void WebLoadingScreenUi::Begin(unsigned __int32 totalBytes) // 0x10CAA320
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Begin@WebLoadingScreenUi@hades_file_local@@UAEXI@Z");
-
 	currentBytes = 0;
 	this->totalBytes = totalBytes;
 	lastUpdateTime = std::chrono::steady_clock::now();
@@ -324,8 +316,6 @@ void WebLoadingScreenUi::Begin(unsigned __int32 totalBytes) // 0x10CAA320
 
 void WebLoadingScreenUi::UpdateProgress(unsigned __int32 bytes) // 0x10CAB360
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateProgress@WebLoadingScreenUi@hades_file_local@@UAEXI@Z");
-
 	currentBytes += bytes;
 	auto currentTime = std::chrono::steady_clock::now();
 	auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - lastUpdateTime).count();
@@ -345,8 +335,6 @@ void WebLoadingScreenUi::UpdateProgress(unsigned __int32 bytes) // 0x10CAB360
 
 void WebLoadingScreenUi::Hide() // 0x10CAA3A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebLoadingScreenUi@hades_file_local@@UAEXXZ");
-
 	ScreenLayer::Hide(ScreenLayer::Loading);
 	ScreenLayer::Notify("loadingFinished", "{}", true);
 	benchmark_end = std::chrono::steady_clock::now();

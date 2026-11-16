@@ -45,8 +45,6 @@ namespace Utils
 {
 	Utils::FailBehavior ReportFailure(char const *condition, char const *msg, char const *file, char const *fnc, long line) // 0x10C53CB0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ReportFailure@Utils@@YA?AW4FailBehavior@1@PBD000J@Z");
-
 		// Parse file name
 		std::string file_name(file);
 

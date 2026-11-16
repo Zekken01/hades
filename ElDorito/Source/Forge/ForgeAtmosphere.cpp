@@ -105,15 +105,11 @@ namespace Forge
 {
 	void CForgeAtmosphere::InitializeForNewMap() // 0x1067F930
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeAtmosphere@Forge@@SAXXZ");
-
 		state = {};
 	}
 
 	void CForgeAtmosphere::Update(long mapModifierIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x1067FEA0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeAtmosphere@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
-
 		state.Enabled = false;
 		if (mapModifierProperties.AtmosphereProperties.Flags & 1)
 		{
@@ -129,15 +125,11 @@ namespace Forge
 
 	void CForgeAtmosphere::HandleMapModifierDeleted() // 0x1067F910
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeAtmosphere@Forge@@SAXXZ");
-
 		state.Enabled = false;
 	}
 
 	bool CForgeAtmosphere::OverrideSkyAtmosphereSettings(s_cluster_reference cluster_reference, s_weighted_atmosphere_parameters *parameters) // 0x1067F9D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?OverrideSkyAtmosphereSettings@CForgeAtmosphere@Forge@@SA_NUs_cluster_reference@@PAUs_weighted_atmosphere_parameters@@@Z");
-
 		if (!state.Enabled)
 			return false;
 		c_sky_atm_parameters *skya = (c_sky_atm_parameters *)tag_get('skya', global_scenario_get()->sky_parameters.index);

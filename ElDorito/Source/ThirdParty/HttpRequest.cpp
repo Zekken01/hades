@@ -52,13 +52,10 @@ class HttpRequest;
 
 HttpRequest::HttpRequest(std::wstring const &userAgent, std::wstring const &proxyIp, std::wstring const &proxyPort) : _userAgent(userAgent) /* hades-mem-init:  */ // 0x10C52A20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0HttpRequest@@QAE@ABV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@00@Z");
 }
 
 __int32 HttpRequest::SendRequest(std::wstring const &uri, std::wstring const &method, std::wstring const &username, std::wstring const &password, std::wstring const &headers, void *body, unsigned long bodySize) // 0x10C52B70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SendRequest@HttpRequest@@QAEHABV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@0000PAXK@Z");
-
 	unsigned long dwSize;
 	unsigned long dwDownloaded;
 	unsigned long headerSize = 0;

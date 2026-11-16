@@ -130,8 +130,6 @@ namespace Player
 {
 	void BuildChangeColors(unsigned long *changeColors, std::map<std::string,std::string> const &colors) // 0x107CA700
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildChangeColors@Player@@YAXPAKABV?$map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@U?$less@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@@Z");
-
 		for (const auto [changeColorAscii, colorValue] : colors)
 		{
 			if (changeColorAscii == "primary")
@@ -149,8 +147,6 @@ namespace Player
 
 	bool CPlayerCharacterCustomizationBuilder::BuildCustomizationFromPlayerModel(__int32 playerModelIndex, s_player_character_customiztion *data) // 0x107CB040
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildCustomizationFromPlayerModel@CPlayerCharacterCustomizationBuilder@Player@@QAE_NHPAUs_player_character_customiztion@@@Z");
-
 		if (!Initialize())
 			return false;
 		memset(data, 0, sizeof(s_player_character_customiztion));
@@ -188,17 +184,10 @@ namespace Player
 		return true;
 	}
 
-	// mangled_x86(MANGLED_DEFAULT, "??0CPlayerCustomizationDB@Player@@QAE@XZ"); no body to assert in
-
-	// mangled_x86(MANGLED_DEFAULT, "??0SPersistentCharacterCustomization@Player@@QAE@XZ"); no body to assert in
-
-	// mangled_x86(MANGLED_DEFAULT, "??1SPersistentCharacterCustomization@Player@@QAE@XZ"); no body to assert in
 	_inline SPersistentCharacterCustomization::~SPersistentCharacterCustomization() = default; // 0x107C9ED0
 
 	bool CPlayerCharacterCustomizationBuilder::BuildCharacterCustomizations(std::string const &preferredCharacterName, s_player_appearance *data) // 0x107CAA20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildCharacterCustomizations@CPlayerCharacterCustomizationBuilder@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_player_appearance@@@Z");
-
 		memset(&data->model_customization, 0, sizeof(data->model_customization));
 		memset(data->characters, 0, sizeof(data->characters));
 		data->characters_count = 0;
@@ -252,8 +241,6 @@ namespace Player
 
 	bool CPlayerCharacterCustomizationBuilder::BuildSingleCharacterCustomization(std::string const &characterName, s_player_character_customiztion *data) // 0x107CB5C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildSingleCharacterCustomization@CPlayerCharacterCustomizationBuilder@Player@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_player_character_customiztion@@@Z");
-
 		if (!Initialize())
 			return false;
 		__int32 playerModelIndex = FindPlayerModel(characterName);
@@ -262,8 +249,6 @@ namespace Player
 
 	bool CPlayerCharacterCustomizationBuilder::Initialize() // 0x107CBA30
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@CPlayerCharacterCustomizationBuilder@Player@@AAE_NXZ");
-
 		if (!eldorado::game_in_progress())
 			return false;
 		if (!m_mulg)
@@ -294,8 +279,6 @@ namespace Player
 {
 	std::pair<int,int> CPlayerCharacterCustomizationBuilder::FindPlayerModelPermutation(s_model_customization_selection const &selection, std::string const &regionName, std::string const &permutationName) // 0x107CB790
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerModelPermutation@CPlayerCharacterCustomizationBuilder@Player@@AAE?AU?$pair@HH@std@@ABUs_model_customization_selection@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@1@Z");
-
 		for (__int32 i = 0; i < selection.regions.count; i++)
 		{
 			s_model_customization_player_region const &region = selection.regions[i];
@@ -315,8 +298,6 @@ namespace Player
 
 	__int32 CPlayerCharacterCustomizationBuilder::FindPlayerModel(std::string const &characterName) // 0x107CB680
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?FindPlayerModel@CPlayerCharacterCustomizationBuilder@Player@@AAEHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		for (__int32 i = 0; i < m_mulg->universal->player_model.count; i++)
 		{
 			char *name = m_stringCache->GetString(m_mulg->universal->player_model[i].character_name);
@@ -331,8 +312,6 @@ namespace Player
 
 unsigned __int32 ParseColor(std::string const &value) // 0x107CBD20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ParseColor@@YAIABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	std::cmatch what;
 	std::regex expression("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})");
 	if (std::regex_match(value.c_str(), what, expression))

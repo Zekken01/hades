@@ -105,8 +105,6 @@ namespace Utils
 	{
 		std::string ReformatKey(bool isPrivateKey, std::string key) // 0x10C550A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ReformatKey@Cryptography@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_NV34@@Z");
-
 			unsigned __int32 pos = 0;
 			std::string returnKey;
 			while (pos < key.length())
@@ -126,8 +124,6 @@ namespace Utils
 
 		bool PrivateEncrypt(std::string privateKey, void *data, unsigned __int32 dataSize, std::string &encrypted) // 0x10C54830
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PrivateEncrypt@Cryptography@Utils@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAXIAAV34@@Z");
-
 			bio_st *privKeyBuff = BIO_new_mem_buf(privateKey.c_str(), privateKey.length());
 			if (!privKeyBuff)
 				return false;
@@ -147,8 +143,6 @@ namespace Utils
 
 		bool PublicEncrypt(std::string publicKey, void *data, unsigned __int32 dataSize, std::string &encrypted) // 0x10C54AC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PublicEncrypt@Cryptography@Utils@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAXIAAV34@@Z");
-
 			bio_st *pubKeyBuff = BIO_new_mem_buf(publicKey.c_str(), publicKey.length());
 			if (!pubKeyBuff)
 			{
@@ -181,8 +175,6 @@ namespace Utils
 	{
 		std::string GetEncryptedTimestamp(std::string unformattedkey, bool isPrivate) // 0x10C54460
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetEncryptedTimestamp@Cryptography@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V34@_N@Z");
-
 			std::string encryptedString;
 			long long now = time(nullptr);
 			tm *now_tm = gmtime(&now);
@@ -194,8 +186,6 @@ namespace Utils
 
 		bool CreateRSASignature(std::string privateKey, void *data, unsigned __int32 dataSize, std::string &signature) // 0x10C53EA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CreateRSASignature@Cryptography@Utils@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAXIAAV34@@Z");
-
 			bio_st *privKeyBuff = BIO_new_mem_buf(privateKey.c_str(), privateKey.length());
 			if (!privKeyBuff)
 				return false;
@@ -220,8 +210,6 @@ namespace Utils
 
 		bool VerifyRSASignature(std::string pubKey, std::string signature, void *data, unsigned __int32 dataSize) // 0x10C553B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?VerifyRSASignature@Cryptography@Utils@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0PAXI@Z");
-
 			bio_st *pubKeyBuff = BIO_new_mem_buf(pubKey.c_str(), pubKey.length());
 			if (!pubKeyBuff)
 				return false;
@@ -248,8 +236,6 @@ namespace Utils
 
 		bool GenerateRSAKeyPair(__int32 numBits, std::string &privKey, std::string &pubKey) // 0x10C541C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateRSAKeyPair@Cryptography@Utils@@YA_NHAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 			rsa_st *rsa = RSA_new();
 			bignum_st *bn = BN_new();
 			bn_gencb_st cb;
@@ -276,8 +262,6 @@ namespace Utils
 
 		bool Hash32(std::string const &str, unsigned __int32 *out) // 0x10C54690
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Hash32@Cryptography@Utils@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAI@Z");
-
 			unsigned char digest[20];
 			SHA_CTX context;
 			if (!SHA1_Init(&context))
@@ -292,8 +276,6 @@ namespace Utils
 
 		bool RandomBytes(__int32 num, unsigned char *out) // 0x10C54D70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RandomBytes@Cryptography@Utils@@YA_NHPAE@Z");
-
 			HCRYPTPROV provider = AcquireProvider();
 			if (!provider)
 				return false;
@@ -302,8 +284,6 @@ namespace Utils
 
 		bool RandomString(__int32 length, std::string const &chars, std::string &out) // 0x10C54EF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RandomString@Cryptography@Utils@@YA_NHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 			std::unique_ptr<unsigned char []> bytes = std::make_unique<unsigned char []>(length);
 			if (!RandomBytes(length, &bytes[0]))
 				return false;
@@ -318,8 +298,6 @@ namespace Utils
 
 		bool RandomPassword(__int32 length, std::string &out) // 0x10C54E10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RandomPassword@Cryptography@Utils@@YA_NHAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			return RandomString(length, PasswordChars, out);
 		}
 	}
@@ -333,8 +311,6 @@ namespace Utils
 	{
 		__int32 genrsa_cb(__int32 p, __int32 n, bn_gencb_st *cb) // 0x10C55780
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?genrsa_cb@Cryptography@Utils@@YAHHHPAUbn_gencb_st@@@Z");
-
 			char c = '*';
 
 			if (p == 0)

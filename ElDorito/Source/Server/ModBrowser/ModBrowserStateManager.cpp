@@ -56,7 +56,6 @@ class CModBrowserStateManager;
 
 void CModBrowserStateManager::RegisterStateHandler(EModBrowserState state, std::shared_ptr<CModBrowserStateHandler> const &handler) // 0x10724970
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterStateHandler@CModBrowserStateManager@@QAEXW4EModBrowserState@@ABV?$shared_ptr@VCModBrowserStateHandler@@@std@@@Z");
 #line 61
 
 	#line 59 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\ModBrowser\\ModBrowserStateManager.cpp"
@@ -68,7 +67,6 @@ void CModBrowserStateManager::RegisterStateHandler(EModBrowserState state, std::
 
 void CModBrowserStateManager::Update() // 0x10724E30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CModBrowserStateManager@@QAEXXZ");
 #line 76
 
 	if (m_abortReason)
@@ -98,29 +96,21 @@ void CModBrowserStateManager::Update() // 0x10724E30
 
 void CModBrowserStateManager::RequestStateChange(EModBrowserState state) // 0x10724BF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStateChange@CModBrowserStateManager@@QAEXW4EModBrowserState@@@Z");
-
 	m_requestedState = state;
 }
 
 void CModBrowserStateManager::Abort(EModBrowserAbortReason reason) // 0x10724830
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CModBrowserStateManager@@QAEXW4EModBrowserAbortReason@@@Z");
-
 	m_abortReason = reason;
 }
 
 void CModBrowserStateManager::Complete() // 0x10724860
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CModBrowserStateManager@@QAEXXZ");
-
 	SetStateInternal((EModBrowserState)0);
 }
 
 void CModBrowserStateManager::SetStateInternal(EModBrowserState state) // 0x10724C20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetStateInternal@CModBrowserStateManager@@AAEXW4EModBrowserState@@@Z");
-
 	if (m_currentHandler)
 		m_currentHandler->OnExit();
 

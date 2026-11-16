@@ -93,40 +93,30 @@ static_assert(sizeof(c_cache_file_tag_cache) == 384, "Invalid c_cache_file_tag_c
 
 inline c_cache_file_tag_cache::c_instance_iterator::c_instance_iterator(c_cache_file_tag_cache const *in_cache, unsigned long in_group_filter) : cache(in_cache), tag_index(-1), absolute_index(-1), group_tag_filter(in_group_filter), instance(nullptr), group(s_tag_group::invalid()) /* hades-mem-init:  */ // 0x108716A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_instance_iterator@c_cache_file_tag_cache@@QAE@PBV1@K@Z");
 }
 
 inline c_cache_file_tag_cache::~c_cache_file_tag_cache() // 0x10877EB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_cache_file_tag_cache@@QAE@XZ");
 }
 
 inline bool c_cache_file_tag_cache::valid_index(long index) const // 0x10875680
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_index@c_cache_file_tag_cache@@QBE_NJ@Z");
-
 	if (!(m_initialized)) { display_assert("m_initialized", "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\cache_file_tag_cache.hpp", 65, true); system_exit(-1); }
 	return index >= 0 && index < (long)m_tag_offsets.size();
 }
 
 inline bool c_cache_file_tag_cache::valid_tag(long index) const // 0x10892020
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?valid_tag@c_cache_file_tag_cache@@QBE_NJ@Z");
-
 	return valid_index(index) && ((std::vector<unsigned long> &)m_tag_offsets)[index];
 }
 
 inline long c_cache_file_tag_cache::get_tag_count() const // 0x10891AA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_tag_count@c_cache_file_tag_cache@@QBEJXZ");
-
 	return m_tag_offsets.size();
 }
 
 inline s_cache_tag_instance const *c_cache_file_tag_cache::get_instance(long index) const // 0x10874160
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_instance@c_cache_file_tag_cache@@QBEPBUs_cache_tag_instance@@J@Z");
-
 	if (index < 0 || index >= (long)m_index_to_absolute_index.size())
 		return nullptr;
 
@@ -139,22 +129,16 @@ inline s_cache_tag_instance const *c_cache_file_tag_cache::get_instance(long ind
 
 inline char const *c_cache_file_tag_cache::get_tag_name(long index) const // 0x10891B00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_tag_name@c_cache_file_tag_cache@@QBEPBDJ@Z");
-
 	return m_tag_names.get_name(index);
 }
 
 inline c_cache_file_tag_cache::c_instance_iterator c_cache_file_tag_cache::create_iterator(unsigned long group_filter) const // 0x10873C60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?create_iterator@c_cache_file_tag_cache@@QBE?AUc_instance_iterator@1@K@Z");
-
 	return c_instance_iterator(this, group_filter);
 }
 
 inline c_file_reference c_cache_file_tag_cache::get_file() const // 0x108C2EE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_file@c_cache_file_tag_cache@@QBE?AVc_file_reference@@XZ");
-
 	return c_file_reference(m_file.filename);
 }
 

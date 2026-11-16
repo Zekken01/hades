@@ -66,8 +66,6 @@ namespace Http
 {
 	CHttpHeaders::CHttpHeaders(std::initializer_list<std::pair<std::string,std::string> > const &values) // 0x107FA7A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpHeaders@Http@@QAE@ABV?$initializer_list@U?$pair@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@Z");
-
 		for (auto const &[key, value] : values)
 			Add(key, value, Coalesce);
 	}
@@ -78,8 +76,6 @@ namespace Http
 {
 	std::string const CHttpHeaders::Get(std::string const &headerKey) const // 0x107FB750
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Get@CHttpHeaders@Http@@QBE?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV34@@Z");
-
 		if (auto it = m_map.find(headerKey); it != m_map.end())
 			return it->second;
 		return {};
@@ -87,8 +83,6 @@ namespace Http
 
 	bool CHttpHeaders::GetInt(std::string const &headerKey, long long &value) const // 0x107FBB20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetInt@CHttpHeaders@Http@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AA_J@Z");
-
 		std::string const str = Get(headerKey);
 		if (str.empty())
 			return false;
@@ -98,15 +92,11 @@ namespace Http
 
 	bool CHttpHeaders::Contains(std::string const &headerKey) const // 0x107FB620
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Contains@CHttpHeaders@Http@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		return m_map.find(headerKey) != m_map.end();
 	}
 
 	bool CHttpHeaders::Add(std::string const &headerKey, std::string const &headerValue, Http::CHttpHeaders::ECollisionOp collisionOp) // 0x107FB2B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Add@CHttpHeaders@Http@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0W4ECollisionOp@12@@Z");
-
 		auto it = m_map.find(headerKey);
 		if (it != m_map.end())
 		{
@@ -134,8 +124,6 @@ namespace Http
 
 	bool CHttpHeaders::Remove(std::string const &headerKey) // 0x107FBF10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Remove@CHttpHeaders@Http@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		if (auto it = m_map.find(headerKey); it != m_map.end())
 		{
 			m_map.erase(it);
@@ -146,8 +134,6 @@ namespace Http
 
 	void CHttpHeaders::Parse(std::string const &str, Http::CHttpHeaders &headers) // 0x107FBCD0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Parse@CHttpHeaders@Http@@SAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV12@@Z");
-
 		unsigned __int32 start = 0;
 		for (;;)
 		{
@@ -173,8 +159,6 @@ namespace Http
 {
 	std::string CHttpHeaders::ToString() const // 0x107FC0B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ToString@CHttpHeaders@Http@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		std::stringstream ss;
 		if (!m_map.empty())
 		{
@@ -195,8 +179,6 @@ namespace Http
 {
 	std::vector<std::tuple<std::string,std::string> > CHttpHeaders::GetHeaders() // 0x107FB940
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetHeaders@CHttpHeaders@Http@@QAE?AV?$vector@V?$tuple@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@V?$allocator@V?$tuple@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@2@@std@@XZ");
-
 		std::vector<std::tuple<std::string,std::string> > headers;
 		for (auto const &[k, v] : m_map)
 			headers.emplace_back(k, v);

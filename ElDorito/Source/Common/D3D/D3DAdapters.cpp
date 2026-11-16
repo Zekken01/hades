@@ -104,8 +104,6 @@ namespace Common
 	{
 		void EnumerateDisplayModes() // 0x106874A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?EnumerateDisplayModes@D3DAdapters@Common@@YAXXZ");
-
 			adapterModes.clear();
 			__int32 foundModes = 0;
 			IDirect3D9 *d3d = Direct3DCreate9(D3D_SDK_VERSION);
@@ -150,15 +148,11 @@ namespace Common
 	{
 		std::vector<Common::D3DAdapters::DisplayMode> const &GetAdapterDisplayModes(__int32 adapterIndex) // 0x10687970
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetAdapterDisplayModes@D3DAdapters@Common@@YAABV?$vector@UDisplayMode@D3DAdapters@Common@@V?$allocator@UDisplayMode@D3DAdapters@Common@@@std@@@std@@H@Z");
-
 			return adapterModes[adapterIndex];
 		}
 
 		Common::D3DAdapters::DisplayMode GetClosestSupportedDisplayMode(__int32 preferredWidth, __int32 preferredHeight) // 0x106879C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetClosestSupportedDisplayMode@D3DAdapters@Common@@YA?AUDisplayMode@12@HH@Z");
-
 			Common::D3DAdapters::DisplayMode closestMode = {};
 			__int32 minDifference = INT_MAX;
 			for (unsigned __int32 i = 0; i < adapterModes.size(); i++)
@@ -178,8 +172,6 @@ namespace Common
 
 		__int32 GetCurrentAdapterIndex() // 0x10687B70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetCurrentAdapterIndex@D3DAdapters@Common@@YAHXZ");
-
 			return *(__int32 *)0x50dd9c4;
 		}
 	}
@@ -189,8 +181,6 @@ namespace Common
 
 void FatalError(char const *message) // 0x10687900
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FatalError@@YAXPBD@Z");
-
 	MessageBoxA(nullptr, "Error", message, 0x10);
 	ExitProcess(0xFFFFFFFF);
 }

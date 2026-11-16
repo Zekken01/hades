@@ -245,8 +245,6 @@ namespace Job { extern void RunJob(std::function<EJobResult __cdecl(void)> funct
 
 _inline SignatureVerificationJob::SignatureVerificationJob(__int32 queueIndex, std::string const &path) : m_finished(false) /* hades-mem-init:  */ // 0x107156E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0SignatureVerificationJob@@QAE@HABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	m_result.verified = false;
 	m_result.queueIndex = queueIndex;
 	m_result.error = SSignatureVerificationResult::None;
@@ -255,16 +253,12 @@ _inline SignatureVerificationJob::SignatureVerificationJob(__int32 queueIndex, s
 
 _inline SSignatureVerificationResult const &SignatureVerificationJob::GetResult() // 0x10717310
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetResult@SignatureVerificationJob@@QAEABUSSignatureVerificationResult@@XZ");
-
 	(void)((!!(m_finished)) || (_wassert(L"m_finished", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\ModBrowser\\ModBrowserStateHandler_AcquireMod.cpp", 32), 0));
 	return m_result;
 }
 
 _inline void SignatureVerificationJob::Abort(SSignatureVerificationResult::EError error) // 0x10716EC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@SignatureVerificationJob@@QAEXW4EError@SSignatureVerificationResult@@@Z");
-
 	if (!m_result.verified)
 		Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Game, Utils::LogLevel::Warning, "SignatureVerificationJob: Signature verification failed for package '%s'", m_packagePath.c_str());
 	m_result.error = error;
@@ -273,8 +267,6 @@ _inline void SignatureVerificationJob::Abort(SSignatureVerificationResult::EErro
 
 _inline bool SignatureVerificationJob::Update() // 0x107196F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@SignatureVerificationJob@@QAE_NXZ");
-
 	c_mod_package package(m_packagePath.c_str());
 	c_mod_package::e_error err;
 	if (!package.initialize(&err))
@@ -294,40 +286,29 @@ _inline bool SignatureVerificationJob::Update() // 0x107196F0
 
 _inline void SignatureVerificationJob::Complete() // 0x10716F80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@SignatureVerificationJob@@QAEXXZ");
-
 	m_finished = true;
 }
 
 CModBrowserStateHandler_AcquireMod::CModBrowserStateHandler_AcquireMod() : m_state(EState::None), m_queueIndex(-1), m_downloadStarted(false), m_cancelled(false), m_hasEnumerated(false), m_pendingVerificationJobs(0), m_ui(nullptr) /* hades-mem-init:  */ // 0x107154D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0CModBrowserStateHandler_AcquireMod@@QAE@XZ");
 }
-
-// mangled_x86(MANGLED_DEFAULT, "??0SSignatureVerificationResult@@QAE@XZ"); no body to assert in
 
 CModBrowserStateHandler_AcquireMod::~CModBrowserStateHandler_AcquireMod() // 0x10715C90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1CModBrowserStateHandler_AcquireMod@@QAE@XZ");
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1SSignatureVerificationResult@@QAE@XZ"); no body to assert in
 _inline SSignatureVerificationResult::~SSignatureVerificationResult() = default; // 0x10715D80
 
-// mangled_x86(MANGLED_DEFAULT, "??1SignatureVerificationJob@@QAE@XZ"); no body to assert in
 _inline SignatureVerificationJob::~SignatureVerificationJob() // 0x10715DD0
 {
 	// hades: m_result is a typed member now, so its destructor runs implicitly after this body.
 
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??4SSignatureVerificationResult@@QAEAAU0@ABU0@@Z"); no body to assert in
 _inline SSignatureVerificationResult &SSignatureVerificationResult::operator=(SSignatureVerificationResult const &__that) = default; // 0x10715F50
 
 void CModBrowserStateHandler_AcquireMod::SetUI(std::shared_ptr<IModBrowserModDownloadUI> const &ui) // 0x10718D40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetUI@CModBrowserStateHandler_AcquireMod@@QAEXABV?$shared_ptr@VIModBrowserModDownloadUI@@@std@@@Z");
-
 	m_ui = ui;
 	if (!m_ui)
 		return;
@@ -339,8 +320,6 @@ void CModBrowserStateHandler_AcquireMod::SetUI(std::shared_ptr<IModBrowserModDow
 
 void CModBrowserStateHandler_AcquireMod::OnEnter() // 0x10718400
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEnter@CModBrowserStateHandler_AcquireMod@@EAEXXZ");
-
 	Console::WriteLine("Server Mod Browser :: Acquiring mod...");
 	SetLocalState(Confirmation);
 	SModBrowserState &state = GetManager()->GetStateMutable();
@@ -373,8 +352,6 @@ void CModBrowserStateHandler_AcquireMod::OnEnter() // 0x10718400
 
 void CModBrowserStateHandler_AcquireMod::OnExit() // 0x10718670
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnExit@CModBrowserStateHandler_AcquireMod@@EAEXXZ");
-
 	if (m_activeDownload)
 	{
 		m_activeDownload->Cancel();
@@ -401,8 +378,6 @@ void CModBrowserStateHandler_AcquireMod::OnExit() // 0x10718670
 
 void CModBrowserStateHandler_AcquireMod::OnUpdate() // 0x10718B80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CModBrowserStateHandler_AcquireMod@@EAEXXZ");
-
 	m_verificationQueue.ConsumeAll([this](auto *result) { HandleSignatureVerificationResult(*result); });
 	switch (GetLocalState())
 	{
@@ -426,13 +401,10 @@ void CModBrowserStateHandler_AcquireMod::OnUpdate() // 0x10718B80
 
 void CModBrowserStateHandler_AcquireMod::UpdateConfirmation() // 0x10719A70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateConfirmation@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
 }
 
 void CModBrowserStateHandler_AcquireMod::UpdateDownloading() // 0x10719A90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateDownloading@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-
 	if (!m_downloadStarted)
 		StartNextDownload();
 	else if (m_activeDownload->IsComplete())
@@ -457,12 +429,8 @@ void CModBrowserStateHandler_AcquireMod::UpdateDownloading() // 0x10719A90
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0CModBrowserStateHandler@@QAE@XZ"); no body to assert in
-
 void CModBrowserStateHandler_AcquireMod::UpdateCancelling() // 0x10719920
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateCancelling@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-
 	if (m_activeDownload && !m_activeDownload->IsComplete())
 	{
 		return;
@@ -489,8 +457,6 @@ void CModBrowserStateHandler_AcquireMod::UpdateCancelling() // 0x10719920
 
 void CModBrowserStateHandler_AcquireMod::UpdateFinalizing() // 0x10719D50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateFinalizing@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-
 	if (m_pendingVerificationJobs > 0)
 		return;
 	c_mod_package_manager &packageManager = c_mod_system::get_package_manager();
@@ -521,15 +487,11 @@ void CModBrowserStateHandler_AcquireMod::UpdateFinalizing() // 0x10719D50
 
 void CModBrowserStateHandler_AcquireMod::UpdateFinished() // 0x10719F20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateFinished@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-
 	Complete();
 }
 
 void CModBrowserStateHandler_AcquireMod::EnterFinalizationState() // 0x107171C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?EnterFinalizationState@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-
 	c_mod_package_manager &packageManager = c_mod_system::get_package_manager();
 	SetLocalState(EState::Finalizing);
 	m_ui->OnDownloadFinalizing();
@@ -537,8 +499,6 @@ void CModBrowserStateHandler_AcquireMod::EnterFinalizationState() // 0x107171C0
 
 void CModBrowserStateHandler_AcquireMod::EnterFailedState(Download::EDownloadError error) // 0x10717060
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?EnterFailedState@CModBrowserStateHandler_AcquireMod@@AAEXW4EDownloadError@Download@@@Z");
-
 	if (m_cancelled)
 	{
 		return;
@@ -559,15 +519,11 @@ void CModBrowserStateHandler_AcquireMod::EnterFailedState(Download::EDownloadErr
 
 void CModBrowserStateHandler_AcquireMod::SetLocalState(CModBrowserStateHandler_AcquireMod::EState state) // 0x10718D10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetLocalState@CModBrowserStateHandler_AcquireMod@@AAEXW4EState@1@@Z");
-
 	m_state = state;
 }
 
 void CModBrowserStateHandler_AcquireMod::StartNextDownload() // 0x107191A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?StartNextDownload@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-
 	if (m_queueIndex >= m_downloadQueue.size())
 		return;
 	SModBrowserState::SRequestedMod *next = m_downloadQueue[m_queueIndex];
@@ -593,7 +549,6 @@ void CModBrowserStateHandler_AcquireMod::StartNextDownload() // 0x107191A0
 #line 672
 void CModBrowserStateHandler_AcquireMod::HandleSignatureVerificationResult(SSignatureVerificationResult const &result) // 0x10717790
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSignatureVerificationResult@CModBrowserStateHandler_AcquireMod@@AAEXABUSSignatureVerificationResult@@@Z");
 #line 693
 
 	if (result.queueIndex < 0 || result.queueIndex >= (__int32)m_downloadQueue.size())
@@ -641,8 +596,6 @@ void CModBrowserStateHandler_AcquireMod::HandleSignatureVerificationResult(SSign
 
 void CModBrowserStateHandler_AcquireMod::KickSignatureVerificationJob(__int32 queueIndex) // 0x10718130
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?KickSignatureVerificationJob@CModBrowserStateHandler_AcquireMod@@AAEXH@Z");
-
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Network, Utils::LogLevel::Trace, "Server Mod Browser: Started mod package signature verification job '%s'", m_downloadQueue[queueIndex]->localName.c_str());
 	m_pendingVerificationJobs++;
 	m_downloadQueue[queueIndex]->verificationFailed = false;
@@ -661,8 +614,6 @@ void CModBrowserStateHandler_AcquireMod::KickSignatureVerificationJob(__int32 qu
 
 void CModBrowserStateHandler_AcquireMod::HandleDownloadStopped() // 0x107173B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleDownloadStopped@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-
 	Download::EDownloadStatus error = m_activeDownload->GetStatus();
 	if (error == Download::Success)
 	{
@@ -688,8 +639,6 @@ void CModBrowserStateHandler_AcquireMod::HandleDownloadStopped() // 0x107173B0
 
 bool CModBrowserStateHandler_AcquireMod::ShouldDownloadPackage(SModBrowserState::SRequestedMod const &package) // 0x10718F50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldDownloadPackage@CModBrowserStateHandler_AcquireMod@@AAE_NABUSRequestedMod@SModBrowserState@@@Z");
-
 	unsigned char remote_hash[20];
 	Utils::String::HexStringToBytes(package.hash, remote_hash, sizeof(remote_hash));
 	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
@@ -712,7 +661,6 @@ bool CModBrowserStateHandler_AcquireMod::ShouldDownloadPackage(SModBrowserState:
 #line 833
 void CModBrowserStateHandler_AcquireMod::OnUIActionConfirm() // 0x10718A70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionConfirm@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
 #line 837
 
 	#line 835 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Server\\ModBrowser\\ModBrowserStateHandler_AcquireMod.cpp"
@@ -724,8 +672,6 @@ void CModBrowserStateHandler_AcquireMod::OnUIActionConfirm() // 0x10718A70
 
 void CModBrowserStateHandler_AcquireMod::OnUIActionCancel() // 0x107189B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionCancel@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-
 	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
 	package_manager.begin_enumerate();
 	m_cancelled = true;
@@ -736,8 +682,6 @@ void CModBrowserStateHandler_AcquireMod::OnUIActionCancel() // 0x107189B0
 
 void CModBrowserStateHandler_AcquireMod::OnUIActionRetry() // 0x10718B10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUIActionRetry@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-
 	if (GetLocalState() == EState::DownloadFailed)
 	{
 		m_downloadStarted = false;
@@ -747,8 +691,6 @@ void CModBrowserStateHandler_AcquireMod::OnUIActionRetry() // 0x10718B10
 
 void CModBrowserStateHandler_AcquireMod::OnDownloadSingleFinished() // 0x10718390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadSingleFinished@CModBrowserStateHandler_AcquireMod@@AAEXXZ");
-
 	EState state = GetLocalState();
 	if (state == WaitingOnUser)
 		SetLocalState(finished);

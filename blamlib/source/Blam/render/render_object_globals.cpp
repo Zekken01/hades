@@ -50,8 +50,6 @@ extern s_render_object_globals *render_object_globals_get();
 
 s_render_object_globals *render_object_globals_get() // 0x10F13A40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_object_globals_get@@YAPAUs_render_object_globals@@XZ");
-
 	return tls_getd().render_object_globals;
 }
 

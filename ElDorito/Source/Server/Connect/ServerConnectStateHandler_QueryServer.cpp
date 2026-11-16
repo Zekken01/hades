@@ -180,8 +180,6 @@ EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args,
 
 void CServerConnectStateHandler_QueryServer::OnEnter() // 0x10B12D20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEnter@CServerConnectStateHandler_QueryServer@@EAEXXZ");
-
 	Console::WriteLine("Server Connect :: Querying info server...");
 	SServerConnectState const &state = GetManager()->GetState();
 	m_addressLookupAddress = 0;
@@ -200,13 +198,10 @@ void CServerConnectStateHandler_QueryServer::OnEnter() // 0x10B12D20
 
 void CServerConnectStateHandler_QueryServer::OnExit() // 0x10B13000
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnExit@CServerConnectStateHandler_QueryServer@@EAEXXZ");
 }
 
 void CServerConnectStateHandler_QueryServer::OnUpdate() // 0x10B13020
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CServerConnectStateHandler_QueryServer@@EAEXXZ");
-
 	if (m_jobCounter.GetValue() == 0)
 	{
 		std::unique_lock<std::mutex> lock(m_mutex);
@@ -256,32 +251,20 @@ void CServerConnectStateHandler_QueryServer::OnUpdate() // 0x10B13020
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0SQueryInfoServerArgs@@QAE@$$QAU0@@Z"); no body to assert in
 _inline SQueryInfoServerArgs::SQueryInfoServerArgs(SQueryInfoServerArgs &&__that) = default; // 0x10B11D10
 
-// mangled_x86(MANGLED_DEFAULT, "??0SQueryInfoServerArgs@@QAE@ABU0@@Z"); no body to assert in
 _inline SQueryInfoServerArgs::SQueryInfoServerArgs(SQueryInfoServerArgs const &__that) = default; // 0x10B11DB0
 
-// mangled_x86(MANGLED_DEFAULT, "??0SQueryInfoServerArgs@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0SRequiredMod@SServerConnectState@@QAE@$$QAU01@@Z"); no body to assert in
 _inline SServerConnectState::SRequiredMod::SRequiredMod(SServerConnectState::SRequiredMod &&__that) = default; // 0x10B11EF0
 
-// mangled_x86(MANGLED_DEFAULT, "??0SRequiredMod@SServerConnectState@@QAE@ABU01@@Z"); no body to assert in
 _inline SServerConnectState::SRequiredMod::SRequiredMod(SServerConnectState::SRequiredMod const &__that) = default; // 0x10B120D0
 
-// mangled_x86(MANGLED_DEFAULT, "??0SRequiredMod@SServerConnectState@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??1SQueryInfoServerArgs@@QAE@XZ"); no body to assert in
 _inline SQueryInfoServerArgs::~SQueryInfoServerArgs() = default; // 0x10B12630
 
-// mangled_x86(MANGLED_DEFAULT, "??4SQueryInfoServerData@@QAEAAU0@$$QAU0@@Z"); no body to assert in
 _inline SQueryInfoServerData &SQueryInfoServerData::operator=(SQueryInfoServerData &&__that) noexcept = default; // 0x10B128D0
 
 EJobResult CServerConnectStateHandler_QueryServer::QueryInfoServerJobCallback(SQueryInfoServerArgs const &args) // 0x10B14990
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryInfoServerJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABUSQueryInfoServerArgs@@@Z");
-
 	SQueryInfoServerData data;
 	EQueryInfoServerResult result = QueryInfoServerBlocking(args, &data);
 	std::scoped_lock<std::mutex> lock(m_mutex);
@@ -292,8 +275,6 @@ EJobResult CServerConnectStateHandler_QueryServer::QueryInfoServerJobCallback(SQ
 
 EJobResult CServerConnectStateHandler_QueryServer::ResolveAddressJobCallback(std::string const &hostname) // 0x10B15DD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ResolveAddressJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	unsigned __int32 address;
 	Utils::Network::EResolveAddressResult result = Utils::Network::ResolveAddress(hostname, &address);
 	std::scoped_lock<std::mutex> lock(m_mutex);
@@ -305,8 +286,6 @@ EJobResult CServerConnectStateHandler_QueryServer::ResolveAddressJobCallback(std
 
 EJobResult CServerConnectStateHandler_QueryServer::QueryModsJobCallback(SQueryInfoServerArgs const &args) // 0x10B15C50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryModsJobCallback@CServerConnectStateHandler_QueryServer@@AAE?AW4EJobResult@@ABUSQueryInfoServerArgs@@@Z");
-
 	std::vector<SServerConnectState::SRequiredMod> requiredMods;
 	EQueryModsResult result = QueryModsBlocking(args, &requiredMods);
 	std::scoped_lock<std::mutex> lock(m_mutex);
@@ -320,8 +299,6 @@ EJobResult CServerConnectStateHandler_QueryServer::QueryModsJobCallback(SQueryIn
 
 EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector<SServerConnectState::SRequiredMod> *outPackages) // 0x10B14B30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryModsBlocking@@YA?AW4EQueryModsResult@hades_file_local@@ABUSQueryInfoServerArgs@@PAV?$vector@USRequiredMod@SServerConnectState@@V?$allocator@USRequiredMod@SServerConnectState@@@std@@@std@@@Z");
-
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	std::string endpoint = "http://" + std::string(args.hostname) + ":" + std::to_string(args.port) + "/mods";
 	std::string authString = "dorito:" + args.password;
@@ -369,8 +346,6 @@ EQueryModsResult QueryModsBlocking(SQueryInfoServerArgs const &args, std::vector
 
 EQueryInfoServerResult QueryInfoServerBlocking(SQueryInfoServerArgs const &args, SQueryInfoServerData *result) // 0x10B13380
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?QueryInfoServerBlocking@@YA?AW4EQueryInfoServerResult@hades_file_local@@ABUSQueryInfoServerArgs@@PAUSQueryInfoServerData@@@Z");
-
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	std::wstring usernameStr = L"";
 	std::wstring passwordStr = L"";

@@ -541,8 +541,6 @@ using namespace hades_file_local;
 
 void render_patches_apply() // 0x108F1E10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_patches_apply@@YAXXZ");
-
 	Hook(0x639960, c_player_view__render_hook).Apply();
 	Hook(0x670950, c_texture_camera_view__render_hook).Apply();
 	Hook(0x63CFFD, get_extern_constant_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -613,15 +611,11 @@ void render_patches_apply() // 0x108F1E10
 
 void render_patches_set_customization_biped(std::vector<int> characterBipeds) // 0x108F5A80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_patches_set_customization_biped@@YAXV?$vector@HV?$allocator@H@std@@@std@@@Z");
-
 	customization_biped_index_array = characterBipeds;
 }
 
 void render_patches_tick() // 0x108F5B20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_patches_tick@@YAXXZ");
-
 	auto *settingsModule = &Utils::Singleton<Modules::ModuleSettings>::Instance();
 	g_decorator_distance_scale = settingsModule->VarDecoratorDistance->ValueFloat;
 	g_lod_distance_scale = settingsModule->VarLODDistance->ValueFloat;
@@ -631,8 +625,6 @@ void render_patches_tick() // 0x108F5B20
 
 void get_extern_constant_hook(long render_method_extern, real_vector4d *out_constant) // 0x108EFA30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_extern_constant_hook@@YAXJPAUreal_vector4d@@@Z");
-
 	if (render_method_extern == 0x33)
 	{
 		c_view *view = ((c_view *(*)())0xA293B0)();
@@ -672,15 +664,11 @@ void get_extern_constant_hook(long render_method_extern, real_vector4d *out_cons
 
 _inline long const render_get_extern_volatility_level_hook(long render_method_extern) // 0x108F09F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_get_extern_volatility_level_hook@@YA?BJJ@Z");
-
 	return g_new_extern_descriptions[render_method_extern].m_volatility_level;
 }
 
 void submit_extern_texture_hook(void *device, long a2, long render_method_extern, long sampler) // 0x108F6D50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?submit_extern_texture_hook@@YAXPAXJJJ@Z");
-
 	bool (*const game_is_ui_shell)() = reinterpret_cast<bool (*)()>(0x531E90);
 	if (render_method_extern == 49)
 	{
@@ -754,8 +742,6 @@ void submit_extern_texture_hook(void *device, long a2, long render_method_extern
 
 void render_method_submit_externs_hook(c_render_method const *render_method, c_enum<enum e_entry_point,long> entry_point, long volatility, bool ignore_real_volatility) // 0x108F1310
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_method_submit_externs_hook@@YAXPBVc_render_method@@V?$c_enum@W4e_entry_point@@J@@J_N@Z");
-
 	c_render_method_template const *rmt2 = c_render_method_template::get((*reinterpret_cast<c_tag_block<s_render_method_postprocess_definition> const *>(reinterpret_cast<char const *>(render_method) + 0x28))[0].render_method_template.index);
 	s_render_method_template_pass const *pass = &rmt2->passes[rmt2->entry_points[(long)entry_point].get_offset()];
 	for (__int32 i = 0; i < pass->extern_bitmaps.get_count(); i++)
@@ -792,8 +778,6 @@ void render_method_submit_externs_hook(c_render_method const *render_method, c_e
 
 void render_method_submit_single_extern_hook(long render_method_extern, bool a2) // 0x108F1CE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_method_submit_single_extern_hook@@YAXJ_N@Z");
-
 	s_extern_description const *const extern_desc = get_extern_description(render_method_extern);
 	if (!a2 && extern_desc->unknown_0C)
 	{
@@ -812,8 +796,6 @@ void render_method_submit_single_extern_hook(long render_method_extern, bool a2)
 
 void render_method_submit_set_bsp_call_hook(long lightmap_bsp_data_handle) // 0x108F1B70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_method_submit_set_bsp_call_hook@@YAXJ@Z");
-
 	for (__int32 i = 0; i < 55; i++)
 	{
 		s_extern_description const *const extern_desc = get_extern_description(i);
@@ -840,8 +822,6 @@ void render_method_submit_set_bsp_call_hook(long lightmap_bsp_data_handle) // 0x
 
 float evaluate_function_hook(long rm_index, s_render_method_animated_parameter *function) // 0x108EEA20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?evaluate_function_hook@@YAMJPAUs_render_method_animated_parameter@@@Z");
-
 	void *(*const scenario_interpolator_get)(unsigned long) = reinterpret_cast<void *(*)(unsigned long)>(0x688850);
 	bool (*const sub_687DE0)(void *) = reinterpret_cast<bool (*)(void *)>(0x687DE0);
 	float (*const sub_687B50)(void *, long) = reinterpret_cast<float (*)(void *, long)>(0x687B50);
@@ -883,8 +863,6 @@ float evaluate_function_hook(long rm_index, s_render_method_animated_parameter *
 
 void update_constants_hook(long render_method_index, real_vector4d *source, s_destination_info *destination_info, long *destination_count, s_tag_block_index *routing_index, c_tag_block<s_render_method_routing_info> *routing_block, c_tag_block<s_render_method_animated_parameter> *functions_block) // 0x108F77F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_constants_hook@@YAXJPAUreal_vector4d@@PAUs_destination_info@@PAJPAVs_tag_block_index@@PAV?$c_tag_block@Us_render_method_routing_info@@@@PAV?$c_tag_block@Us_render_method_animated_parameter@@@@@Z");
-
 	float (*const evaluate_function)(long, s_render_method_animated_parameter const *) = reinterpret_cast<float (*)(long, s_render_method_animated_parameter const *)>(0xA3C040);
 	void (__thiscall *const c_function_definition__map_to_color_range_legacy)(s_tag_data const *, float, real_rgb_color *) = reinterpret_cast<void (__thiscall *)(s_tag_data const *, float, real_rgb_color *)>(0x94A530);
 	float (__thiscall *const c_function_definition__map_to_output_range_legacy)(s_tag_data const *, float) = reinterpret_cast<float (__thiscall *)(s_tag_data const *, float)>(0x94A580);
@@ -973,8 +951,6 @@ bool z_buffer_fix_enabled() // 0x108F7F10
 
 void rasterizer_get_z_planes_hook(float *near_clip, float *far_clip) // 0x108F0830
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?rasterizer_get_z_planes_hook@@YAXPAM0@Z");
-
 	if (z_buffer_fix_enabled())
 	{
 		*near_clip = *(float *)0x191068c;
@@ -989,8 +965,6 @@ void rasterizer_get_z_planes_hook(float *near_clip, float *far_clip) // 0x108F08
 
 bool depth_stencil_format_is_float(_D3DFORMAT format) // 0x108EE9A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?depth_stencil_format_is_float@@YA_NW4_D3DFORMAT@@@Z");
-
 	switch (format)
 	{
 	case 0x52:
@@ -1005,8 +979,6 @@ bool depth_stencil_format_is_float(_D3DFORMAT format) // 0x108EE9A0
 
 void c_surface__set_depth_stencil(e_surface surface) // 0x108EB8D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_surface__set_depth_stencil@@YAXW4e_surface@@@Z");
-
 	IDirect3DDevice9Ex *device = c_rasterizer::get_device();
 	IDirect3D9Ex *d3d9ex = c_rasterizer::get_direct3d();
 	c_rasterizer::g_depth_stencil_surface = surface;
@@ -1027,8 +999,6 @@ void c_surface__set_depth_stencil(e_surface surface) // 0x108EB8D0
 
 void c_surface__set_depth_stencil_surface(IDirect3DSurface9 *surface) // 0x108EBA70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_surface__set_depth_stencil_surface@@YAXPAUIDirect3DSurface9@@@Z");
-
 	IDirect3DDevice9Ex *device = c_rasterizer::get_device();
 	_D3DSURFACE_DESC surface_desc;
 	surface->GetDesc(&surface_desc);
@@ -1038,8 +1008,6 @@ void c_surface__set_depth_stencil_surface(IDirect3DSurface9 *surface) // 0x108EB
 
 void __fastcall c_first_person_view__override_projection(c_first_person_view *thisptr, void *unused, bool a2) // 0x108E4F90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_first_person_view__override_projection@@YIXPAUc_first_person_view@@PAX_N@Z");
-
 	float (*const cortana_effect_get_fov_scale)() = reinterpret_cast<float (*)()>(0xABEA20);
 	float (*const sub_A8E700)() = reinterpret_cast<float (*)()>(0xA8E700);
 	float c_first_person_view__m_fov_scale = *reinterpret_cast<float *>(0x1913434);
@@ -1093,8 +1061,6 @@ void __fastcall c_first_person_view__override_projection(c_first_person_view *th
 
 s_observer_result *observer_get_camera__call_hook(long output_user_index) // 0x108F0600
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?observer_get_camera__call_hook@@YAPAUs_observer_result@@J@Z");
-
 	s_observer_result *observer_camera = ((s_observer_result *(__cdecl *)(long))0x6127c0)(output_user_index);
 	float fov_rad = Modules::ModuleCamera::Instance().VarCameraFov->ValueFloat * 0.017453292f;
 	float horizontal_fov = fmax(fov_rad / 1.3962634f, 0.000099999997f);
@@ -1106,8 +1072,6 @@ s_observer_result *observer_get_camera__call_hook(long output_user_index) // 0x1
 
 void post_render_player_view_hook() // 0x108F07D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?post_render_player_view_hook@@YAXXZ");
-
 	void (*const c_view__end)() = reinterpret_cast<void (*)()>(0xA28B10);
 	c_view__end();
 	Patches::Debug::RenderPlayerView();
@@ -1115,8 +1079,6 @@ void post_render_player_view_hook() // 0x108F07D0
 
 void render_underwater_fog_hook() // 0x108F5D40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_underwater_fog_hook@@YAXXZ");
-
 	unsigned long *g_game_resolution = (unsigned long *)0x19106C0;
 	long &g_render_underwater_fog = *(long *)0x50FAAEC;
 	if (g_render_underwater_fog)
@@ -1173,8 +1135,6 @@ void render_underwater_fog_hook() // 0x108F5D40
 
 void sub_14E3A00_vision_call_hook(s_render_projection *render_proj, float *proj_matrix, s_render_projection *out_render_proj, float *out_proj_matrix) // 0x108F6A00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_14E3A00_vision_call_hook@@YAXPAUs_render_projection@@PAM01@Z");
-
 	static bool (*const render_camera_build_viewport_frustum_bounds)(s_render_camera *, real_rectangle2d *) = reinterpret_cast<bool (*)(s_render_camera *, real_rectangle2d *)>(0xA64A50);
 	static void (*const render_camera_build_projection)(s_render_camera *, real_rectangle2d *, s_render_projection *, float) = reinterpret_cast<void (*)(s_render_camera *, real_rectangle2d *, s_render_projection *, float)>(0xA64140);
 	static long (*const rasterizer_get_surface_width)(long) = reinterpret_cast<long (*)(long)>(0xA48810);
@@ -1200,8 +1160,6 @@ void sub_14E3A00_vision_call_hook(s_render_projection *render_proj, float *proj_
 
 void render_mesh_part_default_hook(s_render_geometry *geometry, s_mesh *mesh, s_part *part, e_entry_point entry_point, unsigned long *subpart_visibility, s_geometry_material *materials) // 0x108F0A20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_mesh_part_default_hook@@YAXPAUs_render_geometry@@PAUs_mesh@@PAUs_part@@W4e_entry_point@@PAKPAUs_geometry_material@@@Z");
-
 	bool (*const player_reading_terminal)() = (bool (*)())0x53B570;
 	c_rasterizer_index_buffer *(*const render_geometry_get_index_buffer)(s_render_geometry *, long) = (c_rasterizer_index_buffer *(*)(s_render_geometry *, long))0x78C870;
 	bool (*const render_method_submit)(long, c_render_method *, e_vertex_type, e_prt_vertex_type, e_entry_point, bool) = (bool (*)(long, c_render_method *, e_vertex_type, e_prt_vertex_type, e_entry_point, bool))0xA3CA60;
@@ -1294,8 +1252,6 @@ void render_mesh_part_default_hook(s_render_geometry *geometry, s_mesh *mesh, s_
 
 void c_structure_renderer__render_cluster_mesh_part_hook(long cluster_visibility_index, e_entry_point entry_point, long flags) // 0x108E8D60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__render_cluster_mesh_part_hook@@YAXJW4e_entry_point@@J@Z");
-
 	static long (*const render_cubemap_index_get)(s_cluster_reference) = reinterpret_cast<long (*)(s_cluster_reference)>(0xA7A5D0);
 	static s_render_geometry *(*const render_structure_get_geometry)(long) = reinterpret_cast<s_render_geometry *(*)(long)>(0xA2EF00);
 	static s_breakable_surface_set *(*const breakable_surface_set_get)(long, long, long) = reinterpret_cast<s_breakable_surface_set *(*)(long, long, long)>(0x569D70);
@@ -1342,8 +1298,6 @@ void c_structure_renderer__render_cluster_mesh_part_hook(long cluster_visibility
 
 void c_structure_renderer__render_instance_mesh_part_hook(long render_instance_index, e_entry_point entry_point, long flags) // 0x108EA030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__render_instance_mesh_part_hook@@YAXJW4e_entry_point@@J@Z");
-
 	e_entry_point (*const update_cluster_instance_stream_and_determine_lighting_attributes)(e_entry_point, long, s_scenario_lightmap_bsp_data *, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, long, s_structure_instanced_geometry_instance *) = reinterpret_cast<e_entry_point (*)(e_entry_point, long, s_scenario_lightmap_bsp_data *, s_render_geometry *, s_mesh *, s_part *, s_geometry_material *, long, s_structure_instanced_geometry_instance *)>(0xA2FF80);
 	s_render_instance_part *render_instance_part = &((s_render_structure_globals *)0x50E8938)->instance_parts[render_instance_index];
 	if (render_instance_part->lod && (flags & render_instance_part->flags))
@@ -1415,8 +1369,6 @@ void c_structure_renderer__render_instance_mesh_part_hook(long render_instance_i
 
 void c_structure_renderer__submit_cluster_visibility(bool include_transparent) // 0x108EA710
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__submit_cluster_visibility@@YAX_N@Z");
-
 	s_visible_items &visible_items = c_visible_items::get_global_items();
 	long cluster_starting_index = c_visible_items::get_current_markers().clusters_marker;
 	long iterator;
@@ -1490,8 +1442,6 @@ void c_structure_renderer__submit_cluster_visibility(bool include_transparent) /
 
 void c_structure_renderer__submit_instance_visibility(bool include_transparent) // 0x108EAEA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__submit_instance_visibility@@YAX_N@Z");
-
 	extern real_point3d *matrix4x3_transform_point(real_matrix4x3 const *, real_point3d const *, real_point3d *);
 	extern real_plane3d *matrix4x3_transform_plane(real_matrix4x3 const *, real_plane3d const *, real_plane3d *);
 	bool (*const instance_list_sort_proc)(unsigned short, unsigned short, void const *) = reinterpret_cast<bool (*)(unsigned short, unsigned short, void const *)>(0xA2EF80);
@@ -1587,16 +1537,12 @@ void c_structure_renderer__submit_instance_visibility(bool include_transparent) 
 
 void c_structure_renderer__submit_visibility_hook(bool include_transparent) // 0x108EB870
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__submit_visibility_hook@@YAX_N@Z");
-
 	c_structure_renderer__submit_cluster_visibility(include_transparent);
 	c_structure_renderer__submit_instance_visibility(include_transparent);
 }
 
 void c_structure_renderer__render_decorators_hook() // 0x108E9110
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_structure_renderer__render_decorators_hook@@YAXXZ");
-
 	long (*const preferences_get_detail_quality)() = reinterpret_cast<long (*)()>(0x50AF50);
 	void (*const sub_A28480)(__int32) = reinterpret_cast<void (*)(__int32)>(0xA28480);
 	void (*const clear_cached_sun_constants)() = reinterpret_cast<void (*)()>(0xA2ECE0);
@@ -1715,8 +1661,6 @@ void c_structure_renderer__render_decorators_hook() // 0x108E9110
 
 void c_object_renderer__submit_object_mesh_parts_for_active_camo_hook(s_render_object *render_object, s_visible_object *visible_object, bool a3, __int32 is_first_person) // 0x108E6520
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_object_renderer__submit_object_mesh_parts_for_active_camo_hook@@YAXPAUs_render_object@@PAUs_visible_object@@_NH@Z");
-
 	void * (*const object_get_active_shield_render_parameters)(s_object_data *, long) = reinterpret_cast<void * (*)(s_object_data *, long)>(0xA78030);
 	long (*const render_objects_add_element)(s_render_object *, s_render_object_info *, unsigned long *, short, short, short, short, __int32) = reinterpret_cast<long (*)(s_render_object *, s_render_object_info *, unsigned long *, short, short, short, short, __int32)>(0xA77AC0);
 	void (*const sub_A73840)() = reinterpret_cast<void (*)()>(0xA73840);
@@ -1777,8 +1721,6 @@ void c_object_renderer__submit_object_mesh_parts_for_active_camo_hook(s_render_o
 
 void c_water_renderer__render_water_part_hook(s_render_geometry *geometry, __int32 mesh_index, __int32 part_index, e_entry_point entry_point, s_geometry_material *materials) // 0x108EDE80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_water_renderer__render_water_part_hook@@YAXPAUs_render_geometry@@HHW4e_entry_point@@PAUs_geometry_material@@@Z");
-
 	bool (*const c_water_renderer__is_active_ripple_exist)() = (bool (*)())0xA362B0;
 	c_rasterizer_vertex_buffer *(*const mesh_get_vertex_buffer)(s_render_geometry *, s_mesh *, long) = (c_rasterizer_vertex_buffer *(*)(s_render_geometry *, s_mesh *, long))0x78C750;
 	void (*const c_rasterizer__set_vertex_stream_with_offset)(long, void *, long, unsigned __int32) = (void (*)(long, void *, long, unsigned __int32))0xA245C0;
@@ -1840,8 +1782,6 @@ void c_water_renderer__render_water_part_hook(s_render_geometry *geometry, __int
 
 void c_water_renderer__update_water_structure_part_list_hook(long *water_part_indices, long *out_count) // 0x108EE6B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_water_renderer__update_water_structure_part_list_hook@@YAXPAJ0@Z");
-
 	bool (*const cluster_sort_proc)(unsigned short, unsigned short, void const *) = reinterpret_cast<bool (*)(unsigned short, unsigned short, void const *)>(0xA2ED40);
 	*out_count = 0;
 	long start_index = ((s_render_structure_globals *)0x50E8938)->cluster_markers[((s_render_structure_globals *)0x50E8938)->marker_index];
@@ -1861,8 +1801,6 @@ void c_water_renderer__update_water_structure_part_list_hook(long *water_part_in
 
 void __fastcall s_render_shield_parts__render_hook(s_render_shield_parts *thisptr, void *unused, s_visible_object *visible_object, char flags) // 0x108F6670
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?s_render_shield_parts__render_hook@@YIXPAUs_render_shield_parts@@PAXPAUs_visible_object@@D@Z");
-
 	void (*const sub_A79260)(s_render_object_mesh_part *) = reinterpret_cast<void (*)(s_render_object_mesh_part *)>(0xA79260);
 	void (*const render_mesh_part_no_material)(s_render_geometry *, long, long) = reinterpret_cast<void (*)(s_render_geometry *, long, long)>(0xA47820);
 	thisptr->visible_object = visible_object;
@@ -1900,8 +1838,6 @@ void __fastcall s_render_shield_parts__render_hook(s_render_shield_parts *thispt
 
 void c_object_renderer__render_object_context_instances_hook(s_render_object_mesh_part *render_part, e_entry_point entry_point, unsigned long *subpart_visibility, s_lod_alphas alphas) // 0x108E5BE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_object_renderer__render_object_context_instances_hook@@YAXPAUs_render_object_mesh_part@@W4e_entry_point@@PAKUs_lod_alphas@@@Z");
-
 	s_render_model *render_model = (s_render_model *)tag_get('mode', render_part->info->info.render_model_index);
 	if (render_model->instance_mesh_index != -1 && render_model->materials.count > 0)
 	{
@@ -1955,8 +1891,6 @@ void c_object_renderer__render_object_context_instances_hook(s_render_object_mes
 
 void c_object_renderer__render_object_context_mesh_part_hook(s_render_object_mesh_part *mesh_part, e_entry_point entry_point, long mesh_part_mask, bool a4) // 0x108E62B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_object_renderer__render_object_context_mesh_part_hook@@YAXPAUs_render_object_mesh_part@@W4e_entry_point@@J_N@Z");
-
 	static void (*const render_object_mesh_part_begin)(s_render_object_mesh_part const *) = reinterpret_cast<void (*)(s_render_object_mesh_part const *)>(0xA79260);
 	static long (*const rasterizer_set_clip_plane)(long, float const *) = reinterpret_cast<long (*)(long, float const *)>(0xA231C0);
 	static long (*const rasterizer_set_clip_plane_mask)(long) = reinterpret_cast<long (*)(long)>(0xA22B50);
@@ -1991,8 +1925,6 @@ void c_object_renderer__render_object_context_mesh_part_hook(s_render_object_mes
 
 void render_mesh_part_no_material(s_render_geometry *geometry, __int32 mesh_index, __int32 part_index) // 0x108F1190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_mesh_part_no_material@@YAXPAUs_render_geometry@@HH@Z");
-
 	c_rasterizer_vertex_buffer *(__cdecl *const mesh_get_vertex_buffer)(s_render_geometry *, s_mesh *, long) = (c_rasterizer_vertex_buffer *(__cdecl *const)(s_render_geometry *, s_mesh *, long))0x78c750;
 	s_mesh *const mesh = &geometry->meshes[mesh_index];
 	s_part *const mesh_part = &mesh->parts[part_index];
@@ -2007,8 +1939,6 @@ void render_mesh_part_no_material(s_render_geometry *geometry, __int32 mesh_inde
 
 long c_geometry_sampler__find_render_method_index_from_collision_hook(long structure_bsp_index, long a2, long instance_index, long surface_index) // 0x108E5530
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_geometry_sampler__find_render_method_index_from_collision_hook@@YAJJJJJ@Z");
-
 	if (a2 != -1)
 		return -1;
 	s_scenario_structure_bsp *structure_bsp = global_structure_bsp_get(structure_bsp_index);
@@ -2063,8 +1993,6 @@ long c_geometry_sampler__find_render_method_index_from_collision_hook(long struc
 
 bool part_is_renderable_hook(s_part const *part, s_geometry_material const *materials) // 0x108F06E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?part_is_renderable_hook@@YA_NPBUs_part@@PBUs_geometry_material@@@Z");
-
 	if (part->material_index == -1 || materials[part->material_index].render_method.index == -1)
 	{
 		return false;
@@ -2080,8 +2008,6 @@ bool part_is_renderable_hook(s_part const *part, s_geometry_material const *mate
 
 void muffins_render_opaque(short datum_index, e_entry_point entry_point) // 0x108F0190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?muffins_render_opaque@@YAXFW4e_entry_point@@@Z");
-
 	void (*const set_render_object_shader_extern_info)(__int32, s_shader_extern_info *) = reinterpret_cast<void (*)(__int32, s_shader_extern_info *)>(0xA3CC20);
 	void (*const sub_A528C0)(s_render_lighting *, e_entry_point) = reinterpret_cast<void (*)(s_render_lighting *, e_entry_point)>(0xA528C0);
 	void (*const render_mesh_submit_matrices)(real_matrix4x3 *, long) = reinterpret_cast<void (*)(real_matrix4x3 *, long)>(0xA47A10);
@@ -2122,8 +2048,6 @@ void muffins_render_opaque(short datum_index, e_entry_point entry_point) // 0x10
 
 bool mesh_get_data_hook(s_render_geometry *render_geometry, long mesh_index, void const **out_vertex_data, void const **out_index_data, unsigned char *out_vertex_stride, long *out_vertex_count, long *out_index_count) // 0x108F0070
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?mesh_get_data_hook@@YA_NPAUs_render_geometry@@JPAPBX1PAEPAJ3@Z");
-
 	s_mesh *mesh = &render_geometry->meshes[mesh_index];
 	c_rasterizer_vertex_buffer *vertex_buffer = ((c_rasterizer_vertex_buffer *(__cdecl *)(s_render_geometry *, long))0x78c930)(render_geometry, mesh->vertex_buffer_indices[0]);
 	c_rasterizer_index_buffer *index_buffer = ((c_rasterizer_index_buffer *(__cdecl *)(s_render_geometry *, long))0x78c870)(render_geometry, mesh->index_buffer_indices[0]);
@@ -2137,8 +2061,6 @@ bool mesh_get_data_hook(s_render_geometry *render_geometry, long mesh_index, voi
 
 bool render_method_submit_particle_gpu_emitter_render_hook(long tag_index, c_render_method const *render_method, e_vertex_type vertex_type, e_prt_vertex_type prt_type, e_entry_point entry_point, bool a6) // 0x108F16F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_method_submit_particle_gpu_emitter_render_hook@@YA_NJPBVc_render_method@@W4e_vertex_type@@W4e_prt_vertex_type@@W4e_entry_point@@_N@Z");
-
 	c_render_method_template *rmt2 = c_render_method_template::get((*reinterpret_cast<c_tag_block<s_render_method_postprocess_definition> const *>(reinterpret_cast<char const *>(render_method) + 0x28))[0].render_method_template.index);
 	__int32 is_normal_basemap = 1;
 	for (__int32 i = 0; i < rmt2->textures.count; i++)
@@ -2164,8 +2086,6 @@ bool render_method_submit_particle_gpu_emitter_render_hook(long tag_index, c_ren
 
 bool sub_610230__ssao_call_hook() // 0x108F6CD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?sub_610230__ssao_call_hook@@YA_NXZ");
-
 	bool (__cdecl *const sub_610230)() = (bool(__cdecl *const)())0x610230;
 
 	if (!Modules::ModuleSettings::Instance().VarSsao->ValueInt)
@@ -2180,8 +2100,6 @@ bool sub_610230__ssao_call_hook() // 0x108F6CD0
 
 void c_render_shield__render_object_internal_hook(s_render_object_info *info, s_render_object_mesh_part *data, shield_impact_definition *shield_impact, float recent_shield_damage, float current_shield_damage, float unknown_amount, float overshield_amount, float t) // 0x108E8BE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_render_shield__render_object_internal_hook@@YAXPAUs_render_object_info@@PAUs_render_object_mesh_part@@PAUshield_impact_definition@@MMMMM@Z");
-
 	void (*const c_render_shield__render_object_internal)(s_render_object_info *, s_render_object_mesh_part *, shield_impact_definition *, float, float, float, float, float) = reinterpret_cast<void (*)(s_render_object_info *, s_render_object_mesh_part *, shield_impact_definition *, float, float, float, float, float)>(0xA53AC0);
 	s_render_model *render_model = (s_render_model *)tag_get(0x6D6F6465, data->info->info.render_model_index);
 	s_mesh const *mesh = &render_model->render_geometry.meshes[data->mesh_index];
@@ -2193,8 +2111,6 @@ void c_render_shield__render_object_internal_hook(s_render_object_info *info, s_
 
 void __fastcall c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook(c_dynamic_cubemap_sample *thisptr, void *__formal, s_cluster_reference test_location, real_point3d *test_point, float tolerance) // 0x108E4A80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_hook@@YIXPAUc_dynamic_cubemap_sample@@PAXUs_cluster_reference@@PAUreal_point3d@@M@Z");
-
 	s_structure_cluster *test_cluster;
 	s_structure_cluster *old_cluster;
 	s_structure_cluster_cubemap_info *best_cubemap_info;
@@ -2282,8 +2198,6 @@ void __fastcall c_dynamic_cubemap_sample__search_for_cubemap_sample_in_cluster_h
 
 float render_projection_sphere_diameter_in_pixels_hook(s_render_projection const *render_projection, real_point3d const *center, float radius) // 0x108F5BB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?render_projection_sphere_diameter_in_pixels_hook@@YAMPBUs_render_projection@@PBUreal_point3d@@M@Z");
-
 	float distance = fabsf(render_projection->world_to_view.left.k * center->y + render_projection->world_to_view.forward.k * center->x + render_projection->world_to_view.up.k * center->z + render_projection->world_to_view.position.z);
 
 	if (distance <= 0.1)
@@ -2301,8 +2215,6 @@ float render_projection_sphere_diameter_in_pixels_hook(s_render_projection const
 
 void bink_playback_allocate_framebuffers_hook() // 0x108E49D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?bink_playback_allocate_framebuffers_hook@@YAXXZ");
-
 	void (*const bink_playback_allocate_framebuffers)() = reinterpret_cast<void (*)()>(0x6165A0);
 	Utils::Singleton<Modules::ModuleSettings>::Instance().GetScreenResolution(g_bink_frame_width, g_bink_frame_height);
 	bink_playback_allocate_framebuffers();
@@ -2310,8 +2222,6 @@ void bink_playback_allocate_framebuffers_hook() // 0x108E49D0
 
 void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_view__render_hook@@YIXPAUc_player_view@@@Z");
-
 	s_screen_effect_settings screen_effect;
 	s_screen_effect_shader_sample_result screen_effect_shader_sample;
 	s_weighted_atmosphere_parameters atmosphere_parameters;
@@ -2483,8 +2393,6 @@ void __fastcall c_player_view__render_hook(c_player_view *view) // 0x108E6C50
 
 void __fastcall c_player_view__render_lightmap_shadows_hook(c_player_view *_this, void *__savedreg) // 0x108E80F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_view__render_lightmap_shadows_hook@@YIXPAUc_player_view@@PAX@Z");
-
 	void (__thiscall *const c_player_view__render_lightmap_shadows)(c_player_view *) = (void(__thiscall *const)(c_player_view *))0xa3a700;
 	float sm_ps = 1.0f / Utils::Singleton<Modules::ModuleSettings>::Instance().VarShadowResolution->ValueInt;
 	real_vector4d shadow_map_pixel_size;
@@ -2501,8 +2409,6 @@ void __fastcall c_player_view__render_lightmap_shadows_hook(c_player_view *_this
 
 void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thisptr) // 0x108EBB90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_texture_camera_view__render_hook@@YIXPAUc_texture_camera_view@@@Z");
-
 	bool (*const bitmap_group_try_get_texture)(long, long, c_rasterizer_texture_ref *) = reinterpret_cast<bool (*)(long, long, c_rasterizer_texture_ref *)>(0x718D10);
 	void (*const s_color_grading_parameter__update)(s_camera_fx_color_grading_struct *, bool, char) = reinterpret_cast<void (*)(s_camera_fx_color_grading_struct *, bool, char)>(0xA6FDD0);
 	void (__thiscall *const c_texture_camera_view__copy_texture)(c_texture_camera_view *, c_enum<long,enum e_rasterizer_default_shader>, c_rasterizer_texture_ref, c_rasterizer_texture_ref, float, float, bool) = reinterpret_cast<void (__thiscall *)(c_texture_camera_view *, c_enum<long,enum e_rasterizer_default_shader>, c_rasterizer_texture_ref, c_rasterizer_texture_ref, float, float, bool)>(0xA707B0);
@@ -2744,8 +2650,6 @@ void __fastcall c_texture_camera_view__render_hook(c_texture_camera_view *thispt
 
 void __fastcall c_player_view__render_static_lighting(c_player_view *_this, void *_savedreg) // 0x108E8270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_player_view__render_static_lighting@@YIXPAUc_player_view@@PAX@Z");
-
 	bool (*const sub_A84D50)() = reinterpret_cast<bool (*)()>(0xA84D50);
 	((void (__thiscall *)(c_player_view *))0xA3BD10)(_this);
 	((void (*)(s_simple_light *, long))0xA67B90)(_this->lights_view.m_simple_lights, _this->lights_view.m_simple_light_count);
@@ -2792,8 +2696,6 @@ void __fastcall c_player_view__render_static_lighting(c_player_view *_this, void
 
 void __fastcall c_lightmap_shadows_view__render_shadow_apply_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale) // 0x108E5A10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_lightmap_shadows_view__render_shadow_apply_call_hook@@YIXPAX0MM@Z");
-
 	void (__thiscall *const render_shadow_apply)(void *, float, float) = (void(__thiscall *const)(void *, float, float))0xa6b4b0;
 
 	if (Modules::ModuleSettings::Instance().VarShadowResolution->ValueInt > 0x200)
@@ -2804,8 +2706,6 @@ void __fastcall c_lightmap_shadows_view__render_shadow_apply_call_hook(void *_th
 
 void __fastcall c_lightmap_shadows_view__submit_visibility_and_render_call_hook(void *_this, void *_savedreg, float shadow_alpha, float quality_scale, long object_index, long model_tag_index) // 0x108E5AF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_lightmap_shadows_view__submit_visibility_and_render_call_hook@@YIXPAX0MMJJ@Z");
-
 	const auto c_lightmap_shadows_view__submit_visibility_and_render = (void(__thiscall *)(void *, float, float, __int32, long))0xA68F30;
 
 	if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarShadowResolution->ValueInt > 0x200)
@@ -2820,8 +2720,6 @@ void __fastcall c_lightmap_shadows_view__submit_visibility_and_render_call_hook(
 
 void rasterizer_wait_for_device_query_hook(long index) // 0x108F08C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?rasterizer_wait_for_device_query_hook@@YAXJ@Z");
-
 	IDirect3DQuery9 **queries = (IDirect3DQuery9 **)0x50DADE4;
 	bool *pending = (bool *)0x50DADE0;
 	long count = 0;
@@ -2843,8 +2741,6 @@ void rasterizer_wait_for_device_query_hook(long index) // 0x108F08C0
 
 void c_rasterizer__draw_primitive_up_hook(e_primitive_type primitive_type, unsigned long primitive_count, void const *vertex_data, unsigned long stride) // 0x108E8840
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__draw_primitive_up_hook@@YAXW4e_primitive_type@@KPBXK@Z");
-
 	void (*const c_rasterizer_shaders__submit_cached_shader_constants)() = reinterpret_cast<void (*)()>(0xA66670);
 	void (*const c_rasterizer_shaders__clear_cached_vertex_stream)(long) = reinterpret_cast<void (*)(long)>(0xA22CB0);
 	++*(long *)0x50DEDE0;
@@ -2859,8 +2755,6 @@ void c_rasterizer__draw_primitive_up_hook(e_primitive_type primitive_type, unsig
 
 void c_rasterizer__end_frame_set_surface_as_texture_call_hook(long sampler, e_surface surface) // 0x108E8A40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__end_frame_set_surface_as_texture_call_hook@@YAXJW4e_surface@@@Z");
-
 	((void (*)(long, e_surface))0xA48F20)(sampler, surface);
 	if (c_rasterizer_LUT_control::initialized())
 	{
@@ -2873,16 +2767,12 @@ void c_rasterizer__end_frame_set_surface_as_texture_call_hook(long sampler, e_su
 
 void c_rasterizer__end_frame_set_sampler_texture_call_hook(long sampler, c_rasterizer_texture_ref ref) // 0x108E89C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__end_frame_set_sampler_texture_call_hook@@YAXJUc_rasterizer_texture_ref@@@Z");
-
 	((void(__cdecl *)(long, c_rasterizer_texture_ref))0xa23810)(sampler, ref);
 	((void(__cdecl *)(long, c_rasterizer_texture_ref))0xa23810)(1, -1);
 }
 
 bool c_rasterizer__initialize_after_device_creation_or_reset_call_hook() // 0x108E8B60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_rasterizer__initialize_after_device_creation_or_reset_call_hook@@YA_NXZ");
-
 	const auto c_rasterizer__initialize_after_device_creation_or_reset = (bool(*)())0xA1FD80;
 
 	bool result = c_rasterizer__initialize_after_device_creation_or_reset();

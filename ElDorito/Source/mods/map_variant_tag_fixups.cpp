@@ -176,28 +176,20 @@ extern s_mod_loading_state g_mod_loading_state; // 0x12407830
 
 _inline bool operator==(s_name_lookup_key const &lhs, s_name_lookup_key const &rhs) // 0x1088EA80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??8@YA_NABUs_name_lookup_key@@0@Z");
-
 	return lhs.group_tag == rhs.group_tag && lhs.name == rhs.name;
 }
 
 _inline unsigned __int32 s_name_lookup_key::s_hasher::operator()(s_name_lookup_key const &k) const // 0x1088EF80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??Rs_hasher@s_name_lookup_key@@QBEIABU1@@Z");
-
 	return Utils::stl::hash_combine<unsigned int, std::string_view>(k.group_tag, k.name);
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_loading_state@@QAE@XZ"); no body to assert in
 _inline s_mod_loading_state::s_mod_loading_state() = default; // 0x1088E290
 
-// mangled_x86(MANGLED_DEFAULT, "??1s_mod_loading_state@@QAE@XZ"); no body to assert in
 _inline s_mod_loading_state::~s_mod_loading_state() = default; // 0x1088E8D0
 
 bool c_map_variant_tag_fixups::fixup_map_variant_in_memory(unsigned char *buffer, unsigned long buffer_size, s_map_variant *map_variant) // 0x10890DD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_map_variant_in_memory@c_map_variant_tag_fixups@@SA_NPAEKPAUs_map_variant@@@Z");
-
 	s_blf_chunk_header chunk_header;
 	unsigned char const *data;
 	unsigned long data_size;
@@ -210,8 +202,6 @@ bool c_map_variant_tag_fixups::fixup_map_variant_in_memory(unsigned char *buffer
 
 bool c_map_variant_tag_fixups::fixup_map_variant_from_file(s_file_reference *file, s_map_variant *map_variant) // 0x10890AD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_map_variant_from_file@c_map_variant_tag_fixups@@SA_NPAUs_file_reference@@PAUs_map_variant@@@Z");
-
 	std::string file_buff;
 	unsigned long file_size;
 	if (!file_get_size(file, &file_size))
@@ -231,22 +221,17 @@ bool c_map_variant_tag_fixups::fixup_map_variant_from_file(s_file_reference *fil
 
 void c_map_variant_tag_fixups::initialize() // 0x10891BF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_map_variant_tag_fixups@@SAXXZ");
 }
 
 /* ---------- private code */
 
 static bool in_tag_group(s_tag_group const &group, long needle) // 0x10891B70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?in_tag_group@@YA_NABUs_tag_group@@J@Z");
-
 	return group.tags[0] == needle || group.tags[1] == needle || group.tags[2] == needle;
 }
 
 static void log_error(char const *message) // 0x10891C10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?log_error@@YAXPBD@Z");
-
 	char buff[0x2000];
 	sprintf_s(buff, "[ERROR]: c_map_variant_loader :: %s", message);
 	Utils::Singleton<Utils::Logger>::Instance().Log((Utils::LogTypes)1, (Utils::LogLevel)4, buff);
@@ -254,8 +239,6 @@ static void log_error(char const *message) // 0x10891C10
 
 static void log_errorf(char const *format, ...) // 0x10891D10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?log_errorf@@YAXPBDZZ");
-
 	char buff[8192];
 	va_list va;
 	va_start(va, format);
@@ -267,7 +250,6 @@ static void log_errorf(char const *format, ...) // 0x10891D10
 #line 300
 bool fixup_map_variant_internal(s_blf_chunk_mapv_tag_names const *fixup_data, s_map_variant *map_variant) // 0x10890EF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup_map_variant_internal@@YA_NPBUs_blf_chunk_mapv_tag_names@@PAUs_map_variant@@@Z");
 #line 350
 
 	std::shared_ptr<c_cache_file_tag_cache> base_cache = c_cache_file_tags::get_open_cache();

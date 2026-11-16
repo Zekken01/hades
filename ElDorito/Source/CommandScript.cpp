@@ -218,8 +218,6 @@ namespace Modules
 {
 	void CommandScript::Execute() // 0x10666950
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Execute@CommandScript@Modules@@QAEXXZ");
-
 		if (m_wakeCond && !m_wakeCond())
 			return;
 		m_wakeCond = nullptr;
@@ -255,8 +253,6 @@ namespace Modules
 
 	void CommandScript::ExecuteWaitFor(CommandLineArgs const &args) // 0x10666F10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteWaitFor@CommandScript@Modules@@AAEXABVCommandLineArgs@@@Z");
-
 		if (args.GetArgCount() < 2)
 		{
 			HandleError(std::format("Invalid arguments"));
@@ -346,8 +342,6 @@ namespace Modules
 
 	void CommandScript::ExecuteSleep(CommandLineArgs const &args) // 0x10666C80
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ExecuteSleep@CommandScript@Modules@@AAEXABVCommandLineArgs@@@Z");
-
 		if (args.GetArgCount() < 2)
 		{
 			HandleError(std::format("Invalid arguments"));
@@ -365,8 +359,6 @@ namespace Modules
 
 	bool CommandScript::ReadNextLine() // 0x10667C10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ReadNextLine@CommandScript@Modules@@AAE_NXZ");
-
 		while (std::getline(*m_stream, m_line))
 		{
 			++m_lineNum;
@@ -380,15 +372,11 @@ namespace Modules
 
 	void CommandScript::Complete() // 0x10666920
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CommandScript@Modules@@QAEXXZ");
-
 		m_finished = true;
 	}
 
 	void CommandScript::HandleError(std::string const &message) // 0x106677A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleError@CommandScript@Modules@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		m_error << "Error at line " << m_lineNum << ": " << message << std::endl;
 		m_hasError = true;
 		if (m_stopOnFirstError)
@@ -397,8 +385,6 @@ namespace Modules
 
 	bool CommandScript::HasError() const // 0x10667890
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?HasError@CommandScript@Modules@@QBE_NXZ");
-
 		return m_hasError;
 	}
 }
@@ -408,29 +394,21 @@ namespace Modules
 {
 	std::string CommandScript::GetErrorMessage() const // 0x10667710
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetErrorMessage@CommandScript@Modules@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		return m_error.str();
 	}
 
 	bool CommandScript::IsFinished() const // 0x10667A00
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?IsFinished@CommandScript@Modules@@QBE_NXZ");
-
 		return m_finished;
 	}
 
 	void CommandScriptStack::PushScript(std::shared_ptr<Modules::CommandScript> script) // 0x10667B50
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?PushScript@CommandScriptStack@Modules@@QAEXV?$shared_ptr@VCommandScript@Modules@@@std@@@Z");
-
 		m_stack.emplace(std::move(script));
 	}
 
 	void CommandScriptStack::Update() // 0x10667D30
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CommandScriptStack@Modules@@QAEXXZ");
-
 		if (m_stack.empty())
 			return;
 
@@ -446,8 +424,6 @@ namespace Modules
 			m_stack.pop();
 		}
 	}
-
-	// mangled_x86(MANGLED_DEFAULT, "??0CommandMap@Modules@@QAE@XZ"); no body to assert in
 }
 
 /* ---------- private code */
@@ -456,8 +432,6 @@ namespace Modules
 {
 	bool ParseInt(std::string s, __int32 &delay) // 0x10667A30
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ParseInt@Modules@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAH@Z");
-
 		char const *start = s.data();
 		char const *end = s.data() + s.size();
 		auto [ptr, ec] = std::from_chars(start, end, delay);

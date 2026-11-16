@@ -78,7 +78,6 @@ namespace Server
 			std::vector<Server::Voting::HaloType> gameTypes; // 0x1254
 			std::vector<Server::Voting::HaloMap> haloMaps; // 0x1264
 		public:
-			// mangled_x86(MANGLED_KNOWN_GOOD, "??1VotingSystem@Voting@Server@@UAE@XZ"); defaulted on its declaration
 			virtual _inline ~VotingSystem() = default; // 0x10c43260
 			Server::Voting::VotingSystem &operator=(Server::Voting::VotingSystem &); /* compiler_generated() */
 			Server::Voting::VotingSystem &operator=(Server::Voting::VotingSystem const &); /* compiler_generated() */

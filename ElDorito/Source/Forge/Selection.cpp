@@ -173,8 +173,6 @@ namespace Forge
 	{
 		Forge::ObjectSet &GetSelection() // 0x109749C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetSelection@Selection@Forge@@YAAAVObjectSet@2@XZ");
-
 			return s_SelectedObjects;
 		}
 	}
@@ -184,15 +182,11 @@ namespace Forge
 {
 	bool IsEmpty() // 0x10974B50
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?IsEmpty@Forge@@YA_NXZ");
-
 		return !s_SelectedObjects.Any();
 	}
 
 	long GetCurrentObjectIndex(long playerIndex) // 0x109748B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetCurrentObjectIndex@Forge@@YAJJ@Z");
-
 		long heldObjectIndex;
 		long crosshairObjectIndex;
 
@@ -211,8 +205,6 @@ namespace Forge
 	{
 		void SelectAll() // 0x10974C40
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SelectAll@Selection@Forge@@YAXXZ");
-
 			unsigned long playerIndex = ((unsigned long(__cdecl *)(long))0x589C30)(0);
 			s_object_data *currentObject = object_get(GetCurrentObjectIndex(playerIndex));
 			if (!currentObject)
@@ -240,16 +232,12 @@ namespace Forge
 
 namespace Forge
 {
-	// mangled_x86(MANGLED_DEFAULT, "??0ObjectSet@Forge@@QAE@XZ"); no body to assert in
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0c_object_identifier@@QAE@ABU0@@Z"); no body to assert in
 // c_object_identifier::c_object_identifier(c_object_identifier const &__that) is implicit; 0x109734F0
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_map_variant_placement_properties@@QAE@ABU0@@Z"); no body to assert in
 // _inline s_map_variant_placement_properties::s_map_variant_placement_properties(s_map_variant_placement_properties const &__that) = default; // 0x109735C0
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_variant_datum@@QAE@ABU0@@Z"); no body to assert in
 _inline s_variant_datum::s_variant_datum(s_variant_datum const &__that) = default; // 0x109736F0
 
 namespace Forge
@@ -258,8 +246,6 @@ namespace Forge
 	{
 		void SelectEverything() // 0x10974F60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SelectEverything@Selection@Forge@@YAXXZ");
-
 			s_map_variant *const mapv = GetMapVariant();
 			s_SelectedObjects.Clear();
 			for (__int32 i = 0; i < 640; i++)
@@ -280,8 +266,6 @@ namespace Forge
 
 		void SelectAllMaterial() // 0x10974D50
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SelectAllMaterial@Selection@Forge@@YAXXZ");
-
 			unsigned long playerIndex = ((unsigned long (*)(long))0x589C30)(0);
 			s_object_data *currentObject = object_get(GetCurrentObjectIndex(playerIndex));
 			if (!(currentObject && currentObject->map_variant_index != -1))
@@ -300,8 +284,6 @@ namespace Forge
 
 		void DeselectAllOf() // 0x10974330
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?DeselectAllOf@Selection@Forge@@YAXXZ");
-
 			unsigned long playerIndex = ((unsigned long(__cdecl *)(long))0x589C30)(0);
 			s_object_data *currentObject = object_get(GetCurrentObjectIndex(playerIndex));
 			if (!currentObject)
@@ -327,8 +309,6 @@ namespace Forge
 
 		void Invert() // 0x109749E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Invert@Selection@Forge@@YAXXZ");
-
 			ObjectSet newSelection;
 			s_map_variant *mapv = GetMapVariant();
 			for (__int32 i = 0; i < 640; i++)
@@ -342,8 +322,6 @@ namespace Forge
 
 		void Expand(float amount) // 0x10974440
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Expand@Selection@Forge@@YAXM@Z");
-
 			s_map_variant *const mapv = GetMapVariant();
 			real_point3d centroid = { 0.0f, 0.0f, 0.0f };
 			real_point3d min = { mapv->world_bounds.x0, mapv->world_bounds.y0, mapv->world_bounds.z0 };
@@ -391,15 +369,11 @@ namespace Forge
 
 		void Clear() // 0x10973BB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@Selection@Forge@@YAXXZ");
-
 					s_SelectedObjects.Clear();
 		}
 
 		void Delete() // 0x109741D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Delete@Selection@Forge@@YAXXZ");
-
 			s_map_variant *mapv = GetMapVariant();
 			if (!mapv)
 				return;
@@ -424,8 +398,6 @@ namespace Forge
 
 		bool Clone() // 0x10973C00
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Clone@Selection@Forge@@YA_NXZ");
-
 			unsigned __int32 (__thiscall *const spawn_object)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short) = reinterpret_cast<unsigned __int32 (__thiscall *)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short)>(0x582110);
 			std::stack<unsigned int> cloneStack;
 			s_map_variant *mapv = game_engine_get_runtime_map_variant();
@@ -476,8 +448,6 @@ namespace Forge
 
 		void Update() // 0x109750C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@Selection@Forge@@YAXXZ");
-
 			unsigned long playerIndex = eldorado::player_mapping_get_player_by_input_user(0);
 			long heldObjectIndex;
 			long crosshairObjectIndex;

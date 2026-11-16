@@ -184,30 +184,20 @@ namespace Player
 	{
 		_inline PlayerEmblemFileStream::PlayerEmblemFileStream() // 0x107E6FB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemFileStream@Emblems@Player@@QAE@XZ");
-
 			m_fp = nullptr;
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ"); no body to assert in
-
-		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@$$QAU012@@Z"); no body to assert in
 		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask &&__that) = default; // 0x107E7070
 
-		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@ABU012@@Z"); no body to assert in
 		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask(Player::Emblems::PlayerEmblemRenderTask const &__that) = default; // 0x107E7110
 
 		_inline PlayerEmblemFileStream::~PlayerEmblemFileStream() // 0x107E7620
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerEmblemFileStream@Emblems@Player@@UAE@XZ");
-
 			Close();
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??0PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ"); no body to assert in
 		_inline PlayerEmblemRenderTask::PlayerEmblemRenderTask() = default; // 0x107E71B0
 
-		// mangled_x86(MANGLED_DEFAULT, "??1PlayerEmblemRenderMetadata@Emblems@Player@@QAE@XZ"); no body to assert in
 		_inline PlayerEmblemRenderMetadata::~PlayerEmblemRenderMetadata() = default; // 0x107E76C0
 	}
 }
@@ -218,13 +208,10 @@ namespace Player
 {
 	namespace Emblems
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??1PlayerEmblemRenderTask@Emblems@Player@@QAE@XZ"); no body to assert in
 		_inline PlayerEmblemRenderTask::~PlayerEmblemRenderTask() = default; // 0x107E7710
 
 		_inline void PlayerEmblemFileStream::Close() // 0x107E7BF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Close@PlayerEmblemFileStream@Emblems@Player@@QAEXXZ");
-
 			if (m_fp)
 			{
 				fclose(m_fp);
@@ -234,8 +221,6 @@ namespace Player
 
 		_inline bool PlayerEmblemFileStream::Read(void *data, __int32 bytesToRead, __int32 *bytesRead) // 0x107E8130
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Read@PlayerEmblemFileStream@Emblems@Player@@UAE_NPAXHPAH@Z");
-
 			if (!m_fp)
 			{
 				return false;
@@ -250,12 +235,8 @@ namespace Player
 			return true;
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??0IPlayerEmblemStream@Emblems@Player@@QAE@XZ"); no body to assert in
-
 		_inline PlayerEmblemD3DXBufferStream::PlayerEmblemD3DXBufferStream(ID3DXBuffer *buff, bool owner) // 0x107E6EA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0PlayerEmblemD3DXBufferStream@Emblems@Player@@QAE@PAUID3DXBuffer@@_N@Z");
-
 			m_buff = buff;
 			m_ownsBuff = owner;
 			m_pos = 0;
@@ -265,8 +246,6 @@ namespace Player
 
 		_inline PlayerEmblemD3DXBufferStream::~PlayerEmblemD3DXBufferStream() // 0x107E7550
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1PlayerEmblemD3DXBufferStream@Emblems@Player@@UAE@XZ");
-
 			if (m_ownsBuff)
 				m_buff->Release();
 			m_buff = nullptr;
@@ -274,8 +253,6 @@ namespace Player
 
 		_inline bool PlayerEmblemD3DXBufferStream::Read(void *data, __int32 bytesToRead, __int32 *bytesRead) // 0x107E8070
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Read@PlayerEmblemD3DXBufferStream@Emblems@Player@@UAE_NPAXHPAH@Z");
-
 			int n = std::min(bytesToRead, m_size - m_pos);
 			memcpy(data, m_data, n);
 			*bytesRead = n;
@@ -285,8 +262,6 @@ namespace Player
 
 		void ProcessRenderTask(Player::Emblems::PlayerEmblemRenderTask const &task) // 0x107E7DF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ProcessRenderTask@Emblems@Player@@YAXABUPlayerEmblemRenderTask@12@@Z");
-
 			IDirect3DTexture9 *texture;
 			if (GenerateEmblem(task.config, &texture, false))
 			{
@@ -305,8 +280,6 @@ namespace Player
 
 		bool PlayerEmblemRenderer::StartRender(s_player_emblem_configuration const &config, std::shared_ptr<Player::Emblems::IPlayerEmblemRenderCallbacks> handler) // 0x107E81D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?StartRender@PlayerEmblemRenderer@Emblems@Player@@SA_NABUs_player_emblem_configuration@@V?$shared_ptr@VIPlayerEmblemRenderCallbacks@Emblems@Player@@@std@@@Z");
-
 			PlayerEmblemRenderTask task;
 			task.config = config;
 			task.callback = std::move(handler);
@@ -317,8 +290,6 @@ namespace Player
 
 		void PlayerEmblemRenderer::DoRender() // 0x107E7C60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?DoRender@PlayerEmblemRenderer@Emblems@Player@@SAXXZ");
-
 			std::queue<PlayerEmblemRenderTask> queue;
 			{
 				std::scoped_lock<std::mutex> lock(g_renderTaskQueueMutex);

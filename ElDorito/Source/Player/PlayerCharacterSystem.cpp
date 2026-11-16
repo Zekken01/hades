@@ -291,20 +291,12 @@ using namespace hades_file_local;
 
 namespace Player
 {
-	// mangled_x86(MANGLED_DEFAULT, "??0CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
-
-	// mangled_x86(MANGLED_DEFAULT, "??0SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
-
-	// mangled_x86(MANGLED_DEFAULT, "??1CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
 	_inline CPlayerCharacterCustomizationBuilder::~CPlayerCharacterCustomizationBuilder() = default; // 0x10900F80
 
-	// mangled_x86(MANGLED_DEFAULT, "??1SBaseCacheReference@CPlayerCharacterCustomizationBuilder@Player@@QAE@XZ"); no body to assert in
 	_inline CPlayerCharacterCustomizationBuilder::SBaseCacheReference::~SBaseCacheReference() = default; // 0x10901050
 
 	void CPlayerCharacterSystem::Init() // 0x109023F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CPlayerCharacterSystem@Player@@SAXXZ");
-
 		if (!Utils::Singleton<ElDorito>::Instance().IsDedicated())
 		{
 			std::string prefsName = "player_customization.json";
@@ -323,8 +315,6 @@ namespace Player
 
 	void CPlayerCharacterSystem::Tick() // 0x109032C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@CPlayerCharacterSystem@Player@@SAXXZ");
-
 		MaybeUpdatePeerProperties();
 		if (((bool(__cdecl *)())0x5314B0)())
 			Player::CPlayerCharacterSystem::UpdateLocalPlayerHudGlobals();
@@ -332,8 +322,6 @@ namespace Player
 
 	void CPlayerCharacterSystem::NotifyTagsLoaded(bool isMainMenuMod, std::shared_ptr<c_cache_file_tag_cache> baseCache, std::shared_ptr<Blam::Cache::StringIDCache> baseStringCache) // 0x10902990
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyTagsLoaded@CPlayerCharacterSystem@Player@@SAX_NV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@V?$shared_ptr@UStringIDCache@Cache@Blam@@@4@@Z");
-
 		if (isMainMenuMod)
 		{
 			globalBaseTagCache = baseCache;
@@ -350,8 +338,6 @@ namespace Player
 
 	void CPlayerCharacterSystem::UpdateLocalPlayerHudGlobals() // 0x10903320
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateLocalPlayerHudGlobals@CPlayerCharacterSystem@Player@@SAXXZ");
-
 		__int32 playerIndex = ((unsigned long(*)(long))0x589C30)(0);
 		if (playerIndex == -1)
 			return;
@@ -369,8 +355,6 @@ namespace Player
 
 	void CPlayerCharacterSystem::AssignPlayerCharacter(__int32 playerIndex) // 0x10901700
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AssignPlayerCharacter@CPlayerCharacterSystem@Player@@SAXH@Z");
-
 		if (!game_is_multiplayer())
 			return;
 		__int32 characterTypeIndex = -1;
@@ -397,8 +381,6 @@ namespace Player
 
 	void CPlayerCharacterSystem::PlayerCharacterEditor(__int32 playerIndex) // 0x10902F20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?PlayerCharacterEditor@CPlayerCharacterSystem@Player@@SAXH@Z");
-
 		if (!game_is_multiplayer())
 			return;
 		if (eldorado::game_is_authoritative() && game_engine_is_sandbox())
@@ -422,8 +404,6 @@ namespace Player
 
 	bool CPlayerCharacterSystem::BuildCharacterCustomization(std::string const &characterName, s_player_model_customization &customization) // 0x109018B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildCharacterCustomization@CPlayerCharacterSystem@Player@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUs_player_model_customization@@@Z");
-
 		Player::CPlayerCharacterCustomizationBuilder builder;
 		s_player_character_customiztion tmp;
 		if (!builder.BuildSingleCharacterCustomization(characterName, &tmp))
@@ -434,9 +414,6 @@ namespace Player
 
 	bool CPlayerCharacterSystem::BuildCustomizations(s_player_appearance &appearance) // 0x10901A20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildCustomizations@CPlayerCharacterSystem@Player@@SA_NAAUs_player_appearance@@@Z");
-
-
 		CPlayerCharacterCustomizationBuilder builder;
 
 		return builder.BuildCharacterCustomizations(GetPreferredCharacterName(), &appearance);
@@ -444,8 +421,6 @@ namespace Player
 
 	void CPlayerCharacterSystem::ReloadCustomizations() // 0x10903150
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadCustomizations@CPlayerCharacterSystem@Player@@SAXXZ");
-
 		Player::CPlayerCustomizationDB::Instance().Reload();
 		currentUpdateNumber++;
 	}
@@ -455,8 +430,6 @@ namespace Player
 
 long game_engine_get_random_global_player_character_type_index(long character_set_index) // 0x10903BD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_random_global_player_character_type_index@@YAJJ@Z");
-
 	s_mod_globals_definition *mod_globals = mod_globals_get_definition();
 	if (!mod_globals)
 		return -1;
@@ -471,8 +444,6 @@ long game_engine_get_random_global_player_character_type_index(long character_se
 
 long game_engine_get_random_global_player_character_set_index() // 0x10903B00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_random_global_player_character_set_index@@YAJXZ");
-
 	s_mod_globals_definition *mod_globals = mod_globals_get_definition();
 	if (!mod_globals)
 		return -1;
@@ -481,9 +452,6 @@ long game_engine_get_random_global_player_character_set_index() // 0x10903B00
 
 long game_engine_get_player_character_type_index(long character_set_index, long index) // 0x109039D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_character_type_index@@YAJJJ@Z");
-
-
 	s_mod_globals_definition *mod_globals = mod_globals_get_definition();
 	if (!mod_globals)
 	{
@@ -502,8 +470,6 @@ long game_engine_get_player_character_type_index(long character_set_index, long 
 
 std::string const GetPlayerTeamDesginatorName(__int32 playerIndex) // 0x10901C20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerTeamDesginatorName@@YA?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-
 	c_game_engine *gameEngine = ((c_game_engine *(__cdecl *)())0x5CE150)();
 	if (!gameEngine)
 		return "";
@@ -518,8 +484,6 @@ std::string const GetPlayerTeamDesginatorName(__int32 playerIndex) // 0x10901C20
 
 long game_engine_get_player_character_type_index(long player_index) // 0x10903890
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_character_type_index@@YAJJ@Z");
-
 	s_player_datum *player = player_get(player_index);
 	if (player->traits.extended.player_model_set < 2 || player->traits.extended.player_model_set >= 8)
 		return -1;
@@ -543,8 +507,6 @@ long game_engine_get_player_character_type_index(long player_index) // 0x1090389
 
 void *GetCharacterChudGlobals(__int32 characterTypeIndex) // 0x10901B70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCharacterChudGlobals@@YAPAXH@Z");
-
 	__int32 hudGlobalsIndex = Mods::CModGlobals::GetCharacterHudGlobals(characterTypeIndex);
 	if (hudGlobalsIndex == NONE)
 	{
@@ -556,8 +518,6 @@ void *GetCharacterChudGlobals(__int32 characterTypeIndex) // 0x10901B70
 
 __int32 GetPreferredCharacterType(__int32 playerIndex) // 0x109022A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPreferredCharacterType@@YAHH@Z");
-
 	s_player_datum *player = player_get(playerIndex);
 	if (!player)
 		return -1;
@@ -580,14 +540,11 @@ __int32 GetPreferredCharacterType(__int32 playerIndex) // 0x109022A0
 	return -1;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
 // hades: ModListener() is defaulted in-class (0x10900D60) - Init value-initialises it
 
 
 std::string GetPreferredCharacterName() // 0x10901DF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPreferredCharacterName@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 	Player::CPlayerCustomizationDB &customizationDB = Utils::Singleton<Player::CPlayerCustomizationDB>::Instance();
 	std::string preferredCharacter;
 	std::string modHash = c_mod_system::get_current_package_hash();
@@ -622,8 +579,6 @@ std::string GetPreferredCharacterName() // 0x10901DF0
 
 __int32 OverridePlayerCharacter(__int32 playerIndex) // 0x10902BE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OverridePlayerCharacter@@YAHH@Z");
-
 	std::string teamDesignator = GetPlayerTeamDesginatorName(playerIndex);
 	if (auto it = votingCharacterOverrides.find(teamDesignator); it != votingCharacterOverrides.end())
 	{
@@ -646,8 +601,6 @@ __int32 OverridePlayerCharacter(__int32 playerIndex) // 0x10902BE0
 
 void OnLifeCycleChanged(Blam::Network::LifeCycleState newState) // 0x10902AE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnLifeCycleChanged@@YAXW4LifeCycleState@Network@Blam@@@Z");
-
 	switch (newState)
 	{
 	case Blam::Network::eLifeCycleStateNone:
@@ -658,16 +611,11 @@ void OnLifeCycleChanged(Blam::Network::LifeCycleState newState) // 0x10902AE0
 
 void OnServerVotePassed(Server::Voting::MapAndType const &winner) // 0x10902B90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnServerVotePassed@@YAXABUMapAndType@Voting@Server@@@Z");
-
 	votingCharacterOverrides = winner.haloType.characterOverrides;
 }
 
 bool RequestPlayerPropertiesUpdate(__int32 userIndex) // 0x109031B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestPlayerPropertiesUpdate@@YA_NH@Z");
-
-
 	void (*const user_interface_controller_update_network_properties)(__int32) = (void (*const)(__int32))0xa95170;
 
 	c_network_session *session;
@@ -687,8 +635,6 @@ bool RequestPlayerPropertiesUpdate(__int32 userIndex) // 0x109031B0
 
 void MaybeUpdatePeerProperties() // 0x10902860
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?MaybeUpdatePeerProperties@@YAXXZ");
-
 	if (!((bool (*)())0x5314B0)())
 		return;
 	if (prevUpdateNumber != currentUpdateNumber)
@@ -703,8 +649,6 @@ void MaybeUpdatePeerProperties() // 0x10902860
 
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10902B60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@EAEXW4EModIndex@@PAVIMod@@@Z");
-
 	currentUpdateNumber = currentUpdateNumber + 1;
 }
 

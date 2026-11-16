@@ -126,8 +126,6 @@ namespace Patches
 	{
 		void biped_update_boots_off_the_ground(long biped_index) // 0x1079BA00
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?biped_update_boots_off_the_ground@Biped@Patches@@YAXJ@Z");
-
 			s_unit_data *biped = (s_unit_data *)object_get(biped_index);
 			if (!biped || biped->player_index == -1)
 				return;
@@ -163,8 +161,6 @@ namespace Patches
 
 		void biped_update_sub1_hook(long biped_index) // 0x1079C000
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?biped_update_sub1_hook@Biped@Patches@@YAXJ@Z");
-
 			void (__cdecl *const biped_update_sub1)(long) = (void(__cdecl *const)(long))0xb72280;
 
 			biped_update_sub1(biped_index);
@@ -173,8 +169,6 @@ namespace Patches
 
 		bool biped_falling_damage_campaign_only() // 0x1079B990
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?biped_falling_damage_campaign_only@Biped@Patches@@YA_NXZ");
-
 			if (Utils::Singleton<Modules::ModuleServer>::Instance().VarServerFallDamageMPEnabledClient->ValueInt < 2)
 			{
 				return game_is_multiplayer();
@@ -187,8 +181,6 @@ namespace Patches
 
 		bool fall_collision_damage_is_multiplayer() // 0x1079C0E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?fall_collision_damage_is_multiplayer@Biped@Patches@@YA_NXZ");
-
 			if (Utils::Singleton<Modules::ModuleServer>::Instance().VarServerFallDamageMPEnabledClient->ValueInt != 1)
 			{
 				return game_is_multiplayer();
@@ -201,8 +193,6 @@ namespace Patches
 
 		bool fall_collision_damage_is_campaign() // 0x1079C070
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?fall_collision_damage_is_campaign@Biped@Patches@@YA_NXZ");
-
 			if (Utils::Singleton<Modules::ModuleServer>::Instance().VarServerFallDamageMPEnabledClient->ValueInt != 1)
 			{
 				return game_is_campaign();
@@ -215,8 +205,6 @@ namespace Patches
 
 		void ApplyAll() // 0x1079B490
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Biped@Patches@@YAXXZ");
-
 			Hook(0x771790, biped_update_sub1_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x7AE4AE, biped_falling_damage_campaign_only, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x7AE5BF, biped_falling_damage_campaign_only, static_cast<__int32>(HookFlags::IsCall)).Apply();

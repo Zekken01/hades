@@ -4,7 +4,6 @@
 
 /* ---------- headers */
 
-#include "hades/mangled_assert.h"
 #include "hades/static_assert.h"
 #include "hades/unused.h"
 

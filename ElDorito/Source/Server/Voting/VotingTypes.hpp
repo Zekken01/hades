@@ -193,13 +193,10 @@ namespace Server
 	{
 		inline HaloMap::HaloMap() : mapId(-1), randomChance(0.1f) /* hades-mem-init:  */ // 0x1073A280
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloMap@Voting@Server@@QAE@XZ");
 		}
 
 		inline void HaloMap::SetMembers(std::string sn, std::string m, std::string dn, std::string img, __int32 id, float rc, Server::Voting::AllowedPlayerCount apc) // 0x1073E880
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetMembers@HaloMap@Voting@Server@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@000HMUAllowedPlayerCount@23@@Z");
-
 			scnrName = sn;
 			mapName = m;
 			if (dn.length() > 16)
@@ -214,20 +211,15 @@ namespace Server
 
 		inline HaloMap::HaloMap(std::string sn, std::string m, std::string dn, std::string img, __int32 id, float rc, Server::Voting::AllowedPlayerCount apc) : randomChance(0.1f) /* hades-mem-init:  */ // 0x1073A090
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloMap@Voting@Server@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@000HMUAllowedPlayerCount@12@@Z");
-
 			SetMembers(sn, m, dn, img, id, rc, apc);
 		}
 
 		inline HaloType::HaloType() : isTemplate(false), randomChance(0.1f) /* hades-mem-init:  */ // 0x10732C10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloType@Voting@Server@@QAE@XZ");
 		}
 
 		inline HaloType::HaloType(std::string t, std::string dn) : isTemplate(false), randomChance(0.1f) /* hades-mem-init:  */ // 0x1073A330
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0HaloType@Voting@Server@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 			typeName = t;
 			if (dn.length() > 16)
 				typeDisplayName = dn.substr(0, 16);
@@ -237,8 +229,6 @@ namespace Server
 
 		inline MapAndType::MapAndType() // 0x1073A7E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0MapAndType@Voting@Server@@QAE@XZ");
-
 			index = -1;
 			canveto = false;
 			isRevoteOption = false;
@@ -248,8 +238,6 @@ namespace Server
 
 		inline MapAndType::MapAndType(Server::Voting::HaloMap hm, Server::Voting::HaloType ht) // 0x1073A6A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0MapAndType@Voting@Server@@QAE@UHaloMap@12@UHaloType@12@@Z");
-
 			index = -1;
 			canveto = false;
 			isRevoteOption = false;
@@ -261,15 +249,11 @@ namespace Server
 
 		inline bool MapAndType::operator<(Server::Voting::MapAndType const &val) const // 0x10C4D9E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??MMapAndType@Voting@Server@@QBE_NABU012@@Z");
-
 			return Count < val.Count;
 		}
 
 		inline bool MapAndType::operator==(Server::Voting::MapAndType const &val) const // 0x10C4D880
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??8MapAndType@Voting@Server@@QBE_NABU012@@Z");
-
 			auto &votingModule = Modules::ModuleVoting::Instance();
 			if (votingModule.VarServerVotingDuplicationLevel->ValueInt == 0)
 				return haloMap.mapDisplayName == val.haloMap.mapDisplayName || haloType.typeDisplayName == val.haloType.typeDisplayName;

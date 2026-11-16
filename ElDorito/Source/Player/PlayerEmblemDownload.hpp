@@ -77,8 +77,6 @@ namespace Player
 {
 	inline bool PlayerEmblemDownload::IsAvailable() // 0x107F0C00
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?IsAvailable@PlayerEmblemDownload@Player@@QAE_NXZ");
-
 		return !failedInit;
 	}
 }

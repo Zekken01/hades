@@ -73,15 +73,11 @@ namespace Scripting
 	{
 		bool HsThreadIsDead(__int32 threadIndex) // 0x106F3D40
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?HsThreadIsDead@HS@Scripting@@YA_NH@Z");
-
 			return hs_thread_get(threadIndex) == nullptr;
 		}
 
 		void *HsThreadStorage::Allocate(unsigned __int32 size) // 0x106F36B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Allocate@HsThreadStorage@HS@Scripting@@QAEPAXI@Z");
-
 			Scripting::HS::HsThreadStorage::MemBlock *block = AllocateBlock(size);
 
 			InsertMemBlock(&m_blockList, block);
@@ -90,8 +86,6 @@ namespace Scripting
 
 		void HsThreadStorage::Free(void *ptr) // 0x106F3A60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Free@HsThreadStorage@HS@Scripting@@QAEXPAX@Z");
-
 			if (ptr == nullptr)
 			{
 				return;
@@ -104,8 +98,6 @@ namespace Scripting
 
 		void HsThreadStorage::FreeAll() // 0x106F3AF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FreeAll@HsThreadStorage@HS@Scripting@@QAEXXZ");
-
 			MemBlock *block = m_blockList;
 			while (block)
 			{
@@ -119,8 +111,6 @@ namespace Scripting
 
 		Scripting::HS::HsThreadStorage::MemBlock *HsThreadStorage::AllocateBlock(unsigned __int32 size) // 0x106F3730
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?AllocateBlock@HsThreadStorage@HS@Scripting@@AAEPAUMemBlock@123@I@Z");
-
 			unsigned __int32 blockSize = size + 12;
 			MemBlock *block = (MemBlock *)operator new(blockSize);
 			*(unsigned __int32 *)((unsigned char *)block + 8) = size;
@@ -131,16 +121,12 @@ namespace Scripting
 
 		void HsThreadStorage::FreeBlock(Scripting::HS::HsThreadStorage::MemBlock *block) // 0x106F3B70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FreeBlock@HsThreadStorage@HS@Scripting@@AAEXPAUMemBlock@123@@Z");
-
 			m_allocatedSize -= block->size + 12;
 			::operator delete(block);
 		}
 
 		void HsThreadStorage::InsertMemBlock(Scripting::HS::HsThreadStorage::MemBlock **list, Scripting::HS::HsThreadStorage::MemBlock *block) // 0x106F3DC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InsertMemBlock@HsThreadStorage@HS@Scripting@@AAEXPAPAUMemBlock@123@PAU4123@@Z");
-
 			block->previous = nullptr;
 			block->next = *list;
 			if (block->next)
@@ -152,8 +138,6 @@ namespace Scripting
 
 		void HsThreadStorage::RemoveMemBlock(Scripting::HS::HsThreadStorage::MemBlock **list, Scripting::HS::HsThreadStorage::MemBlock *block) // 0x106F3F00
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveMemBlock@HsThreadStorage@HS@Scripting@@AAEXPAPAUMemBlock@123@PAU4123@@Z");
-
 			if (*list == block)
 			{
 				*list = block->next;
@@ -173,60 +157,44 @@ namespace Scripting
 
 		Scripting::HS::HsThreadStorageManager *HsThreadStorageManager::Get() // 0x106F3BE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Get@HsThreadStorageManager@HS@Scripting@@SAPAV123@XZ");
-
 			static Scripting::HS::HsThreadStorageManager instance;
 			return &instance;
 		}
 
 		void *HsThreadStorageManager::MemAlloc(__int32 threadIndex, unsigned __int32 size) // 0x106F3E20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?MemAlloc@HsThreadStorageManager@HS@Scripting@@QAEPAXHI@Z");
-
 			return GetStorage(threadIndex)->Allocate(size);
 		}
 
 		void HsThreadStorageManager::MemFree(__int32 threadIndex, void *ptr) // 0x106F3E90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?MemFree@HsThreadStorageManager@HS@Scripting@@QAEXHPAX@Z");
-
 			GetStorage(threadIndex)->Free(ptr);
 		}
 
 		Scripting::HS::HsThreadStorage *HsThreadStorageManager::GetStorage(__int32 threadIndex) // 0x106F3CD0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStorage@HsThreadStorageManager@HS@Scripting@@QAEPAVHsThreadStorage@23@H@Z");
-
 			return &m_threadStorage[threadIndex];
 		}
 
 		void HsThreadStorageManager::Reset() // 0x106F3FA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@HsThreadStorageManager@HS@Scripting@@QAEXXZ");
-
 			m_threadStorage.clear();
 			m_lastCollectionTime = 0;
 		}
 
 		void HsThreadStorageManager::DeleteStorage(__int32 threadIndex) // 0x106F39F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?DeleteStorage@HsThreadStorageManager@HS@Scripting@@QAEXH@Z");
-
 			m_threadStorage.erase(threadIndex);
 		}
 
 		void HsThreadStorageManager::Update(unsigned __int32 time) // 0x106F4000
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@HsThreadStorageManager@HS@Scripting@@QAEXI@Z");
-
 			if (time - m_lastCollectionTime >= 100)
 				CollectGarbage(time);
 		}
 
 		void HsThreadStorageManager::CollectGarbage(unsigned __int32 time) // 0x106F37C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CollectGarbage@HsThreadStorageManager@HS@Scripting@@AAEXI@Z");
-
 			m_lastCollectionTime = time;
 			for (auto it = m_threadStorage.begin(); it != m_threadStorage.end();)
 			{

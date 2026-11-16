@@ -88,8 +88,6 @@ namespace Patches
 	{
 		unsigned __int32 PlayerPropertiesExtender::GetTotalSize() // 0x10AAD630
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetTotalSize@PlayerPropertiesExtender@Network@Patches@@QAEIXZ");
-
 			unsigned __int32 result = 0;
 			for (auto it = extensions.begin(); it != extensions.end(); ++it)
 				result += (*it)->GetDataSize();
@@ -98,8 +96,6 @@ namespace Patches
 
 		void PlayerPropertiesExtender::BuildData(__int32 playerIndex, void *out) // 0x10AAD1D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildData@PlayerPropertiesExtender@Network@Patches@@QAEXHPAX@Z");
-
 			unsigned char *ptr = static_cast<unsigned char *>(out);
 			for (auto it = extensions.begin(); it != extensions.end(); ++it)
 			{
@@ -110,8 +106,6 @@ namespace Patches
 
 		void PlayerPropertiesExtender::ApplyData(__int32 playerIndex, s_player_configuration *properties, void const *data) // 0x10AACFA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyData@PlayerPropertiesExtender@Network@Patches@@QAEXHPAUs_player_configuration@@PBX@Z");
-
 			unsigned char const *ptr = static_cast<unsigned char const *>(data);
 			for (auto it = extensions.begin(); it != extensions.end(); ++it)
 			{
@@ -122,8 +116,6 @@ namespace Patches
 
 		void PlayerPropertiesExtender::SerializeData(Blam::BitStream *stream, void const *data) // 0x10AAD800
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SerializeData@PlayerPropertiesExtender@Network@Patches@@QAEXPAVBitStream@Blam@@PBX@Z");
-
 			unsigned char const *ptr = static_cast<unsigned char const *>(data);
 			for (auto it = extensions.begin(); it != extensions.end(); ++it)
 			{
@@ -134,8 +126,6 @@ namespace Patches
 
 		void PlayerPropertiesExtender::DeserializeData(Blam::BitStream *stream, void *out) // 0x10AAD400
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?DeserializeData@PlayerPropertiesExtender@Network@Patches@@QAEXPAVBitStream@Blam@@PAX@Z");
-
 			unsigned char *ptr = static_cast<unsigned char *>(out);
 			for (auto it = extensions.begin(); it != extensions.end(); ++it)
 			{

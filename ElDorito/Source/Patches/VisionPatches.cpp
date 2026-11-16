@@ -143,8 +143,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x108F7FE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Vision@Patches@@YAXXZ");
-
 			Hook(0x10E5660, vision_submit_shader_constants4_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x62E7FB, vision_mode_submit_objects_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x62E836, vision_mode_submit_objects_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -167,16 +165,12 @@ namespace Patches
 
 void *get_weapon_outline_mask_hook(unsigned long group_tag, long tag_index) // 0x108F9270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_weapon_outline_mask_hook@@YAPAXKJ@Z");
-
 	int our_player_index = ((int(__cdecl *)(int))0x589c60)(0);
 	return get_player_vision_mode_globals(our_player_index);
 }
 
 void vision_mode_render_submit_mask_hook(__int32 sampler, long bitmap_group_index, long bitmap_index) // 0x108F94B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?vision_mode_render_submit_mask_hook@@YAXHJJ@Z");
-
 	void (*const rasterizer_set_bitmap)(__int32, unsigned __int32, __int32) = reinterpret_cast<void (*)(__int32, unsigned __int32, __int32)>(0xA3D130);
 	__int32 (*const unit_use_third_person_camera)(unsigned long, __int32 *) = reinterpret_cast<__int32 (*)(unsigned long, __int32 *)>(0x5917E0);
 	long our_player_index = ((long (*)(long))0x589C60)(0);
@@ -198,8 +192,6 @@ void vision_mode_render_submit_mask_hook(__int32 sampler, long bitmap_group_inde
 
 void vision_submit_shader_constants4_hook(__int32 startRegister, __int32 rows, float *data) // 0x108F9780
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?vision_submit_shader_constants4_hook@@YAXHHPAM@Z");
-
 	const auto vision_submit_shader_constants4 = (void(*)(__int32, __int32, float *))0xA66270;
 
 	if (Forge::CForgeVisionRenderer::IsActive())
@@ -212,8 +204,6 @@ void vision_submit_shader_constants4_hook(__int32 startRegister, __int32 rows, f
 
 void vision_mode_submit_objects_hook(long window_index, long player_index, long unit_index, void const *window_data, long const *object_indices, long object_count, bool pass) // 0x108F96C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?vision_mode_submit_objects_hook@@YAXJJJPBXPBJJ_N@Z");
-
 	const auto vision_mode_submit_objects = (void(*)(long, long, long, void const *, long const *, long, bool))0xA2C7D0;
 
 	if (Forge::CForgeVisionRenderer::IsActive())
@@ -228,8 +218,6 @@ void vision_mode_submit_objects_hook(long window_index, long player_index, long 
 
 void vision_generate_depth_buffer_clear_hook(long flags, __int32 color, float inverseZ, unsigned char stencil) // 0x108F9340
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?vision_generate_depth_buffer_clear_hook@@YAXJHME@Z");
-
 	if (Forge::CForgeVisionRenderer::IsActive() && !Forge::CForgeVisionRenderer::VisibleThroughWalls())
 	{
 	}
@@ -241,8 +229,6 @@ void vision_generate_depth_buffer_clear_hook(long flags, __int32 color, float in
 
 void *get_player_vision_mode_globals(long player_index) // 0x108F9170
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_vision_mode_globals@@YAPAXJ@Z");
-
 	long definition_index = -1;
 	if (player_index != -1)
 	{
@@ -264,8 +250,6 @@ void *get_player_vision_mode_globals(long player_index) // 0x108F9170
 
 void *vision_mode_definition_tag_get_hook(long group_tag, long index) // 0x108F93D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?vision_mode_definition_tag_get_hook@@YAPAXJJ@Z");
-
 	long player_index = eldorado::player_mapping_get_player_by_output_user(0);
 	if (player_index != -1)
 	{
@@ -285,8 +269,6 @@ void *vision_mode_definition_tag_get_hook(long group_tag, long index) // 0x108F9
 
 bool chud_vision_proximity_test_player(real_point3d const *our_position, long player_index) // 0x108F8EF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_vision_proximity_test_player@@YA_NPBUreal_point3d@@J@Z");
-
 	void *vision_mode_def = get_player_vision_mode_globals(player_index);
 	if (!vision_mode_def)
 		return false;
@@ -306,8 +288,6 @@ bool chud_vision_proximity_test_player(real_point3d const *our_position, long pl
 
 bool chud_vision_proximity_test_hook() // 0x108F8D10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_vision_proximity_test_hook@@YA_NXZ");
-
 	long our_player_index = eldorado::player_mapping_get_player_by_output_user_2(0);
 	s_player_datum *our_player = player_get(our_player_index);
 	if (!object_try_and_get_and_verify_type(our_player->unit_index, 0x2003))

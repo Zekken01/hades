@@ -193,8 +193,6 @@ using namespace hades_file_local;
 
 void c_mod_system::initialize(bool is_dedicated_server) // 0x108BC8E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_mod_system@@SAX_N@Z");
-
 	create_package_directory();
 	g_mod_system_globals.dedicated = is_dedicated_server;
 	(&g_mod_system_globals.package_manager)->initialize(c_mod_system::get_package_directory());
@@ -208,8 +206,6 @@ void c_mod_system::initialize(bool is_dedicated_server) // 0x108BC8E0
 
 void c_mod_system::update() // 0x108BD580
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_mod_system@@SAXXZ");
-
 	if (!g_mod_system_globals.packages_updated)
 	{
 		g_mod_system_globals.packages_updated = true;
@@ -223,23 +219,17 @@ void c_mod_system::update() // 0x108BD580
 
 char const *c_mod_system::get_package_directory() // 0x108BC5E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_package_directory@c_mod_system@@SAPBDXZ");
-
 	return k_package_directory;
 }
 
 bool c_mod_system::unload_current_package() // 0x108BD4F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unload_current_package@c_mod_system@@SA_NXZ");
-
 	c_mod_system::GetModManager().SetMod(kGame, nullptr, true);
 	return true;
 }
 
 std::string c_mod_system::get_mod_hash_by_identifier(char const *identifier) // 0x108BC040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_mod_hash_by_identifier@c_mod_system@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PBD@Z");
-
 	s_mod_server_package_entry server_package;
 	if (find_server_package_by_name(identifier, &server_package))
 	{
@@ -268,8 +258,6 @@ std::string c_mod_system::get_mod_hash_by_identifier(char const *identifier) // 
 
 bool c_mod_system::get_mod_info_by_hash(char const *hash_str, c_mod_package_manager::s_entry *package_entry) // 0x108BC370
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_mod_info_by_hash@c_mod_system@@SA_NPBDPAUs_entry@c_mod_package_manager@@@Z");
-
 	unsigned char hash[20];
 
 	Utils::String::HexStringToBytes(hash_str, hash, 20);
@@ -280,8 +268,6 @@ bool c_mod_system::get_mod_info_by_hash(char const *hash_str, c_mod_package_mana
 
 bool c_mod_system::get_mod_info_by_identifier(char const *identifier, c_mod_package_manager::s_entry *package_entry) // 0x108BC490
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_mod_info_by_identifier@c_mod_system@@SA_NPBDPAUs_entry@c_mod_package_manager@@@Z");
-
 	std::string hash_str = get_mod_hash_by_identifier(identifier);
 	if (hash_str.empty())
 		return false;
@@ -291,8 +277,6 @@ bool c_mod_system::get_mod_info_by_identifier(char const *identifier, c_mod_pack
 
 bool c_mod_system::load_package_by_identifier(char const *identifier) // 0x108BC960
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load_package_by_identifier@c_mod_system@@SA_NPBD@Z");
-
 	if (mod_system_load_named_package(identifier))
 		return true;
 	if (strstr(identifier, ".pak"))
@@ -308,8 +292,6 @@ bool c_mod_system::load_package_by_identifier(char const *identifier) // 0x108BC
 
 std::string c_mod_system::get_current_package_hash() // 0x108BBEC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_package_hash@c_mod_system@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 	s_session_mod_options const *mod_options = network_squad_session_get_mod();
 	if (!mod_options || !mod_options->valid)
 		return "";
@@ -320,8 +302,6 @@ std::string c_mod_system::get_current_package_hash() // 0x108BBEC0
 
 std::string c_mod_system::get_current_mainmenu_package_hash() // 0x108BB9A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_mainmenu_package_hash@c_mod_system@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 	IMod *mod = GetModManager().GetMod(kMainMenu);
 	if (mod)
 	{
@@ -337,8 +317,6 @@ std::string c_mod_system::get_current_mainmenu_package_hash() // 0x108BB9A0
 
 std::string c_mod_system::get_current_package_filename(EModIndex package_type) // 0x108BBBB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_package_filename@c_mod_system@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4EModIndex@@@Z");
-
 	IMod *mod = GetModManager().GetMod(package_type);
 	if (mod)
 	{
@@ -354,15 +332,11 @@ std::string c_mod_system::get_current_package_filename(EModIndex package_type) /
 
 c_mod_package_manager &c_mod_system::get_package_manager() // 0x108BC850
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_package_manager@c_mod_system@@SAAAVc_mod_package_manager@@XZ");
-
 	return g_mod_system_globals.package_manager;
 }
 
 bool c_mod_system::find_server_package_by_hash(std::string const &hash, s_mod_server_package_entry *entry) // 0x108BB5C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?find_server_package_by_hash@c_mod_system@@SA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAUs_mod_server_package_entry@@@Z");
-
 	if (auto it = g_mod_system_globals.server_package_map.find(hash); it != std::end(g_mod_system_globals.server_package_map))
 	{
 		*entry = it->second;
@@ -373,8 +347,6 @@ bool c_mod_system::find_server_package_by_hash(std::string const &hash, s_mod_se
 
 bool c_mod_system::find_server_package_by_name(char const *name, s_mod_server_package_entry *entry) // 0x108BB760
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?find_server_package_by_name@c_mod_system@@SA_NPBDPAUs_mod_server_package_entry@@@Z");
-
 	auto it = std::find_if(std::begin(g_mod_system_globals.server_package_map), std::end(g_mod_system_globals.server_package_map), [name](auto const &pair) { return pair.second.local_name == name; });
 	if (it != std::end(g_mod_system_globals.server_package_map))
 	{
@@ -386,15 +358,11 @@ bool c_mod_system::find_server_package_by_name(char const *name, s_mod_server_pa
 
 bool c_mod_system::has_server_package_list() // 0x108BC870
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?has_server_package_list@c_mod_system@@SA_NXZ");
-
 	return g_mod_system_globals.server_package_map.size() ? true : false;
 }
 
 std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> c_mod_system::get_package_file_list(std::string hash) // 0x108BC600
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_package_file_list@c_mod_system@@SA?AV?$unordered_map@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@U?$hash@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@U?$equal_to@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@V?$allocator@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@USFileEntry@CModPackageFileSystemView@@@std@@@2@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z");
-
 	std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> fileList;
 	if (hash != "" && Utils::Singleton<CModPackageFileSystemViewManager>::Instance().ViewExists(hash))
 	{
@@ -407,8 +375,6 @@ std::unordered_map<std::string,CModPackageFileSystemView::SFileEntry> c_mod_syst
 
 std::string c_mod_system::GetNewPackageFilename(std::string name, std::string hash, std::string version) // 0x108B82B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetNewPackageFilename@c_mod_system@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V23@00@Z");
-
 	char buff[32];
 	buff[0] = '\0';
 	strncpy_s(buff, name.c_str(), std::size(buff) - 1);
@@ -419,43 +385,28 @@ std::string c_mod_system::GetNewPackageFilename(std::string name, std::string ha
 
 IModManager &c_mod_system::GetModManager() // 0x108B81C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModManager@c_mod_system@@SAAAVIModManager@@XZ");
-
 	static ModManager manager;
 	return manager;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0c_mod_package_updater_blocking@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_server_package_entry@@QAE@$$QAU0@@Z"); no body to assert in
 // _inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_package_entry &&__that) = default; // 0x108B6B90  // hades: implicit
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_server_package_entry@@QAE@ABU0@@Z"); no body to assert in
 // _inline s_mod_server_package_entry::s_mod_server_package_entry(s_mod_server_package_entry const &__that) = default; // 0x108B6C40  // hades: implicit
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_server_package_entry@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_system_globals@@QAE@XZ"); no body to assert in
 _inline s_mod_system_globals::s_mod_system_globals() = default; // 0x108B6DB0
 
-// mangled_x86(MANGLED_DEFAULT, "??1c_mod_package_updater_blocking@@QAE@XZ"); no body to assert in
 _inline c_mod_package_updater_blocking::~c_mod_package_updater_blocking() = default; // 0x108B7790
 
-// mangled_x86(MANGLED_DEFAULT, "??1s_mod_server_package_entry@@QAE@XZ"); no body to assert in
 // _inline s_mod_server_package_entry::~s_mod_server_package_entry() = default; // 0x108B77F0  // hades: implicit
 
-// mangled_x86(MANGLED_DEFAULT, "??1s_mod_system_globals@@QAE@XZ"); no body to assert in
 _inline s_mod_system_globals::~s_mod_system_globals() = default; // 0x108B7860
 
-// mangled_x86(MANGLED_DEFAULT, "??4s_mod_server_package_entry@@QAEAAU0@ABU0@@Z"); no body to assert in
 // _inline s_mod_server_package_entry &s_mod_server_package_entry::operator=(s_mod_server_package_entry const &__that) = default; // 0x108B79E0  // hades: implicit
 
 /* ---------- private code */
 
 bool update_packages() // 0x108BD630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_update_packages");
-
 	std::string package_list_filename = Utils::Singleton<Modules::ModuleServer>::Instance().VarModsJsonFile->ValueString;
 	c_file_reference package_list(package_list_filename.c_str());
 	if (!package_list.exists())
@@ -476,8 +427,6 @@ bool update_packages() // 0x108BD630
 
 bool create_package_directory() // 0x108BB170
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_create_package_directory");
-
 	std::error_code ec;
 	if (!std::filesystem::create_directories(k_package_directory, ec) && ec)
 	{
@@ -489,8 +438,6 @@ bool create_package_directory() // 0x108BB170
 
 bool load_package_file_internal(char const *file_path) // 0x108BCDC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_load_package_file_internal");
-
 	EModResult result = c_mod_system::GetModManager().SetMod(EModIndex(0), file_path, true);
 	if (result != kSuccess && result != kPending)
 		return false;
@@ -499,8 +446,6 @@ bool load_package_file_internal(char const *file_path) // 0x108BCDC0
 
 bool load_package_by_string_hash(char const *hash_str) // 0x108BCBF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_load_package_by_string_hash");
-
 	unsigned char hash[20];
 	Utils::String::HexStringToBytes(hash_str, hash, 20);
 	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
@@ -512,8 +457,6 @@ bool load_package_by_string_hash(char const *hash_str) // 0x108BCBF0
 
 bool mod_system_load_named_package(char const *name) // 0x108BD010
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_mod_system_load_named_package");
-
 	s_mod_server_package_entry server_package;
 	if (!c_mod_system::find_server_package_by_name(name, &server_package))
 	{
@@ -525,8 +468,6 @@ bool mod_system_load_named_package(char const *name) // 0x108BD010
 
 extern "C" __int32 FormatFilename(char *str, __int32 length) // 0x108B7FB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_FormatFilename");
-
 	for (char *c = &str[length - 1]; isspace(*c); c--, length--)
 		*c = 0;
 	for (__int32 i = 0; i < length; )

@@ -86,7 +86,6 @@ private:
 	std::vector<SServerConnectState::SRequiredMod> m_requiredMods; // 0xC8
 public:
 	_inline CServerConnectStateHandler_QueryServer() = default; /* compiler_generated() */
-	// mangled_x86(MANGLED_KNOWN_GOOD, "??1CServerConnectStateHandler_QueryServer@@QAE@XZ"); defaulted on its declaration
 	_inline ~CServerConnectStateHandler_QueryServer() = default; // 0x10b06c60
 };
 static_assert(sizeof(CServerConnectStateHandler_QueryServer) == 216, "Invalid CServerConnectStateHandler_QueryServer size");

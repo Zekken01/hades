@@ -58,8 +58,6 @@ extern _inline bool is_havok_convex_shape(hkpShape *shape);
 
 inline hkpShape *__fastcall havok_transform_wrapper_shape_get_child_shape(hkpShape *shape) // 0x10AAB350
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_transform_wrapper_shape_get_child_shape@@YIPAUhkpShape@@PAU1@@Z");
-
 	switch (shape->m_type)
 	{
 	case 12:
@@ -81,15 +79,11 @@ inline hkpShape *__fastcall havok_transform_wrapper_shape_get_child_shape(hkpSha
 
 inline hkpShape *havok_shape_from_container(hkShapeContainer *container) // 0x10AAB330
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_shape_from_container@@YAPAUhkpShape@@PAUhkShapeContainer@@@Z");
-
 	return (hkpShape *)((char *)container - 0x10);
 }
 
 inline bool is_havok_convex_shape(hkpShape *shape) // 0x10AAB650
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?is_havok_convex_shape@@YA_NPAUhkpShape@@@Z");
-
 	switch (shape->m_type)
 	{
 	case 1:
@@ -109,8 +103,6 @@ inline bool is_havok_convex_shape(hkpShape *shape) // 0x10AAB650
 
 inline void hkAabbUtil::calcAaab(hkTransform const &BvToWorld, hkVector4 const &halfExtents, hkVector4 const &center, float extraRadius, hkAabb &aabbOut) // 0x10F1AE00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?calcAaab@hkAabbUtil@@SAXABUhkTransform@@ABUhkVector4@@1MAAUhkAabb@@@Z");
-
 	float const hx = fabs(BvToWorld.m_rotation.m_col1.x * halfExtents.y) + fabs(BvToWorld.m_rotation.m_col0.x * halfExtents.x) + fabs(BvToWorld.m_rotation.m_col2.x * halfExtents.z) + extraRadius;
 	float const hy = fabs(BvToWorld.m_rotation.m_col1.y * halfExtents.y) + fabs(BvToWorld.m_rotation.m_col0.y * halfExtents.x) + fabs(BvToWorld.m_rotation.m_col2.y * halfExtents.z) + extraRadius;
 	float const hz = fabs(BvToWorld.m_rotation.m_col1.z * halfExtents.y) + fabs(BvToWorld.m_rotation.m_col0.z * halfExtents.x) + fabs(BvToWorld.m_rotation.m_col2.z * halfExtents.z) + extraRadius;

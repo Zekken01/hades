@@ -177,8 +177,6 @@ namespace Server
 	{
 		bool LoadVotingJson(std::string const &filename, Server::Voting::VotingJson &voting) // 0x10747C00
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadVotingJson@Voting@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUVotingJson@12@@Z");
-
 			std::ifstream in(filename, std::ios::in | std::ios::binary);
 			if (!in || !in.is_open())
 			{
@@ -231,26 +229,16 @@ namespace Server
 			}
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??0PlaylistItem@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
 		_inline PlaylistItem::PlaylistItem(Server::Voting::PlaylistItem &&__that) = default; // 0x107459E0
 
-		// mangled_x86(MANGLED_DEFAULT, "??0PlaylistItem@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
 		_inline PlaylistItem::PlaylistItem(Server::Voting::PlaylistItem const &__that) = default; // 0x10745AE0
 
-		// mangled_x86(MANGLED_DEFAULT, "??0PlaylistItem@Voting@Server@@QAE@XZ"); no body to assert in
-
-		// mangled_x86(MANGLED_DEFAULT, "??0SMapListItem@Voting@Server@@QAE@XZ"); no body to assert in
-
-		// mangled_x86(MANGLED_DEFAULT, "??1SMapListItem@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline SMapListItem::~SMapListItem() = default; // 0x10745DE0
 
-		// mangled_x86(MANGLED_DEFAULT, "??4CharacterOverride@HaloType@Voting@Server@@QAEAAU0123@$$QAU0123@@Z"); no body to assert in
 		// _inline Server::Voting::HaloType::CharacterOverride &HaloType::CharacterOverride::operator=(Server::Voting::HaloType::CharacterOverride &&__that) = default; // 0x10745E40  // hades: left implicit
 
 		bool LoadPlaylistItem(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::PlaylistItem &item, std::vector<Server::Voting::HaloType> const &types) // 0x107477D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadPlaylistItem@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@AAUPlaylistItem@12@ABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@@Z");
-
 			if (!c.HasMember("map"))
 			{
 				std::string errorMsg = std::format("Veto playlist item must have either a 'map' member");
@@ -285,8 +273,6 @@ namespace Server
 
 		bool LoadHaloMap(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &mapObject, std::string const &modPack, Server::Voting::HaloMap &map) // 0x10746890
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadHaloMap@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUHaloMap@12@@Z");
-
 			std::string displayName = "";
 			if (!mapObject.HasMember("mapName"))
 				return false;
@@ -320,8 +306,6 @@ namespace Server
 
 		bool LoadHaloType(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &c, Server::Voting::HaloType &ht) // 0x10746D60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LoadHaloType@Voting@Server@@YA_NABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@AAUHaloType@12@@Z");
-
 			if (!c.HasMember("typeName"))
 				return false;
 			std::string typeDisplayName = "";
@@ -408,8 +392,6 @@ namespace Server
 	{
 		unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType> const &types, std::string const &name) // 0x10746060
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindTypeByName@Voting@Server@@YAIABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
-
 			for (unsigned __int32 i = 0; i < types.size(); i++)
 			{
 				if (types[i].typeName == name)

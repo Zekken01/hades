@@ -30,8 +30,6 @@ extern _inline s_scenario *global_scenario_get();
 
 inline s_scenario *global_scenario_get() // 0x1067F5D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?global_scenario_get@@YAPAUs_scenario@@XZ");
-
 	return *g_scenario_definition;
 }
 

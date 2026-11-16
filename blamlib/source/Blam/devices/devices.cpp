@@ -40,15 +40,11 @@ extern long device_group_new(long device_index, float initial_value, unsigned lo
 
 c_data_array<s_device_group_datum> *device_groups_get() // 0x10F0C5C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?device_groups_get@@YAPAV?$c_data_array@Us_device_group_datum@@@@XZ");
-
 	return tls_getd().device_groups;
 }
 
 long device_group_new(long device_index, float initial_value, unsigned long flags) // 0x10F0C4E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?device_group_new@@YAJJMK@Z");
-
 	c_data_array<s_device_group_datum> *device_groups = device_groups_get();
 	unsigned long datum_index = datum_new(device_groups);
 	s_device_group_datum *datum = device_groups->try_and_get(datum_index);

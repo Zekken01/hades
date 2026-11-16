@@ -98,21 +98,17 @@ template<typename Method, typename ...Args> void Notify(Method &&method, Args &&
 
 ModManager::ModManager() : m_sessionManager(*this) /* hades-mem-init: : m_sessionManager(todo_result<ModSessionManager>()) */ // 0x10791060
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModManager@@QAE@XZ");
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1ModListenerSet@@QAE@XZ"); no body to assert in
 _inline ModListenerSet::~ModListenerSet() = default; // 0x10791420
 
 ModManager::~ModManager() // 0x10791490
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModManager@@UAE@XZ");
 }
 
 #line 114
 EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async) // 0x10792110
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMod@ModManager@@UAE?AW4EModResult@@W4EModIndex@@PBD_N@Z");
 #line 132
 
 	#line 116 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
@@ -144,15 +140,8 @@ EModResult ModManager::SetMod(EModIndex index, char const *filename, bool async)
 	return result;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0IClient@Mod@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0IModManager@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0ModListenerSet@@QAE@XZ"); no body to assert in
-
 EModResult ModManager::SetModCache(EModIndex index, __int32 cacheIndex, bool async) // 0x10792520
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetModCache@ModManager@@UAE?AW4EModResult@@W4EModIndex@@H_N@Z");
 #line 178
 
 	#line 170 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
@@ -179,15 +168,12 @@ EModResult ModManager::SetModCache(EModIndex index, __int32 cacheIndex, bool asy
 
 Ref<IMod> ModManager::GetModShared(EModIndex index) const // 0x10791D90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetModShared@ModManager@@UBE?AV?$Ref@VIMod@@@@W4EModIndex@@@Z");
-
 	return m_mods[index];
 }
 
 #line 209
 IMod *ModManager::GetMod(EModIndex index) const // 0x10791CF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMod@ModManager@@UBEPAVIMod@@W4EModIndex@@@Z");
 #line 213
 
 	#line 212 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\new\\ModManager.cpp"
@@ -198,43 +184,31 @@ IMod *ModManager::GetMod(EModIndex index) const // 0x10791CF0
 
 void ModManager::AddListener(IModListener *listener) // 0x10791C50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AddListener@ModManager@@UAEXPAVIModListener@@@Z");
-
 	m_listeners.Add(listener);
 }
 
 void ModManager::RemoveListener(IModListener *listener) // 0x10792040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveListener@ModManager@@UAEXPAVIModListener@@@Z");
-
 	m_listeners.Remove(listener);
 }
 
 void ModManager::SetMainThread() // 0x107920B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetMainThread@ModManager@@QAEXXZ");
-
 	m_mainThreadId = std::this_thread::get_id();
 }
 
 bool ModManager::IsMainThread() const // 0x10791E10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?IsMainThread@ModManager@@QBE_NXZ");
-
 	return std::this_thread::get_id() == m_mainThreadId;
 }
 
 void ModManager::Tick() // 0x107926C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ModManager@@UAEXXZ");
-
 	m_sessionManager.Tick();
 }
 
 void ModManager::OnModLoadStateChanged(Mod *mod) // 0x10791EA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModLoadStateChanged@ModManager@@EAEXPAVMod@@@Z");
-
 	m_listeners.Notify(&IModListener::OnModLoadStateChangedAsync, mod->GetIndex(), mod);
 }
 

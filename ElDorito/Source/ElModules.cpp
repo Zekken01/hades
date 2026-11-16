@@ -157,8 +157,6 @@ namespace Modules
 {
 	ElModules::ElModules() : ModuleBase("") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x108BE780
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ElModules@Modules@@QAE@XZ");
-
 		ModuleGame::Instance();
 		ModulePlayer::Instance();
 		ModuleWeapon::Instance();
@@ -189,8 +187,6 @@ namespace Modules
 
 bool CommandHelp(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BF6A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandHelp@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Modules::CommandMap &commandMap = Modules::CommandMap::Instance();
 	if (Arguments.size() > 0)
 	{
@@ -222,8 +218,6 @@ bool CommandHelp(std::vector<std::string> const &Arguments, std::string &returnI
 
 bool CommandExecute(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BF290
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandExecute@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() <= 0)
 	{
 		returnInfo = "Usage: Execute <filename>";
@@ -248,8 +242,6 @@ bool CommandExecute(std::vector<std::string> const &Arguments, std::string &retu
 
 bool CommandWriteConfig(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x108BFA90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandWriteConfig@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	PWSTR localAppdata;
 	SHGetKnownFolderPath(FOLDERID_LocalAppData, NULL, NULL, &localAppdata);
 	auto wide_ed_appdata = std::wstring(localAppdata);

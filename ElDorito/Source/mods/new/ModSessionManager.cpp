@@ -111,8 +111,6 @@ bool network_squad_session_set_mod(s_session_mod_options const *);  // hades: ad
 
 ModSessionManager::ModSessionManager(IModManager &modManager) : m_modManager(modManager) // 0x10793CC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0ModSessionManager@@QAE@AAVIModManager@@@Z");
-
 	memset(m_currentPakHash, 0, 20);
 	m_modManager.AddListener(this);
 	m_lastCheckTime = 0;
@@ -121,22 +119,16 @@ ModSessionManager::ModSessionManager(IModManager &modManager) : m_modManager(mod
 
 ModSessionManager::~ModSessionManager() // 0x10793E00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1ModSessionManager@@UAE@XZ");
-
 	m_modManager.RemoveListener(this);
 }
 
 void ModSessionManager::Tick() // 0x10794630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ModSessionManager@@QAEXXZ");
-
 	CheckSession();
 }
 
 void ModSessionManager::CheckSession() // 0x10793FC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CheckSession@ModSessionManager@@AAEXXZ");
-
 	if (eldorado::main_game_change_in_progress())
 		return;
 	unsigned __int32 currentTime = system_milliseconds();
@@ -166,12 +158,8 @@ void ModSessionManager::CheckSession() // 0x10793FC0
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0IModListener@@QAE@XZ"); no body to assert in
-
 bool ModSessionManager::HandleSessionModChanged(s_session_mod_options const &options) // 0x107941D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleSessionModChanged@ModSessionManager@@AAE_NABUs_session_mod_options@@@Z");
-
 	c_mod_package_manager &packageManager = c_mod_system::get_package_manager();
 	c_mod_package_manager::s_entry entry;
 	if (packageManager.find_package_by_hash(options.hash, &entry))
@@ -185,8 +173,6 @@ bool ModSessionManager::HandleSessionModChanged(s_session_mod_options const &opt
 
 void ModSessionManager::OnModChanged(EModIndex index, IMod *mod) // 0x10794420
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModSessionManager@@EAEXW4EModIndex@@PAVIMod@@@Z");
-
 	if (index != 0)
 		return;
 	c_network_session *session;

@@ -57,7 +57,6 @@ namespace Objects
 	struct ObjectMessageSystem :
 		public IGameSystem
 	{
-		// mangled_x86(MANGLED_KNOWN_GOOD, "??1ObjectMessageSystem@Objects@@UAE@XZ"); defaulted on its declaration, which skips the vfptr store
 		virtual ~ObjectMessageSystem() = default; // 0x10799710
 		// virtual void Initialize();  // hades: inherited from IGameSystem in the original
 		// virtual void InitializeForNewMap();  // hades: inherited from IGameSystem in the original
@@ -89,29 +88,21 @@ namespace Objects
 {
 	_inline void ObjectMessageSystem::DisposeFromOldMap() // 0x10798290
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?DisposeFromOldMap@ObjectMessageSystem@Objects@@UAEXXZ");
-
 		CObjectMessaging::Reset();
 	}
 
 	void CObjectMessaging::Init() // 0x107999B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CObjectMessaging@Objects@@SAXXZ");
-
 		Patches::Game::RegisterGameSystem((IGameSystem *)&Objects::system);
 	}
 
 	void CObjectMessaging::EnqueueAction(std::function<void __cdecl(void)> &&action) // 0x10799950
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?EnqueueAction@CObjectMessaging@Objects@@SAX$$QAV?$function@$$A6AXXZ@std@@@Z");
-
 		queuedActions.push(std::move(action));
 	}
 
 	void CObjectMessaging::RunActions() // 0x10799A60
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?RunActions@CObjectMessaging@Objects@@SAXXZ");
-
 		while (!queuedActions.empty())
 		{
 			std::function<void __cdecl(void)> action = std::move(queuedActions.front());
@@ -122,8 +113,6 @@ namespace Objects
 
 	void CObjectMessaging::Reset() // 0x10799A00
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@CObjectMessaging@Objects@@SAXXZ");
-
 		while (!Objects::queuedActions.empty())
 		{
 			Objects::queuedActions.pop();
@@ -136,20 +125,16 @@ namespace Objects
 // IGameSystem's default handlers: one strong definition, emitted with the game-system code here as in the original.
 void IGameSystem::Initialize() // 0x10798210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@IGameSystem@@UAEXXZ");
 }
 
 void IGameSystem::InitializeForNewMap() // 0x10798230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@IGameSystem@@UAEXXZ");
 }
 
 void IGameSystem::Dispose() // 0x10798250
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Dispose@IGameSystem@@UAEXXZ");
 }
 
 void IGameSystem::Update() // 0x10798270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@IGameSystem@@UAEXXZ");
 }

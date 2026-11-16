@@ -175,8 +175,6 @@ namespace Server
 	{
 		void Handle(std::string const &token) // 0x10B22A80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Handle@ReportHandler@Server@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			{
 				std::lock_guard<std::mutex> guard(hades_file_local::mutex);
 				ReportRequest request;
@@ -189,13 +187,10 @@ namespace Server
 
 		void Tick() // 0x10B23BF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@ReportHandler@Server@@YAXXZ");
 		}
 
 		void Init() // 0x10B23B10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@ReportHandler@Server@@YAXXZ");
-
 			Patches::Core::OnShutdown(::OnShutdown);
 			CreateThread(nullptr, 0, HandledReportsThreadProc, nullptr, 0, nullptr);
 		}
@@ -206,8 +201,6 @@ namespace Server
 
 void GetEndpoints() // 0x10B22890
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetEndpoints@@YAXXZ");
-
 	if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 		return;
 	auto json = Utils::Singleton<Utils::DewritoReader>::Instance().GetDewritoJson();
@@ -222,8 +215,6 @@ void GetEndpoints() // 0x10B22890
 
 bool ForwardReportToEndpoint(std::string const &endpoint, std::string const &report) // 0x10B21ED0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ForwardReportToEndpoint@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	try
 	{
@@ -257,13 +248,10 @@ bool ForwardReportToEndpoint(std::string const &endpoint, std::string const &rep
 	return true;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0ReportRequest@hades_file_local@@QAE@AAU01@@Z"); no body to assert in
 // _inline ReportRequest::ReportRequest(ReportRequest &&__that) = default; // 0x10B21560  // hades: implicit
 
-// mangled_x86(MANGLED_DEFAULT, "??0ReportRequest@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
 // _inline ReportRequest::ReportRequest(ReportRequest const &__that) = default; // 0x10B215E0  // hades: implicit
 
-// mangled_x86(MANGLED_DEFAULT, "??0ReportRequest@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline ReportRequest::ReportRequest() = default; // 0x10B21660  // hades: implicit
 
 
@@ -271,16 +259,12 @@ bool ForwardReportToEndpoint(std::string const &endpoint, std::string const &rep
 
 void ForwardReportToEndpoints(std::string const &report) // 0x10B227F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ForwardReportToEndpoints@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	for (auto &url : playerReportUrls)
 		ForwardReportToEndpoint(url, report);
 }
 
 bool HandleReport(std::string const &token) // 0x10B22BE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleReport@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	try
 	{
@@ -322,8 +306,6 @@ bool HandleReport(std::string const &token) // 0x10B22BE0
 
 void HandleReports() // 0x10B23680
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleReports@@YAXXZ");
-
 	if (pending.size() == 0)
 		return;
 	GetEndpoints();
@@ -345,8 +327,6 @@ void HandleReports() // 0x10B23680
 
 unsigned long __stdcall HandledReportsThreadProc(void *lpParam) // 0x10B239A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandledReportsThreadProc@@YGKPAX@Z");
-
 	for (;;)
 	{
 		std::unique_lock<std::mutex> lk(hades_file_local::mutex);
@@ -361,8 +341,6 @@ unsigned long __stdcall HandledReportsThreadProc(void *lpParam) // 0x10B239A0
 
 static void OnShutdown() // 0x10B23BA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
-
 	shouldExit = true;
 	hades_file_local::signal.notify_one();
 }

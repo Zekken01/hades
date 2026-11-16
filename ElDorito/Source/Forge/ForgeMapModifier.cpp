@@ -102,15 +102,11 @@ namespace Forge
 {
 	void CForgeMapModifier::InitializeForNewMap() // 0x1067C930
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeMapModifier@Forge@@SAXXZ");
-
 		state = {};
 	}
 
 	void CForgeMapModifier::Update() // 0x1067C9B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeMapModifier@Forge@@SAXXZ");
-
 		long mapModifierObjectIndex = FindMapModifierObject();
 		state.ObjectIndex = mapModifierObjectIndex;
 		bool roundInProgress = ((bool (__cdecl *)())0x550F90)();
@@ -148,8 +144,6 @@ namespace Forge
 
 	long CForgeMapModifier::GetOrCreateMapModifierObject() // 0x1067C8D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetOrCreateMapModifierObject@CForgeMapModifier@Forge@@SAJXZ");
-
 		long object_index = FindMapModifierObject();
 
 		if (object_index == -1)
@@ -160,8 +154,6 @@ namespace Forge
 
 	void CForgeMapModifier::OnUndoRedoCompleted() // 0x1067C990
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?OnUndoRedoCompleted@CForgeMapModifier@Forge@@SAXXZ");
-
 		state.WaitingForNewRound = true;
 	}
 }
@@ -170,8 +162,6 @@ namespace Forge
 
 long FindMapModifierObject() // 0x1067C780
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindMapModifierObject@@YAJXZ");
-
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	if (!forge_globals)
 		return -1;
@@ -189,8 +179,6 @@ long FindMapModifierObject() // 0x1067C780
 
 long CreateMapmodifierObject() // 0x1067C5A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateMapmodifierObject@@YAJXZ");
-
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	if (!forge_globals)
 		return -1;

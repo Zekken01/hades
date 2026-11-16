@@ -96,8 +96,6 @@ using namespace hades_file_local;
 
 void CForgeDeviceManager::InitializeForNewMap() // 0x10860FE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeDeviceManager@@EAEXXZ");
-
 	if (!((c_game_engine *(__cdecl *)())0x5CE150)())
 		return;
 	for (__int32 i = 0; i < 32; i++)
@@ -110,8 +108,6 @@ void CForgeDeviceManager::InitializeForNewMap() // 0x10860FE0
 
 void CForgeDeviceManager::Update() // 0x10861180
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeDeviceManager@@EAEXXZ");
-
 	if (!((c_game_engine *(__cdecl *)())0x5CE150)())
 		return;
 	bool (*const game_engine_in_round)() = reinterpret_cast<bool (*)()>(0x550F90);
@@ -136,8 +132,6 @@ void CForgeDeviceManager::Update() // 0x10861180
 
 void CForgeDeviceManager::InitializeDeviceObject(long objectIndex) // 0x10860F50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeDeviceObject@CForgeDeviceManager@@QAEXJ@Z");
-
 	UpdateDevice(objectIndex);
 
 	s_object_data *object = object_get(objectIndex);
@@ -152,8 +146,6 @@ void CForgeDeviceManager::InitializeDeviceObject(long objectIndex) // 0x10860F50
 
 bool CForgeDeviceManager::IsForgeDevice(long objectIndex) // 0x108610C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgeDevice@CForgeDeviceManager@@QAE_NJ@Z");
-
 	s_object_data *object = object_get(objectIndex);
 
 	if (!object)
@@ -179,8 +171,6 @@ bool CForgeDeviceManager::IsForgeDevice(long objectIndex) // 0x108610C0
 
 EForgeDeviceType CForgeDeviceManager::GetDeviceType(long objectIndex) // 0x10860DD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDeviceType@CForgeDeviceManager@@QAE?AW4EForgeDeviceType@@J@Z");
-
 	s_device_data *device = (s_device_data *)object_get(objectIndex);
 	if (device)
 	{
@@ -207,8 +197,6 @@ EForgeDeviceType CForgeDeviceManager::GetDeviceType(long objectIndex) // 0x10860
 
 void UpdateDevice(unsigned long objectIndex) // 0x10861320
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateDevice@@YAXK@Z");
-
 	void (*const simulation_action_object_update)(long, unsigned long long *) = reinterpret_cast<void (*)(long, unsigned long long *)>(0x4B3010);
 	s_device_data *device = (s_device_data *)object_get(objectIndex);
 	if (!device)

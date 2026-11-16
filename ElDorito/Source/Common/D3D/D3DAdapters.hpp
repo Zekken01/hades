@@ -65,8 +65,6 @@ namespace Common
 	{
 		inline bool operator<(Common::D3DAdapters::DisplayMode const &lhs, Common::D3DAdapters::DisplayMode const &rhs) // 0x10687350
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??MD3DAdapters@Common@@YA_NABUDisplayMode@01@0@Z");
-
 			if (lhs.adapterIndex != rhs.adapterIndex)
 				return lhs.adapterIndex < rhs.adapterIndex;
 
@@ -78,8 +76,6 @@ namespace Common
 
 		inline bool operator==(Common::D3DAdapters::DisplayMode const &lhs, Common::D3DAdapters::DisplayMode const &rhs) // 0x10687070
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??8D3DAdapters@Common@@YA_NABUDisplayMode@01@0@Z");
-
 			return lhs.adapterIndex == rhs.adapterIndex && lhs.width == rhs.width && lhs.height == rhs.height;
 		}
 	}

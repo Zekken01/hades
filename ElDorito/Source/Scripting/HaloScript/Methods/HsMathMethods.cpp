@@ -91,8 +91,6 @@ namespace Scripting
 			{
 				void RegisterMethods(Scripting::HS::ScriptMethodMap &methods) // 0x106807C0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterMethods@Math@Methods@HS@Scripting@@YAXAAVScriptMethodMap@34@@Z");
-
 					methods.AddMethod("math_sine", "Math operation for Sine", NetworkSafe, hs_math_sine_evaluate, _hs_type_real, { { _hs_type_real, "input", "input" } });
 					methods.AddMethod("math_cosine", "Math operation for cosine", NetworkSafe, hs_math_cosine_evaluate, _hs_type_real, { { _hs_type_real, "input", "input" } });
 					methods.AddMethod("math_tangent", "Math operation for tangent", NetworkSafe, hs_math_tangent_evaluate, _hs_type_real, { { _hs_type_real, "input", "input" } });
@@ -209,8 +207,6 @@ void hs_math_floor_evaluate(short op, long thread_index, bool initial) // 0x1068
 
 void hs_math_modulus_evaluate(short op, long thread_index, bool initial) // 0x106818A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_math_modulus_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -230,8 +226,6 @@ void hs_math_modulus_evaluate(short op, long thread_index, bool initial) // 0x10
 
 void hs_math_floating_modulus_evaluate(short op, long thread_index, bool initial) // 0x10681630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_math_floating_modulus_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{

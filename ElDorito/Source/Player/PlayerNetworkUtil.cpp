@@ -89,8 +89,6 @@ namespace Player
 	{
 		s_player_datum *get_player_from_session_index(__int32 player_session_index) // 0x106D7FD0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_from_session_index@PlayerNetworkUtil@Player@@YAPAUs_player_datum@@H@Z");
-
 			if (player_session_index == -1)
 				return nullptr;
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
@@ -110,8 +108,6 @@ namespace Player
 
 		long get_player_datum_index_from_session_index(__int32 player_session_index) // 0x106D7E80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_datum_index_from_session_index@PlayerNetworkUtil@Player@@YAJH@Z");
-
 			if (player_session_index == -1)
 				return -1;
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
@@ -132,8 +128,6 @@ namespace Player
 
 		long get_session_player_index_from_player_datum_index(long player_datum_index) // 0x106D8150
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?get_session_player_index_from_player_datum_index@PlayerNetworkUtil@Player@@YAJJ@Z");
-
 			if (player_datum_index == -1)
 				return -1;
 

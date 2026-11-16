@@ -84,20 +84,15 @@ namespace Patches
 	{
 		inline InputContext::~InputContext() // 0x10C91D90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1InputContext@Input@Patches@@UAE@XZ");
 		}
 
 		inline void InputContext::InputBlock() // 0x10C940B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InputBlock@InputContext@Input@Patches@@UAEXXZ");
-
 			memset((void *)0x238DBEB, 1, 3);
 		}
 
 		inline void InputContext::InputUnblock() // 0x10C94180
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InputUnblock@InputContext@Input@Patches@@UAEXXZ");
-
 			memset((bool *)0x238DBEB, 0, 3);
 		}
 	}

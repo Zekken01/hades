@@ -59,22 +59,16 @@ using namespace ::Utils;
 
 bool c_mod_cache_tag_remapper::is_valid() const // 0x1089B630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?is_valid@c_mod_cache_tag_remapper@@QBE_NXZ");
-
 	return m_valid;
 }
 
 long c_mod_cache_tag_remapper::get_runtime_tag_count() const // 0x1089B280
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_runtime_tag_count@c_mod_cache_tag_remapper@@QBEJXZ");
-
 	return m_runtime_tag_count;
 }
 
 long c_mod_cache_tag_remapper::get_mod_tag_index(long runtime_index) const // 0x1089B0E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_mod_tag_index@c_mod_cache_tag_remapper@@QBEJJ@Z");
-
 	std::unordered_map<long,long> const &map = m_runtime_tag_index_to_mod_tag_index;
 	if (std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<long const ,long> > > > it = map.find(runtime_index); it != std::end(map))
 		return it->second;
@@ -83,8 +77,6 @@ long c_mod_cache_tag_remapper::get_mod_tag_index(long runtime_index) const // 0x
 
 long c_mod_cache_tag_remapper::get_runtime_tag_index(long mod_index) const // 0x1089B2B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_runtime_tag_index@c_mod_cache_tag_remapper@@QBEJJ@Z");
-
 	std::unordered_map<long,long> const &map = m_mod_tag_index_to_runtime_index;
 	if (std::_List_const_iterator<std::_List_val<std::_List_simple_types<std::pair<long const ,long> > > > it = map.find(mod_index); it != std::end(map))
 		return it->second;
@@ -94,7 +86,6 @@ long c_mod_cache_tag_remapper::get_runtime_tag_index(long mod_index) const // 0x
 #line 108
 bool c_mod_cache_tag_remapper::initialize(c_cache_file_tag_cache *base_cache) // 0x1089B450
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_mod_cache_tag_remapper@@QAE_NPAVc_cache_file_tag_cache@@@Z");
 #line 117
 
 	reset();
@@ -119,7 +110,6 @@ bool c_mod_cache_tag_remapper::initialize(c_cache_file_tag_cache *base_cache) //
 
 bool c_mod_cache_tag_remapper::add_mod(c_cache_file_tag_cache const *mod_cache) // 0x1089A150
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?add_mod@c_mod_cache_tag_remapper@@QAE_NPBVc_cache_file_tag_cache@@@Z");
 #line 155
 
 	if (!m_valid)
@@ -167,8 +157,6 @@ bool c_mod_cache_tag_remapper::add_mod(c_cache_file_tag_cache const *mod_cache) 
 
 void c_mod_cache_tag_remapper::reset() // 0x1089BA60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?reset@c_mod_cache_tag_remapper@@QAEXXZ");
-
 	m_valid = false;
 	m_runtime_tag_count = 0;
 	m_mod_tag_index_to_runtime_index.clear();

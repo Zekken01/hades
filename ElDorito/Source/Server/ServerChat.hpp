@@ -106,13 +106,10 @@ namespace Server
 	{
 		inline ChatMessage::ChatMessage() // 0x10C1B1B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0ChatMessage@Chat@Server@@QAE@XZ");
-
 		}
 
 		inline ChatHandler::~ChatHandler() // 0x10C9C540
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??1ChatHandler@Chat@Server@@UAE@XZ");
 		}
 	}
 }

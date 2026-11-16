@@ -159,8 +159,6 @@ namespace Modules
 {
 	ModuleVoting::ModuleVoting() : ModuleBase("Voting") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x106D5100
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleVoting@Modules@@QAE@XZ");
-
 		VarVotingJsonPath = AddVariableString("JsonPath", "voting_json_path", "Voting Json Path", CommandFlags(eCommandFlagsHostOnly | eCommandFlagsArchived), "data/server/voting.json");
 		AddCommand("ReloadJson", "reload_voting_json", "Manually Reloads Json", eCommandFlagsHostOnly, ReloadJson);
 		AddCommand("CancelVote", "cancelvote", "Cancels the vote", eCommandFlagsHostOnly, CommandServerCancelVote);
@@ -210,8 +208,6 @@ namespace Modules
 
 bool ReloadJson(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x106D6110
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadJson@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool loadFileFromDisc = true;
 	if (Arguments.size() == 1)
 	{
@@ -232,8 +228,6 @@ bool ReloadJson(std::vector<std::string> const &Arguments, std::string &returnIn
 
 bool VarVotingSystemUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x106D6210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VarVotingSystemUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
 	if (!session || !session->IsEstablished() || !session->IsHost())
 		return true;
@@ -257,8 +251,6 @@ bool VarVotingSystemUpdated(std::vector<std::string> const &Arguments, std::stri
 
 bool CommandServerCancelVote(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x106D5F80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandServerCancelVote@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (!ElDorito::Instance().IsDedicated())
 	{
 		Web::Ui::Voting::Hide();

@@ -119,8 +119,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x108DC8C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@PlayerControl@Patches@@YAXXZ");
-
 			Hook(0x139B20, player_find_nearby_interactions_hook).Apply();
 			Hook(0x139900, player_find_nearby_items_hook).Apply();
 			Hook(0x1D49DF, player_control_update_player_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -136,15 +134,11 @@ namespace Patches
 
 bool sphere_intersects_sphere(real_point3d const &c0, float r0, real_point3d const &c1, float r1) // 0x108DD9A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?sphere_intersects_sphere@@YA_NABUreal_point3d@@M0M@Z");
-
 	return distance_squared3d(&c0, &c1) <= (r0 + r1) * (r0 + r1);
 }
 
 void player_find_nearby_items_hook(long player_index) // 0x108DD6D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_nearby_items_hook@@YAXJ@Z");
-
 	void (*const player_examine_nearby_item)(long, long) = reinterpret_cast<void (*)(long, long)>(0x5394A0);
 	long unit_index = player_get(player_index)->unit_index;
 	if (unit_index != -1)
@@ -175,8 +169,6 @@ void player_find_nearby_items_hook(long player_index) // 0x108DD6D0
 
 void player_find_nearby_interactions_hook(long player_index, s_player_action_context *out_action_context) // 0x108DD0C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_nearby_interactions_hook@@YAXJPAUs_player_action_context@@@Z");
-
 	long k_base_object_filter = 0x2BBF;
 	out_action_context->interaction.object_index = -1;
 	out_action_context->melee_target_object_index = -1;
@@ -244,8 +236,6 @@ void player_find_nearby_interactions_hook(long player_index, s_player_action_con
 
 void player_control_update_player_hook(long player_index, long input_user_index, long controller_index, float world_delta, float game_delta) // 0x108DCFD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_update_player_hook@@YAXJJJMM@Z");
-
 	g_player_control_delta_msec = (long)(world_delta * 1000.0f);
 
 	const auto player_control_update_player = (void(*)(long, long, long, float, float))0x5D4BF0;
@@ -255,8 +245,6 @@ void player_control_update_player_hook(long player_index, long input_user_index,
 
 __declspec(naked) void player_control_zoom_hold_timer_fix1_hook() // 0x108DD080
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_zoom_hold_timer_fix1_hook@@YAXXZ");
-
 	__asm
 	{
 		cmp ax, 7FFFh
@@ -272,8 +260,6 @@ __declspec(naked) void player_control_zoom_hold_timer_fix1_hook() // 0x108DD080
 
 __declspec(naked) void player_control_zoom_hold_timer_fix2_hook() // 0x108DD0A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_zoom_hold_timer_fix2_hook@@YAXXZ");
-
 	__asm
 	{
 		cmp word ptr [edi + esi + 3D4h], 0FAh
@@ -284,8 +270,6 @@ __declspec(naked) void player_control_zoom_hold_timer_fix2_hook() // 0x108DD0A0
 
 __declspec(naked) void player_control_crouch_hold_timer_fix1_hook() // 0x108DCF80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_crouch_hold_timer_fix1_hook@@YAXXZ");
-
 	__asm
 	{
 		movsx eax, word ptr [esi + edx + 3CEh]
@@ -301,8 +285,6 @@ __declspec(naked) void player_control_crouch_hold_timer_fix1_hook() // 0x108DCF8
 
 __declspec(naked) void player_control_crouch_hold_timer_fix2_hook() // 0x108DCFB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_control_crouch_hold_timer_fix2_hook@@YAXXZ");
-
 	__asm
 	{
 		cmp word ptr [esi + edx + 3CEh], 0FAh

@@ -59,8 +59,6 @@ namespace Utils
 {
 	inline bool DewritoReader::IsValid() // 0x106C9270
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?IsValid@DewritoReader@Utils@@QAE_NXZ");
-
 		return m_isValid;
 	}
 }

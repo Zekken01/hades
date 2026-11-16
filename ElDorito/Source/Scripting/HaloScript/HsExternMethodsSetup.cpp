@@ -122,8 +122,6 @@ namespace Scripting
 	{
 		void ValidateExternScript(s_hs_script const *script, Scripting::HS::ScriptMethod const *method, std::vector<std::string> &errors) // 0x106EF0C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ValidateExternScript@HS@Scripting@@YAXPBUs_hs_script@@PBUScriptMethod@12@AAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@Z");
-
 			errors.clear();
 			if (script->parameters.count != method->parameters.size())
 				errors.push_back(std::format("Parameter count mismatch: {} <-> {}", reinterpret_cast<long const &>(script->parameters.count), (__int32)method->parameters.size()));
@@ -143,8 +141,6 @@ namespace Scripting
 
 		void InitializeMethodsForNewMap() // 0x106EED90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeMethodsForNewMap@HS@Scripting@@YAXXZ");
-
 			Scripting::HS::ScriptMethodMap &methodMap = Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();
 			std::vector<std::string> validationErrors;
 			s_scenario *scnr = global_scenario_get();

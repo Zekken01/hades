@@ -245,8 +245,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10AD0360
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Spectate@Patches@@YAXXZ");
-
 			Hook(0x32A8D6, GetObserverCameraSensitivityHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x1930FB, c_director__player_switch_update__object_get_ultimate_parent_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x192D80, c_director__player_switch_gui_create_or_update_hook).Apply();
@@ -261,8 +259,6 @@ namespace Patches
 
 void GetObserverCameraSensitivityHook(__int32 localPlayerIndex, float *sensitivity) // 0x10AD08C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetObserverCameraSensitivityHook@@YAXHPAM@Z");
-
 	auto& moduleInput = Modules::ModuleInput::Instance();
 	auto& moduleSettings = Modules::ModuleSettings::Instance();
 	auto bindings = moduleInput.GetBindings();
@@ -286,15 +282,11 @@ void GetObserverCameraSensitivityHook(__int32 localPlayerIndex, float *sensitivi
 
 long c_director__player_switch_update__object_get_ultimate_parent_hook(long object_index) // 0x10AD0CF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_director__player_switch_update__object_get_ultimate_parent_hook@@YAJJ@Z");
-
 	return object_index;
 }
 
 void __fastcall c_director__player_switch_gui_create_or_update_hook(c_director *thisptr) // 0x10AD0AC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_director__player_switch_gui_create_or_update_hook@@YIXPAVc_director@@@Z");
-
 	if (((bool (*)(long))0x5523A0)(4))
 		return;
 	if (!((bool (*)())0x550F90)())
@@ -326,8 +318,6 @@ void __fastcall c_director__player_switch_gui_create_or_update_hook(c_director *
 
 long c_game_director__update_watched_player_when_unit_deleted_fix(long avoid_player_index, long starting_player_index, long a2, long direction, bool same_team, bool a6, bool a7, long *out_unit_index) // 0x10AD0D10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_game_director__update_watched_player_when_unit_deleted_fix@@YAJJJJJ_N00PAJ@Z");
-
 	void (__thiscall *const c_player_view__set_watched_player_index)(void *player_view, long player_index) = (void (__thiscall *)(void *, long))0x5934D0;
 	long (*const c_game_director__update_watched_player_when_unit_deleted)(long, long, long, long, bool, bool, bool, long *) = (long (*)(long, long, long, long, bool, bool, bool, long *))0x592A80;
 
@@ -345,8 +335,6 @@ long c_game_director__update_watched_player_when_unit_deleted_fix(long avoid_pla
 
 long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gui_list_item_widget *item) // 0x10AD1160
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_player_index_from_list_item@@YAJPAUc_observer_camera_list_screen@hades_file_local@@PAVc_gui_list_item_widget@@@Z");
-
 	struct s_player_info
 	{
 		long player_index;
@@ -370,8 +358,6 @@ long get_player_index_from_list_item(c_observer_camera_list_screen *screen, c_gu
 
 void __fastcall c_observer_camera_list_screen__update_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0E10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_observer_camera_list_screen__update_hook@@YIXPAUc_observer_camera_list_screen@hades_file_local@@PAXK@Z");
-
 	void (__thiscall *const c_observer_camera_list_screen__update)(c_observer_camera_list_screen *, unsigned long) = (void (__thiscall *)(c_observer_camera_list_screen *, unsigned long))0xABBB30;
 
 	if (*(bool *)((unsigned char *)thisptr + 0x111))
@@ -401,8 +387,6 @@ void __fastcall c_observer_camera_list_screen__update_hook(c_observer_camera_lis
 
 void __fastcall c_observer_camera_list_screen__update_render_state_hook(c_observer_camera_list_screen *thisptr, void *__formal, unsigned long milliseconds) // 0x10AD0F40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_observer_camera_list_screen__update_render_state_hook@@YIXPAUc_observer_camera_list_screen@hades_file_local@@PAXK@Z");
-
 	void (__thiscall *const update_render_state)(c_gui_widget *, unsigned long) = reinterpret_cast<void (__thiscall *)(c_gui_widget *, unsigned long)>(0xABB1A0);
 	update_render_state(thisptr, milliseconds);
 	if (!thisptr->focused_widget)

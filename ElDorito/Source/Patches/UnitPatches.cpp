@@ -165,8 +165,6 @@ namespace Utils
 
 bool unit_compute_function_value_hook(long unit_index, unsigned long function_name, long definition_index, float *out_value, bool *out_value_valid, bool *a6) // 0x106A2E70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_compute_function_value_hook@@YA_NJKJPAMPA_N1@Z");
-
 	bool (*const unit_compute_function_value)(long, unsigned long, long, float *, bool *, bool *) = reinterpret_cast<bool (*)(long, unsigned long, long, float *, bool *, bool *)>(0xB3DA70);
 	if (function_name == 0x9C65 || function_name == 0x9C66)
 	{
@@ -192,8 +190,6 @@ bool unit_compute_function_value_hook(long unit_index, unsigned long function_na
 
 void unit_action_assassinate_event_hook(long mover_index, e_action action_type, c_flags<enum e_animation_frame_event_types,unsigned long> frame_events) // 0x106A28A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_action_assassinate_event_hook@@YAXJW4e_action@@V?$c_flags@W4e_animation_frame_event_types@@K@@@Z");
-
 	if (frame_events.test(_animation_frame_event_drop_weapon_key))
 	{
 		s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(mover_index, 0x2003);
@@ -228,8 +224,6 @@ void unit_action_assassinate_event_hook(long mover_index, e_action action_type, 
 
 void unit_action_assassinate_finished_hook(__int32 mover_index, e_action action_type) // 0x106A2C30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_action_assassinate_finished_hook@@YAXHW4e_action@@@Z");
-
 	void (*const unit_action_assassinate_finished)(long, e_action) = (void (*const)(long, e_action))0xb841b0;
 	s_game_time_globals *time_globals = game_time_get_globals();
 
@@ -244,8 +238,6 @@ void unit_action_assassinate_finished_hook(__int32 mover_index, e_action action_
 
 void unit_action_assassinate_interrupted_hook(long mover_index, e_action action_type) // 0x106A2D50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_action_assassinate_interrupted_hook@@YAXJW4e_action@@@Z");
-
 	void (*const unit_action_assassinate_interrupted)(long, e_action) = (void (*const)(long, e_action))0xb84300;
 	s_game_time_globals *time_globals = game_time_get_globals();
 
@@ -260,8 +252,6 @@ void unit_action_assassinate_interrupted_hook(long mover_index, e_action action_
 
 void unit_update_assassination_events(long unit_index) // 0x106A32F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_assassination_events@@YAXJ@Z");
-
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	if (unit->assassination_event_flags.test(_assassination_event_reset))
 	{
@@ -279,8 +269,6 @@ void unit_update_assassination_events(long unit_index) // 0x106A32F0
 
 void unit_update_vision_mode_hook(long unit_index) // 0x106A3D40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_vision_mode_hook@@YAXJ@Z");
-
 	void (__cdecl *const unit_update_vision_mode)(long) = (void(__cdecl *const)(long))0xb4c4a0;
 
 	unit_update_vision_mode(unit_index);
@@ -289,8 +277,6 @@ void unit_update_vision_mode_hook(long unit_index) // 0x106A3D40
 
 void unit_update_target_tracking_hook(long unit_index) // 0x106A3C00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unit_update_target_tracking_hook@@YAXJ@Z");
-
 	void (__cdecl *const unit_update_target_tracking)(long) = (void(__cdecl *const)(long))0xb4c260;
 
 	unit_update_target_aiming(unit_index);
@@ -303,8 +289,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x106A11F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Unit@Patches@@YAXXZ");
-
 			Hook(0x7BC67A, giant_object_early_mover_delete_early_mover_childern_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x72D4E0, object_detach_predicted_objects_hook).Apply();
 			Pointer(0x194809C).Write(unit_compute_function_value_hook);
@@ -328,8 +312,6 @@ namespace Patches
 
 extern "C" void unit_send_message_to_first_person_ho_hook(long unit_index, e_unit_messages message) // 0x106A31B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_unit_send_message_to_first_person_ho_hook");
-
 	if (Utils::Singleton<Modules::ModuleSettings>::Instance().VarFpJumpLandAnimationsDisabled->ValueInt != 1)
 	{
 		return;
@@ -350,8 +332,6 @@ extern "C" void unit_send_message_to_first_person_ho_hook(long unit_index, e_uni
 
 extern "C" void unit_update_target_pivot_aiming(long unit_index, long ultimate_weapon_control_unit_index) // 0x106A3630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_unit_update_target_pivot_aiming");
-
 	bool (*const player_aim_projectile)(long, s_aim_assist_targeting_result *, long, long, bool, real_point3d *, real_point3d *, real_vector3d *) = (bool (*)(long, s_aim_assist_targeting_result *, long, long, bool, real_point3d *, real_point3d *, real_vector3d *))0x58EA50;
 	long (*const weapon_get_effect_object_index)(long) = (long (*)(long))0xB62B20;
 	long (*const weapon_barrel_get_marker_name)(long, long) = (long (*)(long, long))0xB606D0;
@@ -388,8 +368,6 @@ extern "C" void unit_update_target_pivot_aiming(long unit_index, long ultimate_w
 
 extern "C" void unit_update_target_aiming(long unit_index) // 0x106A34B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_unit_update_target_aiming");
-
 	static long (*const unit_get_ultimate_weapon_control_unit_index)(long) = reinterpret_cast<long (*)(long)>(0xB44600);
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	s_unit_definition *unit_definiton = (s_unit_definition *)tag_get('unit', unit->definition_index);
@@ -407,8 +385,6 @@ extern "C" void unit_update_target_aiming(long unit_index) // 0x106A34B0
 
 extern "C" void __fastcall c_tracked_target__update_internal_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_object *target_object, s_unit_target_tracking_block *tracking_parameters, long behavior) // 0x106A2030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "@c_tracked_target__update_internal_hook@20");
-
 	if (behavior == 2 && ((bool (__thiscall *)(c_aim_target_object *))0x589020)(target_object) && !((bool (__thiscall *)(c_tracked_target *, c_aim_target_object *))0xB74F30)(thisptr, target_object))
 	{
 		thisptr->state = 1;
@@ -496,8 +472,6 @@ extern "C" void __fastcall c_tracked_target__update_internal_hook(c_tracked_targ
 
 extern "C" void unit_update_team_index_hook(long unit_index) // 0x106A3C70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_unit_update_team_index_hook");
-
 	long (*const game_engine_team_designator_to_team_index)(long) = reinterpret_cast<long (*)(long)>(0x556950);
 	s_unit_data *unit = object_get<s_unit_data>(unit_index);
 	if (unit->map_variant_index != -1)
@@ -511,8 +485,6 @@ extern "C" void unit_update_team_index_hook(long unit_index) // 0x106A3C70
 
 extern "C" long unit_get_last_associated_weak_player_index_for_appearance(long unit_index) // 0x106A3030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_unit_get_last_associated_weak_player_index_for_appearance");
-
 	s_unit_data *unit = (s_unit_data *)object_try_and_get_and_verify_type(unit_index, 0x2003);
 	if (!unit)
 		return -1;
@@ -536,8 +508,6 @@ extern "C" long unit_get_last_associated_weak_player_index_for_appearance(long u
 
 extern "C" bool __fastcall c_tracked_target__set_from_weapon_fire_event_hook(c_tracked_target *thisptr, void *__formal, c_aim_target_simulation_entity *aim_target, s_unit_target_tracking_block *tracking_parameters) // 0x106A1FB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "@c_tracked_target__set_from_weapon_fire_event_hook@16");
-
 	if (eldorado::c_aim_target_simulation_entity_setup(aim_target, &thisptr->aim_target))
 	{
 		return true;
@@ -550,8 +520,6 @@ extern "C" bool __fastcall c_tracked_target__set_from_weapon_fire_event_hook(c_t
 
 extern "C" void giant_object_early_mover_delete_early_mover_childern_hook(long object_index) // 0x106A2680
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_giant_object_early_mover_delete_early_mover_childern_hook");
-
 	if (game_is_distributed() && ((bool (*)())0x531d70)())
 	{
 	}
@@ -565,8 +533,6 @@ extern "C" void giant_object_early_mover_delete_early_mover_childern_hook(long o
 
 extern "C" void object_detach_predicted_objects_hook(__int32 object_index) // 0x106A2720
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_object_detach_predicted_objects_hook");
-
 	long (*const find_first_predicted_object_recursive)(long) = reinterpret_cast<long (*)(long)>(0xB286C0);
 	void (*const object_type_detach_from_parent)(long) = reinterpret_cast<void (*)(long)>(0xB735A0);
 	void (*const object_detach_immediate)(long) = reinterpret_cast<void (*)(long)>(0xB2D2C0);

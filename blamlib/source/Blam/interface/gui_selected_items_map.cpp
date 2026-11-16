@@ -52,8 +52,6 @@ extern bool (*const levels_try_and_get_multiplayer_map)(long, s_level_datum *); 
 
 c_gui_map_category_datasource::c_gui_map_category_datasource(wchar_t const *recent_maps_item_name, wchar_t const *recent_maps_item_description, wchar_t const *file_share_item_name, wchar_t const *file_share_item_description) // 0x10F1C5C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_gui_map_category_datasource@@QAE@PB_W000@Z");
-
 	memset(&m_items, 0, sizeof(m_items));
 	((wchar_t *(*)(wchar_t *, wchar_t const *, long))0x4ECCD0)(m_recent_item_name, recent_maps_item_name, 48);
 	((wchar_t *(*)(wchar_t *, wchar_t const *, long))0x4ECCD0)(m_recent_item_description, recent_maps_item_description, 256);
@@ -65,8 +63,6 @@ c_gui_map_category_datasource::c_gui_map_category_datasource(wchar_t const *rece
 
 bool c_gui_map_category_datasource::initialize(unsigned long name) // 0x10F1CEF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_gui_map_category_datasource@@UAE_NK@Z");
-
 	if (!c_gui_data::initialize(name))
 		return false;
 	long map_ids[100];
@@ -94,7 +90,6 @@ bool c_gui_map_category_datasource::initialize(unsigned long name) // 0x10F1CEF0
 #line 115
 void c_gui_map_category_datasource::get_column_names(unsigned long *names, long *out_name_count) // 0x10F1C900
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_column_names@c_gui_map_category_datasource@@UAEXPAKPAJ@Z");
 #line 119
 
 	#line 117 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui_selected_items_map.cpp"
@@ -109,7 +104,6 @@ void c_gui_map_category_datasource::get_column_names(unsigned long *names, long 
 
 bool c_gui_map_category_datasource::get_integer_value(long element_handle, unsigned long name, long *value) // 0x10F1CAD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_integer_value@c_gui_map_category_datasource@@UAE_NJKPAJ@Z");
 #line 134
 
 	#line 132 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui_selected_items_map.cpp"
@@ -141,7 +135,6 @@ bool c_gui_map_category_datasource::get_integer_value(long element_handle, unsig
 
 bool c_gui_map_category_datasource::get_text_value(long element_handle, unsigned long name, wchar_t (&value)[1024]) // 0x10F1CD80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_text_value@c_gui_map_category_datasource@@UAE_NJKAAY0EAA@_W@Z");
 #line 168
 
 	#line 164 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui_selected_items_map.cpp"
@@ -165,7 +158,6 @@ bool c_gui_map_category_datasource::get_text_value(long element_handle, unsigned
 
 _inline bool c_gui_map_category_datasource::get_string_id_value(long element_handle, unsigned long name, unsigned long *value) // 0x10F1CCE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_string_id_value@c_gui_map_category_datasource@@UAE_NJKPAK@Z");
 #line 192
 
 	#line 190 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\interface\\gui_selected_items_map.cpp"
@@ -182,8 +174,6 @@ _inline bool c_gui_map_category_datasource::get_string_id_value(long element_han
 
 _inline long c_gui_map_category_datasource::get_current_item_count_internal() // 0x10F1CA10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_current_item_count_internal@c_gui_map_category_datasource@@MAEJXZ");
-
 	return m_item_count;
 }
 

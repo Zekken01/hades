@@ -88,16 +88,12 @@ namespace Server
 	{
 		void Init() // 0x10B1AB70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@DedicatedServer@Server@@YAXXZ");
-
 			Blam::Network::SetLobbyType(2);
 			needToSetMode = true;
 		}
 
 		void Tick() // 0x10B1ABC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@DedicatedServer@Server@@YAXXZ");
-
 			if (!needToSetMode)
 			{
 				if (Blam::Network::GetLobbyType() != 2)

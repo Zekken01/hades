@@ -125,8 +125,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10ACA2A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Scoreboard@Patches@@YAXXZ");
-
 			// Scoreboard hooks
 			Hook(0x301A47, GLScoreboardPlayerAllocatorHook).Apply();
 			Hook(0x2F8ED7, GLScoreboardPlayerConstructorHook).Apply();
@@ -154,8 +152,6 @@ namespace Patches
 
 __int32 GetUtf16Length(char16_t const *str, __int32 maxLength) // 0x10ACAF70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetUtf16Length@@YAHPB_SH@Z");
-
 	__int32 length = 0;
 	while (length < maxLength && str[length])
 	{
@@ -166,8 +162,6 @@ __int32 GetUtf16Length(char16_t const *str, __int32 maxLength) // 0x10ACAF70
 
 PlayerNameString *GetPlayerName(s_player_datum *playerData, __int32 index) // 0x10ACADA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerName@@YAPAUPlayerNameString@hades_file_local@@PAUs_player_datum@@H@Z");
-
 	if (index == -1)
 		return nullptr;
 	void *(*Allocate)(unsigned __int32) = reinterpret_cast<void *(*)(unsigned __int32)>(0xD874A0);
@@ -199,8 +193,6 @@ PlayerNameString *GetPlayerName(s_player_datum *playerData, __int32 index) // 0x
 
 __declspec(naked) void GLScoreboardPlayerAllocatorHook() // 0x10ACAD50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GLScoreboardPlayerAllocatorHook@@YAXXZ");
-
 	__asm
 	{
 		push 88h
@@ -212,8 +204,6 @@ __declspec(naked) void GLScoreboardPlayerAllocatorHook() // 0x10ACAD50
 
 __declspec(naked) void GLScoreboardPlayerConstructorHook() // 0x10ACAD70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GLScoreboardPlayerConstructorHook@@YAXXZ");
-
 	__asm
 	{
 		push esi
@@ -230,8 +220,6 @@ __declspec(naked) void GLScoreboardPlayerConstructorHook() // 0x10ACAD70
 
 __declspec(naked) void ScoreboardUpdateHook() // 0x10ACAFC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ScoreboardUpdateHook@@YAXXZ");
-
 	__asm
 	{
 		movzx eax, word ptr [ebp - 3Ch]

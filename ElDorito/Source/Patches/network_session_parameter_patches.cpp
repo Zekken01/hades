@@ -104,23 +104,16 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-// mangled_x86(MANGLED_DEFAULT, "??0c_network_session_parameter_base@@QAE@XZ"); no body to assert in
 _inline c_network_session_parameter_base::c_network_session_parameter_base() = default; // 0x10AA88D0
 
 void network__session_parameter_types_register_hook(c_network_session_parameter_type_collection *collection) // 0x10AA8F20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?network__session_parameter_types_register_hook@@YAXPAVc_network_session_parameter_type_collection@@@Z");
-
 	((void (__cdecl *)(c_network_session_parameter_type_collection *))0x4db5f0)(collection);
 	collection->register_session_parameter_type(_network_session_parameter_type_mod, g_session_mod_parameter_name, network_sesison_parameter_eldewrito_encode, network_sesison_parameter_eldewrito_decode, 0x15, network_sesison_parameter_eldewrito_encode, network_sesison_parameter_eldewrito_decode, 0x15);
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0c_network_session_parameter_mod@@QAE@XZ"); no body to assert in
-
 void network_session_parameter_patches_apply() // 0x10AA90D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?network_session_parameter_patches_apply@@YAXXZ");
-
 	Hook(0x5CB01, c_network_session_parameters__initialize_parameters_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 	Hook(0x9E325, network__session_parameter_types_register_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 }
@@ -129,8 +122,6 @@ void network_session_parameter_patches_apply() // 0x10AA90D0
 
 void __fastcall c_network_session_parameters__initialize_parameters_hook(c_network_session_parameters *thisptr, void *unused, c_network_session *session, c_network_observer *observer) // 0x10AA8A80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_network_session_parameters__initialize_parameters_hook@@YIXPAVc_network_session_parameters@@PAXPAVc_network_session@@PAVc_network_observer@@@Z");
-
 	((void(__thiscall *)(c_network_session_parameters *, c_network_session *, c_network_observer *))0x48a960)(thisptr, session, observer);
 	c_network_session_parameter_mod *parameter = &g_session_mod_parameters[session->get_index()];
 	parameter->initialize(_network_session_parameter_type_mod, g_session_mod_parameter_name, 0, 0, session);
@@ -139,8 +130,6 @@ void __fastcall c_network_session_parameters__initialize_parameters_hook(c_netwo
 
 bool network_sesison_parameter_eldewrito_encode(c_bitstream *bitstream, void *data) // 0x10AA9040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?network_sesison_parameter_eldewrito_encode@@YA_NPAVc_bitstream@@PAX@Z");
-
 	Blam::BitStream *bitstream_ = (Blam::BitStream *)bitstream;
 	s_session_mod_options *data_ = (s_session_mod_options *)data;
 
@@ -155,8 +144,6 @@ bool network_sesison_parameter_eldewrito_encode(c_bitstream *bitstream, void *da
 
 bool network_sesison_parameter_eldewrito_decode(c_bitstream *bitstream, void *data) // 0x10AA8FB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?network_sesison_parameter_eldewrito_decode@@YA_NPAVc_bitstream@@PAX@Z");
-
 	Blam::BitStream *bitstream_ = (Blam::BitStream *)bitstream;
 	s_session_mod_options *data_ = (s_session_mod_options *)data;
 

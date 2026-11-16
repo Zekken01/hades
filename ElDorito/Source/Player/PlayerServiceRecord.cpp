@@ -191,8 +191,6 @@ namespace Player
 	{
 		unsigned long __stdcall GetServiceRecord_Thread(void *lpParam) // 0x106C73A0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetServiceRecord_Thread@ServiceRecord@Player@@YGKPAX@Z");
-
 			ServiceRecordPlayer playerRecord = currentDesiredRecord;
 			if (!ValidNetworkPlayerIndex(playerRecord.networkPlayerIndex))
 				return 0;
@@ -350,17 +348,10 @@ namespace Player
 			return 0;
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@ABU012@@Z"); no body to assert in
 		// PlayerTopMedals::PlayerTopMedals(::Player::ServiceRecord::PlayerTopMedals const &__that) = default; // 0x106C5D30  // hades: implicit (aggregate)
 
-		// mangled_x86(MANGLED_DEFAULT, "??0PlayerTopMedals@ServiceRecord@Player@@QAE@XZ"); no body to assert in
-
-		// mangled_x86(MANGLED_DEFAULT, "??0ServiceRecord@0Player@@QAE@ABU001@@Z"); no body to assert in
 		// implicit copy constructor (aggregate); emitted through getCachedServiceRecord // 0x106C5E40
 
-		// mangled_x86(MANGLED_DEFAULT, "??0ServiceRecord@0Player@@QAE@XZ"); no body to assert in
-
-		// mangled_x86(MANGLED_DEFAULT, "??0ServiceRecordPlayer@ServiceRecord@Player@@QAE@XZ"); no body to assert in
 		// _inline ServiceRecordPlayer::ServiceRecordPlayer() // 0x106C6170  // hades: implicit now; networkPlayerIndex's member initializer does this
 		// {
 		// 	networkPlayerIndex = -1;
@@ -368,49 +359,36 @@ namespace Player
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1HttpRequest@@QAE@XZ"); no body to assert in
 _inline HttpRequest::~HttpRequest() = default; // 0x106C63A0
 
 namespace Player
 {
 	namespace ServiceRecord
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??1PlayerTopMedals@ServiceRecord@Player@@QAE@XZ"); no body to assert in
 		// PlayerTopMedals::~PlayerTopMedals() = default; // 0x106C6410  // hades: implicit (aggregate)
 
-		// mangled_x86(MANGLED_DEFAULT, "??1ServiceRecord@0Player@@QAE@XZ"); no body to assert in
 		// implicit destructor // 0x106C6460
 
-		// mangled_x86(MANGLED_DEFAULT, "??4PlayerTopMedals@ServiceRecord@Player@@QAEAAU012@$$QAU012@@Z"); no body to assert in
 		// ::Player::ServiceRecord::PlayerTopMedals &PlayerTopMedals::operator=(::Player::ServiceRecord::PlayerTopMedals &&__that) noexcept = default; // 0x106C6610  // hades: implicit (aggregate)
 
-		// mangled_x86(MANGLED_DEFAULT, "??4PlayerTopMedals@ServiceRecord@Player@@QAEAAU012@ABU012@@Z"); no body to assert in
 		// ::Player::ServiceRecord::PlayerTopMedals &PlayerTopMedals::operator=(::Player::ServiceRecord::PlayerTopMedals const &__that) = default; // 0x106C6690  // hades: implicit (aggregate)
 
-		// mangled_x86(MANGLED_DEFAULT, "??4ServiceRecord@0Player@@QAEAAU001@$$QAU001@@Z"); no body to assert in
 		// implicit move assignment // 0x106C6710
 
-		// mangled_x86(MANGLED_DEFAULT, "??4ServiceRecord@0Player@@QAEAAU001@ABU001@@Z"); no body to assert in
 		// implicit copy assignment // 0x106C6890
 
 		::Player::ServiceRecord::ServiceRecord getCachedServiceRecord(__int32 networkPlayerIndex) // 0x106CA2C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?getCachedServiceRecord@ServiceRecord@Player@@YA?AU112@H@Z");
-
 			return hades_file_local::ServiceRecords[networkPlayerIndex];
 		}
 
 		void clearCache() // 0x106CA000
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?clearCache@ServiceRecord@Player@@YAXXZ");
-
 			clearCachedServiceRecords();
 		}
 
 		void requestPlayerServiceRecord(__int32 networkPlayerIndex) // 0x106CAB50
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?requestPlayerServiceRecord@ServiceRecord@Player@@YAXH@Z");
-
 			if (!ValidNetworkPlayerIndex(networkPlayerIndex))
 				return;
 			if (threadActive)
@@ -441,8 +419,6 @@ namespace Player
 
 void GetServiceRecordEndpoint() // 0x106C7200
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetServiceRecordEndpoint@@YAXXZ");
-
 	if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 		return;
 	auto json = Utils::Singleton<Utils::DewritoReader>::Instance().GetDewritoJson();
@@ -456,15 +432,11 @@ void GetServiceRecordEndpoint() // 0x106C7200
 
 static bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x106C9A30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ValidNetworkPlayerIndex@@YA_NH@Z");
-
 	return networkPlayerIndex >= 0 && networkPlayerIndex < 16;
 }
 
 std::wstring processNumber(__int32 num) // 0x106CA7E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?processNumber@@YA?AV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@H@Z");
-
 	std::ostringstream oss;
 	if (num < 1000)
 		oss << num << "x";
@@ -483,8 +455,6 @@ std::wstring processNumber(__int32 num) // 0x106CA7E0
 
 void clearCachedServiceRecords() // 0x106CA040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?clearCachedServiceRecords@@YAXXZ");
-
 	for (__int32 i = 0; i < 16; i++)
 		hades_file_local::ServiceRecords[i] = {};
 }

@@ -149,8 +149,6 @@ namespace Patches
 	{
 		__int32 ExpandRuntimeStateGlobals() // 0x10A8AF90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandRuntimeStateGlobals@Memory@Patches@@YAHXZ");
-
 			const unsigned __int32 origRuntimeGlobalsSize = 0x380000;
 			unsigned __int32 extraSize = 0;
 
@@ -181,8 +179,6 @@ namespace Patches
 
 		__int32 ExpandGameStateGlobals() // 0x10A8AB70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandGameStateGlobals@Memory@Patches@@YAHXZ");
-
 			unsigned __int32 subAllocation4ExtraSize = 0;
 			unsigned __int32 oldCachedObjectRenderStatesCount = 384;
 			unsigned __int32 newCachedObjectRenderStatesCount = 1000;
@@ -242,13 +238,10 @@ namespace Patches
 
 		void ExpandRenderGlobals() // 0x10A8AF70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandRenderGlobals@Memory@Patches@@YAXXZ");
 		}
 
 		void ExpandMainGlobalMemoryMap() // 0x10A8AEC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ExpandMainGlobalMemoryMap@Memory@Patches@@YAXXZ");
-
 			auto &gameModule = Modules::ModuleGame::Instance();
 
 			__int32 size = ExpandGameStateGlobals() + ExpandRuntimeStateGlobals();
@@ -263,15 +256,11 @@ namespace Patches
 
 		void OnMapLoadCallback(char const *mapName) // 0x10A8B140
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoadCallback@Memory@Patches@@YAXPBD@Z");
-
 			c_debug_game_state_allocation::end();
 		}
 
 		void ApplyAll() // 0x10A8A510
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Memory@Patches@@YAXXZ");
-
 			Patch(0x103354, 0x90, 5).Apply();
 			Patch(0x77970, { 0xC3 }).Apply();
 			Patch(0x77930, { 0xC3 }).Apply();
@@ -282,8 +271,6 @@ namespace Patches
 
 		void ApplyAfterInit() // 0x10A8A4D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAfterInit@Memory@Patches@@YAXXZ");
-
 			Patches::Memory::ExpandMainGlobalMemoryMap();
 		}
 	}
@@ -293,8 +280,6 @@ namespace Patches
 
 _inline void c_debug_game_state_allocation::record_allocation(long allocation_type, char const *name, char const *type, unsigned long size) // 0x10A8B7F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?record_allocation@c_debug_game_state_allocation@hades_file_local@@SAXJPBD0K@Z");
-
 	if (!m_enabled || !m_fp)
 		return;
 
@@ -314,8 +299,6 @@ _inline void c_debug_game_state_allocation::record_allocation(long allocation_ty
 
 _inline void c_debug_game_state_allocation::begin(unsigned long memory_total) // 0x10A8B180
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?begin@c_debug_game_state_allocation@hades_file_local@@SAXK@Z");
-
 	if (!m_enabled || fopen_s(&m_fp, "gamestate.txt", "w"))
 		return;
 
@@ -332,8 +315,6 @@ _inline void c_debug_game_state_allocation::begin(unsigned long memory_total) //
 
 _inline void c_debug_game_state_allocation::end() // 0x10A8B460
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?end@c_debug_game_state_allocation@hades_file_local@@SAXXZ");
-
 	if (!m_enabled || !m_fp)
 		return;
 	fprintf(m_fp, "% 44s,% 24s", "FINAL", "RESERVED_SIZE");
@@ -364,8 +345,6 @@ _inline void c_debug_game_state_allocation::end() // 0x10A8B460
 
 void physical_memory_initialize_hook() // 0x10A8B650
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?physical_memory_initialize_hook@@YAXXZ");
-
 	c_physical_memory_manager::initialize(physicalMemorySize);
 
 	void *physical_memory_base_address = c_physical_memory_manager::get_base_address();
@@ -391,7 +370,6 @@ void physical_memory_initialize_hook() // 0x10A8B650
 #line 449
 long __fastcall c_restricted_memory__add_member_hook(c_restricted_memory *thisptr, void *unused, char const *name, char const *type, unsigned long size_in_bytes, unsigned char alignment_bits, void *allocate_function, void *update_function, void *free_function) // 0x10A8B310
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_restricted_memory__add_member_hook@@YIJPAUc_restricted_memory@@PAXPBD2KE111@Z");
 #line 463
 
 	long (__thiscall *const add_member_impl)(c_restricted_memory *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *) = reinterpret_cast<long (__thiscall *)(c_restricted_memory *, char const *, char const *, unsigned long, unsigned char, void *, void *, void *)>(0x65DF00);

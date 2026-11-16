@@ -214,15 +214,11 @@ namespace Player
 {
 	bool CPlayersInfo::IsAvailable() // 0x107EE670
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?IsAvailable@CPlayersInfo@Player@@SA_NXZ");
-
 		return isAvailable;
 	}
 
 	bool GetRankedUpRecently() // 0x107EE500
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRankedUpRecently@Player@@YA_NXZ");
-
 		__int32 localPeer = Blam::Network::GetActiveSession()->MembershipInfo.LocalPeerIndex;
 		__int32 localPlayerIdx = Blam::Network::GetActiveSession()->MembershipInfo.GetPeerPlayer(localPeer);
 
@@ -238,8 +234,6 @@ namespace Player
 {
 	std::string CPlayersInfo::GeneratePlayerInfo() // 0x107EE0C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GeneratePlayerInfo@CPlayersInfo@Player@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		rapidjson::StringBuffer jsonBuffer;
 		rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
 		jsonWriter.StartObject();
@@ -272,8 +266,6 @@ namespace Player
 
 	void ClearRankUp() // 0x107EDE50
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ClearRankUp@Player@@YAXXZ");
-
 		for (__int32 i = 0; i < 16; i++)
 		{
 			infoCache[i].rankup = false;
@@ -282,8 +274,6 @@ namespace Player
 
 	__int32 CPlayersInfo::GetRank(__int32 networkPlayerIndex) // 0x107EE480
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRank@CPlayersInfo@Player@@SAHH@Z");
-
 		if (!ValidNetworkPlayerIndex(networkPlayerIndex))
 		{
 			return 0;
@@ -299,8 +289,6 @@ namespace Player
 
 	__int32 CPlayersInfo::GetSkill(__int32 networkPlayerIndex) // 0x107EE590
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSkill@CPlayersInfo@Player@@SAHH@Z");
-
 		if (!ValidNetworkPlayerIndex(networkPlayerIndex))
 		{
 			return 0;
@@ -320,8 +308,6 @@ namespace Player
 {
 	std::string getLocalEmblem(__int32 networkPlayerIndex) // 0x107EF4E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?getLocalEmblem@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-
 		c_network_session *session;
 		if (!network_session_interface_get_squad_session(&session) || !session->established())
 			return "";
@@ -342,7 +328,6 @@ namespace Player
 {
 	std::string CPlayersInfo::GeEmblemUrl(__int32 networkPlayerIndex) // 0x107EDEA0
 	{
-		mangled_x86(MANGLED_TODO, "?GeEmblemUrl@CPlayersInfo@Player@@SA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
 		if (!ValidNetworkPlayerIndex(networkPlayerIndex))
 			return "";
 		SPlayerInfo cached = infoCache[networkPlayerIndex];
@@ -355,8 +340,6 @@ namespace Player
 
 	void CPlayersInfo::Update(std::string const &payload) // 0x107EE980
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CPlayersInfo@Player@@SAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		ClearCache();
 		rapidjson::Document json;
 		if (json.Parse<0>(payload.c_str()).HasParseError() || !json.IsObject() || payload == "{}")
@@ -414,8 +397,6 @@ namespace Player
 
 	void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x107EE690
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@Player@@YAXW4LifeCycleState@Network@Blam@@@Z");
-
 		Blam::Network::Session *session = Blam::Network::GetActiveSession();
 		if (!session || !session->IsEstablished())
 			return;
@@ -437,15 +418,11 @@ namespace Player
 
 	void CPlayersInfo::Init() // 0x107EE610
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@CPlayersInfo@Player@@SAXXZ");
-
 		Patches::Network::OnLifeCycleStateChanged(Player::LifeCycleStateChanged);
 	}
 
 	void CPlayersInfo::Tick() // 0x107EE750
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@CPlayersInfo@Player@@SAXXZ");
-
 		static bool (*IsMapLoading)() = (bool (*)())0x5670E0;
 		Blam::Network::Session *session = Blam::Network::GetActiveSession();
 		long long curTime1;
@@ -484,16 +461,12 @@ bool ValidNetworkPlayerIndex(__int32 networkPlayerIndex) // 0x107EEF90
 
 void ClearCache() // 0x107EDCB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ClearCache@@YAXXZ");
-
 	for (__int32 i = 0; i < 16; i++)
 		infoCache[i] = {};
 }
 
 void ClearEmblemCache() // 0x107EDD90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ClearEmblemCache@@YAXXZ");
-
 	for (__int32 i = 0; i < 16; i++)
 		localEmblemCache[i] = {};
 }

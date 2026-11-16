@@ -137,8 +137,6 @@ c_static_bit_vector<32> c_tag_resource_stream_task::m_used_packets; // 0x118F4E8
 
 long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_size, c_async_completion_flag *completed) // 0x10854430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_resource_stream_async@@YAJJPAXJPAUc_async_completion_flag@@@Z");
-
 	bool (__thiscall *const get_page)(void *, __int32, __int32, s_indirect_cache_file_page *) = *reinterpret_cast<bool (__thiscall **)(void *, __int32, __int32, s_indirect_cache_file_page *)>(0x1658634);
 	s_cache_file_resource_shared_file *(__thiscall *const get_shared_file_handle)(void *, e_cache_file_tag_resource_location) = reinterpret_cast<s_cache_file_resource_shared_file *(__thiscall *)(void *, e_cache_file_tag_resource_location)>(0x561520);
 	void *resource_runtime_manager = *reinterpret_cast<void **>(0x23916C8);
@@ -164,20 +162,15 @@ long tag_resource_stream_async(long resource_handle, void *buffer, long buffer_s
 
 /* ---------- private code */
 
-// mangled_x86(MANGLED_DEFAULT, "??0c_tag_resource_stream_task@hades_file_local@@QAE@XZ"); no body to assert in
 _inline c_tag_resource_stream_task::c_tag_resource_stream_task() = default; // 0x10853DB0
 
 _inline bool c_tag_resource_stream_task::s_packet::is_filled() const // 0x10854290
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?is_filled@s_packet@c_tag_resource_stream_task@hades_file_local@@QBE_NXZ");
-
 	return overlapped.InternalHigh >= length;
 }
 
 _inline void c_tag_resource_stream_task::initialize(void *file_handle, unsigned long file_offset, unsigned long compressed_size, unsigned long uncompressed_size, void *buffer, unsigned long buffer_size, c_async_completion_flag *completion_flag) // 0x108541A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_tag_resource_stream_task@hades_file_local@@QAEXPAXKKK0KPAUc_async_completion_flag@@@Z");
-
 	m_file_handle = file_handle;
 	m_file_offset = file_offset;
 	m_compressed_size = compressed_size;
@@ -199,15 +192,11 @@ _inline void c_tag_resource_stream_task::initialize(void *file_handle, unsigned 
 
 _inline void c_tag_resource_stream_task::dispose() // 0x10854030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?dispose@c_tag_resource_stream_task@hades_file_local@@QAEXXZ");
-
 	block_allocator::get().free(m_block_buffer);
 }
 
 _inline long c_tag_resource_stream_task::next_free_packet_index() // 0x108542F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?next_free_packet_index@c_tag_resource_stream_task@hades_file_local@@QAEJXZ");
-
 	for (long i = 0; i < 32; i++)
 	{
 		if (!m_used_packets.test(i))
@@ -221,8 +210,6 @@ _inline long c_tag_resource_stream_task::next_free_packet_index() // 0x108542F0
 
 _inline bool c_tag_resource_stream_task::update() // 0x108547F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_tag_resource_stream_task@hades_file_local@@QAE_NXZ");
-
 	(void)((!!(m_initialized)) || (_wassert(L"m_initialized", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\tag_resource_streaming.cpp", 147), 0));
 	if (m_total_bytes_decompressed < m_uncompressed_size)
 	{
@@ -298,16 +285,12 @@ _inline bool c_tag_resource_stream_task::update() // 0x108547F0
 
 _inline void c_tag_resource_stream_task::abort(e_tag_resource_stream_abort_reason reason) // 0x10853E80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?abort@c_tag_resource_stream_task@hades_file_local@@QAEXW4e_tag_resource_stream_abort_reason@@@Z");
-
 	m_completion_flag->set_internal_data(reason);
 	m_aborted = true;
 }
 
 _inline e_async_completion c_tag_resource_stream_task::async_callback(c_tag_resource_stream_task *task) // 0x10853FD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?async_callback@c_tag_resource_stream_task@hades_file_local@@SA?AW4e_async_completion@@PAV12@@Z");
-
 	if (!task->update())
 	{
 		return _async_completion_none;

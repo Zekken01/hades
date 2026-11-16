@@ -10,7 +10,6 @@
 // complete as the program's own use of the template.
 
 #include "hades/static_assert.h"
-#include "hades/mangled_assert.h"
 #include "hades/reverse_engineering.h"
 
 #include <cctype>
@@ -853,8 +852,7 @@ public:
 // One definition per member, not per instantiation. The binary holds a
 // separate function at a separate address for every instantiation - 159 of
 // c_tag_block::try_get_element alone - but they are one template in the
-// source, so `mangled_prefix_assert` checks the part of the mangled name
-// they all share. Docs/Inventory/template-members.json keeps every address.
+// source. Docs/Inventory/template-members.json keeps every address.
 
 /* ---------- Patches::Network::PlayerPropertiesExtension members (2 instantiations folded) */
 
@@ -865,40 +863,30 @@ public:
 template<typename t_arg0>
 _inline void Patches::Network::PlayerPropertiesExtension<t_arg0>::BuildData(__int32 playerIndex, void *out)
 {
-	mangled_prefix_assert("?BuildData@?$PlayerPropertiesExtension@");
-
 	BuildData(playerIndex, static_cast<t_arg0 *>(out));
 }
 
 template<typename t_arg0>
 _inline void Patches::Network::PlayerPropertiesExtension<t_arg0>::ApplyData(__int32 playerIndex, s_player_configuration *properties, void const *data)
 {
-	mangled_prefix_assert("?ApplyData@?$PlayerPropertiesExtension@");
-
 	ApplyData(playerIndex, properties, *static_cast<t_arg0 const *>(data));
 }
 
 template<typename t_arg0>
 _inline void Patches::Network::PlayerPropertiesExtension<t_arg0>::Serialize(Blam::BitStream *stream, void const *data)
 {
-	mangled_prefix_assert("?Serialize@?$PlayerPropertiesExtension@");
-
 	Serialize(stream, *static_cast<t_arg0 const *>(data));
 }
 
 template<typename t_arg0>
 _inline void Patches::Network::PlayerPropertiesExtension<t_arg0>::Deserialize(Blam::BitStream *stream, void *out)
 {
-	mangled_prefix_assert("?Deserialize@?$PlayerPropertiesExtension@");
-
 	Deserialize(stream, static_cast<t_arg0 *>(out));
 }
 
 template<typename t_arg0>
 _inline unsigned __int32 Patches::Network::PlayerPropertiesExtension<t_arg0>::GetDataSize() const
 {
-	mangled_prefix_assert("?GetDataSize@?$PlayerPropertiesExtension@");
-
 	return sizeof(t_arg0);
 }
 
@@ -907,24 +895,18 @@ _inline unsigned __int32 Patches::Network::PlayerPropertiesExtension<t_arg0>::Ge
 template<typename t_arg0>
 _inline __int32 Patches::CustomPackets::PacketHandler<t_arg0>::GetMinRawPacketSize() const
 {
-	mangled_prefix_assert("?GetMinRawPacketSize@?$PacketHandler@");
-
 	return sizeof(Patches::CustomPackets::Packet<t_arg0>);
 }
 
 template<typename t_arg0>
 _inline __int32 Patches::CustomPackets::PacketHandler<t_arg0>::GetMaxRawPacketSize() const
 {
-	mangled_prefix_assert("?GetMaxRawPacketSize@?$PacketHandler@");
-
 	return sizeof(Patches::CustomPackets::Packet<t_arg0>);
 }
 
 template<typename t_arg0>
 _inline void Patches::CustomPackets::PacketHandler<t_arg0>::SerializeRawPacket(Blam::BitStream *stream, __int32 packetSize, void const *packet)
 {
-	mangled_prefix_assert("?SerializeRawPacket@?$PacketHandler@");
-
 	if (packetSize != sizeof(Patches::CustomPackets::Packet<t_arg0>))
 		return;
 
@@ -935,8 +917,6 @@ _inline void Patches::CustomPackets::PacketHandler<t_arg0>::SerializeRawPacket(B
 template<typename t_arg0>
 _inline bool Patches::CustomPackets::PacketHandler<t_arg0>::DeserializeRawPacket(Blam::BitStream *stream, __int32 packetSize, void *packet)
 {
-	mangled_prefix_assert("?DeserializeRawPacket@?$PacketHandler@");
-
 	if (packetSize != sizeof(Patches::CustomPackets::Packet<t_arg0>))
 		return false;
 
@@ -947,8 +927,6 @@ _inline bool Patches::CustomPackets::PacketHandler<t_arg0>::DeserializeRawPacket
 template<typename t_arg0>
 _inline void Patches::CustomPackets::PacketHandler<t_arg0>::HandleRawPacket(Blam::Network::ObserverChannel *sender, void const *packet)
 {
-	mangled_prefix_assert("?HandleRawPacket@?$PacketHandler@");
-
 	HandlePacket(sender, static_cast<Patches::CustomPackets::Packet<t_arg0> const *>(packet));
 }
 
@@ -957,24 +935,18 @@ _inline void Patches::CustomPackets::PacketHandler<t_arg0>::HandleRawPacket(Blam
 template<typename t_type>
 _inline t_type * c_tag_block<t_type>::begin()
 {
-	mangled_prefix_assert("?begin@?$c_tag_block@");
-
 	return &static_cast<t_type *>(address)[0];
 }
 
 template<typename t_type>
 _inline t_type * c_tag_block<t_type>::end()
 {
-	mangled_prefix_assert("?end@?$c_tag_block@");
-
 	return static_cast<t_type *>(address) + count;
 }
 
 template<typename t_type>
 _inline t_type * c_tag_block<t_type>::get_element(__int32 index) const
 {
-	mangled_prefix_assert("?get_element@?$c_tag_block@");
-
 	t_type *result = nullptr;
 	if (try_get_element(index, &result))
 	{
@@ -986,32 +958,24 @@ _inline t_type * c_tag_block<t_type>::get_element(__int32 index) const
 template<typename t_type>
 _inline t_type * c_tag_block<t_type>::operator->()
 {
-	mangled_prefix_assert("??C?$c_tag_block@");
-
 	return get_element(0);
 }
 
 template<typename t_type>
 _inline t_type & c_tag_block<t_type>::operator[](__int32 index)
 {
-	mangled_prefix_assert("??A?$c_tag_block@");
-
 	return *get_element(index);
 }
 
 template<typename t_type>
 _inline t_type const & c_tag_block<t_type>::operator[](__int32 index) const
 {
-	mangled_prefix_assert("??A?$c_tag_block@");
-
 	return *get_element(index);
 }
 
 template<typename t_type>
 _inline bool c_tag_block<t_type>::try_get_element(__int32 index, t_type **out_element) const
 {
-	mangled_prefix_assert("?try_get_element@?$c_tag_block@");
-
 	if (index < 0 || index >= count || out_element == nullptr)
 	{
 		return false;
@@ -1025,16 +989,12 @@ _inline bool c_tag_block<t_type>::try_get_element(__int32 index, t_type **out_el
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type>::c_enum()
 {
-	mangled_prefix_assert("??0?$c_enum@");
-
 	m_value = static_cast<t_storage_type>(0);
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type>::c_enum(t_storage_type const &value)
 {
-	mangled_prefix_assert("??0?$c_enum@");
-
 	m_value = value;
 }
 
@@ -1042,69 +1002,53 @@ template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type>::c_enum(t_type const &value) :
 	c_enum(static_cast<t_storage_type>(value))
 {
-	mangled_prefix_assert("??0?$c_enum@");
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type>::c_enum(c_enum const &other) :
 	c_enum(other.m_value)
 {
-	mangled_prefix_assert("??0?$c_enum@");
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type>::operator bool() const
 {
-	mangled_prefix_assert("??B?$c_enum@");
-
 	return m_value != 0;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type>::operator t_storage_type() const
 {
-	mangled_prefix_assert("??B?$c_enum@");
-
 	return m_value;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline bool c_enum<t_type, t_storage_type>::operator!=(t_storage_type const &other) const
 {
-	mangled_prefix_assert("??9?$c_enum@");
-
 	return !(*this == other);
 }
 
 template<typename t_type, typename t_storage_type>
 _inline bool c_enum<t_type, t_storage_type>::operator!=(t_type const &other) const
 {
-	mangled_prefix_assert("??9?$c_enum@");
-
 	return !(*this == other);
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type> c_enum<t_type, t_storage_type>::operator&(__int32 const other) const
 {
-	mangled_prefix_assert("??I?$c_enum@");
-
 	return c_enum(static_cast<t_storage_type>(m_value & other));
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type> c_enum<t_type, t_storage_type>::operator-(t_type const &other) const
 {
-	mangled_prefix_assert("??G?$c_enum@");
-
 	return c_enum(static_cast<t_storage_type>(m_value - other));
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type> & c_enum<t_type, t_storage_type>::operator=(t_storage_type const &other)
 {
-	mangled_prefix_assert("??4?$c_enum@");
-
 	m_value = other;
 	return *this;
 }
@@ -1112,8 +1056,6 @@ _inline c_enum<t_type, t_storage_type> & c_enum<t_type, t_storage_type>::operato
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type> & c_enum<t_type, t_storage_type>::operator=(t_type const &other)
 {
-	mangled_prefix_assert("??4?$c_enum@");
-
 	m_value = static_cast<t_storage_type>(other);
 	return *this;
 }
@@ -1121,8 +1063,6 @@ _inline c_enum<t_type, t_storage_type> & c_enum<t_type, t_storage_type>::operato
 template<typename t_type, typename t_storage_type>
 _inline c_enum<t_type, t_storage_type> & c_enum<t_type, t_storage_type>::operator=(c_enum const &other)
 {
-	mangled_prefix_assert("??4?$c_enum@");
-
 	m_value = other.m_value;
 	return *this;
 }
@@ -1130,24 +1070,18 @@ _inline c_enum<t_type, t_storage_type> & c_enum<t_type, t_storage_type>::operato
 template<typename t_type, typename t_storage_type>
 _inline bool c_enum<t_type, t_storage_type>::operator==(t_storage_type const &other) const
 {
-	mangled_prefix_assert("??8?$c_enum@");
-
 	return m_value == other;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline bool c_enum<t_type, t_storage_type>::operator==(t_type const &other) const
 {
-	mangled_prefix_assert("??8?$c_enum@");
-
 	return m_value == (t_storage_type)other;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline bool c_enum<t_type, t_storage_type>::operator>=(t_type const &other) const
 {
-	mangled_prefix_assert("??P?$c_enum@");
-
 	return m_value >= (t_storage_type)other;
 }
 
@@ -1156,16 +1090,12 @@ _inline bool c_enum<t_type, t_storage_type>::operator>=(t_type const &other) con
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type>::c_flags()
 {
-	mangled_prefix_assert("??0?$c_flags@");
-
 	m_value = static_cast<t_storage_type>(0);
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type>::c_flags(t_storage_type const &value)
 {
-	mangled_prefix_assert("??0?$c_flags@");
-
 	m_value = value;
 }
 
@@ -1173,54 +1103,41 @@ template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type>::c_flags(c_flags const &other) :
 	c_flags(other.m_value)
 {
-	mangled_prefix_assert("??0?$c_flags@");
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type>::operator bool() const
 {
-	mangled_prefix_assert("??B?$c_flags@");
-
 	return m_value != 0;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type>::operator t_storage_type() const
 {
-	mangled_prefix_assert("??B?$c_flags@");
-
 	return m_value;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline bool c_flags<t_type, t_storage_type>::operator!=(t_storage_type const &other) const
 {
-	mangled_prefix_assert("??9?$c_flags@");
-
 	return !(*this == other);
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type> c_flags<t_type, t_storage_type>::operator&(__int32 const other) const
 {
-	mangled_prefix_assert("??I?$c_flags@");
-
 	return c_flags(static_cast<t_storage_type>(m_value & (t_storage_type)other));
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type> c_flags<t_type, t_storage_type>::operator&(t_type const &other) const
 {
-	mangled_prefix_assert("??I?$c_flags@");
-
 	return c_flags(static_cast<t_storage_type>(m_value & other));
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::operator&=(__int32 const other)
 {
-	mangled_prefix_assert("??_4?$c_flags@");
-
 	m_value &= (t_storage_type)other;
 	return *this;
 }
@@ -1228,8 +1145,6 @@ _inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::opera
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::operator=(t_storage_type const &other)
 {
-	mangled_prefix_assert("??4?$c_flags@");
-
 	m_value = other;
 	return *this;
 }
@@ -1237,8 +1152,6 @@ _inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::opera
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::operator=(c_flags const &other)
 {
-	mangled_prefix_assert("??4?$c_flags@");
-
 	m_value = other.m_value;
 	return *this;
 }
@@ -1246,40 +1159,30 @@ _inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::opera
 template<typename t_type, typename t_storage_type>
 _inline bool c_flags<t_type, t_storage_type>::operator==(t_storage_type const &other) const
 {
-	mangled_prefix_assert("??8?$c_flags@");
-
 	return m_value == other;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline bool c_flags<t_type, t_storage_type>::operator==(t_type const &other) const
 {
-	mangled_prefix_assert("??8?$c_flags@");
-
 	return m_value == (t_storage_type)other;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline bool c_flags<t_type, t_storage_type>::operator>=(t_type const &other) const
 {
-	mangled_prefix_assert("??P?$c_flags@");
-
 	return m_value >= (t_storage_type)other;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type> c_flags<t_type, t_storage_type>::operator|(__int32 const other) const
 {
-	mangled_prefix_assert("??U?$c_flags@");
-
 	return c_flags(static_cast<t_storage_type>(m_value | (t_storage_type)other));
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::operator|=(__int32 const other)
 {
-	mangled_prefix_assert("??_5?$c_flags@");
-
 	m_value |= (t_storage_type)other;
 	return *this;
 }
@@ -1287,8 +1190,6 @@ _inline c_flags<t_type, t_storage_type> & c_flags<t_type, t_storage_type>::opera
 template<typename t_type, typename t_storage_type>
 _inline void c_flags<t_type, t_storage_type>::set(t_type bit, bool value)
 {
-	mangled_prefix_assert("?set@?$c_flags@");
-
 	if (value)
 	{
 		m_value |= 1 << bit;
@@ -1302,8 +1203,6 @@ _inline void c_flags<t_type, t_storage_type>::set(t_type bit, bool value)
 template<typename t_type, typename t_storage_type>
 _inline bool c_flags<t_type, t_storage_type>::test(t_type bit) const
 {
-	mangled_prefix_assert("?test@?$c_flags@");
-
 	return (m_value >> bit) & 1;
 }
 
@@ -1312,8 +1211,6 @@ _inline bool c_flags<t_type, t_storage_type>::test(t_type bit) const
 template<typename t_type>
 _inline t_type & Utils::Singleton<t_type>::Instance()
 {
-	mangled_prefix_assert("?Instance@?$Singleton@");
-
 	return m_instance ? *m_instance : *(m_instance = new t_type());
 }
 
@@ -1336,16 +1233,12 @@ _inline t_type * s_static_array<t_type, k_count>::end() const
 template<typename t_type, long k_count>
 _inline long s_static_array<t_type, k_count>::get_count()
 {
-	mangled_prefix_assert("?get_count@?$s_static_array@");
-
 	return k_count;
 }
 
 template<typename t_type, long k_count>
 _inline t_type * s_static_array<t_type, k_count>::get_elements()
 {
-	mangled_prefix_assert("?get_elements@?$s_static_array@");
-
 	return m_elements;
 }
 
@@ -1392,37 +1285,29 @@ _inline bool s_static_array<t_type, k_count>::valid(__int32 index)
 template<typename t_type, typename t_storage_type>
 _inline c_tag_block_index<t_type, t_storage_type>::c_tag_block_index(t_storage_type index)
 {
-	mangled_prefix_assert("??0?$c_tag_block_index@");
-
 	m_index = index;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_tag_block_index<t_type, t_storage_type>::c_tag_block_index() : c_tag_block_index(0)
 {
-	mangled_prefix_assert("??0?$c_tag_block_index@");
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_tag_block_index<t_type, t_storage_type>::c_tag_block_index(c_tag_block_index const &other) :
 	c_tag_block_index(other.m_index)
 {
-	mangled_prefix_assert("??0?$c_tag_block_index@");
 }
 
 template<typename t_type, typename t_storage_type>
 _inline c_tag_block_index<t_type, t_storage_type>::operator t_storage_type() const
 {
-	mangled_prefix_assert("??B?$c_tag_block_index@");
-
 	return m_index;
 }
 
 template<typename t_type, typename t_storage_type>
 _inline bool c_tag_block_index<t_type, t_storage_type>::operator==(t_storage_type other) const
 {
-	mangled_prefix_assert("??8?$c_tag_block_index@");
-
 	return m_index == other;
 }
 
@@ -1431,8 +1316,6 @@ _inline bool c_tag_block_index<t_type, t_storage_type>::operator==(t_storage_typ
 template<typename t_type>
 _inline c_data_iterator<t_type>::c_data_iterator(s_data_array *array)
 {
-	mangled_prefix_assert("??0?$c_data_iterator@");
-
 	this->array = array;
 	current_datum_index = -1;
 	current_index = -1;
@@ -1441,32 +1324,24 @@ _inline c_data_iterator<t_type>::c_data_iterator(s_data_array *array)
 template<typename t_type>
 _inline t_type & c_data_iterator<t_type>::next()
 {
-	mangled_prefix_assert("?next@?$c_data_iterator@");
-
 	return *reinterpret_cast<t_type *>(data_iterator_next(this));
 }
 
 template<typename t_type>
 _inline bool c_data_iterator<t_type>::operator!=(c_data_iterator const &rhs) const
 {
-	mangled_prefix_assert("??9?$c_data_iterator@");
-
 	return !(*this == rhs);
 }
 
 template<typename t_type>
 _inline t_type & c_data_iterator<t_type>::operator*()
 {
-	mangled_prefix_assert("??D?$c_data_iterator@");
-
 	return *operator->();
 }
 
 template<typename t_type>
 _inline c_data_iterator<t_type> & c_data_iterator<t_type>::operator++()
 {
-	mangled_prefix_assert("??E?$c_data_iterator@");
-
 	next();
 	return *this;
 }
@@ -1474,8 +1349,6 @@ _inline c_data_iterator<t_type> & c_data_iterator<t_type>::operator++()
 template<typename t_type>
 _inline t_type * c_data_iterator<t_type>::operator->()
 {
-	mangled_prefix_assert("??C?$c_data_iterator@");
-
 	// A function pointer in the shipped binary, not a function; declared here
 	// because this header is generated and only a body survives regeneration.
 	extern void *(__cdecl *const datum_try_and_get)(s_data_array const *, unsigned long);
@@ -1486,8 +1359,6 @@ _inline t_type * c_data_iterator<t_type>::operator->()
 template<typename t_type>
 _inline bool c_data_iterator<t_type>::operator==(c_data_iterator const &rhs) const
 {
-	mangled_prefix_assert("??8?$c_data_iterator@");
-
 	return array == rhs.array && current_index == rhs.current_index
 		&& current_datum_index == rhs.current_datum_index;
 }
@@ -1497,8 +1368,6 @@ _inline bool c_data_iterator<t_type>::operator==(c_data_iterator const &rhs) con
 template<typename t_type>
 _inline c_data_iterator<t_type> c_data_array<t_type>::begin()
 {
-	mangled_prefix_assert("?begin@?$c_data_array@");
-
 	c_data_iterator<t_type> result(this);
 	result.next();
 	return result;
@@ -1507,8 +1376,6 @@ _inline c_data_iterator<t_type> c_data_array<t_type>::begin()
 template<typename t_type>
 _inline unsigned long c_data_array<t_type>::delete_datum(unsigned long index)
 {
-	mangled_prefix_assert("?delete_datum@?$c_data_array@");
-
 	// Declared here rather than included: this header is generated, and a
 	// body is the only part of it that survives regeneration.
 	extern void (*const datum_delete)(s_data_array *, long);
@@ -1520,8 +1387,6 @@ _inline unsigned long c_data_array<t_type>::delete_datum(unsigned long index)
 template<typename t_type>
 _inline c_data_iterator<t_type> c_data_array<t_type>::end()
 {
-	mangled_prefix_assert("?end@?$c_data_array@");
-
 	c_data_iterator<t_type> result(this);
 	result.current_index = capacity;
 	return result;
@@ -1530,8 +1395,6 @@ _inline c_data_iterator<t_type> c_data_array<t_type>::end()
 template<typename t_type>
 _inline t_type * c_data_array<t_type>::get_absolute(long absolute_index)
 {
-	mangled_prefix_assert("?get_absolute@?$c_data_array@");
-
 	return reinterpret_cast<t_type *>(static_cast<char *>(address) + absolute_index * datum_size);
 }
 
@@ -1547,8 +1410,6 @@ _inline t_type * c_data_array<t_type>::try_and_get(unsigned long index)
 template<typename t_type>
 _inline t_type * c_data_array<t_type>::try_and_get_absolute(long absolute_index)
 {
-	mangled_prefix_assert("?try_and_get_absolute@?$c_data_array@");
-
 	extern void *(__cdecl *const datum_try_and_get_absolute)(s_data_array const *, unsigned long);
 	
 	return static_cast<t_type *>(datum_try_and_get_absolute(this, absolute_index));
@@ -1559,8 +1420,6 @@ _inline t_type * c_data_array<t_type>::try_and_get_absolute(long absolute_index)
 template<typename t_arg0, long t_arg1>
 _inline long s_simple_list<t_arg0, t_arg1>::add()
 {
-	mangled_prefix_assert("?add@?$s_simple_list@");
-
 	if (count >= max_count)
 		return -1;
 
@@ -1570,8 +1429,6 @@ _inline long s_simple_list<t_arg0, t_arg1>::add()
 template<typename t_arg0, long t_arg1>
 _inline t_arg0 * s_simple_list<t_arg0, t_arg1>::list_iterator_new(long *iterator, long starting_index)
 {
-	mangled_prefix_assert("?list_iterator_new@?$s_simple_list@");
-
 	*iterator = starting_index - 1;
 	return list_iterator_next(iterator);
 }
@@ -1579,7 +1436,6 @@ _inline t_arg0 * s_simple_list<t_arg0, t_arg1>::list_iterator_new(long *iterator
 template<typename t_arg0, long t_arg1>
 _inline t_arg0 * s_simple_list<t_arg0, t_arg1>::list_iterator_next(long *iterator)
 {
-	mangled_prefix_assert("?list_iterator_next@?$s_simple_list@");
 	if (*iterator >= count - 1)
 	{
 		*iterator = -1;
@@ -1603,8 +1459,6 @@ _inline t_arg0 * s_simple_list<t_arg0, t_arg1>::list_iterator_next(long *iterato
 template<long k_length>
 _inline char const * s_static_string<k_length>::append(char const *s)
 {
-	mangled_prefix_assert("?append@?$s_static_string@");
-
 	strncat(get_buffer(), s, k_length - length() - 1);
 
 	return get_buffer();
@@ -1613,8 +1467,6 @@ _inline char const * s_static_string<k_length>::append(char const *s)
 template<long k_length>
 _inline char const *__cdecl s_static_string<k_length>::append_print(char const *format, ...)
 {
-	mangled_prefix_assert("?append_print@?$s_static_string@");
-
 	va_list list;
 	va_start(list, format);
 	append_print_va(format, list);
@@ -1626,7 +1478,6 @@ _inline char const *__cdecl s_static_string<k_length>::append_print(char const *
 template<long k_length>
 _inline void s_static_string<k_length>::append_print_va(char const *format, char *va)
 {
-	mangled_prefix_assert("?append_print_va@?$s_static_string@");
 	long current_length = length();
 	char *end = get_buffer() + current_length;
 	if (end + current_length < &get_buffer()[k_length])
@@ -1636,32 +1487,24 @@ _inline void s_static_string<k_length>::append_print_va(char const *format, char
 template<long k_length>
 _inline char (&s_static_string<k_length>::get_buffer())[k_length]
 {
-	mangled_prefix_assert("?get_buffer@?$s_static_string@");
-
 	return m_buffer;
 }
 
 template<long k_length>
 _inline char const * s_static_string<k_length>::get_string() const
 {
-	mangled_prefix_assert("?get_string@?$s_static_string@");
-
 	return m_buffer;
 }
 
 template<long k_length>
 _inline long s_static_string<k_length>::length()
 {
-	mangled_prefix_assert("?length@?$s_static_string@");
-
 	return strnlen(m_buffer, k_length - 1);
 }
 
 template<long k_length>
 _inline char const *__cdecl s_static_string<k_length>::print(char const *format, ...)
 {
-	mangled_prefix_assert("?print@?$s_static_string@");
-
 	va_list list;
 	va_start(list, format);
 	print_va(format, list);
@@ -1673,24 +1516,18 @@ _inline char const *__cdecl s_static_string<k_length>::print(char const *format,
 template<long k_length>
 _inline void const s_static_string<k_length>::print_va(char const *format, char *va)
 {
-	mangled_prefix_assert("?print_va@?$s_static_string@");
-
 	vsnprintf(get_buffer(), k_length, format, va);
 }
 
 template<long k_length>
 _inline void s_static_string<k_length>::set(char const *s)
 {
-	mangled_prefix_assert("?set@?$s_static_string@");
-
 	csstrnzcpy(m_buffer, s, k_length);
 }
 
 template<long k_length>
 _inline void s_static_string<k_length>::set_wchar(wchar_t const *s)
 {
-	mangled_prefix_assert("?set_wchar@?$s_static_string@");
-
 	cswcstostr(s, get_buffer(), k_length);
 }
 
@@ -1699,8 +1536,6 @@ _inline void s_static_string<k_length>::set_wchar(wchar_t const *s)
 template<typename... t_args>
 _inline void CEventSink<t_args...>::PostEvent(t_args... args)
 {
-	mangled_prefix_assert("?PostEvent@?$CEventSink@");
-
 	for (auto &entry : m_callbacks)
 	{
 		entry.callback(std::forward<t_args>(args)...);
@@ -1710,8 +1545,6 @@ _inline void CEventSink<t_args...>::PostEvent(t_args... args)
 template<typename... t_args>
 _inline __int32 CEventSink<t_args...>::Subscribe(std::function<void __cdecl(t_args...) > const &callable)
 {
-	mangled_prefix_assert("?Subscribe@?$CEventSink@");
-
 	__int32 id = m_nextId.fetch_add(1);
 	m_callbacks.push_back({ callable, id });
 	return id;
@@ -1828,8 +1661,6 @@ _inline Utils::NameValueTable<t_arg0>::~NameValueTable()
 template<typename t_arg0>
 _inline bool Utils::NameValueTable<t_arg0>::FindName(t_arg0 value, std::string *result) const
 {
-	mangled_prefix_assert("?FindName@?$NameValueTable@");
-
 	auto it = valueNames.find(value);
 	if (it == valueNames.end())
 		return false;
@@ -1841,8 +1672,6 @@ _inline bool Utils::NameValueTable<t_arg0>::FindName(t_arg0 value, std::string *
 template<typename t_arg0>
 _inline bool Utils::NameValueTable<t_arg0>::FindValueIgnoreCase(std::string const &name, t_arg0 *result) const
 {
-	mangled_prefix_assert("?FindValueIgnoreCase@?$NameValueTable@");
-
 	auto lowercase = name;
 	std::transform(lowercase.begin(), lowercase.end(), lowercase.begin(), tolower);
 	auto it = valuesByLowercaseName.find(lowercase);
@@ -1856,8 +1685,6 @@ _inline bool Utils::NameValueTable<t_arg0>::FindValueIgnoreCase(std::string cons
 template<typename t_arg0>
 _inline Utils::NameValueTable<t_arg0>::NameValueTable(std::initializer_list<std::pair<std::string,t_arg0> > pairs)
 {
-	mangled_prefix_assert("??0?$NameValueTable@");
-
 	valuesInOrder.insert(valuesInOrder.begin(), pairs.begin(), pairs.end());
 	valuesByName.insert(pairs.begin(), pairs.end());
 	for (auto &&pair : pairs)
@@ -1872,16 +1699,12 @@ _inline Utils::NameValueTable<t_arg0>::NameValueTable(std::initializer_list<std:
 template<typename t_arg0>
 _inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > > Utils::NameValueTable<t_arg0>::begin() const
 {
-	mangled_prefix_assert("?begin@?$NameValueTable@");
-
 	return valuesInOrder.begin();
 }
 
 template<typename t_arg0>
 _inline std::_Vector_const_iterator<std::_Vector_val<std::_Simple_types<std::pair<std::string,t_arg0> > > > Utils::NameValueTable<t_arg0>::end() const
 {
-	mangled_prefix_assert("?end@?$NameValueTable@");
-
 	return valuesInOrder.end();
 }
 
@@ -1931,8 +1754,6 @@ _inline void Patches::CustomPackets::PacketSender<t_arg0>::Send(__int32 targetPe
 template<long k_count>
 _inline void c_static_bit_vector<k_count>::clear()
 {
-	mangled_prefix_assert("?clear@?$c_static_bit_vector@");
-
 	// Declared here rather than included: this header is generated.
 	extern void *csmemset(void *buffer, unsigned char value, unsigned long size);
 
@@ -1942,8 +1763,6 @@ _inline void c_static_bit_vector<k_count>::clear()
 template<long k_count>
 _inline void c_static_bit_vector<k_count>::set(long bit)
 {
-	mangled_prefix_assert("?set@?$c_static_bit_vector@");
-
 	// Declared here rather than included: this header is generated, and a body
 	// is the only part of it that survives regeneration.
 	extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
@@ -1958,8 +1777,6 @@ _inline void c_static_bit_vector<k_count>::set(long bit)
 template<long k_count>
 _inline void c_static_bit_vector<k_count>::set_all()
 {
-	mangled_prefix_assert("?set_all@?$c_static_bit_vector@");
-
 	// Declared here rather than included: this header is generated.
 	extern void *csmemset(void *buffer, unsigned char value, unsigned long size);
 
@@ -1969,8 +1786,6 @@ _inline void c_static_bit_vector<k_count>::set_all()
 template<long k_count>
 _inline bool c_static_bit_vector<k_count>::test(long bit)
 {
-	mangled_prefix_assert("?test@?$c_static_bit_vector@");
-
 	// Declared here rather than included: this header is generated, and a body
 	// is the only part of it that survives regeneration.
 	extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
@@ -1985,8 +1800,6 @@ _inline bool c_static_bit_vector<k_count>::test(long bit)
 template<long k_count>
 _inline void c_static_bit_vector<k_count>::unset(long bit)
 {
-	mangled_prefix_assert("?unset@?$c_static_bit_vector@");
-
 	// Declared here rather than included: this header is generated, and a body
 	// is the only part of it that survives regeneration.
 	extern void display_assert(char const *reason, char const *file, __int32 line, bool halt);
@@ -2001,8 +1814,6 @@ _inline void c_static_bit_vector<k_count>::unset(long bit)
 template<long k_count>
 _inline bool c_static_bit_vector<k_count>::valid_bit(long bit)
 {
-	mangled_prefix_assert("?valid_bit@?$c_static_bit_vector@");
-
 	return bit >= 0 && bit < k_count;
 }
 
@@ -2011,7 +1822,6 @@ _inline bool c_static_bit_vector<k_count>::valid_bit(long bit)
 template<typename t_arg0>
 _inline t_arg0 * HALO_LIST<t_arg0>::operator[](__int32 index)
 {
-	mangled_prefix_assert("??A?$HALO_LIST@");
 	// The original's assert carries a literal line (a header inline), so it is spelled out.
 	(void)((!!(index >= 0 && index < count)) || (_wassert(L"index >= 0 && index < count", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\sounds\\halo_sound_system.hpp", 178), 0));
 	return &elements[index];
@@ -2022,16 +1832,12 @@ _inline t_arg0 * HALO_LIST<t_arg0>::operator[](__int32 index)
 template<typename t_arg0>
 _inline t_arg0 * Ref<t_arg0>::Get() const
 {
-	mangled_prefix_assert("?Get@?$Ref@");
-
 	return p;
 }
 
 template<typename t_arg0>
 _inline Ref<t_arg0>::Ref()
 {
-	mangled_prefix_assert("??0?$Ref@");
-
 	p = nullptr;
 }
 
@@ -2047,8 +1853,6 @@ _inline Ref<t_arg0>::~Ref()
 template<typename t_arg0>
 _inline Ref<t_arg0>::Ref(t_arg0 *p_)
 {
-	mangled_prefix_assert("??0?$Ref@");
-
 	p = p_;
 	if (p)
 	{
@@ -2080,8 +1884,6 @@ _inline Ref<t_arg0>::Ref(Ref const &p_)
 template<typename t_arg0>
 _inline Ref<t_arg0>::Ref(Ref &p_)
 {
-	mangled_prefix_assert("??0?$Ref@");
-
 	p = p_.p;
 	p_.p = nullptr;
 }
@@ -2089,16 +1891,12 @@ _inline Ref<t_arg0>::Ref(Ref &p_)
 template<typename t_arg0>
 _inline t_arg0 * Ref<t_arg0>::operator->() const
 {
-	mangled_prefix_assert("??C?$Ref@");
-
 	return p;
 }
 
 template<typename t_arg0>
 _inline Ref<t_arg0> & Ref<t_arg0>::operator=(t_arg0 *newp)
 {
-	mangled_prefix_assert("??4?$Ref@");
-
 	if (newp)
 	{
 		newp->AddRef();
@@ -2116,8 +1914,6 @@ _inline Ref<t_arg0> & Ref<t_arg0>::operator=(t_arg0 *newp)
 template<typename t_arg0>
 _inline Ref<t_arg0> & Ref<t_arg0>::operator=(Ref const &newp)
 {
-	mangled_prefix_assert("??4?$Ref@");
-
 	if (newp.p)
 	{
 		newp.p->AddRef();
@@ -2213,30 +2009,23 @@ template<typename t_arg0, typename t_arg1>
 _inline Utils::WebSocket::Logger<t_arg0, t_arg1>::Logger(unsigned __int32 staticChannels, unsigned __int32 type)
 	: type_(type), staticChannels_(staticChannels), dynamicChannels_(0)
 {
-	mangled_prefix_assert("??0?$Logger@");
 }
 
 template<typename t_arg0, typename t_arg1>
 _inline void Utils::WebSocket::Logger<t_arg0, t_arg1>::clear_channels(unsigned __int32 channels)
 {
-	mangled_prefix_assert("?clear_channels@?$Logger@");
-
 	dynamicChannels_ &= ~channels;
 }
 
 template<typename t_arg0, typename t_arg1>
 _inline bool Utils::WebSocket::Logger<t_arg0, t_arg1>::dynamic_test(unsigned __int32 const channel)
 {
-	mangled_prefix_assert("?dynamic_test@?$Logger@");
-
 	return (dynamicChannels_ & channel) != 0;
 }
 
 template<typename t_arg0, typename t_arg1>
 _inline void Utils::WebSocket::Logger<t_arg0, t_arg1>::set_channels(unsigned __int32 channels)
 {
-	mangled_prefix_assert("?set_channels@?$Logger@");
-
 	if (channels == 0)
 	{
 		clear_channels(0xFFFFFFFF);
@@ -2248,24 +2037,18 @@ _inline void Utils::WebSocket::Logger<t_arg0, t_arg1>::set_channels(unsigned __i
 template<typename t_arg0, typename t_arg1>
 _inline bool Utils::WebSocket::Logger<t_arg0, t_arg1>::static_test(unsigned __int32 channel) const
 {
-	mangled_prefix_assert("?static_test@?$Logger@");
-
 	return (staticChannels_ & channel) != 0;
 }
 
 template<typename t_arg0, typename t_arg1>
 _inline void Utils::WebSocket::Logger<t_arg0, t_arg1>::write(unsigned __int32 channel, std::string const &msg)
 {
-	mangled_prefix_assert("?write@?$Logger@");
-
 	write(channel, msg.c_str());
 }
 
 template<typename t_arg0, typename t_arg1>
 _inline void Utils::WebSocket::Logger<t_arg0, t_arg1>::write(unsigned __int32 channel, char const *msg)
 {
-	mangled_prefix_assert("?write@?$Logger@");
-
 	// hades: Utils::LogTypes is only forward-declared here, so the enumerators are cast
 	// (Network = 2, Trace = 1).
 	if (dynamic_test(channel))
@@ -2277,8 +2060,6 @@ _inline void Utils::WebSocket::Logger<t_arg0, t_arg1>::write(unsigned __int32 ch
 template<typename t_arg0, typename t_arg1>
 _inline c_tag_block_flags<t_arg0, t_arg1>::operator t_arg1() const
 {
-	mangled_prefix_assert("??B?$c_tag_block_flags@");
-
 	return m_flags;
 }
 
@@ -2381,8 +2162,6 @@ _inline void c_custom_network_session_parameter<t_arg0>::notify_transition_state
 template<typename t_arg0>
 _inline c_custom_network_session_parameter<t_arg0>::c_custom_network_session_parameter()
 {
-	mangled_prefix_assert("??0?$c_custom_network_session_parameter@");
-
 	m_update_priority = 0;
 	m_writeable = -1;
 	m_session = nullptr;
@@ -2393,8 +2172,6 @@ _inline c_custom_network_session_parameter<t_arg0>::c_custom_network_session_par
 template<typename t_arg0>
 _inline void c_custom_network_session_parameter<t_arg0>::initialize(e_network_session_parameter_type type, char const *name, long priority, long writeable, c_network_session *session)
 {
-	mangled_prefix_assert("?initialize@?$c_custom_network_session_parameter@");
-
 	m_type = type;
 	m_name = (void *)name;
 	m_session = session;
@@ -2582,7 +2359,6 @@ _inline void Patches::CustomPackets::VariadicPacketHandler<t_arg0, t_arg1>::Hand
 template<typename t_arg0>
 _inline t_arg0 & hkArray<t_arg0>::operator[](__int32 i)
 {
-	mangled_prefix_assert("??A?$hkArray@");
 	// The original's assert carries a literal line (a header inline), so it is spelled out.
 	(void)((!!(i >= 0 && i < m_size)) || (_wassert(L"i >= 0 && i < m_size", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\physics\\havok_types.hpp", 160), 0));
 	return m_data[i];

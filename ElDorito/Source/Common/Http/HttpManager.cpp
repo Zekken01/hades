@@ -64,16 +64,12 @@ namespace Http
 {
 	void CHttpManager::AddRequest(std::shared_ptr<Http::IHttpRequest> request) // 0x108001A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AddRequest@CHttpManager@Http@@QAEXV?$shared_ptr@VIHttpRequest@Http@@@std@@@Z");
-
 		std::scoped_lock<std::mutex> lock(m_mutex);
 		m_activeRequests.push_back(request);
 	}
 
 	bool CHttpManager::RemoveRequest(std::shared_ptr<Http::IHttpRequest> request) // 0x10800620
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?RemoveRequest@CHttpManager@Http@@QAE_NV?$shared_ptr@VIHttpRequest@Http@@@std@@@Z");
-
 		std::scoped_lock<std::mutex> lock(m_mutex);
 		if (auto it = std::find(std::begin(m_activeRequests), std::end(m_activeRequests), request); it != std::end(m_activeRequests))
 		{
@@ -89,8 +85,6 @@ namespace Http
 {
 	std::shared_ptr<Http::IHttpRequest> CHttpManager::LockRequest(Http::IHttpRequest *request) // 0x10800460
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?LockRequest@CHttpManager@Http@@QAE?AV?$shared_ptr@VIHttpRequest@Http@@@std@@PAVIHttpRequest@2@@Z");
-
 		std::scoped_lock<std::mutex> lock(m_mutex);
 		for (std::shared_ptr<Http::IHttpRequest> &req : m_activeRequests)
 		{
@@ -102,8 +96,6 @@ namespace Http
 
 	void CHttpManager::CancelAllRequests() // 0x108002C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?CancelAllRequests@CHttpManager@Http@@QAEXXZ");
-
 		std::unique_lock<std::mutex> lock(m_mutex);
 		std::vector<std::shared_ptr<Http::IHttpRequest> > list = m_activeRequests;
 		lock.unlock();

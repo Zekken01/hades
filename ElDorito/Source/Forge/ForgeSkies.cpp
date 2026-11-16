@@ -150,18 +150,10 @@ namespace hades_file_local
 using namespace hades_file_local;
 /* ---------- public code */
 
-// mangled_x86(MANGLED_DEFAULT, "??0c_object_identifier@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_multiplayer_object_properties_definition@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_object_placement_data@@QAE@XZ"); no body to assert in
-
 namespace Forge
 {
 	void CForgeSkies::InitializeForNewMap() // 0x1067DE20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeSkies@Forge@@SAXXZ");
-
 		state = {};
 		if (!forge_globals_get_definition())
 			return;
@@ -184,8 +176,6 @@ namespace Forge
 
 	void CForgeSkies::Update(long modifierObjectIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x1067EB10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeSkies@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
-
 		s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 		if (!forge_globals->skies.count)
 			return;
@@ -233,8 +223,6 @@ namespace Forge
 
 	void CForgeSkies::HandleMapModifierDeleted() // 0x1067DBE0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeSkies@Forge@@SAXXZ");
-
 		if (!IsActive())
 			return;
 		s_scenario *scenario = global_scenario_get();
@@ -258,8 +246,6 @@ namespace Forge
 
 	bool CForgeSkies::IsActive() // 0x1067E1C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?IsActive@CForgeSkies@Forge@@SA_NXZ");
-
 		return GetForgeSky() != nullptr;
 	}
 }
@@ -268,8 +254,6 @@ namespace Forge
 
 unsigned long FindObjectByName(e_object_type type, short name) // 0x1067DA10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindObjectByName@@YAKW4e_object_type@@F@Z");
-
 	if (name == -1)
 		return -1;
 	c_data_array<s_object_header> *object_headers = object_headers_get();
@@ -283,8 +267,6 @@ unsigned long FindObjectByName(e_object_type type, short name) // 0x1067DA10
 
 s_forge_sky_definition *GetForgeSky() // 0x1067DB40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetForgeSky@@YAPAUs_forge_sky_definition@@XZ");
-
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	if (state.SkyIndex < 0 || state.SkyIndex >= forge_globals->skies.count)
 	{
@@ -296,8 +278,6 @@ s_forge_sky_definition *GetForgeSky() // 0x1067DB40
 
 void ReplaceForgeSkyScenery(long newSceneryTagIndex) // 0x1067E7D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ReplaceForgeSkyScenery@@YAXJ@Z");
-
 	s_scenario *scenario = global_scenario_get();
 	for (s_scenario_sky_reference &skyRef : scenario->skies)
 	{
@@ -333,8 +313,6 @@ void ReplaceForgeSkyScenery(long newSceneryTagIndex) // 0x1067E7D0
 
 void ReplaceForgeSky(s_forge_sky_definition *desiredSky) // 0x1067E230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ReplaceForgeSky@@YAXPAUs_forge_sky_definition@@@Z");
-
 	s_scenario *scenario = global_scenario_get();
 	c_data_array<s_screen_effect_datum> *screenEffects = tls_getd().screen_effects;
 	if (scenario->default_screen_fx.index != -1)

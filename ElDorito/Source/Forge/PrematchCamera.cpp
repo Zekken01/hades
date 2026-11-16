@@ -96,8 +96,6 @@ namespace Forge
 	{
 		long FindCameraObjectForTeamDesignator(short team_designator) // 0x10956360
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindCameraObjectForTeamDesignator@PrematchCamera@Forge@@YAJF@Z");
-
 			s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 			if (!forge_globals)
 				return -1;
@@ -118,8 +116,6 @@ namespace Forge
 
 		void PlaceCameraObject(short team) // 0x10956500
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PlaceCameraObject@PrematchCamera@Forge@@YAXF@Z");
-
 			unsigned __int32 (__thiscall *const spawn_object)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short) = (unsigned __int32 (__thiscall *)(s_map_variant *, long, long, long, real_point3d const *, real_vector3d const *, real_vector3d const *, long, long, s_map_variant_placement_properties const *, unsigned short))0x582110;
 			void (*const game_engine_sandbox_update_variant_object_properties)(long, long, s_map_variant_placement_properties const *) = (void (*)(long, long, s_map_variant_placement_properties const *))0x59B720;
 			long player_index = eldorado::player_mapping_get_player_by_input_user(0);
@@ -154,15 +150,11 @@ namespace Forge
 
 		bool IsForgePrematchCameraDisabled() // 0x109564E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?IsForgePrematchCameraDisabled@PrematchCamera@Forge@@YA_NXZ");
-
 			return prematchCameraDisabled;
 		}
 
 		void SetForgePrematchCameraDisabled(bool disabled) // 0x10956820
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetForgePrematchCameraDisabled@PrematchCamera@Forge@@YAX_N@Z");
-
 			prematchCameraDisabled = disabled;
 		}
 	}

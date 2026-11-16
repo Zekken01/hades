@@ -151,8 +151,6 @@ using namespace hades_file_local;
 
 bool s_single_screen_effect_definition::is_visible(float time_alive_seconds, long attach_object_index, long output_user_index) // 0x107C1E60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?is_visible@s_single_screen_effect_definition@@QAE_NMJJ@Z");
-
 	if (flags.test(_debug_disable_bit))
 		return false;
 	if (lifetime > 0.0f && (delay >= time_alive_seconds || time_alive_seconds > delay + lifetime))
@@ -172,8 +170,6 @@ bool s_single_screen_effect_definition::is_visible(float time_alive_seconds, lon
 
 float s_single_screen_effect_definition::evaluate_falloff(float distance, float angle, float time_alive, long attach_object_index, long output_user_index, float *out_t) // 0x107C1920
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?evaluate_falloff@s_single_screen_effect_definition@@QAEMMMMJJPAM@Z");
-
 	if (!((unsigned short)flags & 0x21) && distance > maximum_distance)
 		return 0.0f;
 	float t = time_alive;
@@ -201,8 +197,6 @@ float s_single_screen_effect_definition::evaluate_falloff(float distance, float 
 
 void s_screen_effect_settings::set_defaults() // 0x107C3A70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_defaults@s_screen_effect_settings@@QAEXXZ");
-
 	exposure_boost = 0.0f;
 	exposure_deboost = 0.0f;
 	hue_left = 0.0f;
@@ -228,8 +222,6 @@ void s_screen_effect_settings::set_defaults() // 0x107C3A70
 
 void s_screen_effect_settings::accumulate_settings(s_screen_effect_settings const *settings, real_vector3d const *camera_to_effect, float falloff) // 0x107C10F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?accumulate_settings@s_screen_effect_settings@@QAEXPBU1@PBUreal_vector3d@@M@Z");
-
 	falloff = fminf(fmaxf(falloff, 0.0f), 1.0f);
 	exposure_boost = fmaxf(exposure_boost, falloff * settings->exposure_boost);
 	exposure_deboost = fmaxf(exposure_deboost, falloff * settings->exposure_deboost);
@@ -263,8 +255,6 @@ void s_screen_effect_settings::accumulate_settings(s_screen_effect_settings cons
 
 bool s_screen_effect_datum::update_position() // 0x107C3E00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_position@s_screen_effect_datum@@QAE_NXZ");
-
 	if (type != _type_attached)
 		return true;
 	s_object_data const *attach_object = object_try_and_get_and_verify_type(attach_object_index, -1);
@@ -279,8 +269,6 @@ bool s_screen_effect_datum::update_position() // 0x107C3E00
 
 void s_screen_effect_shader_sample_result::accumulate_settings(s_tag_reference const *shader, float falloff, float t, long attach_object_index, real_rectangle2d const *bounds) // 0x107C1890
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?accumulate_settings@s_screen_effect_shader_sample_result@@QAEXPBUs_tag_reference@@MMJPBUreal_rectangle2d@@@Z");
-
 	void (__thiscall *const func)(s_screen_effect_shader_sample_result *, s_tag_reference const *, float, float, long, real_rectangle2d const *) = (void(__thiscall *const)(s_screen_effect_shader_sample_result *, s_tag_reference const *, float, float, long, real_rectangle2d const *))0x682a90;
 
 	func(this, shader, falloff, t, attach_object_index, bounds);
@@ -288,8 +276,6 @@ void s_screen_effect_shader_sample_result::accumulate_settings(s_tag_reference c
 
 void screen_effect_sample(real_point3d const *camera_position, real_vector3d const *camera_forward, s_screen_effect_settings *settings, s_screen_effect_shader_sample_result *sample_result, long output_user_index) // 0x107C2A80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_sample@@YAXPBUreal_point3d@@PBUreal_vector3d@@PAUs_screen_effect_settings@@PAUs_screen_effect_shader_sample_result@@J@Z");
-
 	settings->set_defaults();
 	sample_result->sample_count = 0;
 	s_scenario const *scenario = global_scenario_get();
@@ -344,8 +330,6 @@ void screen_effect_sample(real_point3d const *camera_position, real_vector3d con
 
 void screen_effect_sample_camera(long output_user_index, real_point3d const *camera_position, real_vector3d const *camera_forward, s_screen_effect_camera_settings *settings) // 0x107C3100
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_sample_camera@@YAXJPBUreal_point3d@@PBUreal_vector3d@@PAUs_screen_effect_camera_settings@@@Z");
-
 	settings->fov_in = 0.0f;
 	settings->fov_out = 0.0f;
 	settings->screen_shake = 0.0f;
@@ -402,8 +386,6 @@ void screen_effect_sample_camera(long output_user_index, real_point3d const *cam
 
 long screen_effect_new(long definition_index, long attach_object_index, short attach_node_index, real_point3d const *position, real_rectangle2d const *bounds) // 0x107C26B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_new@@YAJJJFPBUreal_point3d@@PBUreal_rectangle2d@@@Z");
-
 	s_area_screen_effect_definition *const definition = (s_area_screen_effect_definition *)tag_get('sefc', definition_index);
 	if (definition->global_flags.test(s_area_screen_effect_definition::_force_max_one_per_object_bit) && attach_object_index != -1)
 	{
@@ -442,8 +424,6 @@ long screen_effect_new(long definition_index, long attach_object_index, short at
 
 long screen_effect_new2(long definition_index, long attach_object_index, short attach_node_index, real_point3d const *attach_offset, real_rectangle2d const *bounds, bool unknown1, bool cannot_die) // 0x107C25B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_new2@@YAJJJFPBUreal_point3d@@PBUreal_rectangle2d@@_N2@Z");
-
 	long datum_index = screen_effect_new(definition_index, attach_object_index, attach_node_index, attach_offset, bounds);
 	s_screen_effect_datum *datum = tls_getd().screen_effects->try_and_get(datum_index);
 	if (!datum)
@@ -464,8 +444,6 @@ long screen_effect_new2(long definition_index, long attach_object_index, short a
 
 void screen_effect_update(float dt) // 0x107C3840
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_update@@YAXM@Z");
-
 	c_data_array<s_screen_effect_datum> *screen_effects = tls_getd().screen_effects;
 	for (c_data_iterator<s_screen_effect_datum> it = screen_effects->begin(); it != screen_effects->end(); ++it)
 	{
@@ -490,8 +468,6 @@ void screen_effect_update(float dt) // 0x107C3840
 
 float screen_effect_apply_field_of_view_scale(long output_user_index, real_point3d *position, real_vector3d *forward, float fov) // 0x107C2200
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_apply_field_of_view_scale@@YAMJPAUreal_point3d@@PAUreal_vector3d@@M@Z");
-
 	s_screen_effect_camera_settings camera_settings;
 	screen_effect_sample_camera(output_user_index, position, forward, &camera_settings);
 	if (output_user_index < 4)
@@ -514,22 +490,16 @@ float screen_effect_apply_field_of_view_scale(long output_user_index, real_point
 
 float screen_effect_get_hud_alpha_scale() // 0x107C2590
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_get_hud_alpha_scale@@YAMXZ");
-
 	return g_screen_effect_hud_alpha_scale;
 }
 
 void screen_effect_set_hud_alpha_scale(float scale) // 0x107C3810
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_set_hud_alpha_scale@@YAXM@Z");
-
 	g_screen_effect_hud_alpha_scale = scale;
 }
 
 void screen_effect_get_camera_shake(long output_user_index, float *translational, float *rotational) // 0x107C2520
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?screen_effect_get_camera_shake@@YAXJPAM0@Z");
-
 	if (output_user_index < 0 || output_user_index >= 4)
 	{
 		*translational = 0.0f;
@@ -548,8 +518,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x107C0EB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@ScreenEffects@Patches@@YAXXZ");
-
 			Hook(0x2836A0, screen_effect_update).Apply();
 			Hook(0x283060, screen_effect_new).Apply();
 		}
@@ -560,8 +528,6 @@ namespace Patches
 
 extern "C" bool render_object_is_third_person(long user_index, long object_index) // 0x107C20E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "_render_object_is_third_person");
-
 	static e_director_perspective (*const director_get_perspective)(long) = reinterpret_cast<e_director_perspective (*)(long)>(0x591A40);
 	static unsigned long (*const player_get_unit_index)(long) = reinterpret_cast<unsigned long (*)(long)>(0x589CC0);
 	if (object_index == -1 || user_index == -1)

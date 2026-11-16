@@ -26,7 +26,6 @@ extern char const *tag_name_get_filename_without_extension(char const *tag_name)
 
 char const *tag_name_strip_path(char const *name) // 0x10F18F00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_name_strip_path@@YAPBDPBD@Z");
 #line 32
 
 	#line 29 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\blamlib\\source\\blam\\tag_files\\tag_files.cpp"
@@ -47,8 +46,6 @@ char const *tag_name_strip_path(char const *name) // 0x10F18F00
 
 char const *tag_name_get_directory(char const *tag_name) // 0x10F18C90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_name_get_directory@@YAPBDPBD@Z");
-
 	thread_local char buffer[256];
 	buffer[0] = 0;
 	long length = 0;
@@ -62,8 +59,6 @@ char const *tag_name_get_directory(char const *tag_name) // 0x10F18C90
 
 char const *tag_name_get_filename_without_extension(char const *tag_name) // 0x10F18DC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?tag_name_get_filename_without_extension@@YAPBDPBD@Z");
-
 	thread_local char buffer[256];
 	buffer[0] = 0;
 	char const *filename = tag_name_strip_path(tag_name);

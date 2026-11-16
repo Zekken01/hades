@@ -46,29 +46,21 @@ extern long (*const havok_entity_get_havok_component_rigid_body_index)(hkpEntity
 
 c_data_array<c_havok_component> *havok_components_get() // 0x10F18A60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_components_get@@YAPAV?$c_data_array@Vc_havok_component@@@@XZ");
-
 	return *(c_data_array<c_havok_component> * *)0x2446080;
 }
 
 c_havok_component *havok_component_get(unsigned long havok_component_index) // 0x10F189F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?havok_component_get@@YAPAVc_havok_component@@K@Z");
-
 	return havok_components_get()->try_and_get(havok_component_index);
 }
 
 unsigned long c_havok_component::get_rigid_body_collision_filter_info(long rigid_body_index) // 0x10F18970
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_rigid_body_collision_filter_info@c_havok_component@@QAEKJ@Z");
-
 	return ((hkpRigidBody *)m_rigid_bodies[rigid_body_index].rigid_body)->m_collisionFilterInfo;
 }
 
 void c_havok_component::set_rigid_body_collision_filter_info(long rigid_body_index, unsigned long info) // 0x10F18AB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?set_rigid_body_collision_filter_info@c_havok_component@@QAEXJK@Z");
-
 	*(unsigned long *)(*(unsigned char **)((unsigned char *)&(*(hkArray<c_rigid_body> *)((unsigned char *)this + 0x14))[rigid_body_index] + 0x40) + 0x2c) = info;
 }
 

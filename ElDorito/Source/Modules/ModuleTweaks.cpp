@@ -73,8 +73,6 @@ namespace Modules
 {
 	ModuleTweaks::ModuleTweaks() : ModuleBase("Tweaks") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10A223E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleTweaks@Modules@@QAE@XZ");
-
 		VarDisableReactorFog = AddVariableInt("DisableReactorFog", "disablereactorfog", "Disable the fog effects around the moving platforms on the Reactor map to increase performance.", eCommandFlagsArchived, 0);
 		VarDisableReactorFog->ValueIntMin = 0;
 		VarDisableReactorFog->ValueIntMax = 1;

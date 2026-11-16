@@ -118,25 +118,18 @@ namespace base
 
 c_mod_database::~c_mod_database() // 0x1084DB20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_mod_database@@QAE@XZ");
-
 	if (m_dirty)
 		save();
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1s_record@c_mod_database@@QAE@XZ"); no body to assert in
 // c_mod_database::s_record::~s_record() is implicit; 0x1084DBD0
 
-// mangled_x86(MANGLED_DEFAULT, "??4s_mod_origin_info@@QAEAAU0@ABU0@@Z"); no body to assert in
 // s_mod_origin_info &s_mod_origin_info::operator=(s_mod_origin_info const &__that) is implicit; 0x1084DE80
 
-// mangled_x86(MANGLED_DEFAULT, "??4s_record@c_mod_database@@QAEAAU01@ABU01@@Z"); no body to assert in
 // c_mod_database::s_record &c_mod_database::s_record::operator=(c_mod_database::s_record const &__that) is implicit; 0x1084DF20
 
 bool c_mod_database::try_get_record(s_mod_package_id const &id, c_mod_database::s_record **record) // 0x10853630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?try_get_record@c_mod_database@@QAE_NABUs_mod_package_id@@PAPAUs_record@1@@Z");
-
 	if (auto it = m_records.find(id); it != m_records.end())
 	{
 		*record = &it->second;
@@ -147,15 +140,11 @@ bool c_mod_database::try_get_record(s_mod_package_id const &id, c_mod_database::
 
 bool c_mod_database::get_or_create_record(s_mod_package_id const &id, c_mod_database::s_record **record) // 0x10852200
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_or_create_record@c_mod_database@@QAE_NABUs_mod_package_id@@PAPAUs_record@1@@Z");
-
 	return try_get_record(id, record) || create_record(id, record);
 }
 
 bool c_mod_database::create_record(s_mod_package_id const &id, c_mod_database::s_record **record) // 0x108517C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?create_record@c_mod_database@@QAE_NABUs_mod_package_id@@PAPAUs_record@1@@Z");
-
 	if (auto it = m_records.find(id); it == m_records.end())
 	{
 		s_record new_record{};
@@ -173,8 +162,6 @@ bool c_mod_database::create_record(s_mod_package_id const &id, c_mod_database::s
 
 bool c_mod_database::delete_record(s_mod_package_id const &id) // 0x10851D60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?delete_record@c_mod_database@@QAE_NABUs_mod_package_id@@@Z");
-
 	if (auto it = m_records.find(id); it != m_records.end())
 	{
 		m_records.erase(it);
@@ -186,8 +173,6 @@ bool c_mod_database::delete_record(s_mod_package_id const &id) // 0x10851D60
 
 bool c_mod_database::update_record(s_mod_package_id const &id, c_mod_database::s_record const &record) // 0x108537A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_record@c_mod_database@@QAE_NABUs_mod_package_id@@ABUs_record@1@@Z");
-
 	if (auto it = m_records.find(id); it != m_records.end())
 	{
 		it->second = record;
@@ -199,8 +184,6 @@ bool c_mod_database::update_record(s_mod_package_id const &id, c_mod_database::s
 
 bool c_mod_database::create(std::string const &filename) // 0x108516B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?create@c_mod_database@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	if (std::filesystem::exists(filename))
 		return false;
 	m_filename = filename;
@@ -209,15 +192,11 @@ bool c_mod_database::create(std::string const &filename) // 0x108516B0
 
 bool c_mod_database::load_or_create(std::string const &filename) // 0x10852AD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load_or_create@c_mod_database@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	return load(filename) || create(filename);
 }
 
 bool c_mod_database::load(std::string const &filename) // 0x108522A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load@c_mod_database@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	m_filename = filename;
 	if (!std::filesystem::exists(filename))
 		return false;
@@ -254,8 +233,6 @@ bool c_mod_database::load(std::string const &filename) // 0x108522A0
 
 bool c_mod_database::save() // 0x108530E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?save@c_mod_database@@QAE_NXZ");
-
 	std::ofstream ofs(m_filename);
 	rapidjson::OStreamWrapper osw(ofs);
 	rapidjson::PrettyWriter<rapidjson::OStreamWrapper> writer(osw);
@@ -295,15 +272,11 @@ bool c_mod_database::save() // 0x108530E0
 
 void c_mod_database::notify_record_changed(s_mod_package_id const &id) // 0x10852D20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?notify_record_changed@c_mod_database@@QAEXABUs_mod_package_id@@@Z");
-
 	m_dirty = true;
 }
 
 void c_mod_database::purge_any(std::function<bool __cdecl(s_mod_package_id const &,c_mod_database::s_record const &)> predicate) // 0x10852E70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?purge_any@c_mod_database@@QAEXV?$function@$$A6A_NABUs_mod_package_id@@ABUs_record@c_mod_database@@@Z@std@@@Z");
-
 	for (auto it = m_records.begin(); it != m_records.end();)
 	{
 		if (predicate(it->first, it->second))
@@ -315,23 +288,15 @@ void c_mod_database::purge_any(std::function<bool __cdecl(s_mod_package_id const
 
 void c_mod_database::purge_all_not_in_set(std::unordered_set<s_mod_package_id> set) // 0x10852DA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?purge_all_not_in_set@c_mod_database@@QAEXV?$unordered_set@Us_mod_package_id@@U?$hash@Us_mod_package_id@@@std@@U?$equal_to@Us_mod_package_id@@@3@V?$allocator@Us_mod_package_id@@@3@@std@@@Z");
-
 	purge_any([&set](auto &id, auto record) { return set.find(id) == set.end(); });
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_origin_info@@QAE@$$QAU0@@Z"); no body to assert in
 // s_mod_origin_info::s_mod_origin_info(s_mod_origin_info &&__that) is implicit; 0x1084CC50
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_origin_info@@QAE@ABU0@@Z"); no body to assert in
 // s_mod_origin_info::s_mod_origin_info(s_mod_origin_info const &__that) is implicit; 0x1084CD30
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_record@c_mod_database@@QAE@$$QAU01@@Z"); no body to assert in
 // c_mod_database::s_record::s_record(c_mod_database::s_record &&__that) is implicit; 0x1084CE60
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_record@c_mod_database@@QAE@ABU01@@Z"); no body to assert in
 // c_mod_database::s_record::s_record(c_mod_database::s_record const &__that) is implicit; 0x1084CF40
-
-// mangled_x86(MANGLED_DEFAULT, "??0s_record@c_mod_database@@QAE@XZ"); no body to assert in
 
 /* ---------- private code */

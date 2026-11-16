@@ -248,8 +248,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A3ACF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@ContentItems@Patches@@YAXXZ");
-
 			Hook(0x67DCA0, IsProfileAvailable).Apply();
 			Patch(0x1A7A80, { 0x31, 0xC0, 0xC3 }).Apply();
 			Patch(0x34D570, { 0x31, 0xC0, 0xC3 }).Apply();
@@ -286,8 +284,6 @@ namespace Patches
 
 bool AddContentItem(wchar_t *itemPath) // 0x10A3A620
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AddContentItem@@YA_NPA_W@Z");
-
 	unsigned char fileData[0xF8];
 	FILE *file;
 	if (_wfopen_s(&file, itemPath, L"rb") != 0 || !file)
@@ -337,8 +333,6 @@ bool AddContentItem(std::string itemPath) // 0x10A3AAF0
 
 void GetFilePathForItem(wchar_t *dest, unsigned __int32 MaxCount, wchar_t *variantName, __int32 variantType) // 0x10A3D300
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetFilePathForItem@@YAXPA_WI0H@Z");
-
 	wchar_t currentDir[128];
 	memset(currentDir, 0, sizeof(currentDir));
 	GetCurrentDirectoryW(128, currentDir);
@@ -360,8 +354,6 @@ void GetFilePathForItem(wchar_t *dest, unsigned __int32 MaxCount, wchar_t *varia
 
 void AddAllBLFContentItems(std::string path) // 0x10A3A2F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AddAllBLFContentItems@@YAXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	dirent *entry;
 	DIR *dp;
 	if ((dp = opendir(path.c_str())) == nullptr)
@@ -381,8 +373,6 @@ void AddAllBLFContentItems(std::string path) // 0x10A3A2F0
 
 char CallsXEnumerateHook() // 0x10A3C6B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CallsXEnumerateHook@@YADXZ");
-
 	if (!contentItemsGlobal)
 		return false;
 	if (enumerated)
@@ -400,8 +390,6 @@ char CallsXEnumerateHook() // 0x10A3C6B0
 
 char __fastcall FS_GetFiloForContentItemHook(c_content_item *contentItem, void *unused, void *filo) // 0x10A3D0A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FS_GetFiloForContentItemHook@@YIDPAUc_content_item@hades_file_local@@PAX1@Z");
-
 	void *(*fsCallsSetupFiloStruct2)(void *, wchar_t const *, char) = reinterpret_cast<void *(*)(void *, wchar_t const *, char)>(0x5285B0);
 	std::string relativePath = Utils::String::ThinString(contentItem->RelativeFilePath);
 	std::filesystem::path path = std::filesystem::absolute(relativePath);
@@ -411,8 +399,6 @@ char __fastcall FS_GetFiloForContentItemHook(c_content_item *contentItem, void *
 
 wchar_t *__fastcall FS_GetFilePathForContentItemHook(c_content_item *contentItem, void *unused, wchar_t *dest, unsigned __int32 MaxCount) // 0x10A3CEF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FS_GetFilePathForContentItemHook@@YIPA_WPAUc_content_item@hades_file_local@@PAXPA_WI@Z");
-
 	std::string relativePath = Utils::String::ThinString(contentItem->RelativeFilePath);
 	std::filesystem::path path = std::filesystem::absolute(relativePath);
 	wcscpy_s(dest, MaxCount, path.c_str());
@@ -421,8 +407,6 @@ wchar_t *__fastcall FS_GetFilePathForContentItemHook(c_content_item *contentItem
 
 bool __fastcall ContainsForbiddenCharacters(wchar_t *namePtr) // 0x10A3CA40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ContainsForbiddenCharacters@@YI_NPA_W@Z");
-
 	std::initializer_list<char> illegalChars = { '*' };
 	std::wstring temp(namePtr);
 	std::string name(temp.begin(), temp.end());
@@ -446,8 +430,6 @@ bool __fastcall ContainsForbiddenCharacters(wchar_t *namePtr) // 0x10A3CA40
 
 bool __fastcall SaveFileGetNameHook(unsigned char *blfStart, void *unused, __int32 a2, wchar_t *Src, unsigned __int32 MaxCount) // 0x10A3D630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SaveFileGetNameHook@@YI_NPAEPAXHPA_WI@Z");
-
 	wchar_t *name = (wchar_t *)(blfStart + 0x48);
 	unsigned __int32 uid = *(unsigned __int32 *)(blfStart + 0xF8);
 
@@ -457,8 +439,6 @@ bool __fastcall SaveFileGetNameHook(unsigned char *blfStart, void *unused, __int
 
 bool __fastcall c_content_item__init_hook(c_content_item *thisptr, void *unused, __int32 contentType, c_content_catalog *catalog, wchar_t *name, wchar_t *dashMetadata, __int32 a5, __int32 a6, __int32 a7) // 0x10A3E990
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_content_item__init_hook@@YI_NPAUc_content_item@hades_file_local@@PAXHPAUc_content_catalog@2@PA_W3HHH@Z");
-
 	__int32 (*const sub_5244C0)(__int32) = reinterpret_cast<__int32 (*)(__int32)>(0x5244C0);
 	if (ContainsForbiddenCharacters(name))
 		return false;
@@ -477,15 +457,11 @@ bool __fastcall c_content_item__init_hook(c_content_item *thisptr, void *unused,
 
 char __stdcall PackageMountHook(__int32 a1, __int32 a2, __int32 a3, __int32 a4) // 0x10A3D610
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PackageMountHook@@YGDHHHH@Z");
-
 	return 1;
 }
 
 unsigned __int32 PackageMountHook2(__int32 localProfileIndex, wchar_t *name, __int32 contentType, long volatile *pStatus, long volatile *pState, long volatile *pContentItemDatumIndex) // 0x10A3D4F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PackageMountHook2@@YAIHPA_WHPCJ11@Z");
-
 	__int32 (*const sub_525330)(__int32) = reinterpret_cast<__int32 (*)(__int32)>(0x525330);
 	c_content_catalog *(*const content_catalog_get)(__int32) = reinterpret_cast<c_content_catalog *(*)(__int32)>(0x5A5600);
 	__int32 (__thiscall *const c_content_catalog__get_or_create_content_item)(c_content_catalog *, wchar_t const *, wchar_t const *, __int32, char, __int32, __int32) = reinterpret_cast<__int32 (__thiscall *)(c_content_catalog *, wchar_t const *, wchar_t const *, __int32, char, __int32, __int32)>(0x5A5E70);
@@ -510,8 +486,6 @@ unsigned __int32 PackageMountHook2(__int32 localProfileIndex, wchar_t *name, __i
 
 char *AllocateGameGlobalMemory2Hook(char *Src, __int32 a2, __int32 a3, char a4, void *a5) // 0x10A3AC30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AllocateGameGlobalMemory2Hook@@YAPADPADHHDPAX@Z");
-
 	char *(__cdecl *AllocateGameGlobalMemory2)(char *, __int32, __int32, char, void *) = (char *(__cdecl *)(char *, __int32, __int32, char, void *))0x55afa0;
 	char *retData = AllocateGameGlobalMemory2(Src, a2, a3, a4, a5);
 
@@ -527,15 +501,11 @@ char *AllocateGameGlobalMemory2Hook(char *Src, __int32 a2, __int32 a3, char a4, 
 
 bool IsProfileAvailable() // 0x10A3D4D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?IsProfileAvailable@@YA_NXZ");
-
 	return true;
 }
 
 wchar_t *GetDirectoryPathW(wchar_t *path, wchar_t *buff, __int32 bufflen) // 0x10A3D270
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDirectoryPathW@@YAPA_WPA_W0H@Z");
-
 	wcscpy_s(buff, bufflen, path);
 	wchar_t *filePart = wcsrchr(buff, L'\\');
 	if (filePart != nullptr)
@@ -548,8 +518,6 @@ wchar_t *GetDirectoryPathW(wchar_t *path, wchar_t *buff, __int32 bufflen) // 0x1
 
 __int32 content_item_overlapped_task_execute_hook(c_content_item_overlapped_task *task) // 0x10A3F470
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?content_item_overlapped_task_execute_hook@@YAHPAUc_content_item_overlapped_task@hades_file_local@@@Z");
-
 	bool (*const EditContentHeaderOverlappedTaskFunc)(c_content_item_overlapped_task *) = (bool (*)(c_content_item_overlapped_task *))0x526E90;
 	c_content_catalog *(*const local_profile_get_content_catalog)(__int32) = (c_content_catalog *(*)(__int32))0x5A5600;
 	unsigned __int32 (__thiscall *const c_content_catalog__get_availability)(c_content_catalog *) = (unsigned __int32 (__thiscall *)(c_content_catalog *))0x5A7A80;
@@ -604,8 +572,6 @@ __int32 content_item_overlapped_task_execute_hook(c_content_item_overlapped_task
 
 void __fastcall c_content_item_delete_hook(c_content_item *thisptr, void *unused, __int32 a1) // 0x10A3EC60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_content_item_delete_hook@@YIXPAUc_content_item@hades_file_local@@PAXH@Z");
-
 	std::filesystem::path path = std::filesystem::absolute(thisptr->RelativeFilePath);
 	std::filesystem::path parent_path = path.parent_path();
 	std::filesystem::remove(path);
@@ -616,8 +582,6 @@ void __fastcall c_content_item_delete_hook(c_content_item *thisptr, void *unused
 
 void __fastcall c_gui_screen_pregame_selection__overlapped_task_update_hook(unsigned char *thisptr, void *unused) // 0x10A3F010
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_screen_pregame_selection__overlapped_task_update_hook@@YIXPAEPAX@Z");
-
 	void (__thiscall *const c_gui_screen_pregame_selection__overlapped_task_update)(unsigned char *) = reinterpret_cast<void (__thiscall *)(unsigned char *)>(0xB053D0);
 	void *(__thiscall *const c_gui_widget__find_named_child)(void *, unsigned __int32) = reinterpret_cast<void *(__thiscall *)(void *, unsigned __int32)>(0xAB8AA0);
 	void *(__thiscall *const c_gui_list_widget__get_ordered_data_source)(void *) = reinterpret_cast<void *(__thiscall *)(void *)>(0xB14FE0);
@@ -649,24 +613,18 @@ void __fastcall c_gui_screen_pregame_selection__overlapped_task_update_hook(unsi
 
 bool __fastcall c_gui_map_selected_item__get_file_path_hook(void *thisptr, void *unused, char *buff, __int32 bufflen) // 0x10A3EFA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_map_selected_item__get_file_path_hook@@YI_NPAX0PADH@Z");
-
 	strcpy_s(buff, bufflen, (char *)thisptr + 412);
 	return true;
 }
 
 bool __fastcall c_gui_game_variant_selected_item__get_file_path_hook(void *thisptr, void *unused, char *buff, __int32 bufflen) // 0x10A3EF30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_game_variant_selected_item__get_file_path_hook@@YI_NPAX0PADH@Z");
-
 	strcpy_s(buff, bufflen, (char *)thisptr + 416);
 	return true;
 }
 
 __int32 file_write_overlapped_task_execute_hook(unsigned char *task) // 0x10A3FE10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?file_write_overlapped_task_execute_hook@@YAHPAE@Z");
-
 	__int32 (__cdecl *const file_write_overlapped_task_execute)(unsigned char *) = (__int32 (__cdecl *)(unsigned char *))0x5AF410;
 	wchar_t directoryPath[128];
 
@@ -678,8 +636,6 @@ __int32 file_write_overlapped_task_execute_hook(unsigned char *task) // 0x10A3FE
 
 bool game_variant_description_override_hook(__int32 chud_handle, __int32 a2, __int32 stringid, __int32 *a4, __int32 length) // 0x10A3FF20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_variant_description_override_hook@@YA_NHHHPAHH@Z");
-
 	bool (__cdecl *const chud_get_string)(__int32, __int32, __int32, __int32 *, __int32) = (bool(__cdecl *const)(__int32, __int32, __int32, __int32 *, __int32))0xaa59b0;
 
 	if (saving_new_gametype)

@@ -52,13 +52,10 @@ struct s_cache_tag_instance;
 
 c_cache_file_tag_cache::c_cache_file_tag_cache(c_file_reference const *file, unsigned long base_offset, c_tag_name_dictionary &&tag_names) : m_initialized(false), m_file(file->filename), m_base_offset(base_offset), m_tag_names(std::move(tag_names)) /* hades-mem-init: : m_base_offset(todo_result<unsigned long>()), m_tag_names(todo_result<c_tag_name_dictionary>()) */ // 0x108714F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_cache_file_tag_cache@@QAE@PBVc_file_reference@@K$$QAVc_tag_name_dictionary@@@Z");
 }
 
 bool c_cache_file_tag_cache::initialize() // 0x108743F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_cache_file_tag_cache@@QAE_NXZ");
-
 	if (m_initialized)
 		return true;
 	m_initialized = load_internal();
@@ -67,8 +64,6 @@ bool c_cache_file_tag_cache::initialize() // 0x108743F0
 
 bool c_cache_file_tag_cache::load_internal() // 0x10874500
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load_internal@c_cache_file_tag_cache@@AAE_NXZ");
-
 	c_file_open_scope scope(m_file, 1);
 
 	if (!read_tag_offsets())
@@ -83,7 +78,6 @@ bool c_cache_file_tag_cache::load_internal() // 0x10874500
 #line 90
 bool c_cache_file_tag_cache::read_tag_data(c_file_reference *file, long index, unsigned long offset, unsigned long size, void *buffer) // 0x108750D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_tag_data@c_cache_file_tag_cache@@QAE_NPAVc_file_reference@@JKKPAX@Z");
 #line 94
 
 	#line 92 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
@@ -97,7 +91,6 @@ bool c_cache_file_tag_cache::read_tag_data(c_file_reference *file, long index, u
 
 bool c_cache_file_tag_cache::read_and_fixup_tag(c_file_reference *file, long index, unsigned long buffer_size, void *buffer) // 0x10874D60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_and_fixup_tag@c_cache_file_tag_cache@@QAE_NPAVc_file_reference@@JKPAX@Z");
 #line 112
 
 	#line 106 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\cache_file_tag_cache.cpp"
@@ -126,8 +119,6 @@ bool c_cache_file_tag_cache::read_and_fixup_tag(c_file_reference *file, long ind
 
 bool c_cache_file_tag_cache::read_data_internal(c_file_reference *file, unsigned long offset, unsigned long size, void *buffer) // 0x10874F50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_data_internal@c_cache_file_tag_cache@@AAE_NPAVc_file_reference@@KKPAX@Z");
-
 	c_file_open_scope scope(*file, 1);
 	if (!file->set_position(m_base_offset + offset, false))
 		return false;
@@ -138,8 +129,6 @@ bool c_cache_file_tag_cache::read_data_internal(c_file_reference *file, unsigned
 
 bool c_cache_file_tag_cache::read_tag_offsets() // 0x10875210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?read_tag_offsets@c_cache_file_tag_cache@@AAE_NXZ");
-
 	s_cache_file_segment_header tags_header;
 
 	if (!read_data_internal(&m_file, 0, sizeof(tags_header), &tags_header))
@@ -155,8 +144,6 @@ bool c_cache_file_tag_cache::read_tag_offsets() // 0x10875210
 
 bool c_cache_file_tag_cache::load_tags() // 0x10874660
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load_tags@c_cache_file_tag_cache@@AAE_NXZ");
-
 	long absolute_index = 0;
 	long actual_count = 0;
 	for (unsigned __int32 tag_index = 0; tag_index < m_tag_offsets.size(); tag_index++)
@@ -183,8 +170,6 @@ bool c_cache_file_tag_cache::load_tags() // 0x10874660
 
 long c_cache_file_tag_cache::find_by_name(unsigned long group, char const *name) const // 0x10874040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?find_by_name@c_cache_file_tag_cache@@QBEJKPBD@Z");
-
 	c_instance_iterator iterator = create_iterator(group);
 
 	while (iterator.next())
@@ -203,8 +188,6 @@ long c_cache_file_tag_cache::find_by_name(unsigned long group, char const *name)
 
 bool c_cache_file_tag_cache::empty_tag(long index) const // 0x10873EA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?empty_tag@c_cache_file_tag_cache@@QBE_NJ@Z");
-
 	const s_cache_tag_instance *instance = get_instance(index);
 
 	if (!instance)
@@ -215,8 +198,6 @@ bool c_cache_file_tag_cache::empty_tag(long index) const // 0x10873EA0
 
 bool c_cache_file_tag_cache::c_instance_iterator::next() // 0x10874AF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?next@c_instance_iterator@c_cache_file_tag_cache@@QAE_NXZ");
-
 	while (true)
 	{
 		if (++absolute_index >= (long)cache->m_tags.size())

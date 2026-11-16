@@ -43,8 +43,6 @@ namespace Steam
 {
 	void SteamLoader::Initialize() // 0x10C52550
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@SteamLoader@Steam@@QAEXXZ");
-
 		if (IsSteamRunning(true))
 		{
 			static char pathBuffer[65536];
@@ -61,8 +59,6 @@ namespace Steam
 
 void *(*Steam::SteamLoader::GetCreateInterfaceFunc())(char const *, __int32 *) // 0x10C52220
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetCreateInterfaceFunc@SteamLoader@Steam@@QAEP6APAXPBDPAH@ZXZ");
-
 	return GetProcAddress<void *(__cdecl *)(char const *, int *)>("CreateInterface");
 }
 
@@ -70,8 +66,6 @@ namespace Steam
 {
 	void *SteamLoader::GetProcAddressInternal(char const *name) // 0x10C52280
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetProcAddressInternal@SteamLoader@Steam@@AAEPAXPBD@Z");
-
 		void *func = nullptr;
 		if (m_hSteamClient)
 			func = ::GetProcAddress(m_hSteamClient, name);  // hades: the member template GetProcAddress now shadows the Win32 one
@@ -80,8 +74,6 @@ namespace Steam
 
 	bool SteamLoader::IsSteamRunning(bool ignoreCreateFunc) // 0x10C52750
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?IsSteamRunning@SteamLoader@Steam@@QAE_N_N@Z");
-
 		bool retval = false;
 		DWORD pid = GetSteamProcessId();
 		if (pid != 0)
@@ -102,8 +94,6 @@ namespace Steam
 
 	unsigned __int32 SteamLoader::GetSteamProcessId() // 0x10C52470
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSteamProcessId@SteamLoader@Steam@@AAEIXZ");
-
 		DWORD pid;
 		DWORD pidSize = sizeof(pid);
 
@@ -119,8 +109,6 @@ namespace Steam
 {
 	std::string SteamLoader::GetSteamDllPath() // 0x10C52300
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSteamDllPath@SteamLoader@Steam@@AAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		char pathString[512];
 		unsigned long pathStringSize = sizeof(pathString);
 		if (RegGetValueA(HKEY_CURRENT_USER, "Software\\Valve\\Steam\\ActiveProcess", "SteamClientDll", RRF_RT_REG_SZ, nullptr, pathString, &pathStringSize) == ERROR_SUCCESS)
@@ -130,8 +118,6 @@ namespace Steam
 
 	void SteamLoader::LoadGameOverlayRenderer(std::string const &baseDllPath) // 0x10C52820
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?LoadGameOverlayRenderer@SteamLoader@Steam@@AAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::string overlayDllPath = baseDllPath.substr(0, baseDllPath.rfind('\\')) + "\\GameOverlayRenderer.dll";
 		LoadLibraryA(overlayDllPath.c_str());
 	}

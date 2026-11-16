@@ -147,8 +147,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10916FF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@ForgeResizablePrimitives@Patches@@YAXXZ");
-
 			Hook(0x2D8FA6, collision_model_test_vector_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x2D7E1D, collision_model_test_vector_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x577727, collision_bsp_test_surface_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -169,23 +167,17 @@ namespace Patches
 
 bool object_is_resizable_box_primitive(long object_index) // 0x10918450
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_is_resizable_box_primitive@@YA_NJ@Z");
-
 	return false;
 }
 
 real_vector3d get_test_dimensions() // 0x10917FF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_test_dimensions@@YA?AUreal_vector3d@@XZ");
-
 	Modules::ModuleForge &forgeModule = Modules::ModuleForge::Instance();
 	return global_zero3d;
 }
 
 bool collision_model_test_vector_hook(collision_model_instance *instance, unsigned long flags, real_vector3d *origin, real_vector3d *vector, collision_model_test_vector_result *out_result) // 0x10917EB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?collision_model_test_vector_hook@@YA_NPAUcollision_model_instance@@KPAUreal_vector3d@@1PAUcollision_model_test_vector_result@@@Z");
-
 	bool result = ((bool(__cdecl *)(collision_model_instance *, unsigned long, real_vector3d *, real_vector3d *, collision_model_test_vector_result *))0x981120)(instance, flags, origin, vector, out_result);
 
 	globals.valid_bsp = false;
@@ -194,8 +186,6 @@ bool collision_model_test_vector_hook(collision_model_instance *instance, unsign
 
 bool collision_bsp_test_surface_hook(struct collision_bsp *bsp, s_collision_materials_extant_flags *materials_extant_flags, short breakable_surface_set_count, s_breakable_surface_set *breakable_surface_sets, real_vector3d *origin, real_vector3d *vector, long bsp_leaf_index, long plane_index, float scale, bool flag) // 0x10917E00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?collision_bsp_test_surface_hook@@YA_NPAUcollision_bsp@@PAUs_collision_materials_extant_flags@@FPAUs_breakable_surface_set@@PAUreal_vector3d@@3JJM_N@Z");
-
 	if (globals.valid_bsp)
 		bsp = &globals.collision_bsp;
 	return ((bool(__cdecl *)(collision_bsp *, s_collision_materials_extant_flags *, unsigned short, s_breakable_surface_set *, real_vector3d *, real_vector3d *, long, long, float, bool))0x977a20)(bsp, materials_extant_flags, breakable_surface_set_count, breakable_surface_sets, origin, vector, bsp_leaf_index, plane_index, scale, flag);
@@ -203,8 +193,6 @@ bool collision_bsp_test_surface_hook(struct collision_bsp *bsp, s_collision_mate
 
 real_matrix4x3 *object_compute_render_time_node_matrices_hook(long object_index, long render_model_definition_index, long unused, real_matrix4x3 *out_matrix) // 0x109181E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_compute_render_time_node_matrices_hook@@YAPAUreal_matrix4x3@@JJJPAU1@@Z");
-
 	real_matrix4x3 *(*object_get_world_matrix)(long, real_matrix4x3 *) = reinterpret_cast<real_matrix4x3 *(*)(long, real_matrix4x3 *)>(0xB2EC60);
 	__int32 (*object_compute_render_time_node_matrices)(long, long, long, real_matrix4x3 *) = reinterpret_cast<__int32 (*)(long, long, long, real_matrix4x3 *)>(0xB2C3D0);
 	object_compute_render_time_node_matrices(object_index, render_model_definition_index, unused, out_matrix);
@@ -226,8 +214,6 @@ real_matrix4x3 *object_compute_render_time_node_matrices_hook(long object_index,
 
 bool fast_vector_intersects_sphere_hook(real_vector3d *origin, real_vector3d *vector, real_vector3d *p, float r) // 0x10917F30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fast_vector_intersects_sphere_hook@@YA_NPAUreal_vector3d@@00M@Z");
-
 	float scale = 10.0f;
 
 	return ((bool(*)(real_vector3d *, real_vector3d *, real_vector3d *, float))0x4F1930)(origin, vector, p, r * scale);
@@ -235,8 +221,6 @@ bool fast_vector_intersects_sphere_hook(real_vector3d *origin, real_vector3d *ve
 
 bool object_compute_bounds_hook(long object_index) // 0x10918060
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_compute_bounds_hook@@YA_NJ@Z");
-
 	bool (*const object_compute_bounds)(__int32) = reinterpret_cast<bool (*)(__int32)>(0xB2AB10);
 	s_object_data *object = object_try_and_get_and_verify_type(object_index, -1);
 	if (object_is_resizable_box_primitive(object_index))
@@ -257,8 +241,6 @@ bool object_compute_bounds_hook(long object_index) // 0x10918060
 
 hkpEntity *__fastcall c_havok_component__build_rigid_body(c_havok_component *thisptr, void *unused, hkpShape *shape, float allowed_penetration_depth_scale, char is_static, hkVector4 *center_of_mass_local, float friction, float restitution, hkMatrix3 *inertia_tensor, float mass, long motion_type, hkMatrix4 *transform, unsigned long collision_filter, __int32 a13, bool only_collides_with_environment, float maximum_linear_velocity, float maximum_angular_velocity) // 0x10917B30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_havok_component__build_rigid_body@@YIPAUhkpEntity@@PAVc_havok_component@@PAXPAUhkpShape@@MDPAUhkVector4@@MMPAUhkMatrix3@@MJPAUhkMatrix4@@KH_NMM@Z");
-
 	if (object_is_resizable_box_primitive(thisptr->get_object_index()))
 	{
 		static hkpBoxShape new_shape;

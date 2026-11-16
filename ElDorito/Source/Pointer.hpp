@@ -86,57 +86,42 @@ extern _inline void *GetBasePointer();
 template<typename t_arg0>
 _inline t_arg0 &Pointer::Read() const
 {
-	mangled_prefix_assert("??$Read@");
-
 	return *(t_arg0 *)_Pointer;
 }
 
 template<typename t_arg0>
 _inline void Pointer::WriteFast(t_arg0 const value) const
 {
-	mangled_prefix_assert("??$WriteFast@");
-
 	*(t_arg0 *)_Pointer = value;
 }
 
 template<typename t_arg0>
 _inline Pointer::operator t_arg0 *() const
 {
-	mangled_prefix_assert("??$?B");
-
 	return (t_arg0 *)_Pointer;
 }
 
 inline void *GetBasePointer() // 0x10968590
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetBasePointer@@YAPAXXZ");
-
 	return GetModuleBase();
 }
 
 inline Pointer::Pointer(void *Pointer) // 0x10698D80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0Pointer@@QAE@PAX@Z");
-
 	_Pointer = Pointer;
 }
 
 inline Pointer::Pointer(unsigned __int32 Offset) // 0x10698D50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0Pointer@@QAE@I@Z");
-
 	_Pointer = (void *)Offset;
 }
 
 inline Pointer::~Pointer() // 0x10699000
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1Pointer@@QAE@XZ");
 }
 
 inline Pointer Pointer::operator[](__int32 const Offset) const // 0x10992670
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??APointer@@QBE?AV0@H@Z");
-
 	if (_Pointer != nullptr && (char *)_Pointer + Offset != nullptr)
 	{
 		return Pointer(*(unsigned int *)((char *)_Pointer + Offset));
@@ -146,30 +131,22 @@ inline Pointer Pointer::operator[](__int32 const Offset) const // 0x10992670
 
 inline Pointer Pointer::operator()(unsigned __int32 Offset, unsigned __int32 Stride) const // 0x10699490
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??RPointer@@QBE?AV0@II@Z");
-
 	return Pointer((void *)((char *)_Pointer + Offset * Stride));
 }
 
 inline void Pointer::operator=(Pointer Pointer) // 0x10A90100
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??4Pointer@@QAEXV0@@Z");
-
 	_Pointer = Pointer._Pointer;
 }
 
 inline Pointer::operator void *() const // 0x108E4020
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??BPointer@@QBEPAXXZ");
-
 	return _Pointer;
 }
 
 template<typename t_arg0>
 _inline void Pointer::Write(t_arg0 const value) const
 {
-	mangled_prefix_assert("??$Write@");
-
 	DWORD temp;
 	DWORD temp2;
 	if (!VirtualProtect(_Pointer, sizeof(t_arg0), PAGE_READWRITE, &temp))
@@ -185,8 +162,6 @@ _inline void Pointer::Write(t_arg0 const value) const
 
 inline void Pointer::Write(void const *data, unsigned __int32 size) const // 0x10699F40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Write@Pointer@@QBEXPBXI@Z");
-
 	unsigned long temp;
 	unsigned long temp2;
 	if (!VirtualProtect(_Pointer, size, PAGE_READWRITE, &temp))
@@ -202,8 +177,6 @@ inline void Pointer::Write(void const *data, unsigned __int32 size) const // 0x1
 
 inline void Pointer::WriteCall(void *newFunction, bool isIndirect) const // 0x1069A190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteCall@Pointer@@QBEXPAX_N@Z");
-
 	unsigned long temp;
 	unsigned long temp2;
 	unsigned char tempJMP[6] = { 0xE8, 0x90, 0x90, 0x90, 0x90, 0x90 };
@@ -223,8 +196,6 @@ inline void Pointer::WriteCall(void *newFunction, bool isIndirect) const // 0x10
 
 inline void Pointer::WriteJump(void *newFunction, __int32 jmpFlags) const // 0x1069A480
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteJump@Pointer@@QBEXPAXH@Z");
-
 	unsigned long temp;
 	unsigned long temp2;
 	unsigned char tempJMP[5] = { 0xE9, 0x90, 0x90, 0x90, 0x90 };
@@ -253,15 +224,11 @@ inline void Pointer::WriteJump(void *newFunction, __int32 jmpFlags) const // 0x1
 
 inline void Pointer::Read(void *Dest, unsigned __int32 size) const // 0x10A29540
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Read@Pointer@@QBEXPAXI@Z");
-
 	memcpy(Dest, _Pointer, size);
 }
 
 inline Pointer const Pointer::Base(unsigned __int32 Offset, unsigned __int32 Stride) // 0x10699CA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Base@Pointer@@SA?BV1@II@Z");
-
 	static Pointer const ModuleBase(GetModuleBase());
 	return ModuleBase(Offset, Stride);
 }

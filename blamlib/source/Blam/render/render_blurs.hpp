@@ -54,8 +54,6 @@ extern void update_motion_blur_globals(s_rasterizer_globals const *rasg, float m
 
 void update_motion_blur_globals(s_rasterizer_globals const *rasg, float motion_blur_strength) // 0x10AC38D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_motion_blur_globals@@YAXPBUs_rasterizer_globals@@M@Z");
-
 	if (!c_rasterizer_globals::g_motion_blur_parameters_set)
 	{
 		c_rasterizer_globals::g_motion_blur_parameters->max_blur = rasg->motion_blur_parameters.max_blur;

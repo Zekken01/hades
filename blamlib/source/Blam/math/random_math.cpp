@@ -32,8 +32,6 @@ extern unsigned long *(*get_random_seed_address)(); // 0x11359AFC
 
 float real_random_range(float minimum, float maximum) // 0x10F036C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?real_random_range@@YAMMM@Z");
-
 	unsigned long *random_seed_address = get_random_seed_address();
 	unsigned int next_value = 1664525 * *random_seed_address + 1013904223;
 	*random_seed_address = next_value;
@@ -43,8 +41,6 @@ float real_random_range(float minimum, float maximum) // 0x10F036C0
 
 float real_random_range(long *random_seed_address, float minimum, float maximum) // 0x10F037C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?real_random_range@@YAMPAJMM@Z");
-
 	unsigned int next_value = 1664525 * *random_seed_address + 1013904223;
 	*random_seed_address = next_value;
 	next_value >>= 16;
@@ -53,8 +49,6 @@ float real_random_range(long *random_seed_address, float minimum, float maximum)
 
 float real_random_local() // 0x10F035D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?real_random_local@@YAMXZ");
-
 	unsigned long *random_seed_address = get_local_random_seed_address();
 	unsigned long next_value = 0x19660D * *random_seed_address + 0x3C6EF35F;
 	*random_seed_address = next_value;

@@ -200,8 +200,6 @@ namespace Web
 		{
 			void HandleDialogShowRequest(Web::Ui::ScreenLayer::SDialogShowParams const &params) // 0x10CA1610
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?HandleDialogShowRequest@WebDialog@Ui@Web@@YAXABUSDialogShowParams@ScreenLayer@23@@Z");
-
 				for (unsigned __int32 i = 0; i < queueList.size(); i++)
 				{
 					if (params.templateName == "alert_template" && params.customTitle == queueList[i].title && params.customBody == queueList[i].body && params.templateName == queueList[i].templateName)
@@ -268,15 +266,13 @@ namespace Web
 
 			void Init() // 0x10CA1CD0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebDialog@Ui@Web@@YAXXZ");
-
 				Web::Ui::ScreenLayer::BeforeReload.Subscribe(Clear);
 				Web::Ui::ScreenLayer::SetDialogHandler(HandleDialogShowRequest);
 			}
 
 
 			void SubmitDialogResult(__int32 id, std::string const &result) // 0x10CA1DE0
-			{ mangled_x86(MANGLED_TODO, "?SubmitDialogResult@WebDialog@Ui@Web@@YAXHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
+			{
 				assert(!callbacks.empty());
 				SDialogCallbackInfo nextCallback = callbacks.front();
 
@@ -308,8 +304,6 @@ namespace Web
 
 			void Clear() // 0x10CA15B0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Clear@WebDialog@Ui@Web@@YAXXZ");
-
 				while (!callbacks.empty())
 				{
 					callbacks.pop();
@@ -321,23 +315,17 @@ namespace Web
 
 /* ---------- private code */
 
-// mangled_x86(MANGLED_DEFAULT, "??0SDialogCallbackInfo@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
 _inline SDialogCallbackInfo::SDialogCallbackInfo(SDialogCallbackInfo const &__that) = default; // 0x10CA0890
 
-// mangled_x86(MANGLED_DEFAULT, "??0SDialogCallbackInfo@hades_file_local@@QAE@XZ"); no body to assert in
 _inline SDialogCallbackInfo::SDialogCallbackInfo() = default; // 0x10CA0910
 
-// mangled_x86(MANGLED_DEFAULT, "??0SDialogQueueInfo@hades_file_local@@QAE@AAU01@@Z"); no body to assert in
 // _inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo &&__that) = default; // 0x10CA0970  // hades: implicit
 
-// mangled_x86(MANGLED_DEFAULT, "??0SDialogQueueInfo@hades_file_local@@QAE@ABU01@@Z"); no body to assert in
 // _inline SDialogQueueInfo::SDialogQueueInfo(SDialogQueueInfo const &__that) = default; // 0x10CA0A40  // hades: implicit
 
-// mangled_x86(MANGLED_DEFAULT, "??0SDialogQueueInfo@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline SDialogQueueInfo::SDialogQueueInfo() = default; // 0x10CA0B50  // hades: implicit
 
 
-// mangled_x86(MANGLED_DEFAULT, "??1SDialogQueueInfo@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline SDialogQueueInfo::~SDialogQueueInfo() = default; // 0x10CA0FA0  // hades: implicit
 
 // _inline SDialogQueueInfo &SDialogQueueInfo::operator=(SDialogQueueInfo &&__that) = default; // 0x10CA1010  // hades: implicit

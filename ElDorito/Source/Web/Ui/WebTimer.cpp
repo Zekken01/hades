@@ -115,8 +115,6 @@ namespace Web
 		{
 			void Start(std::string const &type, __int32 initialValue) // 0x10CB5BB0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Start@WebTimer@Ui@Web@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-
 				rapidjson::StringBuffer jsonBuffer;
 				rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
 				jsonWriter.StartObject();
@@ -132,8 +130,6 @@ namespace Web
 
 			void Update(__int32 value) // 0x10CB5DF0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Update@WebTimer@Ui@Web@@YAXH@Z");
-
 				rapidjson::StringBuffer jsonBuffer;
 				rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
 
@@ -147,8 +143,6 @@ namespace Web
 
 			void End() // 0x10CB5A00
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?End@WebTimer@Ui@Web@@YAXXZ");
-
 				rapidjson::StringBuffer jsonBuffer;
 				rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
 

@@ -203,8 +203,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A87700
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Maps@Patches@@YAXXZ");
-
 			Pointer(0x54AD9C).Write<unsigned int>(reinterpret_cast<unsigned int>(levels_enumerate_hook));
 			Hook(0x6A81CF, c_map_variant_initialize_default_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x6A7954, c_map_variant_initialize_default_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -225,15 +223,11 @@ namespace Patches
 
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x10A88240
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@UAEXW4EModIndex@@PAVIMod@@@Z");
-
 	levels_clear_and_enumerate_async();
 }
 
 bool verify_against_multiplayer_levels_hook(wchar_t const *name) // 0x10A893B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?verify_against_multiplayer_levels_hook@@YA_NPB_W@Z");
-
 	static long *(*const levels_get_multiplayer_map_ids)(long *, long *) = reinterpret_cast<long *(*)(long *, long *)>(0x54BEE0);
 	long map_id_count = 100;
 	long map_ids[100];
@@ -249,22 +243,16 @@ bool verify_against_multiplayer_levels_hook(wchar_t const *name) // 0x10A893B0
 
 unsigned long levels_get_available_map_mask_hook() // 0x10A88E40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_get_available_map_mask_hook@@YAKXZ");
-
 	return 0;
 }
 
 void __fastcall c_map_variant_initialize_default_hook(s_map_variant *thisptr, void *unused, long mapId) // 0x10A88290
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_map_variant_initialize_default_hook@@YIXPAUs_map_variant@@PAXJ@Z");
-
 	c_map_variant_loader::load_default(mapId, thisptr);
 }
 
 bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path) // 0x10A882F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_add_map_impl@@YA_NPAUs_file_reference@@PBD@Z");
-
 	bool success = false;
 	unsigned long last_error;
 	unsigned long file_size;
@@ -299,13 +287,8 @@ bool levels_add_map_impl(s_file_reference *file_reference, char const *maps_path
 	return success;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
-
-
 bool load_mod_package_campaigns(char const *virtual_path, c_mod_package *mod_package) // 0x10A88E60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load_mod_package_campaigns@@YA_NPBDPAVc_mod_package@@@Z");
-
 	c_mod_package *game_mod = mod_package;
 	c_file_reference file = game_mod->get_file();
 	c_file_open_scope scope(file, 1);
@@ -321,8 +304,6 @@ bool load_mod_package_campaigns(char const *virtual_path, c_mod_package *mod_pac
 
 bool load_mod_package_maps(char const *virtual_path, c_mod_package *mod_package, __int32 type_mask) // 0x10A89060
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?load_mod_package_maps@@YA_NPBDPAVc_mod_package@@H@Z");
-
 	c_mod_package *game_mod = mod_package;
 	c_file_reference file = game_mod->get_file();
 	c_file_open_scope scope(file, 1);
@@ -350,8 +331,6 @@ bool load_mod_package_maps(char const *virtual_path, c_mod_package *mod_package,
 
 long levels_enumerate_hook(s_levels_enumerate_async_data *data) // 0x10A886A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?levels_enumerate_hook@@YAJPAUs_levels_enumerate_async_data@hades_file_local@@@Z");
-
 	char directory_ascii[256];
 	wchar_t directory[256];
 	wchar_t extension[256];

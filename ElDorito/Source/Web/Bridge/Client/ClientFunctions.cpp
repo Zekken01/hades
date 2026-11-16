@@ -353,8 +353,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnShow(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C67820
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnShow@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					Web::Ui::ScreenLayer::Show(true);
 					return Web::Browser::Bridge::QueryError_Ok;
 				}
@@ -384,8 +382,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C64FA0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnHide@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					Web::Ui::ScreenLayer::Show(false);
 					return Web::Browser::Bridge::QueryError_Ok;
 				}
@@ -415,8 +411,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnScreenState(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C66730
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnScreenState@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto screenIdMember = p_Args.FindMember("screenId");
 					if (screenIdMember == p_Args.MemberEnd() || !screenIdMember->value.IsString())
 					{
@@ -458,8 +452,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnCommand(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63390
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnCommand@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto s_CommandValue = p_Args.FindMember("command");
 					if (s_CommandValue == p_Args.MemberEnd() || !s_CommandValue->value.IsString())
 					{
@@ -498,8 +490,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnSetVariables(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &args, std::string *result) // 0x10C67130
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnSetVariables@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					Modules::CommandMap &commandMap = Utils::Singleton<Modules::CommandMap>::Instance();
 					bool save = false;
 					auto variablesMember = args.FindMember("variables");
@@ -576,8 +566,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnGetAssetUrl(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C64770
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnGetAssetUrl@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto pathMember = p_Args.FindMember("path");
 					if (pathMember == p_Args.MemberEnd() || !pathMember->value.IsString())
 					{
@@ -645,7 +633,6 @@ namespace Web
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_map_variant@@QAE@ABU0@@Z"); no body to assert in
 _inline s_map_variant::s_map_variant(s_map_variant const &__that) = default; // 0x10C62AC0
 
 namespace Web
@@ -669,8 +656,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnPing(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C65960
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnPing@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto s_AddressValue = p_Args.FindMember("address");
 					auto s_port = p_Args.FindMember("port");
 					if (s_AddressValue == p_Args.MemberEnd() || !s_AddressValue->value.IsString() || s_port == p_Args.MemberEnd() || !s_port->value.IsInt())
@@ -723,8 +708,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnCaptureInput(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63080
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnCaptureInput@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto s_CaptureValue = p_Args.FindMember("capture");
 					auto s_CapturePointerValue = p_Args.FindMember("capturePointer");
 					bool capturePointer = false;
@@ -764,8 +747,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnVersion(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C687E0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnVersion@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					*p_Result = Utils::Version::GetVersionString();
 					return Web::Browser::Bridge::QueryError_Ok;
 				}
@@ -795,8 +776,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnMapVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C65180
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapVariantInfo@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					Blam::Network::Session *session = Blam::Network::GetActiveSession();
 					if (!session || !session->IsEstablished())
 					{
@@ -903,8 +882,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C66620
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnScoreboard@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					Blam::Network::Session *session = Blam::Network::GetActiveSession();
 					if (!session || !session->IsEstablished())
 					{
@@ -940,8 +917,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnShowScoreboard(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C678B0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnShowScoreboard@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto locked = p_Args.FindMember("locked");
 					auto pregame = p_Args.FindMember("preGame");
 					auto animate = p_Args.FindMember("animate");
@@ -979,8 +954,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnScoreboardHide(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C666F0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnScoreboardHide@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					Web::Ui::WebScoreboard::Hide();
 					return Web::Browser::Bridge::QueryError_Ok;
 				}
@@ -1010,8 +983,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnGameVariantInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63FE0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameVariantInfo@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					Blam::Network::Session *session = Blam::Network::GetActiveSession();
 					if (!session || !session->IsEstablished())
 					{
@@ -1137,8 +1108,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnCommands(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C635C0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnCommands@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					Modules::CommandMap const &commandMap = Utils::Singleton<Modules::CommandMap>::Instance();
 					rapidjson::StringBuffer buffer;
 					rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -1258,8 +1227,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnSendChat(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C66990
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnSendChat@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto message = p_Args.FindMember("message");
 					auto teamChat = p_Args.FindMember("teamChat");
 					if (message == p_Args.MemberEnd() || !message->value.IsString())
@@ -1304,8 +1271,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnChatBoxOpened(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63250
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnChatBoxOpened@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto opened = p_Args.FindMember("opened");
 					if (opened == p_Args.MemberEnd() || !opened->value.IsBool())
 					{
@@ -1345,8 +1310,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnSessionInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C66C50
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnSessionInfo@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					rapidjson::StringBuffer buffer;
 					rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
 					writer.StartObject();
@@ -1417,8 +1380,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnStats(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C67B10
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnStats@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto name = p_Args.FindMember("playerName");
 					if (name == p_Args.MemberEnd() || !name->value.IsString())
 					{
@@ -1551,8 +1512,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnVoIPSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C69820
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnVoIPSpeakingChanged@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto value = p_Args.FindMember("value");
 					if (value == p_Args.MemberEnd() || !value->value.IsBool())
 					{
@@ -1605,8 +1564,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnVoIPConnectedChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C68880
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnVoIPConnectedChanged@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto value = p_Args.FindMember("value");
 					if (value == p_Args.MemberEnd() || !value->value.IsBool())
 					{
@@ -1642,8 +1599,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnVoIPPlayerVoipLevelChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C69180
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnVoIPPlayerVoipLevelChanged@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto name = p_Args.FindMember("name");
 					auto uid = p_Args.FindMember("uid");
 					auto peerLevel = p_Args.FindMember("peerLevel");
@@ -1728,8 +1683,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnVoIPPlayerSpeakingChanged(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C689A0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnVoIPPlayerSpeakingChanged@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto name = p_Args.FindMember("name");
 					auto value = p_Args.FindMember("value");
 					if (name == p_Args.MemberEnd() || !name->value.IsString())
@@ -1789,8 +1742,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnVoIPPlayerVoipJoined(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C68DC0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnVoIPPlayerVoipJoined@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto name = p_Args.FindMember("name");
 					auto uid = p_Args.FindMember("uid");
 					if (name == p_Args.MemberEnd() || !name->value.IsString())
@@ -1845,8 +1796,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnIsMapLoading(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C64FF0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnIsMapLoading@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					static auto IsMapLoading = reinterpret_cast<bool (*)()>(0x5670E0);
 					rapidjson::StringBuffer buffer;
 					rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -1883,8 +1832,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnForgeAction(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63EF0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnForgeAction@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					Web::Ui::WebForge::ProcessAction(p_Args, p_Result);
 					return Web::Browser::Bridge::QueryError_Ok;
 				}
@@ -1914,8 +1861,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnForgePalette(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C63F40
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnForgePalette@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					*p_Result = Web::Ui::WebForge::BuildForgePaletteJSON();
 					return Web::Browser::Bridge::QueryError_Ok;
 				}
@@ -1945,8 +1890,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnShowLan(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C67870
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnShowLan@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					Patches::Ui::ShowLanBrowser();
 					return Web::Browser::Bridge::QueryError_Ok;
 				}
@@ -1976,8 +1919,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnPlayerReportInfo(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C65CD0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnPlayerReportInfo@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto networkPlayerIndex = p_Args.FindMember("playerIndex");
 					if (networkPlayerIndex == p_Args.MemberEnd() || !networkPlayerIndex->value.IsInt())
 					{
@@ -2074,8 +2015,6 @@ namespace Web
 			{
 				Web::Browser::Bridge::QueryError OnSubmitDialogResult(rapidjson::GenericValue<rapidjson::UTF8<char>,rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> > const &p_Args, std::string *p_Result) // 0x10C685A0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?OnSubmitDialogResult@ClientFunctions@Bridge@Browser@Web@@YA?AW4QueryError@234@ABV?$GenericValue@U?$UTF8@D@rapidjson@@V?$MemoryPoolAllocator@VCrtAllocator@rapidjson@@@2@@rapidjson@@PAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 					auto id = p_Args.FindMember("id");
 					auto result = p_Args.FindMember("result");
 					if (id == p_Args.MemberEnd() || !id->value.IsInt())
@@ -2100,8 +2039,6 @@ namespace Web
 
 static void PongReceived(Blam::Network::NetworkAddress const &from, unsigned __int32 timestamp, unsigned short id, unsigned __int32 latency) // 0x10C69AC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PongReceived@@YAXABUNetworkAddress@Network@Blam@@IGI@Z");
-
 	if (id != PingId)
 		return;
 	std::string data = "{";

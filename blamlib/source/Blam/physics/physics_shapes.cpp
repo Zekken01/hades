@@ -111,8 +111,6 @@ s_havok_shape_container_vtable c_decomposed_poop_shape_impl::g_vtable_for_hkpSha
 
 _inline c_scaled_convex_vertices_shape *c_scaled_convex_vertices_shape_impl::fixup(c_scaled_convex_vertices_shape *shape, c_convex_vertices_shape_with_material *child, float scale) // 0x10F1B890
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_scaled_convex_vertices_shape_impl@@SAPAUc_scaled_convex_vertices_shape@@PAU2@PAUc_convex_vertices_shape_with_material@@M@Z");
-
 	shape->vftable = (void **)&g_vtable_for_hkpShape;
 	shape->m_referenceObject.m_memSizeAndFlags = 0;
 	shape->m_referenceObject.m_referenceCount = 128;
@@ -126,8 +124,6 @@ _inline c_scaled_convex_vertices_shape *c_scaled_convex_vertices_shape_impl::fix
 
 _inline void __fastcall c_scaled_convex_vertices_shape_impl::getAabbImpl(c_scaled_convex_vertices_shape *this_, void *__formal, hkTransform *transform, float tolerance, hkAabb &aabbOut) // 0x10F1B9B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getAabbImpl@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXPAUhkTransform@@MAAUhkAabb@@@Z");
-
 	hkVector4 half_extents = this_->child->m_aabbHalfExtents;
 	half_extents.x *= this_->scale.x;
 	half_extents.y *= this_->scale.y;
@@ -143,22 +139,16 @@ _inline void __fastcall c_scaled_convex_vertices_shape_impl::getAabbImpl(c_scale
 
 _inline bool *__fastcall c_scaled_convex_vertices_shape_impl::castRayImpl(c_scaled_convex_vertices_shape *this_, void *__formal, bool *resultOut, hkpShapeRayCastInput const &input, hkpShapeRayCastOutput &ouput) // 0x10F1B360
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?castRayImpl@c_scaled_convex_vertices_shape_impl@@CIPA_NPAUc_scaled_convex_vertices_shape@@PAXPA_NABUhkpShapeRayCastInput@@AAUhkpShapeRayCastOutput@@@Z");
-
 	return (*(bool *(__thiscall **)(c_convex_vertices_shape_with_material *, bool *, hkpShapeRayCastInput const &, hkpShapeRayCastOutput &))(this_->child->vftable + 7))(this_->child, resultOut, input, ouput);
 }
 
 _inline __int32 __fastcall c_scaled_convex_vertices_shape_impl::getNumCollisionSpheresImpl(c_scaled_convex_vertices_shape *this_, void *__formal) // 0x10F1C0D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getNumCollisionSpheresImpl@c_scaled_convex_vertices_shape_impl@@CIHPAUc_scaled_convex_vertices_shape@@PAX@Z");
-
 	return (*(__int32(__thiscall **)(c_convex_vertices_shape_with_material *))(this_->child->vftable + 8))(this_->child);
 }
 
 _inline hkVector4 *__fastcall c_scaled_convex_vertices_shape_impl::getCollisionSpheresImpl(c_scaled_convex_vertices_shape *this_, void *__formal, hkVector4 *buffer) // 0x10F1BD20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getCollisionSpheresImpl@c_scaled_convex_vertices_shape_impl@@CIPAUhkVector4@@PAUc_scaled_convex_vertices_shape@@PAXPAU2@@Z");
-
 	long num_spheres = (*(__int32(__thiscall **)(c_convex_vertices_shape_with_material *))(this_->child->vftable + 8))(this_->child);
 	(*(hkVector4 *(__thiscall **)(c_convex_vertices_shape_with_material *, hkVector4 *))(this_->child->vftable + 9))(this_->child, buffer);
 
@@ -175,8 +165,6 @@ _inline hkVector4 *__fastcall c_scaled_convex_vertices_shape_impl::getCollisionS
 
 _inline void __fastcall c_scaled_convex_vertices_shape_impl::getFirstVertex(c_scaled_convex_vertices_shape *this_, void *__formal, hkVector4 &vertexOut) // 0x10F1BF50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getFirstVertex@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXAAUhkVector4@@@Z");
-
 	(*(void (__thiscall **)(c_convex_vertices_shape_with_material *, hkVector4 &))(this_->child->vftable + 10))(this_->child, vertexOut);
 
 	vertexOut.x = vertexOut.x * this_->scale.x;
@@ -186,8 +174,6 @@ _inline void __fastcall c_scaled_convex_vertices_shape_impl::getFirstVertex(c_sc
 
 _inline void __fastcall c_scaled_convex_vertices_shape_impl::getSupportingVertexImpl(c_scaled_convex_vertices_shape *this_, void *__formal, hkVector4 const &dir, hkVector4 &supportingVertexOut) // 0x10F1C150
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getSupportingVertexImpl@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXABUhkVector4@@AAU3@@Z");
-
 	(*(void (__thiscall **)(c_convex_vertices_shape_with_material *, hkVector4 const &, hkVector4 &))(this_->child->vftable + 11))(this_->child, dir, supportingVertexOut);
 
 	supportingVertexOut.x = supportingVertexOut.x * this_->scale.x;
@@ -197,8 +183,6 @@ _inline void __fastcall c_scaled_convex_vertices_shape_impl::getSupportingVertex
 
 _inline void __fastcall c_scaled_convex_vertices_shape_impl::convertVertexIdsToVerticesImpl(c_scaled_convex_vertices_shape *this_, void *__formal, unsigned short *ids, __int32 numIds, hkVector4 *vertixArrayOut) // 0x10F1B400
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?convertVertexIdsToVerticesImpl@c_scaled_convex_vertices_shape_impl@@CIXPAUc_scaled_convex_vertices_shape@@PAXPAGHPAUhkVector4@@@Z");
-
 	(*(void (__thiscall **)(c_convex_vertices_shape_with_material *, unsigned short *, __int32, hkVector4 *))(this_->child->vftable + 12))(this_->child, ids, numIds, vertixArrayOut);
 
 	for (long i = 0; i < numIds; i++)
@@ -211,8 +195,6 @@ _inline void __fastcall c_scaled_convex_vertices_shape_impl::convertVertexIdsToV
 
 _inline c_convex_vertices_shape_with_material *c_convex_vertices_shape_with_material_impl::fixup(c_convex_vertices_shape_with_material *shape, s_structure_instanced_geometry_definition *instance_definition) // 0x10F1B5B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_convex_vertices_shape_with_material_impl@@SAPAUc_convex_vertices_shape_with_material@@PAU2@PAUs_structure_instanced_geometry_definition@@@Z");
-
 	shape->vftable = (void **)0x165D40C;
 	shape->m_referenceObject.m_memSizeAndFlags = 0;
 	shape->m_referenceObject.m_referenceCount = 128;
@@ -233,8 +215,6 @@ _inline c_convex_vertices_shape_with_material *c_convex_vertices_shape_with_mate
 
 _inline c_decomposed_poop_shape *c_decomposed_poop_shape_impl::fixup(c_decomposed_poop_shape *shape, s_structure_instanced_geometry_definition *instance_definition) // 0x10F1B770
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_decomposed_poop_shape_impl@@SAPAUc_decomposed_poop_shape@@PAU2@PAUs_structure_instanced_geometry_definition@@@Z");
-
 	shape->hkpShape::vftable = (void **)&g_vtable_for_hkpShape;
 	shape->hkShapeContainer::vftable = (void **)&g_vtable_for_hkpShapeContainer;
 	shape->m_referenceObject.m_memSizeAndFlags = 0;
@@ -248,15 +228,11 @@ _inline c_decomposed_poop_shape *c_decomposed_poop_shape_impl::fixup(c_decompose
 
 _inline hkShapeContainer *__fastcall c_decomposed_poop_shape_impl::getContainer(c_decomposed_poop_shape *this_) // 0x10F1BED0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getContainer@c_decomposed_poop_shape_impl@@CIPAUhkShapeContainer@@PAUc_decomposed_poop_shape@@@Z");
-
 	return this_ ? (hkShapeContainer *)((unsigned char *)this_ + 0x10) : nullptr;
 }
 
 _inline __int32 __fastcall c_decomposed_poop_shape_impl::getNumChildShapes(hkShapeContainer *this_) // 0x10F1C030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getNumChildShapes@c_decomposed_poop_shape_impl@@CIHPAUhkShapeContainer@@@Z");
-
 	c_decomposed_poop_shape *decomposed_poop = (c_decomposed_poop_shape *)havok_shape_from_container(this_);
 	s_structure_instanced_geometry_definition *instance_def = (s_structure_instanced_geometry_definition *)decomposed_poop->instance_definition;
 	s_instanced_geometry_definition_extra_data *extra_data = &instance_def->extra_data[0];
@@ -265,8 +241,6 @@ _inline __int32 __fastcall c_decomposed_poop_shape_impl::getNumChildShapes(hkSha
 
 _inline hkpShape *__fastcall c_decomposed_poop_shape_impl::getChildShape(hkShapeContainer *this_, void *__formal, unsigned __int32 key, char (&buffer)[512]) // 0x10F1BBC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?getChildShape@c_decomposed_poop_shape_impl@@CIPAUhkpShape@@PAUhkShapeContainer@@PAXIAAY0CAA@D@Z");
-
 	typedef unsigned int hkUint32;
 	c_decomposed_poop_shape *decomposed_poop_shape = (c_decomposed_poop_shape *)havok_shape_from_container(this_);
 	s_structure_instanced_geometry_definition *instance_definition = (s_structure_instanced_geometry_definition *)decomposed_poop_shape->instance_definition;
@@ -286,22 +260,16 @@ _inline hkpShape *__fastcall c_decomposed_poop_shape_impl::getChildShape(hkShape
 
 void c_scaled_convex_vertices_shape::fixup(c_scaled_convex_vertices_shape *definition, c_convex_vertices_shape_with_material *child, float scale) // 0x10F1B820
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_scaled_convex_vertices_shape@@SAXPAU1@PAUc_convex_vertices_shape_with_material@@M@Z");
-
 	c_scaled_convex_vertices_shape_impl::fixup(definition, child, scale);
 }
 
 void c_decomposed_poop_shape::fixup(c_decomposed_poop_shape *definition, s_structure_instanced_geometry_definition *instance_definition) // 0x10F1B710
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_decomposed_poop_shape@@SAXPAU1@PAUs_structure_instanced_geometry_definition@@@Z");
-
 	c_decomposed_poop_shape_impl::fixup(definition, instance_definition);
 }
 
 void c_convex_vertices_shape_with_material::fixup(c_convex_vertices_shape_with_material *definition, s_structure_instanced_geometry_definition *instance_definition) // 0x10F1B550
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixup@c_convex_vertices_shape_with_material@@SAXPAU1@PAUs_structure_instanced_geometry_definition@@@Z");
-
 	c_convex_vertices_shape_with_material_impl::fixup(definition, instance_definition);
 }
 

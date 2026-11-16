@@ -215,8 +215,6 @@ namespace Modules
 {
 	ModuleSettings::ModuleSettings() : ModuleBase("Settings") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10A198C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleSettings@Modules@@QAE@XZ");
-
 		VarAntialiasing = AddVariableInt("Antialiasing", "antialiasing", "Controls whether antialiasing is disabled (0), FXAA is enabled (1)", eCommandFlagsArchived, 1, VariableSettingsAntialiasingUpdate);
 		VarAutoCentering = AddVariableInt("AutoCentering", "autocenter", "Controls whether auto-centering is enabled (1) or disabled (0)", eCommandFlagsArchived, 0, VariableSettingsAutoCenteringUpdate);
 		VarBrightness = AddVariableInt("Brightness", "brightness", "Controls the brightness level (0 - 100)", eCommandFlagsArchived, 50, VariableSettingsBrightnessUpdate);
@@ -286,8 +284,6 @@ namespace Modules
 
 	void ModuleSettings::GetScreenResolution(__int32 *width, __int32 *height) const // 0x10A1C820
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetScreenResolution@ModuleSettings@Modules@@QBEXPAH0@Z");
-
 		const auto& moduleSettings = Modules::ModuleSettings::Instance();
 		const auto& resolutionStr = moduleSettings.VarScreenResolution->ValueString;
 
@@ -312,8 +308,6 @@ namespace Modules
 
 bool VariableSettingsAntialiasingUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1D1E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsAntialiasingUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	unsigned long value = Modules::ModuleSettings::Instance().VarAntialiasing->ValueInt;
 	bool statusBool = value != 0;
 	if (value < 0 || value > 1)
@@ -331,8 +325,6 @@ bool VariableSettingsAntialiasingUpdate(std::vector<std::string> const &args, st
 
 bool VariableSettingsAutoCenteringUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1D470
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsAutoCenteringUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarAutoCentering->ValueInt;
 	auto statusBool = (value != 0);
 
@@ -349,8 +341,6 @@ bool VariableSettingsAutoCenteringUpdate(std::vector<std::string> const &args, s
 
 bool VariableSettingsBrightnessUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1D690
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsBrightnessUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarBrightness->ValueInt;
 
 	if (value < 0 || value > 100)
@@ -366,8 +356,6 @@ bool VariableSettingsBrightnessUpdate(std::vector<std::string> const &args, std:
 
 bool VariableSettingsContrastUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1D840
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsContrastUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarContrast->ValueInt;
 
 	if (value < 0 || value > 100)
@@ -383,8 +371,6 @@ bool VariableSettingsContrastUpdate(std::vector<std::string> const &args, std::s
 
 bool VariableSettingsDetailsQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1DA10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsDetailsQualityUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarDetailsQuality->ValueString;
 
 	if (!(value == "low" || value == "medium" || value == "high"))
@@ -402,8 +388,6 @@ bool VariableSettingsDetailsQualityUpdate(std::vector<std::string> const &args, 
 
 bool VariableSettingsDisplayHintsUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1DCF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsDisplayHintsUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarDisplayHints->ValueInt;
 	auto statusBool = (value != 0);
 
@@ -420,8 +404,6 @@ bool VariableSettingsDisplayHintsUpdate(std::vector<std::string> const &args, st
 
 bool VariableSettingsEffectsQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1DF10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsEffectsQualityUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarEffectsQuality->ValueString;
 	if (!(value == "low" || value == "medium" || value == "high"))
 		return false;
@@ -436,8 +418,6 @@ bool VariableSettingsEffectsQualityUpdate(std::vector<std::string> const &args, 
 
 bool VariableSettingsFullscreenUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1E200
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsFullscreenUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	const auto& moduleSettings = Modules::ModuleSettings::Instance();
 	auto value = moduleSettings.VarFullscreen->ValueInt;
 	auto statusBool = (value != 0);
@@ -456,8 +436,6 @@ bool VariableSettingsFullscreenUpdate(std::vector<std::string> const &args, std:
 
 bool VariableSettingsHUDShakeUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1E430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsHUDShakeUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarHUDShake->ValueInt;
 	auto statusBool = (value != 0);
 
@@ -474,8 +452,6 @@ bool VariableSettingsHUDShakeUpdate(std::vector<std::string> const &args, std::s
 
 bool VariableSettingsInvertLookUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1E650
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsInvertLookUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarInvertLook->ValueInt;
 	auto statusBool = (value != 0);
 
@@ -492,8 +468,6 @@ bool VariableSettingsInvertLookUpdate(std::vector<std::string> const &args, std:
 
 bool VariableSettingsInvertMouseUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1E870
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsInvertMouseUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarInvertMouse->ValueInt;
 	auto statusBool = (value != 0);
 
@@ -510,8 +484,6 @@ bool VariableSettingsInvertMouseUpdate(std::vector<std::string> const &args, std
 
 bool VariableSettingsLightingQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1EA90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsLightingQualityUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarLightingQuality->ValueString;
 
 	if (!(value == "low" || value == "medium" || value == "high"))
@@ -529,8 +501,6 @@ bool VariableSettingsLightingQualityUpdate(std::vector<std::string> const &args,
 
 bool VariableSettingsLookSensitivityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1ED70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsLookSensitivityUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarLookSensitivity->ValueInt;
 
 	if (value < 0 || value > 100)
@@ -546,8 +516,6 @@ bool VariableSettingsLookSensitivityUpdate(std::vector<std::string> const &args,
 
 bool VariableSettingsMotionBlurUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F6D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMotionBlurUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarMotionBlur->ValueInt;
 	auto statusBool = (value != 0);
 
@@ -564,8 +532,6 @@ bool VariableSettingsMotionBlurUpdate(std::vector<std::string> const &args, std:
 
 bool VariableSettingsMotionBlurStrengthUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F530
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMotionBlurStrengthUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarMotionBlurStrength->ValueFloat;
 
 	c_rasterizer_globals::g_motion_blur_parameters_set = 0;
@@ -578,8 +544,6 @@ bool VariableSettingsMotionBlurStrengthUpdate(std::vector<std::string> const &ar
 
 bool VariableSettingsSsaoUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A213B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsSsaoUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	__int32 value = Modules::ModuleSettings::Instance().VarSsao->ValueInt;
 	std::stringstream ss;
 	ss << "SSAO " << (value == 1 ? "enabled" : "disabled");
@@ -589,8 +553,6 @@ bool VariableSettingsSsaoUpdate(std::vector<std::string> const &args, std::strin
 
 bool VariableSettingsMotionBlurAlwaysUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F340
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMotionBlurAlwaysUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool value = Modules::ModuleSettings::Instance().VarMotionBlurAlways->ValueInt != 0;
 	std::stringstream ss;
 	ss << "Motion blur " << value ? "always" : "camera only";
@@ -600,8 +562,6 @@ bool VariableSettingsMotionBlurAlwaysUpdate(std::vector<std::string> const &args
 
 bool VariableSettingsMouseAccelerationUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F8F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMouseAccelerationUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarMouseAcceleration->ValueInt;
 
 	if (value < 0 || value > 100)
@@ -617,8 +577,6 @@ bool VariableSettingsMouseAccelerationUpdate(std::vector<std::string> const &arg
 
 bool VariableSettingsMouseSensitivityHorizontalUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1FAC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMouseSensitivityHorizontalUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarMouseSensitivityHorizontal->ValueInt;
 
 	if (value < 0 || value > 100)
@@ -634,8 +592,6 @@ bool VariableSettingsMouseSensitivityHorizontalUpdate(std::vector<std::string> c
 
 bool VariableSettingsMouseSensitivityVerticalUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMouseSensitivityVerticalUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarMouseSensitivityVertical->ValueInt;
 
 	if (value < 0 || value > 100)
@@ -651,8 +607,6 @@ bool VariableSettingsMouseSensitivityVerticalUpdate(std::vector<std::string> con
 
 bool VariableSettingsMouseSensitivityVehicleHorizontalUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1FC90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMouseSensitivityVehicleHorizontalUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarMouseSensitivityVehicleHorizontal->ValueInt;
 
 	if (value < 0 || value > 100)
@@ -668,8 +622,6 @@ bool VariableSettingsMouseSensitivityVehicleHorizontalUpdate(std::vector<std::st
 
 bool VariableSettingsMouseSensitivityVehicleVerticalUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1FE60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMouseSensitivityVehicleVerticalUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarMouseSensitivityVehicleVertical->ValueInt;
 
 	if (value < 0 || value > 100)
@@ -685,8 +637,6 @@ bool VariableSettingsMouseSensitivityVehicleVerticalUpdate(std::vector<std::stri
 
 bool VariableSettingsPlayerMarkerColorsUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20420
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsPlayerMarkerColorsUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	std::string value = Modules::ModuleSettings::Instance().VarPlayerMarkerColors->ValueString;
 	if (!(value == "default" || value == "blue" || value == "armor"))
 		return false;
@@ -711,8 +661,6 @@ bool VariableSettingsPlayerMarkerColorsUpdate(std::vector<std::string> const &ar
 
 bool VariableSettingsPostprocessingQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20740
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsPostprocessingQualityUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarPostprocessingQuality->ValueString;
 
 	if (!(value == "low" || value == "medium" || value == "high"))
@@ -730,8 +678,6 @@ bool VariableSettingsPostprocessingQualityUpdate(std::vector<std::string> const 
 
 bool VariableSettingsShadowQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20E60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsShadowQualityUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarShadowQuality->ValueString;
 
 	if (!(value == "low" || value == "medium" || value == "high"))
@@ -749,8 +695,6 @@ bool VariableSettingsShadowQualityUpdate(std::vector<std::string> const &args, s
 
 bool VariableSettingsShadowResolutionUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21140
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsShadowResolutionUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	unsigned long value = Modules::ModuleSettings::Instance().VarShadowResolution->ValueInt;
 	long const shadow_texture_resolution = value;
 	s_surface_group_description *shadow_surface = &reinterpret_cast<s_surface_group_description *>(0x1914E50)[3];
@@ -776,8 +720,6 @@ bool VariableSettingsShadowResolutionUpdate(std::vector<std::string> const &args
 
 bool VariableSettingsTextureFilteringQualityUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A215E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsTextureFilteringQualityUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarTextureFilteringQuality->ValueString;
 
 	if (!(value == "low" || value == "medium" || value == "high"))
@@ -795,8 +737,6 @@ bool VariableSettingsTextureFilteringQualityUpdate(std::vector<std::string> cons
 
 bool VariableSettingsTextureResolutionUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A218D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsTextureResolutionUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarTextureResolution->ValueString;
 
 	if (!(value == "low" || value == "medium" || value == "high"))
@@ -814,8 +754,6 @@ bool VariableSettingsTextureResolutionUpdate(std::vector<std::string> const &arg
 
 bool VariableSettingsToggleCrouchUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21BC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsToggleCrouchUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarToggleCrouch->ValueInt;
 	auto statusBool = (value != 0);
 
@@ -832,8 +770,6 @@ bool VariableSettingsToggleCrouchUpdate(std::vector<std::string> const &args, st
 
 bool VariableSettingsVSyncUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21DE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsVSyncUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarVSync->ValueInt;
 	auto statusBool = (value != 0);
 	if (value < 0 || value > 1)
@@ -848,8 +784,6 @@ bool VariableSettingsVSyncUpdate(std::vector<std::string> const &args, std::stri
 
 bool VariableSettingsScreenResolutionUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20A20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsScreenResolutionUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	const auto& moduleSettings = Modules::ModuleSettings::Instance();
 	auto value = moduleSettings.VarScreenResolution->ValueString;
 
@@ -868,15 +802,11 @@ bool VariableSettingsScreenResolutionUpdate(std::vector<std::string> const &args
 
 bool SoundSystemInitialized() // 0x10A1C910
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SoundSystemInitialized@@YA_NXZ");
-
 	return *(unsigned __int32 *)0x069AD06C;
 }
 
 bool VariableSettingsMasterVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1F160
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMasterVolumeUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarMasterVolume->ValueInt;
 	if (value < 0 || value > 100)
 		return false;
@@ -893,8 +823,6 @@ bool VariableSettingsMasterVolumeUpdated(std::vector<std::string> const &args, s
 
 bool VariableSettingsSfxVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20C80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsSfxVolumeUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto value = Modules::ModuleSettings::Instance().VarSfxVolume->ValueInt;
 	if (value < 0 || value > 100)
 		return false;
@@ -911,8 +839,6 @@ bool VariableSettingsSfxVolumeUpdated(std::vector<std::string> const &args, std:
 
 bool VariableSettingsMainMenuMusicVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1EF40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMainMenuMusicVolumeUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	unsigned long value = Modules::ModuleSettings::Instance().VarMainMenuMusicVolume->ValueInt;
 	if (SoundSystemInitialized() && ((bool(__cdecl *)())0x5314B0)() && ((bool(__cdecl *)())0x531E90)())
 	{
@@ -930,8 +856,6 @@ bool VariableSettingsMainMenuMusicVolumeUpdated(std::vector<std::string> const &
 
 bool VariableSettingsMusicVolumeUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A20200
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsMusicVolumeUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	unsigned long value = Modules::ModuleSettings::Instance().VarMusicVolume->ValueInt;
 	if (SoundSystemInitialized() && ((bool(__cdecl *)())0x5314B0)() && !((bool(__cdecl *)())0x531E90)())
 	{
@@ -949,8 +873,6 @@ bool VariableSettingsMusicVolumeUpdated(std::vector<std::string> const &args, st
 
 bool VariableAudioOutputDeviceUpdated(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1CD50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableAudioOutputDeviceUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (!SoundSystemInitialized())
 		return true;
 
@@ -974,8 +896,6 @@ bool VariableAudioOutputDeviceUpdated(std::vector<std::string> const &args, std:
 
 bool CommandAudioOutputDeviceList(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1C260
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandAudioOutputDeviceList@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	rapidjson::StringBuffer buffer;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
 	Patches::Audio::SAudioDeviceInfo info;
@@ -994,8 +914,6 @@ bool CommandAudioOutputDeviceList(std::vector<std::string> const &args, std::str
 
 bool VariableSettingsAnisotropicFilteringUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1CF80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsAnisotropicFilteringUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Pointer anisotropic_filtering_level(0x191055C);
 	__int32 value = Modules::ModuleSettings::Instance().VarAnisotropicFiltering->ValueInt;
 	if (value < 0 || value > 16)
@@ -1017,8 +935,6 @@ bool VariableSettingsAnisotropicFilteringUpdate(std::vector<std::string> const &
 
 bool VariableSettingsSubtitlesUpdate(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A21560
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableSettingsSubtitlesUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	__int32 value = Modules::ModuleSettings::Instance().VarSubtitles->ValueInt;
 
 	s_global_preferences *prefs = tls_getd().preferences;
@@ -1031,8 +947,6 @@ bool VariableSettingsSubtitlesUpdate(std::vector<std::string> const &args, std::
 
 bool CommandResetSettings(std::vector<std::string> const &args, std::string &returnInfo) // 0x10A1C460
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandResetSettings@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Modules::CommandMap &commandMap = Modules::CommandMap::Instance();
 	std::string previous;
 	for (auto &cmd : commandMap.Commands)
@@ -1054,8 +968,6 @@ bool CommandResetSettings(std::vector<std::string> const &args, std::string &ret
 
 void UpdateScreenResolution() // 0x10A1CC20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateScreenResolution@@YAXXZ");
-
 	auto gameWindow = *(uint32_t*)0x0199C014;
 	if (!gameWindow)
 		return;
@@ -1078,8 +990,6 @@ void UpdateScreenResolution() // 0x10A1CC20
 
 static bool TryParseInt(std::string const &str, __int32 *value) // 0x10A1C950
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseInt@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAH@Z");
-
 	if (str.length() == 0)
 		return false;
 
@@ -1093,8 +1003,6 @@ static bool TryParseInt(std::string const &str, __int32 *value) // 0x10A1C950
 
 bool TryParseResolutionString(std::string const &str, __int32 *width, __int32 *height) // 0x10A1CA30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseResolutionString@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAH1@Z");
-
 	auto separatorPos = str.find("x");
 	if (separatorPos != std::string::npos && separatorPos + 1 < str.length())
 	{

@@ -68,16 +68,12 @@ namespace Http
 
 	inline Http::CWinHttpManager &CWinHttpManager::Instance() // 0x107F7370
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Instance@CWinHttpManager@Http@@SAAAV12@XZ");
-
 		static Http::CWinHttpManager instance;
 		return instance;
 	}
 
 	inline void *CWinHttpManager::GetSessionHandle() // 0x10808B40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetSessionHandle@CWinHttpManager@Http@@QAEPAXXZ");
-
 		return m_sessHandle.get();
 	}
 }

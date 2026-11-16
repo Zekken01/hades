@@ -157,8 +157,6 @@ using namespace hades_file_local;
 
 void player_character_type_patches_apply() // 0x10ABC410
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_character_type_patches_apply@@YAXXZ");
-
 	Hook(0x139F70, player_find_player_character_unit_and_variant_info_hook).Apply();
 	Hook(0x137430, player_get_model_variant_hook).Apply();
 	Hook(0x7E1BF0, unit_get_global_player_information_block_index, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -200,8 +198,6 @@ void player_character_type_patches_apply() // 0x10ABC410
 
 void player_find_player_character_unit_and_variant_info(long player_index, long character_type_index, long *out_unit_definition_index, unsigned long *out_variant_name) // 0x10ABE740
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_player_character_unit_and_variant_info@@YAXJJPAJPAK@Z");
-
 	long third_person_unit_index = -1;
 	long thid_person_variant_name = 0;
 	s_game_globals_player_representation *player_representation;
@@ -220,15 +216,11 @@ void player_find_player_character_unit_and_variant_info(long player_index, long 
 
 bool find_best_starting_location_index__game_is_survival_hook() // 0x10ABC180
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?find_best_starting_location_index__game_is_survival_hook@@YA_NXZ");
-
 	return false;
 }
 
 bool player_find_best_spawn_location_hook(long player_index, real_point3d *position, float *facing, float *pitch, bool a5, bool a6) // 0x10ABE530
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_best_spawn_location_hook@@YA_NJPAUreal_point3d@@PAM1_N2@Z");
-
 	long (*const scenario_find_best_starting_location_index)(long, bool, bool) = reinterpret_cast<long (*)(long, bool, bool)>(0x5375B0);
 	bool found = ((bool (*)(long, real_point3d *, float *, float *, bool, bool))0x539E30)(player_index, position, facing, pitch, a5, a6);
 	if (found)
@@ -258,8 +250,6 @@ bool player_find_best_spawn_location_hook(long player_index, real_point3d *posit
 
 long chud_character_globals_index_from_output_user_hook(long output_user_index) // 0x10ABBF00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_character_globals_index_from_output_user_hook@@YAJJ@Z");
-
 	long unit_index = ((long (*)(long))0x589CC0)(output_user_index);
 	s_game_globals_player_character_type *player_character;
 	if (unit_try_get_global_player_character_type(unit_index, &player_character))
@@ -269,8 +259,6 @@ long chud_character_globals_index_from_output_user_hook(long output_user_index) 
 
 void player_find_player_character_unit_and_variant_info_hook(long player_index, long *out_unit_definition_index, unsigned long *out_variant_name) // 0x10ABE860
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_find_player_character_unit_and_variant_info_hook@@YAXJPAJPAK@Z");
-
 	s_player_datum *player = player_get(player_index);
 	short index = -1;
 	if (game_is_multiplayer())
@@ -304,8 +292,6 @@ void player_find_player_character_unit_and_variant_info_hook(long player_index, 
 
 s_weapon_first_person_block *weapon_definition_get_first_person_interface_by_character_hook(s_weapon_definition *weapon_definition, long representation_index) // 0x10ABEE10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?weapon_definition_get_first_person_interface_by_character_hook@@YAPAUs_weapon_first_person_block@@PAUs_weapon_definition@@J@Z");
-
 	s_game_globals *game_globals = game_globals_get();
 	for (long i = 0; i < game_globals->player_character_types.count; i++)
 	{
@@ -323,8 +309,6 @@ s_weapon_first_person_block *weapon_definition_get_first_person_interface_by_cha
 
 __declspec(naked) void player_submit_actions_53E2B2() // 0x10ABECC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53E2B2@@YAXXZ");
-
 	__asm
 	{
 		mov ecx, g_temp_global_player_control
@@ -335,8 +319,6 @@ __declspec(naked) void player_submit_actions_53E2B2() // 0x10ABECC0
 
 __declspec(naked) void player_submit_actions_53E4F6() // 0x10ABECD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53E4F6@@YAXXZ");
-
 	__asm
 	{
 		mov ecx, g_temp_global_player_control
@@ -347,8 +329,6 @@ __declspec(naked) void player_submit_actions_53E4F6() // 0x10ABECD0
 
 __declspec(naked) void player_submit_actions_53EA06() // 0x10ABECE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53EA06@@YAXXZ");
-
 	__asm
 	{
 		mov ecx, g_temp_global_player_information
@@ -359,8 +339,6 @@ __declspec(naked) void player_submit_actions_53EA06() // 0x10ABECE0
 
 bool player_submit_actions_53D580_hook(long unit_index) // 0x10ABEBE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_submit_actions_53D580_hook@@YA_NJ@Z");
-
 	bool (__cdecl *const player_submit_actions_53D580)(long) = (bool(__cdecl *const)(long))0xb44f90;
 	long player_control_block_index = unit_get_global_player_control_block_index(unit_index);
 	long player_information_block_index = unit_get_global_player_information_block_index(unit_index);
@@ -371,8 +349,6 @@ bool player_submit_actions_53D580_hook(long unit_index) // 0x10ABEBE0
 
 long game_globals_player_representation_index_from_player_index_hook(long player_index) // 0x10ABC220
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_globals_player_representation_index_from_player_index_hook@@YAJJ@Z");
-
 	s_player_datum *player = player_get(player_index);
 	void *player_representation = ((void *(__cdecl *)(long))0x589cc0)(0);
 
@@ -383,8 +359,6 @@ long game_globals_player_representation_index_from_player_index_hook(long player
 
 s_game_globals_player_representation *game_globals_player_representation_from_player_index_hook(long player_index) // 0x10ABC1A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_globals_player_representation_from_player_index_hook@@YAPAUs_game_globals_player_representation@@J@Z");
-
 	long index = game_globals_player_representation_index_from_player_index_hook(player_index);
 
 	return &game_globals_get()->PlayerRepresentation[index];
@@ -392,8 +366,6 @@ s_game_globals_player_representation *game_globals_player_representation_from_pl
 
 void chud_sounds_fix_hook(long player_index) // 0x10ABBFE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?chud_sounds_fix_hook@@YAXJ@Z");
-
 	long output_unit_index = ((long (*)(long))0x589CC0)(0);
 	s_player_datum *player = player_get(player_index);
 	if (player && output_unit_index != -1 && output_unit_index == player->unit_index)
@@ -412,8 +384,6 @@ void chud_sounds_fix_hook(long player_index) // 0x10ABBFE0
 
 s_model_variant *player_get_model_variant_hook(long player_index) // 0x10ABEA10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_get_model_variant_hook@@YAPAUs_model_variant@@J@Z");
-
 	s_game_globals_player_representation *representation = game_globals_player_representation_from_player_index_hook(player_index);
 	if (!representation || representation->ThirdPersonUnit.index == -1)
 		return nullptr;

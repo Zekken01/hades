@@ -95,8 +95,6 @@ namespace Modules
 {
 	ModuleScript::ModuleScript() : ModuleBase("Script") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x106D3590
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleScript@Modules@@QAE@XZ");
-
 		VarPrintToConsole = AddVariableInt("PrintToConsole", "script_print_to_console", "Logs hsc print to the console", eCommandFlagsArchived, 0);
 		VarPrintToConsole->ValueIntMin = 0;
 		VarPrintToConsole->ValueIntMax = 1;
@@ -110,13 +108,11 @@ namespace Scripting
 {
 	namespace HS
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??0ScriptMethodMap@HS@Scripting@@QAE@XZ"); no body to assert in
 	}
 }
 
 namespace Modules
 {
-	// mangled_x86(MANGLED_DEFAULT, "??1ModuleBase@Modules@@QAE@XZ"); no body to assert in
 	_inline ModuleBase::~ModuleBase() = default; // 0x106D3ED0
 }
 
@@ -124,7 +120,6 @@ namespace Scripting
 {
 	namespace HS
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??1ScriptMethod@HS@Scripting@@QAE@XZ"); no body to assert in
 		_inline ScriptMethod::~ScriptMethod() = default; // 0x106D3F20
 	}
 }
@@ -133,8 +128,6 @@ namespace Scripting
 
 bool CommandGenerateMethodDecl(std::vector<std::string> const &args, std::string &retValue) // 0x106D4200
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGenerateMethodDecl@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (args.size() < 1)
 	{
 		retValue = "Invalid arguments";
@@ -156,8 +149,6 @@ bool CommandGenerateMethodDecl(std::vector<std::string> const &args, std::string
 
 bool CommandScriptHelp(std::vector<std::string> const &args, std::string &retValue) // 0x106D4330
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandScriptHelp@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (args.size() < 1)
 	{
 		retValue = "Invalid arguments";
@@ -179,8 +170,6 @@ bool CommandScriptHelp(std::vector<std::string> const &args, std::string &retVal
 
 bool CommandGenerateDoc(std::vector<std::string> const &args, std::string &retValue) // 0x106D3FE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGenerateDoc@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Scripting::HS::ScriptMethodMap &methods = Utils::Singleton<Scripting::HS::ScriptMethodMap>::Instance();
 	std::string documentation = methods.GenerateDocs();
 	std::ofstream outFile("ed_hs_doc.txt");

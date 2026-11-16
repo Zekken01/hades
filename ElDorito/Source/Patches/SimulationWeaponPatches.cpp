@@ -279,8 +279,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x1069EDB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@SimulationWeapon@Patches@@YAXXZ");
-
 			Hook(0x75F2B9, simulation_action_weapon_fire_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Pointer(0x1643450).Write(c_simulation_weapon_fire_event_definition__apply_game_event_hook);
 		}
@@ -291,8 +289,6 @@ namespace Patches
 
 void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bool barrel_should_recover, long tracked_gamestate_index, float projectile_error, short unit_zoom_level, s_simulation_action_projectile_fire_result *projectile_results, long projectile_result_count, bool generated_from_host_live_fire) // 0x1069FE20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_weapon_fire_hook@@YAXJJ_NJMFPAUs_simulation_action_projectile_fire_result@hades_file_local@@J0@Z");
-
 	if (!game_is_distributed() || eldorado::game_is_playback())
 		return;
 	s_weapon_data *weapon = object_get<s_weapon_data>(weapon_index);
@@ -401,8 +397,6 @@ void simulation_action_weapon_fire_hook(long weapon_index, long barrel_index, bo
 
 void __fastcall c_simulation_weapon_fire_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long a1, long const *object_references, long object_reference_count, s_weapon_fire_event_sending_data *payload) // 0x1069EF80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_weapon_fire_event_definition__apply_game_event_hook@@YIXPAX0JPBJJPAUs_weapon_fire_event_sending_data@hades_file_local@@@Z");
-
 	if (object_references[0] == -1)
 		return;
 	long object_index = eldorado::simulation_gamestate_entity_get_object_index(*object_references);

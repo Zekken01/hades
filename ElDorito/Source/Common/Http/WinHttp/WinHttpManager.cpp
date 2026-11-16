@@ -93,8 +93,6 @@ namespace Http
 {
 	CWinHttpManager::CWinHttpManager() : m_sessHandle(CreateSession()) /* hades-mem-init:  */ // 0x10803520
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CWinHttpManager@Http@@AAE@XZ");
-
 		if (!m_sessHandle)
 		{
 			throw std::system_error(GetLastError(), std::system_category());
@@ -107,8 +105,6 @@ namespace Http
 {
 	std::unique_ptr<void *,Http::WinHttpHandlerDeleter> CWinHttpManager::CreateSession() // 0x108039C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateSession@CWinHttpManager@Http@@QAE?AV?$unique_ptr@PAXUWinHttpHandlerDeleter@Http@@@std@@XZ");
-
 		std::unique_ptr<void *,Http::WinHttpHandlerDeleter> session(WinHttpOpen(nullptr, WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, WINHTTP_FLAG_ASYNC));
 		unsigned long protocols = WINHTTP_FLAG_SECURE_PROTOCOL_TLS1 | WINHTTP_FLAG_SECURE_PROTOCOL_TLS1_1 | WINHTTP_FLAG_SECURE_PROTOCOL_TLS1_2;
 		WinHttpSetOption(session.get(), WINHTTP_OPTION_SECURE_PROTOCOLS, &protocols, sizeof(protocols));
@@ -123,8 +119,6 @@ namespace Http
 {
 	std::shared_ptr<Http::IHttpRequest> CWinHttpManager::CreateRequest() // 0x10803910
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?CreateRequest@CWinHttpManager@Http@@UAE?AV?$shared_ptr@VIHttpRequest@Http@@@std@@XZ");
-
 		return std::make_shared<Http::CWinHttpRequest>(*this);
 	}
 }

@@ -138,8 +138,6 @@ namespace Utils
 	{
 		void CompressBuf(std::vector<unsigned char> &dest, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753AD0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CompressBuf@Jpeg@Utils@@YAXAAV?$vector@EV?$allocator@E@std@@@std@@HPBEHH@Z");
-
 			char err_mgr[132];
 			jpeg_compress_struct cinfo;
 			cinfo.err = eldorado::jpeg_std_error(err_mgr);
@@ -180,7 +178,6 @@ namespace Utils
 #line 178
 		void CompressFile(std::wstring destFilename, __int32 quality, unsigned char const *srcBits, __int32 width, __int32 height) // 0x10753EF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CompressFile@Jpeg@Utils@@YAXV?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@HPBEHH@Z");
 #line 182
 
 			#line 180 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Utils\\JpegUtils.cpp"
@@ -194,13 +191,10 @@ namespace Utils
 
 void init_stdvector_destination(jpeg_compress_struct *__formal) // 0x10754710
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?init_stdvector_destination@@YAXPAUjpeg_compress_struct@hades_file_local@@@Z");
 }
 
 bool empty_stdvector_output_buffer(jpeg_compress_struct *cinfo) // 0x10754630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?empty_stdvector_output_buffer@@YA_NPAUjpeg_compress_struct@hades_file_local@@@Z");
-
 	stdvector_destination_mgr *dest = (stdvector_destination_mgr *)cinfo->dest;
 	unsigned int currentSize = dest->vec->size();
 	dest->vec->resize(2 * currentSize);
@@ -211,8 +205,6 @@ bool empty_stdvector_output_buffer(jpeg_compress_struct *cinfo) // 0x10754630
 
 void term_stdvector_destination(jpeg_compress_struct *cinfo) // 0x10754950
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?term_stdvector_destination@@YAXPAUjpeg_compress_struct@hades_file_local@@@Z");
-
 	stdvector_destination_mgr *dest = (stdvector_destination_mgr *)cinfo->dest;
 	size_t newSize = dest->vec->capacity() - dest->pub.free_in_buffer;
 	dest->vec->resize(newSize);
@@ -220,8 +212,6 @@ void term_stdvector_destination(jpeg_compress_struct *cinfo) // 0x10754950
 
 void jpeg_stdvector_dest(jpeg_compress_struct *cinfo, std::vector<unsigned char> &vec) // 0x10754730
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?jpeg_stdvector_dest@@YAXPAUjpeg_compress_struct@hades_file_local@@AAV?$vector@EV?$allocator@E@std@@@std@@@Z");
-
 	if (cinfo->dest == nullptr)
 	{
 		cinfo->dest = (*(void *(__cdecl **)(jpeg_compress_struct *, int, unsigned int))cinfo->mem)(cinfo, 0, sizeof(stdvector_destination_mgr));

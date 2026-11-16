@@ -102,22 +102,16 @@ using namespace hades_file_local;
 
 std::shared_ptr<c_cache_file_tag_cache> c_cache_file_tags::get_open_cache() // 0x10879AA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_open_cache@c_cache_file_tags@@SA?AV?$shared_ptr@Vc_cache_file_tag_cache@@@std@@XZ");
-
 	return tag_cache;
 }
 
 std::shared_ptr<Blam::Cache::StringIDCache> c_cache_file_tags::get_open_string_id_cache() // 0x10879B10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_open_string_id_cache@c_cache_file_tags@@SA?AV?$shared_ptr@UStringIDCache@Cache@Blam@@@std@@XZ");
-
 	return string_id_cache;
 }
 
 bool c_cache_file_tags::open_tag_cache() // 0x10879F70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?open_tag_cache@c_cache_file_tags@@SA_NXZ");
-
 	char const *tags_path = "maps\\tags.dat";
 	char const *tags_names_path = "maps\\tag_list.csv";
 	char const *string_ids_path = "maps\\string_ids.dat";
@@ -148,13 +142,10 @@ bool c_cache_file_tags::open_tag_cache() // 0x10879F70
 	return true;
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1c_tag_names_csv_file_reader@@QAE@XZ"); no body to assert in
 _inline c_tag_names_csv_file_reader::~c_tag_names_csv_file_reader() = default; // 0x10877FB0
 
 void c_cache_file_tags::close_tag_cache() // 0x108799C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?close_tag_cache@c_cache_file_tags@@SAXXZ");
-
 	tag_cache = nullptr;
 	string_id_cache = nullptr;
 	previous_last_write_time = {};

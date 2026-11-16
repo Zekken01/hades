@@ -28,8 +28,6 @@ namespace Utils
 template<typename t_arg0>
 __int32 Utils::Bits::CountBits(t_arg0 val)
 {
-	mangled_prefix_assert("??$CountBits@");
-
 	__int32 count = 0;
 
 	while (val)

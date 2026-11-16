@@ -247,7 +247,6 @@ namespace Web
 				virtual void ShowConfirmation(std::vector<SModBrowserState::SRequestedMod *> const &);
 				virtual void SetDownloadSingleFinishedCallback(std::function<void __cdecl(void)>);
 				CWebModDownloadSingleScreen() = default;  // hades: not user-provided, so make_shared value-initializes
-				// mangled_x86(MANGLED_KNOWN_GOOD, "??1CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAE@XZ"); defaulted on its declaration
 				virtual ~CWebModDownloadSingleScreen() = default; // 0x10c7b8a0
 			};
 			static_assert32(sizeof(CWebModDownloadSingleScreen) == 168, "Invalid CWebModDownloadSingleScreen size");
@@ -347,73 +346,53 @@ namespace Web
 		{
 			std::shared_ptr<IModBrowserModDownloadUI> GetDownloadUISingle() // 0x10C7CC90
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?GetDownloadUISingle@WebServerModBrowser@Ui@Web@@YA?AV?$shared_ptr@VIModBrowserModDownloadUI@@@std@@XZ");
-
 				return screen_single;
 			}
 
 			void CWebModDownloadSingleScreen::SetConfirmCallback(std::function<void __cdecl(void)> callback) // 0x10C7E100
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?SetConfirmCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
-
 				m_confirmCallback = callback;
 			}
 
 			void CWebModDownloadSingleScreen::SetRetryCallback(std::function<void __cdecl(void)> callback) // 0x10C7E260
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?SetRetryCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
-
 				m_retryCallback = callback;
 			}
 
 			void CWebModDownloadSingleScreen::SetCancelCallback(std::function<void __cdecl(void)> callback) // 0x10C7E050
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?SetCancelCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
-
 				m_cancelCallback = callback;
 			}
 
 			void CWebModDownloadSingleScreen::SetDownloadSingleFinishedCallback(std::function<void __cdecl(void)> callback) // 0x10C7E1B0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?SetDownloadSingleFinishedCallback@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXV?$function@$$A6AXXZ@std@@@Z");
-
 				m_downloadSingleCallback = callback;
 			}
 
 			void CWebModDownloadSingleScreen::OnDownloadStart() // 0x10C7DE90
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadStart@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
-
 				NotifyDownloadStateChanged("downloading", "downloading");
 			}
 
 			void CWebModDownloadSingleScreen::OnDownloadFailed(std::string const &message) // 0x10C7D990
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFailed@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 				NotifyDownloadStateChanged("download_failed", "download_failed");
 				NotifyDownloadError(message);
 			}
 
 			void CWebModDownloadSingleScreen::OnDownloadFinalizing() // 0x10C7DAB0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFinalizing@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
-
 				NotifyDownloadStateChanged("downloading", "download_finalizing");
 			}
 
 			void CWebModDownloadSingleScreen::OnDownloadFinished(SModBrowserState const &state) // 0x10C7DBB0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDownloadFinished@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABUSModBrowserState@@@Z");
-
 				Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadSingleFinished", "{}");
 				NotifyDownloadStateChanged("download_finalizing", "download_single_finished");
 			}
 
 			void CWebModDownloadSingleScreen::Hide() // 0x10C7CD00
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
-
 				NotifyDownloadStateChanged("awaiting_confirmation_single", "awaiting_confirmation_single");
 				Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "hide_moddownloader", "{}");
 				screenVisible = false;
@@ -421,49 +400,35 @@ namespace Web
 
 			void CWebModDownloadSingleScreen::OnDestroy() // 0x10C7D950
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnDestroy@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 			}
 
 			void CWebModDownloadSingleScreen::OnShow() // 0x10C7DFD0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnShow@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 			}
 
 			void CWebModDownloadSingleScreen::OnHide() // 0x10C7DF90
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnHide@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 			}
 
 			void CWebModDownloadSingleScreen::OnUpdate() // 0x10C7E010
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXXZ");
 			}
 
 			void Init() // 0x10C7CE90
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebServerModBrowser@Ui@Web@@YAXXZ");
-
 				screen_single = std::make_shared<CWebModDownloadSingleScreen>();
 				Web::Ui::ScreenLayer::RegisterScreen("mod_download_single", screen_single);
 			}
 
-			// mangled_x86(MANGLED_DEFAULT, "??0CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@QAE@XZ"); no body to assert in
 			// _inline CWebModDownloadSingleScreen::CWebModDownloadSingleScreen() = default; // 0x10C7B4E0  // hades: defaulted on its declaration
 		}
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0IModBrowserModDownloadUI@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0SModBrowserState@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??0SRequestedMod@SModBrowserState@@QAE@XZ"); no body to assert in
-
 namespace Web
 {
 	namespace Ui
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??0WebScreen@Ui@Web@@QAE@XZ"); no body to assert in
 	}
 }
 
@@ -481,8 +446,6 @@ namespace Web
 
 static void NotifyDownloadStateChanged(std::string const &fromState, std::string const &toState) // 0x10C7D210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadStateChanged@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 	rapidjson::StringBuffer buff;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
 	writer.StartObject();
@@ -496,8 +459,6 @@ static void NotifyDownloadStateChanged(std::string const &fromState, std::string
 
 static void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10C7D420
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadStatus@@YAXABUDownloadStatusInfo@hades_file_local@@@Z");
-
 	rapidjson::StringBuffer buff;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
 	writer.StartObject();
@@ -527,8 +488,6 @@ static void NotifyDownloadStatus(DownloadStatusInfo const &info) // 0x10C7D420
 
 static void NotifyDownloadError(std::string const &reason) // 0x10C7D030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyDownloadError@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	rapidjson::StringBuffer buff;
 	rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
 	writer.StartObject();
@@ -538,10 +497,8 @@ static void NotifyDownloadError(std::string const &reason) // 0x10C7D030
 	Web::Ui::ScreenLayer::NotifyScreen(Web::Ui::ScreenLayer::ModDownload, "modDownloadFailed", buff.GetString());
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
 _inline DownloadStatusInfo::DownloadStatusInfo() = default; // 0x10C7B590
 
-// mangled_x86(MANGLED_DEFAULT, "??1DownloadStatusInfo@hades_file_local@@QAE@XZ"); no body to assert in
 _inline DownloadStatusInfo::~DownloadStatusInfo() = default; // 0x10C7B930
 
 namespace Web
@@ -679,8 +636,6 @@ namespace Web
 		{
 			void CWebModDownloadSingleScreen::ShowConfirmation(std::vector<SModBrowserState::SRequestedMod *> const &mods) // 0x10C7E310
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?ShowConfirmation@CWebModDownloadSingleScreen@WebServerModBrowser@Ui@Web@@UAEXABV?$vector@PAUSRequestedMod@SModBrowserState@@V?$allocator@PAUSRequestedMod@SModBrowserState@@@std@@@std@@@Z");
-
 				rapidjson::StringBuffer buff;
 				rapidjson::Writer<rapidjson::StringBuffer> writer(buff);
 				writer.StartObject();

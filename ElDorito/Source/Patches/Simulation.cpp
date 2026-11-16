@@ -262,8 +262,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10ACCE60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Simulation@Patches@@YAXXZ");
-
 			Pointer(0x163FE48).Write<unsigned int>(reinterpret_cast<unsigned int>(c_simulation_game_engine_event_definition__event_payload_encode_hook));
 			Pointer(0x1642F58).Write(c_simulation_generic_entity_definition__entity_creation_encode_hook);
 			Pointer(0x1643150).Write(c_simulation_generic_entity_definition__entity_creation_encode_hook);
@@ -304,8 +302,6 @@ namespace Patches
 
 void __fastcall c_simulation_generic_entity_definition__entity_creation_encode_hook(void *thisptr, void *unused, __int32 a1, s_simulation_generic_creation_data_v2 *creation_data, unsigned long long *mask, Blam::BitStream *stream, __int32 creation_data_size) // 0x10ACECE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_generic_entity_definition__entity_creation_encode_hook@@YIXPAX0HPAUs_simulation_generic_creation_data_v2@hades_file_local@@PA_KPAVBitStream@Blam@@H@Z");
-
 	((void (__thiscall *)(void *, __int32, s_simulation_object_creation_data *, unsigned long long *, Blam::BitStream *, __int32))0x4c8fa0)(thisptr, a1, creation_data, mask, stream, creation_data_size);
 
 	if (creation_data->map_variant_index != -1)
@@ -323,8 +319,6 @@ void __fastcall c_simulation_generic_entity_definition__entity_creation_encode_h
 
 bool __fastcall c_simulation_generic_entity_definition__entity_creation_decode_hook(void *thisptr, void *unused, __int32 creation_data_size, s_simulation_generic_creation_data_v2 *creation_data, Blam::BitStream *bitstream, long a5) // 0x10ACEBC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_generic_entity_definition__entity_creation_decode_hook@@YI_NPAX0HPAUs_simulation_generic_creation_data_v2@hades_file_local@@PAVBitStream@Blam@@J@Z");
-
 	bool ret = ((bool (__thiscall *)(void *, __int32, s_simulation_generic_creation_data_v2 *, Blam::BitStream *, long))0x4C8F50)(thisptr, creation_data_size, creation_data, bitstream, a5);
 	s_simulation_reforge_object_creation_datum *datum = &creation_data->reforge;
 	if (creation_data->map_variant_index != -1)
@@ -341,8 +335,6 @@ bool __fastcall c_simulation_generic_entity_definition__entity_creation_decode_h
 
 long __fastcall c_simulation_generic_entity_definition__create_object_hook(void *thisptr, void *unused, s_simulation_generic_creation_data_v2 *creation_data, s_simulation_generic_creation_data *object_state_data, long a4, s_object_placement_data *placement_data) // 0x10ACEA10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_generic_entity_definition__create_object_hook@@YIJPAX0PAUs_simulation_generic_creation_data_v2@hades_file_local@@PAUs_simulation_generic_creation_data@@JPAUs_object_placement_data@@@Z");
-
 	void (__thiscall *const c_map_variant__apply_variant_properties_to_object)(s_map_variant *, s_map_variant_placement_properties *, long) = (void(__thiscall *const)(s_map_variant *, s_map_variant_placement_properties *, long))0x580e80;
 
 	if (creation_data->map_variant_index != -1 && creation_data->reforge.valid)
@@ -371,8 +363,6 @@ long __fastcall c_simulation_generic_entity_definition__create_object_hook(void 
 
 long __fastcall c_simulation_device_entity_definition__create_object_hook(void *thisptr, void *unused, s_simulation_generic_creation_data_v2 *creation_data, s_simulation_device_state_data *state_data, long a4, s_object_placement_data *placement_data) // 0x10ACE620
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_device_entity_definition__create_object_hook@@YIJPAX0PAUs_simulation_generic_creation_data_v2@hades_file_local@@PAUs_simulation_device_state_data@2@JPAUs_object_placement_data@@@Z");
-
 	// The original folds `create_object' to an immediate and gives it no stack slot, so it
 	// cannot be a `const' local here -- that would allocate one.
 	long object_index = ((long (__thiscall *)(void *, s_simulation_generic_creation_data_v2 *, s_simulation_device_state_data *, long, s_object_placement_data *))0x4ad3e0)(thisptr, creation_data, state_data, a4, placement_data);
@@ -387,8 +377,6 @@ long __fastcall c_simulation_device_entity_definition__create_object_hook(void *
 
 void __fastcall c_simulation_generic_entity_definition__build_object_creation_data_hook(void *thisptr, void *unused, long object_index, long creation_data_size, s_simulation_generic_creation_data_v2 *creation_data) // 0x10ACE850
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_generic_entity_definition__build_object_creation_data_hook@@YIXPAX0JJPAUs_simulation_generic_creation_data_v2@hades_file_local@@@Z");
-
 	static void (__thiscall *const build_object_creation_data)(void *, long, long, s_simulation_generic_creation_data_v2 *) = reinterpret_cast<void (__thiscall *)(void *, long, long, s_simulation_generic_creation_data_v2 *)>(0x4C8D70);
 	build_object_creation_data(thisptr, object_index, creation_data_size, creation_data);
 	s_simulation_reforge_object_creation_datum *datum = &creation_data->reforge;
@@ -410,8 +398,6 @@ void __fastcall c_simulation_generic_entity_definition__build_object_creation_da
 
 bool object_physics_has_powered_chains(long object_definition_index) // 0x10ACEDE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_physics_has_powered_chains@@YA_NJ@Z");
-
 	s_object_definition *object_definition = (s_object_definition *)tag_get(0x6F626A65, object_definition_index);
 
 	if (object_definition->model.index == -1)
@@ -434,8 +420,6 @@ bool object_physics_has_powered_chains(long object_definition_index) // 0x10ACED
 
 bool should_attach_projectile_to_object(long object_index, long projectile_index) // 0x10ACF0A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?should_attach_projectile_to_object@@YA_NJJ@Z");
-
 	s_object_data *object = object_try_and_get_and_verify_type(object_index, -1);
 
 	if (!object)
@@ -448,8 +432,6 @@ bool should_attach_projectile_to_object(long object_index, long projectile_index
 
 __declspec(naked) void projectile_attach_to_object_hook() // 0x10ACEFF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?projectile_attach_to_object_hook@@YAXXZ");
-
 	__asm
 	{
 		pushad
@@ -470,8 +452,6 @@ __declspec(naked) void projectile_attach_to_object_hook() // 0x10ACEFF0
 
 void simulation_game_build_action_from_motion_data_hook(s_player_motion *motion_data, s_player_action *action) // 0x10ACFE00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_game_build_action_from_motion_data_hook@@YAXPAUs_player_motion@@PAUs_player_action@@@Z");
-
 	((void (*)(s_player_motion *, s_player_action *))0x4712d0)(motion_data, action);
 
 	if (motion_data->action_flags & 0x20)
@@ -486,8 +466,6 @@ void simulation_game_build_action_from_motion_data_hook(s_player_motion *motion_
 
 void simulation_game_build_motion_data_from_action_hook(s_player_action *action, long unit_index, s_player_motion *motion_data) // 0x10ACFE90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_game_build_motion_data_from_action_hook@@YAXPAUs_player_action@@JPAUs_player_motion@@@Z");
-
 	((void (*)(s_player_action *, long, s_player_motion *))0x4708f0)(action, unit_index, motion_data);
 
 	if (action->control_flags & 4)
@@ -502,16 +480,12 @@ void simulation_game_build_motion_data_from_action_hook(s_player_action *action,
 
 void simulation_damage_aftermath_hook(long event_type, long a2, long a3, long player_index, long data_size, void *data) // 0x10ACF770
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_damage_aftermath_hook@@YAXJJJJJPAX@Z");
-
 	*(bool *)((unsigned char *)data + 0xa) = true;
 	eldorado::simulation_event_generate_for_clients(event_type, a2, a3, player_index, data_size, data);
 }
 
 void ragdoll_object_damage_aftermath_hook(long object_index, void *damage_data) // 0x10ACF020
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ragdoll_object_damage_aftermath_hook@@YAXJPAX@Z");
-
 	void (__cdecl *const object_deal_damage)(__int32, void *) = (void(__cdecl *const)(__int32, void *))0xb52c50;
 
 	*(long *)((unsigned char *)damage_data + 0x54) = 1;
@@ -520,8 +494,6 @@ void ragdoll_object_damage_aftermath_hook(long object_index, void *damage_data) 
 
 void __fastcall c_simulation_game_engine_event_definition__event_payload_encode_hook(c_simulation_game_engine_event_definition *thisptr, void *unused, long a2, s_game_engine_event_data const *event_data, Blam::BitStream *bitstream, bool a5) // 0x10ACE780
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_game_engine_event_definition__event_payload_encode_hook@@YIXPAUc_simulation_game_engine_event_definition@@PAXJPBUs_game_engine_event_data@@PAVBitStream@Blam@@_N@Z");
-
 	((void (__thiscall *)(c_simulation_game_engine_event_definition *, long, s_game_engine_event_data const *, Blam::BitStream *, bool))0x4b6310)(thisptr, a2, event_data, bitstream, a5);
 
 	if (event_data->type == _game_engine_event_type_territories)
@@ -532,8 +504,6 @@ void __fastcall c_simulation_game_engine_event_definition__event_payload_encode_
 
 long simulation_entity_type_from_object_creation_ex(long object_definition_index, long parent_object_index, bool is_garbage) // 0x10ACFA00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_entity_type_from_object_creation_ex@@YAJJJ_N@Z");
-
 	s_object_definition *definition = (s_object_definition *)tag_get('obje', object_definition_index);
 	if (definition->object_type == _object_type_biped || definition->object_type == _object_type_giant)
 		return 14;
@@ -560,8 +530,6 @@ long simulation_entity_type_from_object_creation_ex(long object_definition_index
 
 void simulation_action_object_create_build_entity_types(long object_index, long parent_object_index, long max_entity_count, long *out_entity_count, long *out_entity_types, long *out_object_indices) // 0x10ACF190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_object_create_build_entity_types@@YAXJJJPAJ00@Z");
-
 	s_object_header *object_header = object_header_get(object_index);
 	s_object_data *object = object_header->data;
 	bool object_sync_disabled = reinterpret_cast<bool (*)(long)>(0xB2F300)(object_index);
@@ -586,8 +554,6 @@ void simulation_action_object_create_build_entity_types(long object_index, long 
 
 void simulation_action_object_recapture_creation_data_hook(long object_index) // 0x10ACF3D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_object_recapture_creation_data_hook@@YAXJ@Z");
-
 	struct s_simulation_entity;
 	struct c_simulation_world { unsigned char __pad0[4]; void *replication_manager; };
 	static s_simulation_entity * (__thiscall *const c_simulation_entity_database__entity_get)(void *, long) = (s_simulation_entity * (__thiscall *)(void *, long))0x4A63D0;
@@ -626,8 +592,6 @@ void simulation_action_object_recapture_creation_data_hook(long object_index) //
 
 void simulation_game_register_types_hook(c_simulation_type_collection *type_collection, __int32 *entity_type_count, __int32 *event_type_count) // 0x10ACFF60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_game_register_types_hook@@YAXPAVc_simulation_type_collection@@PAH1@Z");
-
 	void (*const simulation_game_register_types)(c_simulation_type_collection *, __int32 *, __int32 *) = (void (*const)(c_simulation_type_collection *, __int32 *, __int32 *))0x4715d0;
 
 	simulation_game_register_types(type_collection, entity_type_count, event_type_count);
@@ -644,8 +608,6 @@ void simulation_game_register_types_hook(c_simulation_type_collection *type_coll
 
 void __fastcall c_simulation_event_handler__send_event_hook(void *thisptr, void *unused, e_simulation_event_type event_type, long num_entity_references, long *entity_references, long recipient_peer_mask, long payload_size, void const *payload, long grief_time) // 0x10ACE6E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_event_handler__send_event_hook@@YIXPAX0W4e_simulation_event_type@@JPAJJJPBXJ@Z");
-
 	void (__thiscall *const c_simulation_event_handler__send_event)(void *, e_simulation_event_type, long, long *, long, long, void const *, long) = (void(__thiscall *const)(void *, e_simulation_event_type, long, long *, long, long, void const *, long))0x4a7500;
 
 	if (event_type >= _simulation_event_type_hs_wake_script)
@@ -658,8 +620,6 @@ void __fastcall c_simulation_event_handler__send_event_hook(void *thisptr, void 
 
 bool player_action_decode_validate_hook(s_player_action *action) // 0x10ACEF30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_action_decode_validate_hook@@YA_NPAUs_player_action@@@Z");
-
 	bool (__cdecl *const player_action_decode_validate)(s_player_action *) = (bool(__cdecl *const)(s_player_action *))0x537ab0;
 	bool (__cdecl *const aim_assist_targeting_result_valid)(void *) = (bool(__cdecl *const)(void *))0x58cf40;
 	void (__cdecl *const aim_assist_targeting_result_build_default)(void *) = (void(__cdecl *const)(void *))0x58cc50;
@@ -674,8 +634,6 @@ bool player_action_decode_validate_hook(s_player_action *action) // 0x10ACEF30
 
 real_rectangle3d *simulation_encoding_get_world_bounds_hook(real_rectangle3d *out_world_bounds) // 0x10ACF880
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_encoding_get_world_bounds_hook@@YAPAUreal_rectangle3d@@PAU1@@Z");
-
 	void (*const real_rectangle3d_enclose_rectangle)(real_rectangle3d *, real_rectangle3d *) = reinterpret_cast<void (*)(real_rectangle3d *, real_rectangle3d *)>(0x4FBF30);
 	s_scenario *scenario = global_scenario_get();
 	*out_world_bounds = global_null_rectangle3d;
@@ -693,8 +651,6 @@ real_rectangle3d *simulation_encoding_get_world_bounds_hook(real_rectangle3d *ou
 
 void simulation_encoding_get_world_bounds__object_handle_update_hook(real_rectangle3d *out_world_bounds) // 0x10ACF7F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_encoding_get_world_bounds__object_handle_update_hook@@YAXPAUreal_rectangle3d@@@Z");
-
 	out_world_bounds->x0 = -FLT_MAX;
 	out_world_bounds->x1 = FLT_MAX;
 	out_world_bounds->y0 = -FLT_MAX;

@@ -160,8 +160,6 @@ namespace ChatCommands
 {
 	__int32 findNumberOfPlayersInGame() // 0x10933000
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?findNumberOfPlayersInGame@ChatCommands@@YAHXZ");
-
 		auto* session = Blam::Network::GetActiveSession();
 		if (!session || !session->IsEstablished() || !session->IsHost())
 			return 0;
@@ -181,35 +179,26 @@ namespace ChatCommands
 
 	ShuffleTeamsCommand::ShuffleTeamsCommand() : VotingChatCommand("shuffleTeams", "Starts a vote to shuffle the teams. Type !yes to vote.") /* hades-mem-init: : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) */ // 0x1092F740
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ShuffleTeamsCommand@ChatCommands@@QAE@XZ");
 	}
 
 	void ShuffleTeamsCommand::doOnVotePass(std::string name) // 0x10931630
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVotePass@ShuffleTeamsCommand@ChatCommands@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		Server::Chat::SendServerMessage("Final vote cast by " + name + ". Vote has passed.");
 		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("server.shuffleteams", false);
 	}
 
 	bool ShuffleTeamsCommand::isEnabled() // 0x10933450
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@ShuffleTeamsCommand@ChatCommands@@UAE_NXZ");
-
 		return Modules::ModuleServer::Instance().VarChatCommandShuffleTeamsEnabled->ValueInt == 1;
 	}
 
 	void ShuffleTeamsCommand::doOnVoteFail() // 0x10930D00
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteFail@ShuffleTeamsCommand@ChatCommands@@UAEXXZ");
-
 		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
 	void ShuffleTeamsCommand::doOnVoteStart(std::string starterName) // 0x109328A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteStart@ShuffleTeamsCommand@ChatCommands@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::string previousValue;
 		Utils::Singleton<Modules::CommandMap>::Instance().SetVariable2(Utils::Singleton<Modules::ModuleServer>::Instance().VarChatVoteAction, std::string("shuffle teams"), previousValue);
 		Server::Chat::SendServerMessage(starterName + " has started a vote to shuffle the teams. " + std::to_string(votesNeeded) + " vote" + (votesNeeded > 1 ? "s" : "") + " needed to pass. Type !yes to vote");
@@ -217,8 +206,6 @@ namespace ChatCommands
 
 	bool ShuffleTeamsCommand::isValidArgument(std::string s, std::string &returnInfo) // 0x10933E00
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isValidArgument@ShuffleTeamsCommand@ChatCommands@@UAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 		if (Blam::Network::GetActiveSession()->HasTeams())
 		{
 			return true;
@@ -232,35 +219,26 @@ namespace ChatCommands
 
 	EndGameCommand::EndGameCommand() : VotingChatCommand("endGame", "Starts a vote to end the current game. Type !yes to vote.") /* hades-mem-init: : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) */ // 0x1092F360
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0EndGameCommand@ChatCommands@@QAE@XZ");
 	}
 
 	void EndGameCommand::doOnVotePass(std::string name) // 0x10930DD0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVotePass@EndGameCommand@ChatCommands@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		Server::Chat::SendServerMessage("Final vote cast by " + name + ". Vote has passed.");
 		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("game.end", false);
 	}
 
 	bool EndGameCommand::isEnabled() // 0x10933250
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@EndGameCommand@ChatCommands@@UAE_NXZ");
-
 		return Modules::ModuleServer::Instance().VarChatCommandEndGameEnabled->ValueInt == 1;
 	}
 
 	void EndGameCommand::doOnVoteFail() // 0x109309A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteFail@EndGameCommand@ChatCommands@@UAEXXZ");
-
 		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
 	void EndGameCommand::doOnVoteStart(std::string starterName) // 0x109317E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteStart@EndGameCommand@ChatCommands@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::string previousValue;
 		Utils::Singleton<Modules::CommandMap>::Instance().SetVariable2(Utils::Singleton<Modules::ModuleServer>::Instance().VarChatVoteAction, std::string("end the game"), previousValue);
 		Server::Chat::SendServerMessage(starterName + " has started a vote to end the game. " + std::to_string(votesNeeded) + " vote" + (votesNeeded > 1 ? "s" : "") + " needed to pass. Type !yes to vote.");
@@ -268,8 +246,6 @@ namespace ChatCommands
 
 	bool EndGameCommand::isValidArgument(std::string s, std::string &returnInfo) // 0x109334D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isValidArgument@EndGameCommand@ChatCommands@@UAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 		if (eldorado::game_engine_in_round())
 			return true;
 		returnInfo = "You must be currently in a round.";
@@ -278,35 +254,26 @@ namespace ChatCommands
 
 	EndRoundCommand::EndRoundCommand() : VotingChatCommand("endRound", "Starts a vote to end the current round. Type !yes to vote.") /* hades-mem-init: : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) */ // 0x1092F450
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0EndRoundCommand@ChatCommands@@QAE@XZ");
 	}
 
 	void EndRoundCommand::doOnVotePass(std::string name) // 0x10930F80
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVotePass@EndRoundCommand@ChatCommands@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		Server::Chat::SendServerMessage("Final vote cast by " + name + ". Vote has passed.");
 		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("game.endround", false);
 	}
 
 	bool EndRoundCommand::isEnabled() // 0x109332D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@EndRoundCommand@ChatCommands@@UAE_NXZ");
-
 		return Modules::ModuleServer::Instance().VarChatCommandEndRoundEnabled->ValueInt == 1;
 	}
 
 	void EndRoundCommand::doOnVoteFail() // 0x10930A70
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteFail@EndRoundCommand@ChatCommands@@UAEXXZ");
-
 		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
 	void EndRoundCommand::doOnVoteStart(std::string starterName) // 0x10931BC0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteStart@EndRoundCommand@ChatCommands@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::string previousValue;
 		Utils::Singleton<Modules::CommandMap>::Instance().SetVariable2(Utils::Singleton<Modules::ModuleServer>::Instance().VarChatVoteAction, std::string("end the round"), previousValue);
 		Server::Chat::SendServerMessage(starterName + " has started a vote to end the round. " + std::to_string(votesNeeded) + " vote" + (votesNeeded > 1 ? "s" : "") + " needed to pass. Type !yes to vote.");
@@ -314,8 +281,6 @@ namespace ChatCommands
 
 	bool EndRoundCommand::isValidArgument(std::string s, std::string &returnInfo) // 0x109335D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isValidArgument@EndRoundCommand@ChatCommands@@UAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 		if (eldorado::game_engine_in_round())
 			return true;
 		returnInfo = "You must be currently in a round.";
@@ -324,13 +289,10 @@ namespace ChatCommands
 
 	KickIndexCommand::KickIndexCommand() : VotingChatCommand("kickIndex", "Starts a vote to kick a player by index.") /* hades-mem-init: : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) */ // 0x1092F540
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0KickIndexCommand@ChatCommands@@QAE@XZ");
 	}
 
 	void KickIndexCommand::doOnVotePass(std::string name) // 0x10931130
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVotePass@KickIndexCommand@ChatCommands@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		Server::Chat::SendServerMessage("Final vote cast by " + name + ". " + playerName + " has been kicked and temporarily banned.");
 		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("server.KickTempBanPlayer " + playerName, false);
 		playerName = "";
@@ -338,23 +300,17 @@ namespace ChatCommands
 
 	void KickIndexCommand::doOnVoteFail() // 0x10930B40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteFail@KickIndexCommand@ChatCommands@@UAEXXZ");
-
 		playerName = "";
 		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
 	bool KickIndexCommand::isEnabled() // 0x10933350
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@KickIndexCommand@ChatCommands@@UAE_NXZ");
-
 		return Modules::ModuleServer::Instance().VarChatCommandKickPlayerEnabled->ValueInt == 1;
 	}
 
 	void KickIndexCommand::doOnVoteStart(std::string starterName) // 0x10931FA0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteStart@KickIndexCommand@ChatCommands@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::string previousValue;
 		Utils::Singleton<Modules::CommandMap>::Instance().SetVariable2(Utils::Singleton<Modules::ModuleServer>::Instance().VarChatVoteAction, "kick " + playerName, previousValue);
 		Server::Chat::SendServerMessage(starterName + " has started a kick vote for: \"" + playerName + "\"; Type !yes to vote. " + std::to_string(votesNeeded) + " vote" + (votesNeeded > 1 ? "s" : "") + " needed to kick.");
@@ -362,8 +318,6 @@ namespace ChatCommands
 
 	bool KickIndexCommand::isValidArgument(std::string s, std::string &returnInfo) // 0x109336D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isValidArgument@KickIndexCommand@ChatCommands@@UAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 		if (s.empty())
 		{
 			returnInfo = "You must enter a valid player index to use this command.";
@@ -406,13 +360,10 @@ namespace ChatCommands
 
 	KickPlayerCommand::KickPlayerCommand() : VotingChatCommand("kick", "Starts a vote to kick a player.") /* hades-mem-init: : VotingChatCommand(todo_result<std::string>(), todo_result<std::string>()) */ // 0x1092F640
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0KickPlayerCommand@ChatCommands@@QAE@XZ");
 	}
 
 	void KickPlayerCommand::doOnVotePass(std::string name) // 0x109313B0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVotePass@KickPlayerCommand@ChatCommands@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		Server::Chat::SendServerMessage("Final vote cast by " + name + ". " + playerName + " has been kicked and temporarily banned.");
 		Utils::Singleton<Modules::CommandMap>::Instance().ExecuteCommand("server.KickTempBanPlayer " + playerName, false);
 		playerName = "";
@@ -420,23 +371,17 @@ namespace ChatCommands
 
 	void KickPlayerCommand::doOnVoteFail() // 0x10930C20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteFail@KickPlayerCommand@ChatCommands@@UAEXXZ");
-
 		playerName = "";
 		Server::Chat::SendServerMessage("Vote has not passed.");
 	}
 
 	bool KickPlayerCommand::isEnabled() // 0x109333D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isEnabled@KickPlayerCommand@ChatCommands@@UAE_NXZ");
-
 		return Modules::ModuleServer::Instance().VarChatCommandKickPlayerEnabled->ValueInt == 1;
 	}
 
 	void KickPlayerCommand::doOnVoteStart(std::string starterName) // 0x10932420
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?doOnVoteStart@KickPlayerCommand@ChatCommands@@UAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::string previousValue;
 		Utils::Singleton<Modules::CommandMap>::Instance().SetVariable2(Utils::Singleton<Modules::ModuleServer>::Instance().VarChatVoteAction, "kick " + playerName, previousValue);
 		Server::Chat::SendServerMessage(starterName + " has started a kick vote for: \"" + playerName + "\"; Type !yes to vote. " + std::to_string(votesNeeded) + " vote" + (votesNeeded > 1 ? "s" : "") + " needed to kick.");
@@ -444,8 +389,6 @@ namespace ChatCommands
 
 	bool KickPlayerCommand::isValidArgument(std::string s, std::string &returnInfo) // 0x10933A30
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isValidArgument@KickPlayerCommand@ChatCommands@@UAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 		if (s.empty())
 		{
 			returnInfo = "You must enter a name to use this command.";
@@ -488,23 +431,17 @@ namespace ChatCommands
 
 	VotingChatCommand::VotingChatCommand(std::string n, std::string d) : starterIndex(-1), votesNeeded(0), currentlyVoting(false), voteTimeStarted(0) /* hades-mem-init:  */ // 0x1092F830
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0VotingChatCommand@ChatCommands@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 		name = n;
 		description = d;
 	}
 
 	bool VotingChatCommand::isCurrentlyVoting() // 0x10933220
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?isCurrentlyVoting@VotingChatCommand@ChatCommands@@QAE_NXZ");
-
 		return currentlyVoting;
 	}
 
 	void VotingChatCommand::tick() // 0x10934EB0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?tick@VotingChatCommand@ChatCommands@@QAEXXZ");
-
 		if (!isEnabled() || voteTimeStarted == 0)
 			return;
 
@@ -522,8 +459,6 @@ namespace ChatCommands
 
 	void VotingChatCommand::endVoting() // 0x10932D10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?endVoting@VotingChatCommand@ChatCommands@@QAEXXZ");
-
 		yesVoters.clear();
 		currentlyVoting = false;
 		voteTimeStarted = 0;
@@ -536,8 +471,6 @@ namespace ChatCommands
 
 	void VotingChatCommand::processMessage(unsigned char sender, std::string argument) // 0x10933FC0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?processMessage@VotingChatCommand@ChatCommands@@QAEXEV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		if (!isEnabled())
 			return;
 		std::string returnInfo;
@@ -571,8 +504,6 @@ namespace ChatCommands
 
 	void VotingChatCommand::processVote(unsigned char sender, std::string message) // 0x10934610
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?processVote@VotingChatCommand@ChatCommands@@QAEXEV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		if (!isEnabled())
 			return;
 		std::transform(message.begin(), message.end(), message.begin(), ::tolower);
@@ -610,8 +541,6 @@ namespace ChatCommands
 {
 	std::string VotingChatCommand::getName() // 0x109331A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?getName@VotingChatCommand@ChatCommands@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		return name;
 	}
 }
@@ -621,8 +550,6 @@ namespace ChatCommands
 {
 	std::string VotingChatCommand::getDescription() // 0x10933120
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?getDescription@VotingChatCommand@ChatCommands@@QAE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		return description;
 	}
 }

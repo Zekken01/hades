@@ -60,15 +60,11 @@ namespace Modules
 {
 	ModuleBase::ModuleBase(std::string moduleName) // 0x109776C0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleBase@Modules@@QAE@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		this->moduleName = moduleName;
 	}
 
 	Modules::Command *ModuleBase::AddCommand(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, bool (*updateEvent)(std::vector<std::string> const &, std::string &), std::initializer_list<std::string> arguments) // 0x10977780
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AddCommand@ModuleBase@Modules@@IAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00W4CommandFlags@@P6A_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@5@AAV45@@ZV?$initializer_list@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@5@@Z");
-
 		Modules::Command command;
 		command.Name = moduleName + "." + name;
 		command.ModuleName = moduleName;
@@ -86,8 +82,6 @@ namespace Modules
 
 	Modules::Command *ModuleBase::AddVariableInt(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, unsigned long defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &)) // 0x10978080
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AddVariableInt@ModuleBase@Modules@@IAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00W4CommandFlags@@KP6A_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@5@AAV45@@Z@Z");
-
 		Modules::Command command;
 		command.Name = moduleName + "." + name;
 		command.ModuleName = moduleName;
@@ -107,8 +101,6 @@ namespace Modules
 
 	Modules::Command *ModuleBase::AddVariableInt64(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, unsigned long long defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &)) // 0x10977D90
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AddVariableInt64@ModuleBase@Modules@@IAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00W4CommandFlags@@_KP6A_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@5@AAV45@@Z@Z");
-
 		Modules::Command command;
 		command.Name = moduleName + "." + name;
 		command.ModuleName = moduleName;
@@ -128,8 +120,6 @@ namespace Modules
 
 	Modules::Command *ModuleBase::AddVariableFloat(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, float defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &)) // 0x10977AA0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AddVariableFloat@ModuleBase@Modules@@IAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00W4CommandFlags@@MP6A_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@5@AAV45@@Z@Z");
-
 		Modules::Command command;
 		command.Name = moduleName + "." + name;
 		command.ModuleName = moduleName;
@@ -149,8 +139,6 @@ namespace Modules
 
 	Modules::Command *ModuleBase::AddVariableString(std::string const &name, std::string const &shortName, std::string const &description, CommandFlags flags, std::string defaultValue, bool (*updateEvent)(std::vector<std::string> const &, std::string &)) // 0x10978350
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?AddVariableString@ModuleBase@Modules@@IAEPAUCommand@2@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00W4CommandFlags@@V45@P6A_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@5@AAV45@@Z@Z");
-
 		Modules::Command command;
 		command.Name = moduleName + "." + name;
 		command.ModuleName = moduleName;
@@ -169,22 +157,16 @@ namespace Modules
 
 	bool ModuleBase::GetVariableInt(std::string const &name, unsigned long &value) // 0x10978780
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetVariableInt@ModuleBase@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAK@Z");
-
 		return Modules::CommandMap::Instance().GetVariableInt(moduleName + "." + name, value);
 	}
 
 	bool ModuleBase::GetVariableFloat(std::string const &name, float &value) // 0x10978600
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetVariableFloat@ModuleBase@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAM@Z");
-
 		return Modules::CommandMap::Instance().GetVariableFloat(moduleName + "." + name, value);
 	}
 
 	bool ModuleBase::GetVariableString(std::string const &name, std::string &value) // 0x10978900
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetVariableString@ModuleBase@Modules@@QAE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAV34@@Z");
-
 		return Modules::CommandMap::Instance().GetVariableString(moduleName + "." + name, value);
 	}
 }

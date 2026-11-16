@@ -82,23 +82,17 @@ namespace Audio
 
 		_inline CMemoryReadStream::CMemoryReadStream(void *buffer, __int32 length) // 0x106CAEB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??0CMemoryReadStream@FMOD@Audio@@QAE@PAXH@Z");
-
 			m_buffer = (char *)buffer;
 			m_length = length;
 			m_position = 0;
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??0IReadStream@FMOD@Audio@@QAE@XZ"); no body to assert in
 		_inline IReadStream::IReadStream() = default; // 0x106CAF30
 
-		// mangled_x86(MANGLED_DEFAULT, "??1CMemoryReadStream@FMOD@Audio@@UAE@XZ"); no body to assert in
 		_inline CMemoryReadStream::~CMemoryReadStream() = default; // 0x106CAF60
 
 		_inline __int32 CMemoryReadStream::Read(void *buffer, __int32 bytes) // 0x106CB890
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Read@CMemoryReadStream@FMOD@Audio@@UAEHPAXH@Z");
-
 			__int32 n = std::min(m_length - m_position, bytes);
 			memcpy(buffer, m_buffer + m_position, n);
 			m_position += n;
@@ -107,8 +101,6 @@ namespace Audio
 
 		_inline void CMemoryReadStream::Seek(long long offset, __int32 type) // 0x106CBB80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Seek@CMemoryReadStream@FMOD@Audio@@UAEX_JH@Z");
-
 			switch (type)
 			{
 			case 0:
@@ -125,22 +117,16 @@ namespace Audio
 
 		_inline long long CMemoryReadStream::GetPosition() const // 0x106CB4B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPosition@CMemoryReadStream@FMOD@Audio@@UBE_JXZ");
-
 			return m_position;
 		}
 
 		_inline long long CMemoryReadStream::GetLength() const // 0x106CB480
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetLength@CMemoryReadStream@FMOD@Audio@@UBE_JXZ");
-
 			return m_length;
 		}
 
 		_inline bool COggVorbisDecoder::Init(Audio::FMOD::IReadStream *stream) // 0x106CB4E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@COggVorbisDecoder@FMOD@Audio@@QAE_NPAUIReadStream@23@@Z");
-
 			m_stream = stream;
 			memset(&m_waveformat, 0, sizeof(m_waveformat));
 			memset(m_vf, 0, sizeof(m_vf));
@@ -162,8 +148,6 @@ namespace Audio
 
 		_inline void COggVorbisDecoder::Release() // 0x106CBAB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Release@COggVorbisDecoder@FMOD@Audio@@QAEXXZ");
-
 			ov_clear((OggVorbis_File *)m_vf);
 			delete (Audio::FMOD::IReadStream *)m_stream;
 			m_stream = nullptr;
@@ -171,30 +155,22 @@ namespace Audio
 
 		_inline bool COggVorbisDecoder::SetPosition(long long pcm) // 0x106CBC10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetPosition@COggVorbisDecoder@FMOD@Audio@@QAE_N_J@Z");
-
 			return ov_pcm_seek((OggVorbis_File *)m_vf, pcm) == 0;
 		}
 
 		_inline __int32 COggVorbisDecoder::Read(char *buffer, __int32 sizebytes) // 0x106CB950
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Read@COggVorbisDecoder@FMOD@Audio@@QAEHPADH@Z");
-
 			return ov_read((OggVorbis_File *)m_vf, buffer, sizebytes, 0, 2, 1, NULL);
 		}
 
 		_inline unsigned __int32 COggVorbisDecoder::OggVorbisReadCallback(void *ptr, unsigned __int32 size, unsigned __int32 nmemb, void *datasource) // 0x106CB700
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OggVorbisReadCallback@COggVorbisDecoder@FMOD@Audio@@CAIPAXII0@Z");
-
 			COggVorbisDecoder *instance = (COggVorbisDecoder *)datasource;
 			return ((Audio::FMOD::IReadStream *)instance->m_stream)->Read(ptr, size * nmemb);
 		}
 
 		_inline __int32 COggVorbisDecoder::OggVorbisSeekCallback(void *datasource, long long offset, __int32 whence) // 0x106CB790
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OggVorbisSeekCallback@COggVorbisDecoder@FMOD@Audio@@CAHPAX_JH@Z");
-
 			COggVorbisDecoder *instance = (COggVorbisDecoder *)datasource;
 			((Audio::FMOD::IReadStream *)instance->m_stream)->Seek(offset, whence);
 			return 0;
@@ -202,15 +178,11 @@ namespace Audio
 
 		_inline __int32 COggVorbisDecoder::OggVorbisCloseCallback(void *datasource) // 0x106CB6E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OggVorbisCloseCallback@COggVorbisDecoder@FMOD@Audio@@CAHPAX@Z");
-
 			return 0;
 		}
 
 		_inline long COggVorbisDecoder::OggVorbisTellCallback(void *datasource) // 0x106CB820
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OggVorbisTellCallback@COggVorbisDecoder@FMOD@Audio@@CAJPAX@Z");
-
 			COggVorbisDecoder *instance = (COggVorbisDecoder *)datasource;
 			return (long)((Audio::FMOD::IReadStream *)instance->m_stream)->GetPosition();
 		}
@@ -224,8 +196,6 @@ namespace Audio
 	{
 		FMOD_RESULT __stdcall CodecOpenCallback(FMOD_CODEC_STATE *codec_state, unsigned __int32 usermode, FMOD_CREATESOUNDEXINFO *userexinfo) // 0x106CB130
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CodecOpenCallback@FMOD@Audio@@YG?AW4FMOD_RESULT@@PAUFMOD_CODEC_STATE@@IPAUFMOD_CREATESOUNDEXINFO@@@Z");
-
 			COggVorbisDecoder *decoder = (COggVorbisDecoder *)userexinfo->userdata;
 			codec_state->waveformat = &decoder->m_waveformat;
 			codec_state->numsubsounds = 0;
@@ -242,8 +212,6 @@ namespace Audio
 	{
 		FMOD_RESULT __stdcall CodecCloseCallback(FMOD_CODEC_STATE *codec_state) // 0x106CB0B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CodecCloseCallback@FMOD@Audio@@YG?AW4FMOD_RESULT@@PAUFMOD_CODEC_STATE@@@Z");
-
 			COggVorbisDecoder *decoder = (COggVorbisDecoder *)codec_state->plugindata;
 			decoder->Release();
 			delete decoder;
@@ -259,8 +227,6 @@ namespace Audio
 	{
 		FMOD_RESULT __stdcall CodecReadCallback(FMOD_CODEC_STATE *codec_state, void *buffer, unsigned __int32 sizebytes, unsigned __int32 *bytesread) // 0x106CB180
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CodecReadCallback@FMOD@Audio@@YG?AW4FMOD_RESULT@@PAUFMOD_CODEC_STATE@@PAXIPAI@Z");
-
 			COggVorbisDecoder *decoder = (COggVorbisDecoder *)codec_state->plugindata;
 			*bytesread = decoder->Read((char *)buffer, sizebytes);
 			return FMOD_OK;
@@ -275,8 +241,6 @@ namespace Audio
 	{
 		FMOD_RESULT __stdcall CodecSetPositionCallback(FMOD_CODEC_STATE *codec_state, __int32 subsound, unsigned __int32 position, unsigned __int32 postype) // 0x106CB1F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CodecSetPositionCallback@FMOD@Audio@@YG?AW4FMOD_RESULT@@PAUFMOD_CODEC_STATE@@HII@Z");
-
 			COggVorbisDecoder *decoder = (COggVorbisDecoder *)codec_state->plugindata;
 			decoder->SetPosition(position);
 			return FMOD_OK;
@@ -291,8 +255,6 @@ namespace Audio
 	{
 		FMOD_RESULT __stdcall StreamOpenCallback(char const *name, __int32 unicode, unsigned __int32 *fileSize, void **handle, void **userData) // 0x106CBCC0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?StreamOpenCallback@FMOD@Audio@@YG?AW4FMOD_RESULT@@PBDHPAIPAPAX2@Z");
-
 			IReadStream *stream = (IReadStream *)name;
 			stream->Seek(0, 2);
 			long long filesize = stream->GetPosition();
@@ -311,8 +273,6 @@ namespace Audio
 	{
 		FMOD_RESULT __stdcall StreamCloseCallback(void *handle, void *userData) // 0x106CBCA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?StreamCloseCallback@FMOD@Audio@@YG?AW4FMOD_RESULT@@PAX0@Z");
-
 			return FMOD_OK;
 		}
 	}
@@ -325,8 +285,6 @@ namespace Audio
 	{
 		FMOD_RESULT __stdcall StreamReadCallback(void *handle, void *buffer, unsigned __int32 sizebytes, unsigned __int32 *bytesread, void *userData) // 0x106CBDA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?StreamReadCallback@FMOD@Audio@@YG?AW4FMOD_RESULT@@PAX0IPAI0@Z");
-
 			IReadStream *stream = (IReadStream *)handle;
 			*bytesread = stream->Read(buffer, sizebytes);
 			return FMOD_OK;
@@ -341,8 +299,6 @@ namespace Audio
 	{
 		FMOD_RESULT __stdcall StreamSeekCallback(void *handle, unsigned __int32 pos, void *userData) // 0x106CBE20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?StreamSeekCallback@FMOD@Audio@@YG?AW4FMOD_RESULT@@PAXI0@Z");
-
 			IReadStream *stream = (IReadStream *)handle;
 			stream->Seek(pos, 0);
 			return FMOD_OK;
@@ -350,8 +306,6 @@ namespace Audio
 
 		void RegisterOggVorbisCodec(FMOD_SYSTEM *system, __int32 priority) // 0x106CB9C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterOggVorbisCodec@FMOD@Audio@@YAXPAUFMOD_SYSTEM@@H@Z");
-
 			FMOD_CODEC_DESCRIPTION codec = { "FMOD Codec Ogg Vorbis", 0x00010000, 0, FMOD_TIMEUNIT_PCM, CodecOpenCallback, CodecCloseCallback, CodecReadCallback, nullptr, CodecSetPositionCallback, nullptr, nullptr };
 			FMOD_System_CreateCodec(system, &codec, priority);
 		}
@@ -365,8 +319,6 @@ namespace Audio
 	{
 		FMOD_RESULT CreateOggVorbisStream(FMOD_SYSTEM *system, void *data, unsigned __int32 length, unsigned __int32 mode, FMOD_SOUND **sound) // 0x106CB250
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CreateOggVorbisStream@FMOD@Audio@@YA?AW4FMOD_RESULT@@PAUFMOD_SYSTEM@@PAXIIPAPAUFMOD_SOUND@@@Z");
-
 			IReadStream *stream = new CMemoryReadStream(data, length);
 			COggVorbisDecoder *decoder = new COggVorbisDecoder();
 			if (!decoder->Init(stream))

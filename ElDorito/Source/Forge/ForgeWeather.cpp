@@ -52,15 +52,11 @@ namespace Forge
 {
 	void CForgeWeather::InitializeForNewMap() // 0x10680200
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@CForgeWeather@Forge@@SAXXZ");
-
 		currentWeatherIndex = -1;
 	}
 
 	void CForgeWeather::HandleMapModifierDeleted() // 0x10680140
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMapModifierDeleted@CForgeWeather@Forge@@SAXXZ");
-
 		if (currentWeatherIndex != -1)
 		{
 			s_rasterizer_game_states *rasterizerGameStates = tls_getd().rasterizer_game_states;
@@ -74,8 +70,6 @@ namespace Forge
 
 	void CForgeWeather::Update(long mapModifierIndex, Forge::ForgeMapModifierProperties &mapModifierProperties) // 0x10680230
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@CForgeWeather@Forge@@SAXJAAUForgeMapModifierProperties@2@@Z");
-
 		s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 		s_rasterizer_game_states *rasterizerGameStates = tls_getd().rasterizer_game_states;
 		long newWeatherIndex = -1;
@@ -98,8 +92,6 @@ namespace Forge
 
 	bool CForgeWeather::UpdateWeatherEffects() // 0x10680350
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateWeatherEffects@CForgeWeather@Forge@@SA_NXZ");
-
 		if (currentWeatherIndex == -1)
 			return false;
 		s_rasterizer_game_states *rasterizerGameStates = tls_getd().rasterizer_game_states;

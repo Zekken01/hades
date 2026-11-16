@@ -90,8 +90,6 @@ namespace Debug
 	{
 		std::string TakeScreenshot() // 0x106978B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?TakeScreenshot@CrashReporting@Debug@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 			try
 			{
 				HWND__ *hwndSrc = *(HWND__ **)0x199C014;

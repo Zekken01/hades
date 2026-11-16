@@ -78,8 +78,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10699A70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Bitmaps@Patches@@YAXXZ");
-
 			Pointer(0x1682F6A).Write<unsigned short>(0x8);
 			Pointer(0x1696E4C).Write<unsigned long>(0x35545844);
 			Hook(0x46BB30, bitmap_format_is_default_srgb_hook).Apply();
@@ -87,15 +85,12 @@ namespace Patches
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??1Hook@@QAE@XZ"); no body to assert in
 _inline Hook::~Hook() = default; // 0x10698FB0
 
 /* ---------- private code */
 
 bool bitmap_format_is_default_srgb_hook(short format) // 0x1069A9E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?bitmap_format_is_default_srgb_hook@@YA_NF@Z");
-
 	switch (format)
 	{
 	case 13:

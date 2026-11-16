@@ -54,33 +54,25 @@ static_assert(sizeof(c_tag_name_dictionary) == 40, "Invalid c_tag_name_dictionar
 
 inline c_tag_name_dictionary::c_tag_name_dictionary() // 0x10877860
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_tag_name_dictionary@@QAE@XZ");
 }
 
 inline c_tag_name_dictionary::c_tag_name_dictionary(std::unordered_map<int,std::string> &&names) : m_index_to_name(std::move(names)) /* hades-mem-init:  */ // 0x1089D060
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0c_tag_name_dictionary@@QAE@$$QAV?$unordered_map@HV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@U?$hash@H@2@U?$equal_to@H@2@V?$allocator@U?$pair@$$CBHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@std@@@2@@std@@@Z");
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0c_tag_name_dictionary@@QAE@$$QAV0@@Z"); no body to assert in
 inline c_tag_name_dictionary::c_tag_name_dictionary(c_tag_name_dictionary &&__that) noexcept = default; // 0x10871760
 
 inline c_tag_name_dictionary::~c_tag_name_dictionary() // 0x10877F60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??1c_tag_name_dictionary@@QAE@XZ");
 }
 
 inline void c_tag_name_dictionary::add(long index, char const *name) // 0x10879940
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?add@c_tag_name_dictionary@@QAEXJPBD@Z");
-
 	m_index_to_name[index] = name;
 }
 
 inline char const *c_tag_name_dictionary::get_name(long index) const // 0x10874230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_name@c_tag_name_dictionary@@QBEPBDJ@Z");
-
 	if (auto it = m_index_to_name.find(index); it != std::end(m_index_to_name))
 		return it->second.c_str();
 	return nullptr;

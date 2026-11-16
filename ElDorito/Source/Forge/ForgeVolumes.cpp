@@ -300,8 +300,6 @@ namespace Forge
 	{
 		void InitializeForNewRound() // 0x10954D00
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewRound@Volumes@Forge@@YAXXZ");
-
 			memset(&state, 0, sizeof(state));
 
 			for (__int32 i = 0; i < 64; i++)
@@ -316,15 +314,11 @@ namespace Forge
 
 		void DisposeFromOldRound() // 0x109548F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?DisposeFromOldRound@Volumes@Forge@@YAXXZ");
-
 			state.IsValid = false;
 		}
 
 		void Update() // 0x109556B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@Volumes@Forge@@YAXXZ");
-
 			bool (*const game_engine_round_in_progress)() = (bool (*)())0x550F90;
 			if (game_engine_round_in_progress())
 			{
@@ -353,8 +347,6 @@ namespace Forge
 
 void ApplyUnitDamage(ForgeVolume &killVolume, unsigned __int32 unitObjectIndex) // 0x10954590
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyUnitDamage@@YAXAAUForgeVolume@hades_file_local@@I@Z");
-
 	__int32 (*const damage_data_new)(DamageData *, __int32) = reinterpret_cast<__int32 (*)(DamageData *, __int32)>(0xB50330);
 	void (*const unit_cause_damage)(DamageData *, __int32, __int32) = reinterpret_cast<void (*)(DamageData *, __int32, __int32)>(0xB542A0);
 	void (*const damage_determine_cause)(unsigned __int32, void *) = reinterpret_cast<void (*)(unsigned __int32, void *)>(0xB770E0);
@@ -395,8 +387,6 @@ void ApplyUnitDamage(ForgeVolume &killVolume, unsigned __int32 unitObjectIndex) 
 
 void ResetVolume(__int32 index) // 0x10955210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetVolume@@YAXH@Z");
-
 	ForgeVolume &volume = state.Volumes[index];
 	memset(&volume, 0, sizeof(volume));
 	volume.Type = eVolumeType_Disabled;
@@ -405,8 +395,6 @@ void ResetVolume(__int32 index) // 0x10955210
 
 void UpdateKillVolume(ForgeVolume &volume) // 0x10955CA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateKillVolume@@YAXAAUForgeVolume@hades_file_local@@@Z");
-
 	bool (__thiscall *const ZoneShape__ContainsPlayer)(void *, __int32) = reinterpret_cast<bool (__thiscall *)(void *, __int32)>(0x765C80);
 	c_data_array<s_player_datum> *players = players_get();
 	s_object_data *volumeObject = object_get(volume.ObjectIndex);
@@ -456,8 +444,6 @@ void UpdateKillVolume(ForgeVolume &volume) // 0x10955CA0
 
 bool ShouldGarbageCollectObject(unsigned __int32 objectIndex, ForgeVolume &volume) // 0x10955290
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ShouldGarbageCollectObject@@YA_NIAAUForgeVolume@hades_file_local@@@Z");
-
 	s_object_data *volumeObject = object_get(volume.ObjectIndex);
 	if (!volumeObject)
 		return false;
@@ -518,8 +504,6 @@ bool ShouldGarbageCollectObject(unsigned __int32 objectIndex, ForgeVolume &volum
 
 s_multiplayer_weapon_tracker *FindEngineObject(unsigned __int32 objectIndex) // 0x10954910
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindEngineObject@@YAPAUs_multiplayer_weapon_tracker@@I@Z");
-
 	s_game_engine_globals *game_engine_globals = tls_getd().game_engine_globals;
 
 	for (long i = 0; i < game_engine_globals->multiplayer_weapon_count; i++)
@@ -533,8 +517,6 @@ s_multiplayer_weapon_tracker *FindEngineObject(unsigned __int32 objectIndex) // 
 
 void ResetCtfObject(long objectIndex) // 0x109550B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ResetCtfObject@@YAXJ@Z");
-
 	void (*const flag_reset)(long) = reinterpret_cast<void (*)(long)>(0x97DD00);
 	c_game_engine *engine = ((c_game_engine *(__cdecl *)())0x5CE150)();
 	if (!engine)
@@ -556,8 +538,6 @@ void ResetCtfObject(long objectIndex) // 0x109550B0
 
 void CollectObject(unsigned __int32 objectIndex) // 0x109547E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CollectObject@@YAXI@Z");
-
 	void (*const objects_dispose)(unsigned __int32) = reinterpret_cast<void (*)(unsigned __int32)>(0xB2CD10);
 	s_object_data *object = object_get(objectIndex);
 	if (!object)
@@ -577,8 +557,6 @@ void CollectObject(unsigned __int32 objectIndex) // 0x109547E0
 
 void UpdateGarbageCollectionVolume(ForgeVolume &volume) // 0x10955820
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateGarbageCollectionVolume@@YAXAAUForgeVolume@hades_file_local@@@Z");
-
 	if (game_ticks_to_seconds(volume.Data.GarbageVolume.CollectionTicks++) < 0.25f)
 		return;
 	volume.Data.GarbageVolume.CollectionTicks = 0;
@@ -629,8 +607,6 @@ void UpdateGarbageCollectionVolume(ForgeVolume &volume) // 0x10955820
 
 __int32 GetNextVolumeIndex(unsigned __int32 objectIndex) // 0x10954C80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetNextVolumeIndex@@YAHI@Z");
-
 	for (int i = 0; i < 64; i++)
 	{
 		auto volume = &state.Volumes[i];
@@ -644,8 +620,6 @@ __int32 GetNextVolumeIndex(unsigned __int32 objectIndex) // 0x10954C80
 
 void FindVolumes() // 0x109549C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindVolumes@@YAXXZ");
-
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	c_data_array<s_object_header> *object_headers = object_headers_get();
 	for (c_data_iterator<s_object_header> it = object_headers->begin(); it != object_headers->end(); ++it)
@@ -682,16 +656,12 @@ void FindVolumes() // 0x109549C0
 
 bool ObjectIsVolume(__int32 tagIndex) // 0x10954DA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ObjectIsVolume@@YA_NH@Z");
-
 	s_forge_globals_definition *forge_globals = forge_globals_get_definition();
 	return tagIndex == forge_globals->kill_volume_object.index || tagIndex == forge_globals->garbage_volume_object.index;
 }
 
 void UpdateVolumes() // 0x10956160
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateVolumes@@YAXXZ");
-
 	for (__int32 i = 0; i < 64; i++)
 	{
 		ForgeVolume &volume = state.Volumes[i];
@@ -718,8 +688,6 @@ void UpdateVolumes() // 0x10956160
 
 void RenderVolumes() // 0x10954E30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RenderVolumes@@YAXXZ");
-
 	for (__int32 i = 0; i < 64; i++)
 	{
 		ForgeVolume const &volume = state.Volumes[i];

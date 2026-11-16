@@ -45,15 +45,11 @@ extern void (*const data_make_invalid)(s_data_array *); // 0x1124887C
 
 void *datum_get_absolute(s_data_array const *data, long absolute_index) // 0x10EF9190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?datum_get_absolute@@YAPAXPBUs_data_array@@J@Z");
-
 	return offset_pointer(data->address, absolute_index * data->datum_size);
 }
 
 long datum_absolute_index_to_index(s_data_array const *data, long absolute_index) // 0x10EF9120
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?datum_absolute_index_to_index@@YAJPBUs_data_array@@J@Z");
-
 	if (absolute_index == -1)
 	{
 		return -1;

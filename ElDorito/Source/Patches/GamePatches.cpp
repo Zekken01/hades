@@ -89,8 +89,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x108D0640
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Game@Patches@@YAXXZ");
-
 			Pointer(0x1656AC0).Write(unused_initialize_hook);
 			Pointer(0x1656AC4).Write(unused_dispose_hook);
 			Pointer(0x1656AC8).Write(unused_intialize_for_new_map_hook);
@@ -100,8 +98,6 @@ namespace Patches
 
 		void RegisterGameSystem(IGameSystem *system) // 0x108D0950
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterGameSystem@Game@Patches@@YAXPAUIGameSystem@@@Z");
-
 			eldewritoGameSystems.push_back(system);
 		}
 	}
@@ -111,40 +107,30 @@ namespace Patches
 
 void unused_initialize_hook() // 0x108D1590
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unused_initialize_hook@@YAXXZ");
-
 	for (IGameSystem *system : eldewritoGameSystems)
 		system->Initialize();
 }
 
 void unused_dispose_hook() // 0x108D14F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unused_dispose_hook@@YAXXZ");
-
 	for (IGameSystem *system : eldewritoGameSystems)
 		system->Dispose();
 }
 
 void unused_intialize_for_new_map_hook() // 0x108D1630
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unused_intialize_for_new_map_hook@@YAXXZ");
-
 	for (IGameSystem *system : eldewritoGameSystems)
 		system->InitializeForNewMap();
 }
 
 void unused_dispose_from_old_map_hook() // 0x108D1450
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unused_dispose_from_old_map_hook@@YAXXZ");
-
 	for (IGameSystem *system : eldewritoGameSystems)
 		system->DisposeFromOldMap();
 }
 
 void unused_update_hook() // 0x108D16D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?unused_update_hook@@YAXXZ");
-
 	for (IGameSystem *system : eldewritoGameSystems)
 		system->Update();
 }

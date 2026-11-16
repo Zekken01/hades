@@ -71,8 +71,6 @@ extern s_game_options *(*game_options_get)(); // 0x1135969C
 
 void player_format_uid(char *string, unsigned long long id) // 0x10F00140
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_format_uid@@YAXPAD_K@Z");
-
 	if (!string)
 		return;
 	std::stringstream ss;

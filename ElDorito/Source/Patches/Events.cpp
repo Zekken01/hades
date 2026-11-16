@@ -166,8 +166,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A59630
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Events@Patches@@YAXXZ");
-
 					Hook(0x16669C, RunEventHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 					Hook(0x165CE2, RunEventHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 					Hook(0x165D0D, RunEventHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -177,38 +175,29 @@ namespace Patches
 
 		void OnEvent(std::function<void __cdecl(unsigned long,s_game_engine_event_data const *,s_multiplayer_event_response_definition const *)> callback) // 0x10A59B30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@Events@Patches@@YAXV?$function@$$A6AXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z@std@@@Z");
-
 			OnEventCallbacks.push_back(callback);
 		}
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??4s_game_engine_event_data@@QAEAAU0@ABU0@@Z"); no body to assert in
 _inline s_game_engine_event_data &s_game_engine_event_data::operator=(s_game_engine_event_data const &__that) = default; // 0x10A591B0
 
 /* ---------- private code */
 
 void RunEventHook(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10A59BD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RunEventHook@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
-
 	for (auto &callback : OnEventCallbacks)
 		callback(player, event, definition);
 	void (*RunEvent)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *) = (void (*)(unsigned long, s_game_engine_event_data const *, s_multiplayer_event_response_definition const *))0x5666b0;
 	RunEvent(player, event, definition);
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_suppressed_game_engine_event@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_suppressed_game_engine_event::s_suppressed_game_engine_event() = default; // 0x10A58EA0
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_suppressed_game_engine_event_collection@hades_file_local@@QAE@XZ"); no body to assert in
 _inline s_suppressed_game_engine_event_collection::s_suppressed_game_engine_event_collection() = default; // 0x10A58F00
 
 bool player_has_name(long player_index) // 0x10A5B150
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?player_has_name@@YA_NJ@Z");
-
 	if (player_index == -1)
 	{
 		return false;
@@ -222,8 +211,6 @@ _inline s_suppressed_game_engine_event &s_suppressed_game_engine_event::operator
 
 void game_engine_update_game_events_hook() // 0x10A5AAA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_update_game_events_hook@@YAXXZ");
-
 	extern long (*const game_time_get)();
 	extern long (*const game_seconds_to_ticks_round)(float);
 	static void (*const game_engine_event_play)(s_game_engine_event_data const *) = (void (*)(s_game_engine_event_data const *))0x565CA0;
@@ -276,8 +263,6 @@ void game_engine_update_game_events_hook() // 0x10A5AAA0
 
 void game_event_set_cause_player_hook(long player_index, s_game_engine_event_data *event) // 0x10A5B010
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_event_set_cause_player_hook@@YAXJPAUs_game_engine_event_data@@@Z");
-
 	event->cause_player_index = -1;
 	event->cause_team_index = -1;
 

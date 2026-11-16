@@ -191,8 +191,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x1069BA50
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@BreakableSurface@Patches@@YAXXZ");
-
 			Hook(0x16B960, breakable_surfaces_reset_hook).Apply();
 			Hook(0x1689E6, breakable_surface_break_sub_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x169E30, breakable_surface_group_get_gamestate_index).Apply();
@@ -210,8 +208,6 @@ namespace Patches
 
 _inline long c_breakable_surface_group_handle::create(long bsp_index, long group_index) // 0x1069D5E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?create@c_breakable_surface_group_handle@hades_file_local@@SAJJJ@Z");
-
 	(void)((!!(bsp_index >= 0 && bsp_index < 16)) || (_wassert(L"bsp_index >= 0 && bsp_index < k_maximum_structure_bsps_per_scenario", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp", 50), 0));
 	(void)((!!(group_index >= 0 && group_index < 1024)) || (_wassert(L"group_index >= 0 && group_index < k_maximum_breakable_surface_groups", L"C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp", 51), 0));
 	return bsp_index << 10 | group_index;
@@ -219,22 +215,17 @@ _inline long c_breakable_surface_group_handle::create(long bsp_index, long group
 
 _inline long c_breakable_surface_group_handle::get_bsp_index(long handle) // 0x1069D680
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_bsp_index@c_breakable_surface_group_handle@hades_file_local@@SAJJ@Z");
-
 	return handle >> 10;
 }
 
 _inline long c_breakable_surface_group_handle::get_group_index(long handle) // 0x1069D800
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?get_group_index@c_breakable_surface_group_handle@hades_file_local@@SAJJ@Z");
-
 	return handle & 0x3FF;
 }
 
 #line 225
 long breakable_surface_group_get_gamestate_index(long bsp_index, long group_index) // 0x1069C800
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_group_get_gamestate_index@@YAJJJ@Z");
 #line 232
 
 	#line 227 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
@@ -252,7 +243,6 @@ long breakable_surface_group_get_gamestate_index(long bsp_index, long group_inde
 
 void breakable_surface_group_set_gamestate_index(long bsp_index, long group_index, long gamestate_index) // 0x1069C8F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_group_set_gamestate_index@@YAXJJJ@Z");
 #line 251
 
 	#line 248 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
@@ -264,7 +254,6 @@ void breakable_surface_group_set_gamestate_index(long bsp_index, long group_inde
 
 bool breakable_surface_get_surface_information(long bsp_index, long surface_index, long *instanced_geometry_instance_index_out, long *breakable_surface_set_index_out, long *breakable_surface_index_out) // 0x1069C680
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_get_surface_information@@YA_NJJPAJ00@Z");
 #line 267
 
 	#line 261 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
@@ -290,7 +279,6 @@ bool breakable_surface_get_surface_information(long bsp_index, long surface_inde
 
 long breakable_surface_get_surface_count(long bsp_index) // 0x1069C540
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_get_surface_count@@YAJJ@Z");
 #line 295
 
 	#line 291 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
@@ -301,8 +289,6 @@ long breakable_surface_get_surface_count(long bsp_index) // 0x1069C540
 
 long breakable_surface_get_group_index(long bsp_index, long instanced_geometry_instance, long breakable_surface_set_index, long breakable_surface_index) // 0x1069C380
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_get_group_index@@YAJJJJJ@Z");
-
 	long surface_count = breakable_surface_get_surface_count(bsp_index);
 	for (long i = 0; i < surface_count; i++)
 	{
@@ -321,8 +307,6 @@ long breakable_surface_get_group_index(long bsp_index, long instanced_geometry_i
 
 long breakable_surface_get_surface_index_from_group_index_and_offset(long bsp_index, long group_index, long offset) // 0x1069C5E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_get_surface_index_from_group_index_and_offset@@YAJJJJ@Z");
-
 	long group_count = ((long(__cdecl *)(long))0x569d30)(bsp_index);
 
 	if (group_index < 0 || group_index >= group_count)
@@ -341,7 +325,6 @@ long breakable_surface_get_surface_index_from_group_index_and_offset(long bsp_in
 #line 358
 void simulation_action_breakable_surface_update(long bsp_index, long group_index) // 0x1069D8B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_breakable_surface_update@@YAXJJ@Z");
 #line 374
 
 	#line 360 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Patches\\BreakableSurfacePatches.cpp"
@@ -364,8 +347,6 @@ void simulation_action_breakable_surface_update(long bsp_index, long group_index
 
 void breakable_surface_break_sub_hook(real_point3d const *position, real_vector3d const *direction, s_scenario_location const *location, long bsp_index, long instance_index, long breakable_surface_set_index, long breakable_surface_index, long surface_index) // 0x1069C280
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surface_break_sub_hook@@YAXPBUreal_point3d@@PBUreal_vector3d@@PBUs_scenario_location@@JJJJJ@Z");
-
 	void (*const breakable_surface_break_sub)(real_point3d const *position, real_vector3d const *direction, s_scenario_location const *location, long bsp_index, long instance_index, long breakable_surface_set_index, long breakable_surface_index, long surface_index) = (void (*const)(real_point3d const *, real_vector3d const *, s_scenario_location const *, long, long, long, long, long))0x569820;
 
 	breakable_surface_break_sub(position, &global_zero3d, location, bsp_index, instance_index, breakable_surface_set_index, breakable_surface_index, surface_index);
@@ -381,8 +362,6 @@ void breakable_surface_break_sub_hook(real_point3d const *position, real_vector3
 
 void simulation_action_breakable_surfaces_create_hook() // 0x1069DA60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?simulation_action_breakable_surfaces_create_hook@@YAXXZ");
-
 	if (!game_is_server() || !game_is_distributed())
 		return;
 	for (long bsp_index = global_structure_bsp_first_active_index_get(); bsp_index != -1; bsp_index = global_structure_bsp_next_active_index_get(bsp_index))
@@ -410,8 +389,6 @@ void simulation_action_breakable_surfaces_create_hook() // 0x1069DA60
 
 void __fastcall c_simulation_breakable_surface_break_event_definition__apply_game_event_hook(void *thisptr, void *__formal, long const *entitiy_references, long entity_reference_count, long payload_size, s_simulation_breakable_surface_break_event_data const *payload) // 0x1069CD70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_breakable_surface_break_event_definition__apply_game_event_hook@@YIXPAX0PBJJJPBUs_simulation_breakable_surface_break_event_data@hades_file_local@@@Z");
-
 	long bsp_index = payload->location.cluster_reference.bsp_index;
 	long surface_index = payload->surface_index;
 	s_scenario_structure_bsp const *structure_bsp = global_structure_bsp_get(bsp_index);
@@ -434,7 +411,6 @@ void __fastcall c_simulation_breakable_surface_break_event_definition__apply_gam
 #line 511
 bool __fastcall c_simulation_breakable_surface_group_entity_definition__build_updated_state_data_hook(void *thisptr, void *__formal, void *entity, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data) // 0x1069CFC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_breakable_surface_group_entity_definition__build_updated_state_data_hook@@YI_NPAX00PAKJPAUs_simulation_breakable_surface_group_state_data@hades_file_local@@@Z");
 #line 533
 
 	if (!(*update_mask & 1))
@@ -476,7 +452,6 @@ bool __fastcall c_simulation_breakable_surface_group_entity_definition__build_up
 
 bool __fastcall c_simulation_breakable_surface_group_entity_definition__update_game_entity_hook(c_simulation_entity_definition *thisptr, void *__formal, long gamestate_index, unsigned long *update_mask, long update_state_data_size, s_simulation_breakable_surface_group_state_data *update_state_data) // 0x1069D2E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_simulation_breakable_surface_group_entity_definition__update_game_entity_hook@@YI_NPAUc_simulation_entity_definition@@PAXJPAKJPAUs_simulation_breakable_surface_group_state_data@hades_file_local@@@Z");
 #line 594
 
 	bool (__thiscall *const gameworld_attachment_valid)(void *, long) = *(bool (__thiscall **)(void *, long))offset_pointer(*(void **)thisptr, 0x20);
@@ -509,8 +484,6 @@ bool __fastcall c_simulation_breakable_surface_group_entity_definition__update_g
 
 void breakable_surfaces_initialize_for_new_map_hook() // 0x1069C9B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surfaces_initialize_for_new_map_hook@@YAXXZ");
-
 	void (*const breakable_surfaces_initialize_for_new_map)() = (void (*const)())0x56B770;
 	breakable_surfaces_initialize_for_new_map();
 	memset(g_breakable_surface_group_gamestate_mapping, -1, 0x10000);
@@ -518,8 +491,6 @@ void breakable_surfaces_initialize_for_new_map_hook() // 0x1069C9B0
 
 void breakable_surfaces_reset_hook() // 0x1069CA20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?breakable_surfaces_reset_hook@@YAXXZ");
-
 	void (*const havok_notify_static_geometry_modfied)() = reinterpret_cast<void (*)()>(0x5C6AF0);
 	s_breakable_surface_globals *breakable_surface_globals = tls_getd().breakable_surface_globals;
 	s_breakable_surface_set set;

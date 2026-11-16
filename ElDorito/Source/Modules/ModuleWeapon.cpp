@@ -139,8 +139,6 @@ namespace Modules
 {
 	ModuleWeapon::ModuleWeapon() : ModuleBase("Weapon") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x10A25BA0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleWeapon@Modules@@QAE@XZ");
-
 		AddCommand("Offset", "weap_off", "This changes weapon offset.", eCommandFlagsNone, CommandWeaponOffset, { "Weapon Name", "I Offset", "J Offset", "K Offset" });
 		AddCommand("Offset.Reset", "weap_off_res", "This resets weapon offset to default.", eCommandFlagsNone, CommandWeaponOffsetReset, { "Weapon Name" });
 		VarWeaponJSON = AddVariableString("JSON.File", "weap_json_file", "The file weapon changes are saved to.", eCommandFlagsArchived, "default");
@@ -157,12 +155,8 @@ namespace Patches
 {
 	namespace Weapon
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??0WeaponInfo@Weapon@Patches@@QAE@XZ"); no body to assert in
-
-		// mangled_x86(MANGLED_DEFAULT, "??1WeaponInfo@Weapon@Patches@@QAE@XZ"); no body to assert in
 		// implicit: WeaponInfo::~WeaponInfo() = default; // 0x10A26580
 
-		// mangled_x86(MANGLED_DEFAULT, "??4WeaponInfo@Weapon@Patches@@QAEAAU012@$$QAU012@@Z"); no body to assert in
 		// WeaponInfo::operator=(WeaponInfo &&) is defaulted in its class (H8).
 	}
 }
@@ -171,8 +165,6 @@ namespace Patches
 
 bool CommandWeaponOffset(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A27430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandWeaponOffset@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() < 1)
 	{
 		returnInfo = "Invalid argument";
@@ -213,8 +205,6 @@ bool CommandWeaponOffset(std::vector<std::string> const &Arguments, std::string 
 
 bool CommandWeaponOffsetReset(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A27BA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandWeaponOffsetReset@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (IsMainMenu())
 	{
 		returnInfo = "This command is unavailable at the moment, please try again when not on the mainmenu.";
@@ -242,8 +232,6 @@ bool CommandWeaponOffsetReset(std::vector<std::string> const &Arguments, std::st
 
 bool CommandLoadWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A26E70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandLoadWeaponsJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	bool changeJson = false;
 	if (Arguments.size() > 0)
 	{
@@ -266,8 +254,6 @@ bool CommandLoadWeaponsJSON(std::vector<std::string> const &Arguments, std::stri
 
 bool CommandSaveWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A27390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSaveWeaponsJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (IsMainMenu())
 	{
 		returnInfo = "This command is unavailable at the moment, please try again when not on the mainmenu.";
@@ -282,8 +268,6 @@ bool CommandSaveWeaponsJSON(std::vector<std::string> const &Arguments, std::stri
 
 bool CommandNewWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A270E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandNewWeaponsJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (IsMainMenu())
 	{
 		returnInfo = "This command is unavailable at the moment, please try again when not on the mainmenu.";
@@ -320,8 +304,6 @@ bool CommandNewWeaponsJSON(std::vector<std::string> const &Arguments, std::strin
 
 bool CommandDeleteWeaponsJSON(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A26650
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDeleteWeaponsJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (IsMainMenu())
 	{
 		returnInfo = "This command is unavailable at the moment, please try again when not on the mainmenu.";
@@ -365,8 +347,6 @@ bool CommandDeleteWeaponsJSON(std::vector<std::string> const &Arguments, std::st
 
 bool CommandGetEquippedWeaponInfo(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x10A26960
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandGetEquippedWeaponInfo@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (IsMainMenu())
 	{
 		returnInfo = "This command is unavailable at the moment, please try again when not on the mainmenu.";
@@ -394,8 +374,6 @@ bool CommandGetEquippedWeaponInfo(std::vector<std::string> const &Arguments, std
 
 bool CommandListWeaponConfigsJSON(std::vector<std::string> const &arguments, std::string &returnInfo) // 0x10A26DB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandListWeaponConfigsJSON@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Patches::Weapon::Config::CreateList();
 
 	for (auto &config : Modules::ModuleWeapon::Instance().WeaponsJSONList)
@@ -413,8 +391,6 @@ bool CommandListWeaponConfigsJSON(std::vector<std::string> const &arguments, std
 
 real_vector3d ToOffset(std::string I, std::string J, std::string K) // 0x10A27F20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ToOffset@@YA?AUreal_vector3d@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@00@Z");
-
 	return { std::stof(I), std::stof(J), std::stof(K) };
 }
 

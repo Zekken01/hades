@@ -147,8 +147,6 @@ namespace Server
 	{
 		bool AbstractVotingSystem::ReloadVotingJson(std::string fileName, bool loadFileFromDisc) // 0x1072D740
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ReloadVotingJson@AbstractVotingSystem@Voting@Server@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@_N@Z");
-
 			bool success = true;
 			if (loadFileFromDisc && !LoadJson(fileName))
 			{
@@ -165,15 +163,11 @@ namespace Server
 
 		__int32 AbstractVotingSystem::getVoteNeededToPass() // 0x1072E450
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?getVoteNeededToPass@AbstractVotingSystem@Voting@Server@@UAEHXZ");
-
 			return (Blam::Network::GetNumPlayers() - 1) * Modules::ModuleVoting::Instance().VarVetoVotePassPercentage->ValueInt / 100 + 1;
 		}
 
 		void AbstractVotingSystem::GenerateVotingOptionsMessage(__int32 peer) // 0x1072D550
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GenerateVotingOptionsMessage@AbstractVotingSystem@Voting@Server@@QAEXH@Z");
-
 			auto* session = Blam::Network::GetActiveSession();
 			if (!(session && session->IsEstablished() && session->IsHost() && session->Parameters.GetSessionMode() == 1 && isEnabled()))
 				return;
@@ -184,15 +178,11 @@ namespace Server
 
 		void AbstractVotingSystem::NotifyVotePassed(Server::Voting::MapAndType const &winner) // 0x1072D6C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?NotifyVotePassed@AbstractVotingSystem@Voting@Server@@IAEXABUMapAndType@23@@Z");
-
 			(*(std::function<void(Server::Voting::MapAndType)> *)((unsigned char *)this + 0x10))(winner);
 		}
 
 		void AbstractVotingSystem::CheckAndLoadJson() // 0x1072D4B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?CheckAndLoadJson@AbstractVotingSystem@Voting@Server@@QAEXXZ");
-
 			if (jsonLoaded)
 				return;
 
@@ -200,28 +190,20 @@ namespace Server
 			jsonLoaded = true;
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??0CharacterOverride@HaloType@Voting@Server@@QAE@ABU0123@@Z"); no body to assert in
 		// _inline HaloType::CharacterOverride::CharacterOverride(Server::Voting::HaloType::CharacterOverride const &__that) = default; // 0x1072C610  // hades: left implicit
 
-		// mangled_x86(MANGLED_DEFAULT, "??0HaloMap@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
 		_inline HaloMap::HaloMap(Server::Voting::HaloMap const &__that) = default; // 0x1072C6E0
 
-		// mangled_x86(MANGLED_DEFAULT, "??0HaloType@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
 		_inline HaloType::HaloType(Server::Voting::HaloType const &__that) = default; // 0x1072C840
 
-		// mangled_x86(MANGLED_DEFAULT, "??0MapAndType@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
 		_inline MapAndType::MapAndType(Server::Voting::MapAndType const &__that) = default; // 0x1072CAB0
 
-		// mangled_x86(MANGLED_DEFAULT, "??1CharacterOverride@HaloType@Voting@Server@@QAE@XZ"); no body to assert in
 		// _inline HaloType::CharacterOverride::~CharacterOverride() = default; // 0x1072D0B0  // hades: left implicit
 
-		// mangled_x86(MANGLED_DEFAULT, "??1HaloMap@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline HaloMap::~HaloMap() = default; // 0x1072D110
 
-		// mangled_x86(MANGLED_DEFAULT, "??1HaloType@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline HaloType::~HaloType() = default; // 0x1072D190
 
-		// mangled_x86(MANGLED_DEFAULT, "??1MapAndType@Voting@Server@@QAE@XZ"); no body to assert in
 		_inline MapAndType::~MapAndType() = default; // 0x1072D260
 	}
 }

@@ -287,8 +287,6 @@ namespace Server
 	{
 		void GetStatsEndpoints(std::vector<std::string> &destVect) // 0x10B28760
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStatsEndpoints@Stats@Server@@YAXAAV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@@Z");
-
 			if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 				return;
 			rapidjson::Document json = Utils::Singleton<Utils::DewritoReader>::Instance().GetDewritoJson();
@@ -306,8 +304,6 @@ namespace Server
 
 		void GetPlayersInfoEndpoint() // 0x10B271C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayersInfoEndpoint@Stats@Server@@YAXXZ");
-
 			if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 				return;
 			rapidjson::Document json = Utils::Singleton<Utils::DewritoReader>::Instance().GetDewritoJson();
@@ -321,8 +317,6 @@ namespace Server
 
 		void GetStatsPublicKey(std::string &dest) // 0x10B2BE60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStatsPublicKey@Stats@Server@@YAXAAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			if (!Utils::Singleton<Utils::DewritoReader>::Instance().IsValid())
 				return;
 			rapidjson::Document json = Utils::Singleton<Utils::DewritoReader>::Instance().GetDewritoJson();
@@ -336,8 +330,6 @@ namespace Server
 
 		unsigned long __stdcall GetPlayersInfo_Thread(void *lpParam) // 0x10B27360
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayersInfo_Thread@Stats@Server@@YGKPAX@Z");
-
 			if (playersInfoEndpoint.empty())
 				return false;
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
@@ -428,8 +420,6 @@ namespace Server
 
 		bool AnnounceStats(std::string payload, std::vector<std::string> endpoints) // 0x10B26B90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?AnnounceStats@Stats@Server@@YA_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@4@@Z");
-
 			for (auto server : endpoints)
 			{
 				HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
@@ -455,8 +445,6 @@ namespace Server
 	{
 		std::string GetStatsPayload() // 0x10B28970
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetStatsPayload@Stats@Server@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (Blam::Network::GetLobbyType() != 2 || Blam::Network::GetNetworkMode() != 3)
 				return "";
@@ -836,8 +824,6 @@ namespace Server
 
 		void LifeCycleStateChanged(Blam::Network::LifeCycleState newState) // 0x10B2C0B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LifeCycleStateChanged@Stats@Server@@YAXW4LifeCycleState@Network@Blam@@@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
 			{
@@ -859,8 +845,6 @@ namespace Server
 
 		void OnGameStart() // 0x10B2CBA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameStart@Stats@Server@@YAXXZ");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished() || !session->IsHost())
 				return;
@@ -869,8 +853,6 @@ namespace Server
 
 		unsigned __int32 GetPeerIp(Blam::Network::Session *session, __int32 peer) // 0x10B27140
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPeerIp@Stats@Server@@YAIPAUSession@Network@Blam@@H@Z");
-
 			Blam::Network::SessionMembership *membership = &session->MembershipInfo;
 			__int32 channelIndex = membership->PeerChannels[peer].ChannelIndex;
 			return channelIndex >= 0 ? session->Observer->Channels[channelIndex].Address.Address.IPv4 : 0x7F000001;
@@ -878,8 +860,6 @@ namespace Server
 
 		void LogListPlayers() // 0x10B2C170
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?LogListPlayers@Stats@Server@@YAXXZ");
-
 			if (Modules::ModuleServer::Instance().VarListPlayersLogEnabled->ValueInt != 1)
 				return;
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
@@ -921,8 +901,6 @@ namespace Server
 
 		void OnEvent(unsigned long player, s_game_engine_event_data const *event, s_multiplayer_event_response_definition const *definition) // 0x10B2C980
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnEvent@Stats@Server@@YAXKPBUs_game_engine_event_data@@PBUs_multiplayer_event_response_definition@@@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (!session || !session->IsEstablished())
 				return;
@@ -956,8 +934,6 @@ namespace Server
 
 		void Init() // 0x10B2BFF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Stats@Server@@YAXXZ");
-
 			Patches::Network::OnLifeCycleStateChanged(LifeCycleStateChanged);
 			Patches::Events::OnEvent(OnEvent);
 			Patches::Core::OnGameStart(OnGameStart);
@@ -967,15 +943,11 @@ namespace Server
 
 		void UpdatePlayersInfo() // 0x10B2CF80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayersInfo@Stats@Server@@YAXXZ");
-
 			HANDLE thread = CreateThread(nullptr, 0, Server::Stats::GetPlayersInfo_Thread, (LPVOID)"", 0, nullptr);
 		}
 
 		void Tick() // 0x10B2CC30
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Stats@Server@@YAXXZ");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			long long curTime1;
 			if (!session || !session->IsEstablished())
@@ -1018,8 +990,6 @@ namespace Server
 
 		bool localPlayerIsPostMatch() // 0x10B2D5E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?localPlayerIsPostMatch@Stats@Server@@YA_NXZ");
-
 			return postMatch;
 		}
 	}

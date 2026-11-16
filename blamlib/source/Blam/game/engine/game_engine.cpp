@@ -70,36 +70,26 @@ using namespace hades_file_local;
 
 __int32 game_engine_get_player_assists(unsigned long player_index) // 0x10EFFC00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_assists@@YAHK@Z");
-
 	return ((__int32(__cdecl *)(unsigned long))0x5504e0)(player_index);
 }
 
 __int32 game_engine_get_player_deaths(unsigned long player_index) // 0x10EFFC60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_deaths@@YAHK@Z");
-
 	return eldorado::game_engine_get_player_deaths(player_index);
 }
 
 __int32 game_engine_get_player_kills(unsigned long player_index) // 0x10EFFCC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_kills@@YAHK@Z");
-
 	return ((__int32(__cdecl *)(unsigned long))0x550620)(player_index);
 }
 
 __int32 game_engine_get_player_score(unsigned long player_index) // 0x10EFFD20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_player_score@@YAHK@Z");
-
 	return ((__int32(__cdecl *)(unsigned long))0x550720)(player_index);
 }
 
 long game_engine_get_team_designator(long player_index) // 0x10EFFEA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_team_designator@@YAJJ@Z");
-
 	void *game_engine = ((void *(__cdecl *)())0x5ce150)();
 	long (__thiscall *const get_team_designator)(void *, long) = *(long (__thiscall **)(void *, long))(*(unsigned char **)game_engine + 0xb4);
 
@@ -111,8 +101,6 @@ long game_engine_get_team_designator(long player_index) // 0x10EFFEA0
 
 void game_engine_get_team_color(real_rgb_color *color, long team) // 0x10EFFD80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_get_team_color@@YAXPAUreal_rgb_color@@J@Z");
-
 	*color = **reinterpret_cast<real_rgb_color **>(0x189CDBC);
 	s_game_globals *matg = game_globals_get();
 	if (matg)
@@ -127,8 +115,6 @@ void game_engine_get_team_color(real_rgb_color *color, long team) // 0x10EFFD80
 
 char const *game_engine_type_get_string(e_game_engine_type type) // 0x10EFFF50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?game_engine_type_get_string@@YAPBDW4e_game_engine_type@@@Z");
-
 	if (type < 0 || type >= 11)
 	{
 		return "unknown";

@@ -107,8 +107,6 @@ namespace Player
 	{
 		bool ParseQueryParameter(std::string_view const &str, std::string_view &name, std::string_view &value) // 0x107DF560
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseQueryParameter@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAV34@1@Z");
-
 			__int32 separatorPos = str.find('=');
 			if (separatorPos == -1)
 				return false;
@@ -119,8 +117,6 @@ namespace Player
 
 		bool ParseQuery(std::string_view const &query, std::vector<std::pair<std::string_view,std::string_view> > &parameters) // 0x107DF3D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseQuery@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAV?$vector@U?$pair@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V12@@std@@V?$allocator@U?$pair@V?$basic_string_view@DU?$char_traits@D@std@@@std@@V12@@std@@@2@@4@@Z");
-
 			__int32 pos = 0;
 			__int32 len = query.length();
 			while (pos < len)
@@ -140,8 +136,6 @@ namespace Player
 
 		bool ParseHex(std::string_view const &str, unsigned __int32 &value) // 0x107DF260
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseHex@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AAI@Z");
-
 			std::stringstream ss;
 			ss << std::hex << str;
 			ss >> value;
@@ -150,8 +144,6 @@ namespace Player
 
 		bool ParseBool(std::string_view const &str, bool &value) // 0x107DF190
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseBool@Emblems@Player@@YA_NABV?$basic_string_view@DU?$char_traits@D@std@@@std@@AA_N@Z");
-
 			char val;
 			if (!ParseInt(str, val, 0, 1))
 				return false;
@@ -161,8 +153,6 @@ namespace Player
 
 		bool ParseURL(std::string const &url, s_player_emblem_configuration &config) // 0x107DF620
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ParseURL@Emblems@Player@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@AAUs_player_emblem_configuration@@@Z");
-
 			Utils::Uri::UriComponents uric;
 			if (!Utils::Uri::ParseUriComponents(url, uric))
 				return false;
@@ -198,8 +188,6 @@ namespace Player
 	{
 		std::string HexToStrHex(__int32 hexValue) // 0x107DEE70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?HexToStrHex@Emblems@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@H@Z");
-
 			__int32 red = (hexValue >> 16) & 0xFF;
 			__int32 green = (hexValue >> 8) & 0xFF;
 			__int32 blue = hexValue & 0xFF;
@@ -219,8 +207,6 @@ namespace Player
 	{
 		std::string BuildUrl(s_player_emblem_configuration config) // 0x107DE4E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildUrl@Emblems@Player@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@Us_player_emblem_configuration@@@Z");
-
 			std::string emblem = "emblems://emblem";
 			emblem += "?1=" + (config.backgroundHex ? HexToStrHex(config.backgroundColor) : std::to_string(config.backgroundColor)) + "&2=" + (config.secondaryHex ? HexToStrHex(config.secondaryColor) : std::to_string(config.secondaryColor)) + "&3=" + (config.primaryHex ? HexToStrHex(config.primaryColor) : std::to_string(config.primaryColor)) + "&fi=" + std::to_string(config.foregroundIndex) + "&bi=" + std::to_string(config.backgroundIndex) + "&fl=" + std::to_string(config.iconEnabled);
 			return emblem;

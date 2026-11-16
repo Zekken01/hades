@@ -171,8 +171,6 @@ namespace Utils
 
 void CServerConnectStateHandler_Connect::OnEnter() // 0x1090BE70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnEnter@CServerConnectStateHandler_Connect@@EAEXXZ");
-
 	Console::WriteLine("Server Connect :: Connecting to game server...");
 	SServerConnectState const &state = GetManager()->GetState();
 	((void(__cdecl *)())0x1596610)();
@@ -201,12 +199,10 @@ void CServerConnectStateHandler_Connect::OnEnter() // 0x1090BE70
 
 void CServerConnectStateHandler_Connect::OnExit() // 0x1090C2F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnExit@CServerConnectStateHandler_Connect@@EAEXXZ");
 }
 
 void CServerConnectStateHandler_Connect::OnUpdate() // 0x1090C310
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnUpdate@CServerConnectStateHandler_Connect@@EAEXXZ");
 }
 
 /* ---------- private code */

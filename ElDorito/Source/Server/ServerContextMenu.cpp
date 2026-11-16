@@ -149,8 +149,6 @@ namespace Server
 	{
 		__int32 __stdcall HandleWindowMessage(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam, bool *outHandled) // 0x10728DF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?HandleWindowMessage@ContextMenu@Server@@YGHPAUHWND__@@IIJPA_N@Z");
-
 			switch (msg)
 			{
 			case WM_CREATE:
@@ -178,8 +176,6 @@ namespace Server
 
 void CreateWindowExCM() // 0x107287B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateWindowExCM@@YAXXZ");
-
 	HINSTANCE hInstance = GetModuleHandleA("mtndew.dll");
 	WNDCLASSEXA wincl;
 	memset(&wincl, 0, sizeof(wincl));
@@ -203,8 +199,6 @@ void CreateWindowExCM() // 0x107287B0
 
 void UpdateMenu() // 0x10729260
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateMenu@@YAXXZ");
-
 	if (!Hmenu)
 		return;
 	std::string serverName = Utils::Singleton<Modules::ModuleServer>::Instance().VarServerName->ValueString;
@@ -213,8 +207,6 @@ void UpdateMenu() // 0x10729260
 
 void InitNotifyIconData() // 0x10728E90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?InitNotifyIconData@@YAXXZ");
-
 	memset(&notifyIconData, 0, sizeof(notifyIconData));
 	notifyIconData.cbSize = sizeof(notifyIconData);
 	notifyIconData.hWnd = Hwnd;
@@ -228,8 +220,6 @@ void InitNotifyIconData() // 0x10728E90
 
 static void OnShutdown() // 0x107291D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
-
 	if (notifyIconData.hWnd)
 	{
 		notifyIconData.uFlags = 0;
@@ -240,8 +230,6 @@ static void OnShutdown() // 0x107291D0
 
 void HandleMenuAction(unsigned __int32 action) // 0x10728990
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?HandleMenuAction@@YAXI@Z");
-
 	switch (action)
 	{
 	case 1002:
@@ -270,8 +258,6 @@ void HandleMenuAction(unsigned __int32 action) // 0x10728990
 
 long __stdcall ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigned __int32 wParam, long lParam) // 0x10728460
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ContextMenuWindowProc@@YGJPAUHWND__@@IIJ@Z");
-
 	switch (msg)
 	{
 	case WM_USER + 1:
@@ -308,8 +294,6 @@ long __stdcall ContextMenuWindowProc(HWND__ *hWnd, unsigned __int32 msg, unsigne
 
 void ContextMenuThreadProc() // 0x10728390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ContextMenuThreadProc@@YAXXZ");
-
 	tagMSG msg;
 
 	::CreateWindowExCM();
@@ -323,8 +307,6 @@ void ContextMenuThreadProc() // 0x10728390
 
 void Initialize(void *parentHwnd) // 0x10728F90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@@YAXPAX@Z");
-
 	g_parenthWnd = (HWND__ *)parentHwnd;
 
 	std::thread thread(::ContextMenuThreadProc);

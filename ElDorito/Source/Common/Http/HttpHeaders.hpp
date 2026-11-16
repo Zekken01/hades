@@ -87,8 +87,6 @@ namespace Http
 {
 	inline bool CHttpHeaders::SHeaderKeyComparator::operator()(std::string const &s1, std::string const &s2) const // 0x107FB130
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??RSHeaderKeyComparator@CHttpHeaders@Http@@QBE_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0@Z");
-
 		return std::lexicographical_compare(s1.begin(), s1.end(), s2.begin(), s2.end(), [](char c1, char c2) { return tolower(c1) < tolower(c2); });
 	}
 }
@@ -98,8 +96,6 @@ namespace Http
 {
 	inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > CHttpHeaders::begin() const // 0x107FD840
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?begin@CHttpHeaders@Http@@QBE?AV?$_Tree_const_iterator@V?$_Tree_val@U?$_Tree_simple_types@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@std@@@std@@XZ");
-
 		return m_map.begin();
 	}
 }
@@ -109,14 +105,11 @@ namespace Http
 {
 	inline std::_Tree_const_iterator<std::_Tree_val<std::_Tree_simple_types<std::pair<std::string const ,std::string> > > > CHttpHeaders::end() const // 0x107FDB00
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?end@CHttpHeaders@Http@@QBE?AV?$_Tree_const_iterator@V?$_Tree_val@U?$_Tree_simple_types@U?$pair@$$CBV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V12@@std@@@std@@@std@@@std@@XZ");
-
 		return m_map.end();
 	}
 
 	inline CHttpHeaders::CHttpHeaders() // 0x10806D90
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0CHttpHeaders@Http@@QAE@XZ");
 	}
 }
 
@@ -125,8 +118,6 @@ namespace Http
 {
 	inline std::string CHttpHeaders::operator[](std::string const &headerKey) const // 0x1082D190
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??ACHttpHeaders@Http@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ABV23@@Z");
-
 		if (auto it = m_map.find(headerKey); it != end())
 		{
 			return it->second;

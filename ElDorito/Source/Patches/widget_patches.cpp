@@ -64,8 +64,6 @@ void muffins_update(float time_delta);
 
 void widget_patches_apply() // 0x107C41A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?widget_patches_apply@@YAXXZ");
-
 	Hook(0x7C76B0, muffins_update).Apply();
 }
 
@@ -73,8 +71,6 @@ void widget_patches_apply() // 0x107C41A0
 
 void muffins_update(float time_delta) // 0x107C3FF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?muffins_update@@YAXM@Z");
-
 	long (*const data_next_index)(s_data_array *, long) = reinterpret_cast<long (*)(s_data_array *, long)>(0x55B130);
 	void (*const sub_BC6D80)(long) = reinterpret_cast<void (*)(long)>(0xBC6D80);
 	void (*const sub_BC6920)(long) = reinterpret_cast<void (*)(long)>(0xBC6920);

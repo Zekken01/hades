@@ -48,36 +48,26 @@ class CModBrowserStateManager;
 
 CModBrowserStateManager *CModBrowserStateHandler::GetManager() // 0x10721C00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetManager@CModBrowserStateHandler@@QAEPAVCModBrowserStateManager@@XZ");
-
 	return m_manager;
 }
 
 void CModBrowserStateHandler::SetManager(CModBrowserStateManager *manager) // 0x10721CA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetManager@CModBrowserStateHandler@@QAEXPAVCModBrowserStateManager@@@Z");
-
 	m_manager = manager;
 }
 
 void CModBrowserStateHandler::RequestStateChange(EModBrowserState state) // 0x10721C30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RequestStateChange@CModBrowserStateHandler@@IAEXW4EModBrowserState@@@Z");
-
 	m_manager->RequestStateChange(state);
 }
 
 void CModBrowserStateHandler::Abort(EModBrowserAbortReason reason) // 0x10721B40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Abort@CModBrowserStateHandler@@IAEXW4EModBrowserAbortReason@@@Z");
-
 	m_manager->Abort(reason);
 }
 
 void CModBrowserStateHandler::Complete() // 0x10721BB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Complete@CModBrowserStateHandler@@IAEXXZ");
-
 	m_manager->Complete();
 }
 

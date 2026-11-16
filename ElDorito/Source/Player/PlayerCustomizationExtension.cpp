@@ -122,8 +122,6 @@ namespace Player
 {
 	bool ValidServiceTag(wchar_t (&tag)[5]) // 0x107DB6E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ValidServiceTag@Player@@YA_NAAY04_W@Z");
-
 		for (long i = 0; i < 4; i++)
 		{
 			if (tag[i] == 0 && i < 3)
@@ -138,8 +136,6 @@ namespace Player
 
 	unsigned __int32 ParseColor(std::string const &value) // 0x107DB3F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ParseColor@Player@@YAIABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::cmatch what;
 		std::regex expression("#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})");
 		if (std::regex_match(value.c_str(), what, expression))
@@ -154,22 +150,16 @@ namespace Player
 
 	void PlayerCustomizationExtensions::Serialize(Blam::BitStream *stream, s_player_appearance const &data) // 0x107DB680
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Serialize@PlayerCustomizationExtensions@Player@@MAEXPAVBitStream@Blam@@ABUs_player_appearance@@@Z");
-
 		Player::player_appearance_encode(stream, &data);
 	}
 
 	void PlayerCustomizationExtensions::Deserialize(Blam::BitStream *stream, s_player_appearance *out) // 0x107DB390
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Deserialize@PlayerCustomizationExtensions@Player@@MAEXPAVBitStream@Blam@@PAUs_player_appearance@@@Z");
-
 		Player::player_appearance_decode(stream, out);
 	}
 
 	void PlayerCustomizationExtensions::BuildData(__int32 playerIndex, s_player_appearance *out) // 0x107DB030
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?BuildData@PlayerCustomizationExtensions@Player@@MAEXHPAUs_player_appearance@@@Z");
-
 		memset(out, 0, sizeof(s_player_appearance));
 		Modules::ModulePlayer const &modulePlayer = Modules::ModulePlayer::Instance();
 		out->gender = modulePlayer.VarPlayerGender->ValueString.compare("female") == 0 ? 1 : 0;
@@ -197,8 +187,6 @@ namespace Player
 
 	void SanitizeModelCustomization(s_player_model_customization *customization) // 0x107DB620
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SanitizeModelCustomization@Player@@YAXPAUs_player_model_customization@@@Z");
-
 		for (__int32 i = 0; i < 5; i++)
 		{
 			customization->colors[i] &= 0xFFFFFF;
@@ -208,7 +196,6 @@ namespace Player
 #line 227
 	void PlayerCustomizationExtensions::ApplyData(__int32 playerIndex, s_player_configuration *properties, s_player_appearance const &data) // 0x107DAD70
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyData@PlayerCustomizationExtensions@Player@@MAEXHPAUs_player_configuration@@ABUs_player_appearance@@@Z");
 #line 232
 
 		#line 229 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Player\\PlayerCustomizationExtension.cpp"

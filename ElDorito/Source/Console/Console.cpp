@@ -120,15 +120,11 @@ namespace Console
 {
 	void Init() // 0x10950840
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Init@Console@@YAXXZ");
-
 		RegisterHandler(std::make_shared<LogConsoleOutputHandler>());
 	}
 
 	void WriteLine(std::string const &line) // 0x109509D0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?WriteLine@Console@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		std::vector<std::string> lines = Utils::String::SplitString(line, '\n');
 		for (std::string &lineToPrint : lines)
 		{
@@ -139,24 +135,17 @@ namespace Console
 
 	void RegisterHandler(std::shared_ptr<Console::ConsoleOutputHandler> handler) // 0x10950930
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterHandler@Console@@YAXV?$shared_ptr@VConsoleOutputHandler@Console@@@std@@@Z");
-
 		Handlers.push_back(handler);
 	}
-
-	// mangled_x86(MANGLED_DEFAULT, "??0ConsoleOutputHandler@Console@@QAE@XZ"); no body to assert in
 }
 
 /* ---------- private code */
 
 void LogConsoleOutputHandler::WriteLine(std::string const &line) // 0x10950B80
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteLine@LogConsoleOutputHandler@hades_file_local@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	Utils::Singleton<Utils::Logger>::Instance().Log(Utils::LogTypes::Debug, Utils::LogLevel::Info, "%s", line.c_str());
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0LogConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline LogConsoleOutputHandler::LogConsoleOutputHandler() = default; // 0x10950350  // hades: defaulted on its declaration
 
 /* ---------- data definitions */

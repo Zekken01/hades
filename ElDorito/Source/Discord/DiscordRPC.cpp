@@ -156,8 +156,6 @@ namespace Discord
 {
 	void DiscordRPC::SetJoinString(std::string join) // 0x10953000
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetJoinString@DiscordRPC@Discord@@QAEXV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		joinMtx.lock();
 		joinString.assign(join);
 		joinMtx.unlock();
@@ -165,8 +163,6 @@ namespace Discord
 
 	void DiscordRPC::UpdatePresence() // 0x10953270
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePresence@DiscordRPC@Discord@@QAEXXZ");
-
 		long long curTime;
 		time(&curTime);
 		if (curTime - lastUpdate > discordUpdateTime)
@@ -185,8 +181,6 @@ namespace Discord
 
 	void DiscordRPC::UpdatePresence(__int32 networkMode) // 0x10953190
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePresence@DiscordRPC@Discord@@QAEXH@Z");
-
 		if (!Modules::ModuleGame::Instance().VarDiscordEnable->ValueInt)
 		{
 			Discord_ClearPresence();
@@ -208,8 +202,6 @@ namespace Discord
 
 	DiscordRPC::DiscordRPC() : lastUpdate(0), discordUpdateTime(20) /* hades-mem-init: : discordUpdateTime(todo_result<long long>()) */ // 0x109520A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0DiscordRPC@Discord@@QAE@XZ");
-
 		joinString = "";
 		detailString = "";
 		Utils::Cryptography::RandomPassword(32, matchSecret);
@@ -231,22 +223,16 @@ namespace Discord
 
 	void DiscordRPC::ReplyToJoinRequest(char const *userId, __int32 reply) // 0x10952FA0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ReplyToJoinRequest@DiscordRPC@Discord@@QAEXPBDH@Z");
-
 		Discord_Respond(userId, reply);
 	}
 
 	void DiscordRPC::Shutdown() // 0x109530E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@DiscordRPC@Discord@@QAEXXZ");
-
 		Discord_Shutdown();
 	}
 
 	void DiscordRPC::Update() // 0x10953130
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Update@DiscordRPC@Discord@@QAEXXZ");
-
 		UpdatePresence();
 		Discord_RunCallbacks();
 	}
@@ -256,30 +242,23 @@ namespace Discord
 
 void handleDiscordDisconnected(__int32 errorCode, char const *message) // 0x10954210
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordDisconnected@@YAXHPBD@Z");
 }
 
 void handleDiscordError(__int32 errorCode, char const *message) // 0x10954230
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordError@@YAXHPBD@Z");
 }
 
 void handleDiscordJoin(char const *joinSecret) // 0x10954250
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordJoin@@YAXPBD@Z");
-
 	Modules::CommandMap::Instance().ExecuteCommand("connect " + std::string(joinSecret));
 }
 
 void handleDiscordSpectate(char const *spectateSecret) // 0x10954430
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordSpectate@@YAXPBD@Z");
 }
 
 void handleDiscordJoinRequest(DiscordJoinRequest const *joinRequest) // 0x10954380
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordJoinRequest@@YAXPBUDiscordJoinRequest@@@Z");
-
 	if (Utils::Singleton<Modules::ModuleGame>::Instance().VarDiscordAutoAccept->ValueInt == 1)
 	{
 		Discord_Respond(joinRequest->userId, 1);
@@ -288,8 +267,6 @@ void handleDiscordJoinRequest(DiscordJoinRequest const *joinRequest) // 0x109543
 
 void UpdateRichPresence() // 0x109533C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateRichPresence@@YAXXZ");
-
 	Discord::DiscordRPC::Instance().detailString.clear();
 	memset(&Discord::DiscordRPC::Instance().discordPresence, 0, sizeof(Discord::DiscordRPC::discordPresence));
 	Blam::Network::Session *session = Blam::Network::GetActiveSession();
@@ -360,15 +337,11 @@ void UpdateRichPresence() // 0x109533C0
 
 void handleDiscordReady() // 0x109543E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?handleDiscordReady@@YAXXZ");
-
 	Discord::DiscordRPC::Instance().Update();
 }
 
 unsigned long __stdcall DiscordRetrieveExternalIP_Thread(void *lpParam) // 0x10952610
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?DiscordRetrieveExternalIP_Thread@@YGKPAX@Z");
-
 	HttpRequest req(L"ElDewrito/" + Utils::String::WidenString(Utils::Version::GetVersionString()), L"", L"");
 	for (__int32 i = 0; i < 3; i++)
 	{
@@ -403,8 +376,6 @@ unsigned long __stdcall DiscordRetrieveExternalIP_Thread(void *lpParam) // 0x109
 
 static void OnShutdown() // 0x10952F50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnShutdown@@YAXXZ");
-
 	Discord::DiscordRPC::Instance().Shutdown();
 }
 

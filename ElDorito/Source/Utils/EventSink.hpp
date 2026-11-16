@@ -31,8 +31,6 @@ struct end;
 
 template<> inline __int32 CEventSink<>::Subscribe(std::function<void __cdecl(void)> const &callable) // 0x108572B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Subscribe@?$CEventSink@$$V@@QAEHABV?$function@$$A6AXXZ@std@@@Z");
-
 	__int32 id = m_nextId.fetch_add(1);
 	m_callbacks.push_back({ callable, id });
 	return id;
@@ -40,16 +38,12 @@ template<> inline __int32 CEventSink<>::Subscribe(std::function<void __cdecl(voi
 
 template<> inline void CEventSink<>::PostEvent() // 0x108315F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PostEvent@?$CEventSink@$$V@@QAEXXZ");
-
 	for (auto &entry : m_callbacks)
 		entry.callback();
 }
 
 template<> inline void CEventSink<>::Reset() // 0x10831B70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Reset@?$CEventSink@$$V@@QAEXXZ");
-
 	m_callbacks.clear();
 }
 

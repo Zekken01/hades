@@ -214,21 +214,14 @@ void shell_free_console(bool dedicated);
 
 /* ---------- public code */
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@$$QAU01@@Z"); no body to assert in
 _inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description(c_mod_package_updater_blocking::s_mod_package_description &&__that) = default; // 0x108ADB90
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@ABU01@@Z"); no body to assert in
 _inline c_mod_package_updater_blocking::s_mod_package_description::s_mod_package_description(c_mod_package_updater_blocking::s_mod_package_description const &__that) = default; // 0x108ADCD0
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??1s_mod_package_description@c_mod_package_updater_blocking@@QAE@XZ"); no body to assert in
 _inline c_mod_package_updater_blocking::s_mod_package_description::~s_mod_package_description() = default; // 0x108ADFE0
 
 void c_mod_package_updater_blocking::initialize(bool dedicated, char const *package_list_filename, char const *package_directory) // 0x108B1070
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?initialize@c_mod_package_updater_blocking@@QAEX_NPBD1@Z");
-
 	m_dedicated = dedicated;
 	m_package_list_filename.set(package_list_filename);
 	m_package_directory.set(package_directory);
@@ -236,8 +229,6 @@ void c_mod_package_updater_blocking::initialize(bool dedicated, char const *pack
 
 bool c_mod_package_updater_blocking::locate_packages() // 0x108B1190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?locate_packages@c_mod_package_updater_blocking@@AAE_NXZ");
-
 	printf("locating packages...\n");
 	std::stringstream ss;
 	std::ifstream ifs(m_package_list_filename);
@@ -271,8 +262,6 @@ bool c_mod_package_updater_blocking::locate_packages() // 0x108B1190
 
 bool c_mod_package_updater_blocking::download_package(char const *package_url, char const *filename) // 0x108B08C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?download_package@c_mod_package_updater_blocking@@AAE_NPBD0@Z");
-
 	printf("downloading...\n");
 	std::shared_ptr<Download::CHttpFileDownload> download = Download::CreateHttpFileDownload();
 	download->SetUrl(package_url);
@@ -321,7 +310,6 @@ bool c_mod_package_updater_blocking::download_package(char const *package_url, c
 #line 360
 void c_mod_package_updater_blocking::build_mod_package_description(c_mod_package &package, c_mod_package_updater_blocking::s_mod_package_description *description) // 0x108B0040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?build_mod_package_description@c_mod_package_updater_blocking@@AAEXAAVc_mod_package@@PAUs_mod_package_description@1@@Z");
 #line 368
 
 	#line 362 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\mods\\mod_package_updater.cpp"
@@ -338,8 +326,6 @@ void c_mod_package_updater_blocking::build_mod_package_description(c_mod_package
 
 bool download_mod_package_header(char const *url, s_mod_package_header *out_header, bool use_range) // 0x108B02E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?download_mod_package_header@@YA_NPBDPAUs_mod_package_header@@_N@Z");
-
 	char *ptr = (char *)out_header;
 	char *end = (char *)&out_header[1];
 	std::atomic<bool> completion_flag;
@@ -373,8 +359,6 @@ bool download_mod_package_header(char const *url, s_mod_package_header *out_head
 
 bool c_mod_package_updater_blocking::update_package(c_mod_package_updater_blocking::s_mod_package_description *description) // 0x108B23B0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_package@c_mod_package_updater_blocking@@AAE_NPAUs_mod_package_description@1@@Z");
-
 	char const *package_url = description->package_url.c_str();
 	printf("checking remote package '%s'...\n", package_url);
 	static s_mod_package_header remote_header;
@@ -447,8 +431,6 @@ bool c_mod_package_updater_blocking::update_package(c_mod_package_updater_blocki
 
 bool c_mod_package_updater_blocking::process_queue() // 0x108B1BF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?process_queue@c_mod_package_updater_blocking@@AAE_NXZ");
-
 	c_mod_package_manager &package_manager = c_mod_system::get_package_manager();
 	package_manager.enumerate_blocking();
 	while (!m_download_queue.empty())
@@ -469,8 +451,6 @@ bool c_mod_package_updater_blocking::process_queue() // 0x108B1BF0
 
 bool c_mod_package_updater_blocking::update_packages_blocking() // 0x108B2EF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update_packages_blocking@c_mod_package_updater_blocking@@QAE_NXZ");
-
 	shell_allocate_console();
 	printf("updating mods...\n");
 	bool result = locate_packages();
@@ -484,8 +464,6 @@ bool c_mod_package_updater_blocking::update_packages_blocking() // 0x108B2EF0
 
 void shell_allocate_console() // 0x108B1F00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?shell_allocate_console@@YAXXZ");
-
 	AllocConsole();
 	HWND__ *consoleWindow = GetConsoleWindow();
 	_iobuf *fpStdOut;
@@ -503,8 +481,6 @@ void shell_allocate_console() // 0x108B1F00
 
 void shell_free_console(bool dedicated) // 0x108B2100
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?shell_free_console@@YAX_N@Z");
-
 	HWND consoleWindow = GetConsoleWindow();
 	EnableMenuItem(GetSystemMenu(consoleWindow, TRUE), SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
 	if (!dedicated)

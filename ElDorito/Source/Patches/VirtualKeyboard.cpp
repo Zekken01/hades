@@ -184,15 +184,11 @@ namespace Patches
 		extern void SetKeyboardHandler(std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> callback);  // hades: defined below, for 0x10AEBE10
 		void Init() // 0x10AEBE10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@VirtualKeyboard@Patches@@YAXXZ");
-
 			SetKeyboardHandler(WebVirtualKeyboardHandler);
 		}
 
 		void ApplyAll() // 0x10AEB800
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@VirtualKeyboard@Patches@@YAXXZ");
-
 			// Implement virtual keyboard stubs
 			Hook(0xE1840, CreateVirtualKeyboard).Apply();
 			Hook(0xE19A0, SetVirtualKeyboardDefaultValue).Apply();
@@ -203,8 +199,6 @@ namespace Patches
 
 		void SetKeyboardHandler(std::function<void __cdecl(Blam::Input::VirtualKeyboard *)> callback) // 0x10AEBE70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetKeyboardHandler@VirtualKeyboard@Patches@@YAXV?$function@$$A6AXPAVVirtualKeyboard@Input@Blam@@@Z@std@@@Z");
-
 			KeyboardHandler = callback;
 		}
 	}
@@ -224,44 +218,32 @@ namespace Patches
 
 Blam::Input::VirtualKeyboard *CreateVirtualKeyboard(char const *file, __int32 line, __int32 unk2, __int32 unk3, __int32 unk4, __int32 unk5, __int32 maxLength, __int32 unk7, __int32 unk8) // 0x10AEBD00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CreateVirtualKeyboard@@YAPAVVirtualKeyboard@Input@Blam@@PBDHHHHHHHH@Z");
-
 	return new Blam::Input::VirtualKeyboard(file, line, unk2, unk3, unk4, unk5, maxLength, unk7, unk8);
 }
 
 void __fastcall SetVirtualKeyboardDefaultValue(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDefaultValue) // 0x10AEBF10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetVirtualKeyboardDefaultValue@@YIXPAVVirtualKeyboard@Input@Blam@@PAXPA_W@Z");
-
 	keyboard->SetDefaultValue(newDefaultValue);
 }
 
 void __fastcall SetVirtualKeyboardTitle(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newTitle) // 0x10AEBFD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetVirtualKeyboardTitle@@YIXPAVVirtualKeyboard@Input@Blam@@PAXPA_W@Z");
-
 	keyboard->SetTitle(newTitle);
 }
 
 void __fastcall SetVirtualKeyboardDescription(Blam::Input::VirtualKeyboard *keyboard, void *unused, wchar_t *newDescription) // 0x10AEBF70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetVirtualKeyboardDescription@@YIXPAVVirtualKeyboard@Input@Blam@@PAXPA_W@Z");
-
 	keyboard->SetDescription(newDescription);
 }
 
 bool ShowVirtualKeyboard(Blam::Input::VirtualKeyboard *keyboard, char const *file, __int32 line) // 0x10AEC030
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ShowVirtualKeyboard@@YA_NPAVVirtualKeyboard@Input@Blam@@PBDH@Z");
-
 	KeyboardHandler(keyboard);
 	return true;
 }
 
 void WebVirtualKeyboardHandler(Blam::Input::VirtualKeyboard *keyboard) // 0x10AEC080
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?WebVirtualKeyboardHandler@@YAXPAVVirtualKeyboard@Input@Blam@@@Z");
-
 	CurrentKeyboard = keyboard;
 	std::string title = Utils::String::ThinString(CurrentKeyboard->Title);
 	std::string description = Utils::String::ThinString(CurrentKeyboard->Description);

@@ -81,15 +81,11 @@ extern short (*const objects_get_in_cluster)(long, c_flags<enum e_object_type,lo
 
 c_data_array<s_object_header> *object_headers_get() // 0x10EF8F00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_headers_get@@YAPAV?$c_data_array@Us_object_header@@@@XZ");
-
 	return tls_getd().object_header;
 }
 
 s_object_header *object_header_get(unsigned long object_index) // 0x10EF8E70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_header_get@@YAPAUs_object_header@@K@Z");
-
 	if (object_index == -1)
 	{
 		return nullptr;
@@ -100,8 +96,6 @@ s_object_header *object_header_get(unsigned long object_index) // 0x10EF8E70
 
 s_object_data *object_get(unsigned long object_index) // 0x10EF8CB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_get@@YAPAUs_object_data@@K@Z");
-
 	s_object_header *object_header = object_header_get(object_index);
 	if (object_header == nullptr)
 		return nullptr;
@@ -110,8 +104,6 @@ s_object_data *object_get(unsigned long object_index) // 0x10EF8CB0
 
 __int32 object_choose_variant(unsigned long object_index, unsigned long variant_name) // 0x10EF8BB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_choose_variant@@YAHKK@Z");
-
 	s_object_data *data = object_get(object_index);
 	if (!data)
 		return -1;
@@ -128,8 +120,6 @@ __int32 object_choose_variant(unsigned long object_index, unsigned long variant_
 
 __int32 object_lookup_variant_index_from_name(__int32 tag_index, unsigned long variant_name) // 0x10EF8F50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_lookup_variant_index_from_name@@YAHHK@Z");
-
 	if (tag_index == -1)
 		return -1;
 	s_model_definition *model_definition = (s_model_definition *)tag_get('hlmt', tag_index);
@@ -156,8 +146,6 @@ __int32 object_lookup_variant_index_from_name(__int32 tag_index, unsigned long v
 
 unsigned long object_get_variant_name(long object_index) // 0x10EF8D20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?object_get_variant_name@@YAKJ@Z");
-
 	s_object_data *object = object_get(object_index);
 	if (!object)
 	{

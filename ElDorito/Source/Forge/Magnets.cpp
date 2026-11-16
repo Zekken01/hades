@@ -261,8 +261,6 @@ namespace Forge
 	{
 		bool Initialize() // 0x1096D1B0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Initialize@Magnets@Forge@@YA_NXZ");
-
 			markerGroupName = Blam::Cache::StringIDCache::GetCurrent()->GetStringId(MARKER_GROUP_NAME);
 			if (!s_MagnetManager)
 			{
@@ -278,15 +276,11 @@ namespace Forge
 
 		void Shutdown() // 0x1096DE20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Shutdown@Magnets@Forge@@YAXXZ");
-
 			s_MagnetManager.reset(nullptr);
 		}
 
 		void Update() // 0x1096E210
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@Magnets@Forge@@YAXXZ");
-
 			if (!MagnetsEnabled())
 				return;
 
@@ -296,8 +290,6 @@ namespace Forge
 
 		void Render() // 0x1096D8C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Render@Magnets@Forge@@YAXXZ");
-
 			if (!MagnetsEnabled() || !MagnetsVisible())
 				return;
 
@@ -307,8 +299,6 @@ namespace Forge
 
 		Forge::Magnets::MagnetPair const &GetMagnetPair() // 0x1096CB80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetMagnetPair@Magnets@Forge@@YAABUMagnetPair@12@XZ");
-
 			if (!s_MagnetManager || !MagnetsEnabled())
 			{
 				return nullMagnetPair;
@@ -323,8 +313,6 @@ namespace Forge
 
 _inline MagnetManager::MagnetManager() // 0x1096C1A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??0MagnetManager@hades_file_local@@QAE@XZ");
-
 	m_LastCheck = 0;
 	m_NumSourceMagnets = 0;
 	m_NumDestMagnets = 0;
@@ -340,29 +328,21 @@ namespace Forge
 
 _inline Forge::Magnets::MagnetPair const &MagnetManager::GetMagnetPair() const // 0x1096CB50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMagnetPair@MagnetManager@hades_file_local@@QBEABUMagnetPair@Magnets@Forge@@XZ");
-
 	return m_MagnetPairing;
 }
 
 bool MagnetsEnabled() // 0x1096D360
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?MagnetsEnabled@@YA_NXZ");
-
 	return Modules::ModuleForge::Instance().VarMagnetsEnabled->ValueInt;
 }
 
 bool MagnetsVisible() // 0x1096D3D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?MagnetsVisible@@YA_NXZ");
-
 	return Modules::ModuleForge::Instance().VarMagnetsVisible->ValueInt;
 }
 
 void MagnetManager::Update() // 0x1096DE70
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Update@MagnetManager@hades_file_local@@QAEXXZ");
-
 	unsigned long playerIndex = ((unsigned long (*)(long))0x589C30)(0);
 	if (playerIndex == -1)
 		return;
@@ -407,8 +387,6 @@ void MagnetManager::Update() // 0x1096DE70
 
 void MagnetManager::PerformPairing() // 0x1096D440
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PerformPairing@MagnetManager@hades_file_local@@AAEXXZ");
-
 	m_MagnetPairing.IsValid = false;
 	unsigned long playerIndex = reinterpret_cast<unsigned long (*)(long)>(0x589C30)(0);
 	s_player_datum *player = players_get()->try_and_get(playerIndex);
@@ -443,8 +421,6 @@ void MagnetManager::PerformPairing() // 0x1096D440
 
 void MagnetManager::RenderMagnet(Forge::Magnets::Magnet const &magnet) // 0x1096D940
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?RenderMagnet@MagnetManager@hades_file_local@@QAEXABUMagnet@Magnets@Forge@@@Z");
-
 	if (m_MagnetPairing.IsValid && (m_MagnetPairing.Dest == &magnet || m_MagnetPairing.Source == &magnet))
 	{
 		float const color[4] = { 2.0f, 0.0f, 0.0f, 2.0f };
@@ -495,8 +471,6 @@ unsigned short GetPlasmaShaderTagIndex() // 0x1096D120
 
 void MagnetManager::Render() // 0x1096D750
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Render@MagnetManager@hades_file_local@@QAEXXZ");
-
 	unsigned short const SHADER_TAGINDEX = GetPlasmaShaderTagIndex();
 	if (!((bool (*)(__int32, __int32, __int32, __int32))0xA23300)(64, 0x14, 0, 0))
 		return;
@@ -513,8 +487,6 @@ void MagnetManager::Render() // 0x1096D750
 
 __int32 FindMagnetMarkerGroup(s_render_model const *renderModel) // 0x1096CAA0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?FindMagnetMarkerGroup@@YAHPBUs_render_model@@@Z");
-
 	if (!markerGroupName)
 		return -1;
 
@@ -529,8 +501,6 @@ __int32 FindMagnetMarkerGroup(s_render_model const *renderModel) // 0x1096CAA0
 
 void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real_point3d> &markers) // 0x1096CC00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetMagnetsFromCollisionModel@@YAXIAAV?$vector@Ureal_point3d@@V?$allocator@Ureal_point3d@@@std@@@std@@@Z");
-
 	collision_model_instance instance;
 	if (((bool (*)(collision_model_instance *, long))0x980E40)(&instance, objectIndex))
 	{
@@ -555,8 +525,6 @@ void GetMagnetsFromCollisionModel(unsigned __int32 objectIndex, std::vector<real
 
 void MagnetManager::GetObjectMarkers(unsigned __int32 objectIndex, std::vector<real_point3d> &markers) // 0x1096CE30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetObjectMarkers@MagnetManager@hades_file_local@@AAEXIAAV?$vector@Ureal_point3d@@V?$allocator@Ureal_point3d@@@std@@@std@@@Z");
-
 	s_object_data *object = object_get(objectIndex);
 	s_object_definition *objectDef = (s_object_definition *)tag_get('obje', object->definition_index);
 	if (!objectDef)
@@ -598,8 +566,6 @@ void MagnetManager::GetObjectMarkers(unsigned __int32 objectIndex, std::vector<r
 
 void MagnetManager::AddSourceObject(unsigned __int32 objectIndex) // 0x1096C880
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AddSourceObject@MagnetManager@hades_file_local@@AAEXI@Z");
-
 	s_object_data *const object = object_get(objectIndex);
 	if (!object)
 		return;
@@ -619,8 +585,6 @@ void MagnetManager::AddSourceObject(unsigned __int32 objectIndex) // 0x1096C880
 
 void MagnetManager::AddDestObject(unsigned __int32 objectIndex) // 0x1096C650
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AddDestObject@MagnetManager@hades_file_local@@AAEXI@Z");
-
 	s_object_data *object = object_get(objectIndex);
 	if (!object || object->map_variant_index == -1)
 		return;

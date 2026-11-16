@@ -78,8 +78,6 @@ extern _inline bool operator<(CJobManager::SJob const &a, CJobManager::SJob cons
 
 inline bool operator<(CJobManager::SJob const &a, CJobManager::SJob const &b) // 0x10869990
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "??M@YA_NABUSJob@CJobManager@@0@Z");
-
 	return a.priority < b.priority;
 }
 

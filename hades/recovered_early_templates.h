@@ -12,7 +12,6 @@
 // recovered_templates.h, which still comes after.
 
 #include "hades/static_assert.h"
-#include "hades/mangled_assert.h"
 #include "hades/reverse_engineering.h"
 
 // CEventSink's callback list is a std::function and its counter a std::atomic;

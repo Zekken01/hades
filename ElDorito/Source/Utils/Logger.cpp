@@ -105,8 +105,6 @@ namespace Utils
 {
 	std::string LogLevelToString(Utils::LogLevel level) // 0x10C5A850
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?LogLevelToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogLevel@1@@Z");
-
 		switch (level)
 		{
 		case Utils::LogLevel::None:
@@ -129,8 +127,6 @@ namespace Utils
 {
 	std::string LogTypesToString(Utils::LogTypes types) // 0x10C5A9E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?LogTypesToString@Utils@@YA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@W4LogTypes@1@@Z");
-
 		switch (types)
 		{
 		case Utils::LogTypes::None:
@@ -181,12 +177,8 @@ namespace Utils
 		}
 	}
 
-	// mangled_x86(MANGLED_DEFAULT, "??0LogEntry@Utils@@QAE@XZ"); no body to assert in
-
 	unsigned long __stdcall Logger::Flusher(void *lpParam) // 0x10C5A5E0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Flusher@Logger@Utils@@CGKPAX@Z");
-
 		while (true)
 		{
 			std::this_thread::sleep_for(std::chrono::milliseconds(250));
@@ -196,8 +188,6 @@ namespace Utils
 
 	Logger::Logger() // 0x10C59920
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0Logger@Utils@@QAE@XZ");
-
 		typedef boost::lockfree::queue<Utils::LogEntry, boost::lockfree::fixed_sized<false> > entry_queue;
 		reinterpret_cast<entry_queue *>(Entries)->entry_queue::queue(0);
 		Level = static_cast<Utils::LogLevel>(3);
@@ -207,8 +197,6 @@ namespace Utils
 
 	void Logger::Flush() // 0x10C59E20
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Flush@Logger@Utils@@QAEXXZ");
-
 		if (reinterpret_cast<boost::lockfree::queue<Utils::LogEntry, boost::lockfree::fixed_sized<false> > *>(Entries)->empty())
 			return;
 		std::lock_guard<std::mutex> lock(flushMutex);
@@ -272,8 +260,6 @@ namespace Utils
 {
 	void Logger::Log(Utils::LogTypes type, Utils::LogLevel level, std::string message, ...) // 0x10C5A670
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?Log@Logger@Utils@@QAAXW4LogTypes@2@W4LogLevel@2@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@ZZ");
-
 		if (!TestLevel(type, level))
 			return;
 

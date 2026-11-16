@@ -116,8 +116,6 @@ namespace Scripting
 			{
 				void RegisterMethods(Scripting::HS::ScriptMethodMap &methods) // 0x10681FD0
 				{
-					mangled_x86(MANGLED_KNOWN_GOOD, "?RegisterMethods@Object@Methods@HS@Scripting@@YAXAAVScriptMethodMap@34@@Z");
-
 					methods.AddMethod("object_get_x_position", "Gets an objects X position", NetworkSafe, hs_object_get_x_position_evaluate, _hs_type_real, { { _hs_type_object, "obj", "The object to retrieve the X position for" } });
 					methods.AddMethod("object_get_y_position", "Gets an objects Y position", NetworkSafe, hs_object_get_x_position_evaluate, _hs_type_real, { { _hs_type_object, "obj", "The object to retrieve the Y position for" } });
 					methods.AddMethod("object_get_z_position", "Gets an objects Z position", NetworkSafe, hs_object_get_z_position_evaluate, _hs_type_real, { { _hs_type_object, "obj", "The object to retrieve the Z position for" } });
@@ -137,8 +135,6 @@ namespace Scripting
 
 void hs_object_get_x_position_evaluate(short op, long thread_index, bool initial) // 0x10683190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_object_get_x_position_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -160,8 +156,6 @@ void hs_object_get_x_position_evaluate(short op, long thread_index, bool initial
 
 void hs_object_get_z_position_evaluate(short op, long thread_index, bool initial) // 0x106835F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_object_get_z_position_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -183,8 +177,6 @@ void hs_object_get_z_position_evaluate(short op, long thread_index, bool initial
 
 void hs_object_get_yaw_evaluate(short op, long thread_index, bool initial) // 0x10683390
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_object_get_yaw_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -209,8 +201,6 @@ void hs_object_get_yaw_evaluate(short op, long thread_index, bool initial) // 0x
 
 void hs_object_get_pitch_evaluate(short op, long thread_index, bool initial) // 0x10682CD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_object_get_pitch_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -235,8 +225,6 @@ void hs_object_get_pitch_evaluate(short op, long thread_index, bool initial) // 
 
 void hs_object_get_roll_evaluate(short op, long thread_index, bool initial) // 0x10682F30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_object_get_roll_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -261,8 +249,6 @@ void hs_object_get_roll_evaluate(short op, long thread_index, bool initial) // 0
 
 void hs_object_set_position_evaluate(short op, long thread_index, bool initial) // 0x106837F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_object_set_position_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -291,8 +277,6 @@ void hs_object_set_position_evaluate(short op, long thread_index, bool initial) 
 
 void hs_object_set_rotation_evaluate(short op, long thread_index, bool initial) // 0x10683AD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_object_set_rotation_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{
@@ -322,8 +306,6 @@ void hs_object_set_rotation_evaluate(short op, long thread_index, bool initial) 
 
 void hs_object_create_at_position_evaluate(short op, long thread_index, bool initial) // 0x10682980
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?hs_object_create_at_position_evaluate@@YAXFJ_N@Z");
-
 	hs_value *args = ((hs_value *(__cdecl *)(short, long, bool))0x5972F0)(op, thread_index, initial);
 	if (args)
 	{

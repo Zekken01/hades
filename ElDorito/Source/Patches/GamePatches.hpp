@@ -21,7 +21,6 @@ struct IGameSystem;
 
 struct IGameSystem
 {
-	// mangled_x86(MANGLED_DEFAULT, "??1IGameSystem@@UAE@XZ"); defaulted on its declaration, which skips the vfptr store
 	virtual _inline ~IGameSystem() = default; // 0x107996F0
 	virtual _inline void Initialize();
 	virtual _inline void InitializeForNewMap();
@@ -63,7 +62,6 @@ namespace Patches
 
 inline void IGameSystem::DisposeFromOldMap() // 0x108CEC20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?DisposeFromOldMap@IGameSystem@@UAEXXZ");
 }
 
 

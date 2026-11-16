@@ -103,8 +103,6 @@ namespace Patches
 	{
 		void InitializeForNewMap() // 0x10A8BC10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?InitializeForNewMap@Mopp@Patches@@YAXXZ");
-
 			ApplyRuntimeMoppFix = false;
 			s_scenario *scenario = global_scenario_get();
 			for (long i = 0; i < scenario->structure_bsps.count; i++)
@@ -120,8 +118,6 @@ namespace Patches
 
 		void ApplyAll() // 0x10A8B8E0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Mopp@Patches@@YAXXZ");
-
 			Hook(0x90E9E3, loc_D0E9E3_hook).Apply();
 			Hook(0x90D919, loc_D0D919_hook).Apply();
 			Hook(0x90F505, loc_D0F505_hook).Apply();
@@ -129,7 +125,6 @@ namespace Patches
 
 		void Tick() // 0x10A8BD10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@Mopp@Patches@@YAXXZ");
 		}
 	}
 }
@@ -138,8 +133,6 @@ namespace Patches
 
 __declspec(naked) void fixMoppAddress() // 0x10A8BD30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?fixMoppAddress@@YAXXZ");
-
 	__asm
 	{
 		push eax
@@ -161,8 +154,6 @@ __declspec(naked) void fixMoppAddress() // 0x10A8BD30
 
 __declspec(naked) void loc_D0E9E3_hook() // 0x10A8BD90
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?loc_D0E9E3_hook@@YAXXZ");
-
 	__asm
 	{
 		mov esi, [esi + 2Ch]
@@ -176,8 +167,6 @@ __declspec(naked) void loc_D0E9E3_hook() // 0x10A8BD90
 
 __declspec(naked) void loc_D0D919_hook() // 0x10A8BD60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?loc_D0D919_hook@@YAXXZ");
-
 	__asm
 	{
 		mov ecx, [ebp + 8]
@@ -194,8 +183,6 @@ __declspec(naked) void loc_D0D919_hook() // 0x10A8BD60
 
 __declspec(naked) void loc_D0F505_hook() // 0x10A8BDB0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?loc_D0F505_hook@@YAXXZ");
-
 	__asm
 	{
 		mov esi, [esi + 1Ch]

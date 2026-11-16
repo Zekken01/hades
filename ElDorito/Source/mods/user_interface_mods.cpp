@@ -119,8 +119,6 @@ namespace eldorado
 
 bool c_user_interface_mods_player_character_data::build_from_mod_globals(s_mod_globals_definition *mod_globals) // 0x108C2480
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?build_from_mod_globals@c_user_interface_mods_player_character_data@@AAE_NPAUs_mod_globals_definition@@@Z");
-
 	if (!mod_globals)
 		return false;
 	player_character_set_count = 0;
@@ -143,8 +141,6 @@ bool c_user_interface_mods_player_character_data::build_from_mod_globals(s_mod_g
 
 bool c_user_interface_mods_player_character_data::build_from_cache() // 0x108C2420
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?build_from_cache@c_user_interface_mods_player_character_data@@AAE_NXZ");
-
 	s_game_globals *game_globals = game_globals_get();
 
 	return build_from_mod_globals(mod_globals_get_definition());
@@ -152,8 +148,6 @@ bool c_user_interface_mods_player_character_data::build_from_cache() // 0x108C24
 
 bool c_user_interface_mods_player_character_data::build_from_mod_package() // 0x108C2730
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?build_from_mod_package@c_user_interface_mods_player_character_data@@AAE_NXZ");
-
 	IMod *mod = c_mod_system::GetModManager().GetMod(kGame);
 	if (!mod)
 		return false;
@@ -197,8 +191,6 @@ bool c_user_interface_mods_player_character_data::build_from_mod_package() // 0x
 
 void c_user_interface_mods_player_character_data::update() // 0x108C2F60
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?update@c_user_interface_mods_player_character_data@@QAEXXZ");
-
 	if (build_from_mod_package())
 	{
 	}

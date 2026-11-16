@@ -84,15 +84,11 @@ namespace Patches
 
 float animation_get_frames_per_second() // 0x1090D930
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?animation_get_frames_per_second@@YAMXZ");
-
 	return *(float *)0x1615f34;
 }
 
 bool __fastcall c_animation_manager__update_animation_channel_hook(c_animation_channel *thisptr, void const *__formal, c_animation_manager *animation_manager, float a3, float a4) // 0x1090D950
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_animation_manager__update_animation_channel_hook@@YI_NPAUc_animation_channel@@PBXPAUc_animation_manager@@MM@Z");
-
 	thisptr->field_34 |= thisptr->field_2C;
 	thisptr->field_2C = 0;
 	if (thisptr->initialized && thisptr->settings.graph_definition_index != -1 && thisptr->settings.animation_id.animation_index >= 0 && (thisptr->settings.playback_flags & 1) && !(thisptr->state_flags & 5))
@@ -112,8 +108,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x1090D7D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Animation@Patches@@YAXXZ");
-
 			Hook(0x584010, c_animation_manager__update_animation_channel_hook).Apply();
 		}
 	}

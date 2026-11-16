@@ -142,8 +142,6 @@ namespace Forge
 	{
 		void Update(unsigned __int32 playerIndex, unsigned __int32 heldObjectIndex) // 0x10971C90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Update@RotationSnap@Forge@@YAXII@Z");
-
 			if (heldObjectIndex == -1)
 				return;
 			HandleInput();
@@ -188,8 +186,6 @@ namespace Forge
 
 		void RotateSnapped(real_vector3d const &axis) // 0x10971520
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RotateSnapped@RotationSnap@Forge@@YAXABUreal_vector3d@@@Z");
-
 			static Modules::ModuleForge &moduleForge = Modules::ModuleForge::Instance();
 			unsigned long currentSnap = moduleForge.VarRotationSnap->ValueInt;
 			float const snapAngleDegrees = SNAP_ANGLES[currentSnap];
@@ -214,8 +210,6 @@ namespace Forge
 
 		void RotateToScripted(unsigned __int32 objectIndex, real_quaternion const &rotation) // 0x10971850
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RotateToScripted@RotationSnap@Forge@@YAXIABUreal_quaternion@@@Z");
-
 			real_matrix4x3 objectTransform;
 			real_quaternion startRotation;
 			((real_matrix4x3 *(__cdecl *)(long, real_matrix4x3 *))0xB2EC60)(hades_file_local::s_RotationSnapState.ObjectIndex, &objectTransform);
@@ -234,8 +228,6 @@ namespace Forge
 
 void SetSnap(__int32 value) // 0x109719E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?SetSnap@@YAXH@Z");
-
 	static void (*PrintKillFeedText)(unsigned __int32, wchar_t *, __int32) = (void (*)(unsigned __int32, wchar_t *, __int32))0xA95920;
 	static Modules::ModuleForge &moduleForge = Utils::Singleton<Modules::ModuleForge>::Instance();
 	if (value < 0)

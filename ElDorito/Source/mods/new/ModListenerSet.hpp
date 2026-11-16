@@ -48,8 +48,6 @@ static_assert(sizeof(ModListenerSet) == 40, "Invalid ModListenerSet size");
 
 inline void ModListenerSet::Add(IModListener *listener) // 0x107919F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Add@ModListenerSet@@QAEXPAVIModListener@@@Z");
-
 	std::scoped_lock<std::shared_mutex> lock(m_lock);
 	if (std::find(m_listeners.begin(), m_listeners.end(), listener) != m_listeners.end())
 		return;
@@ -59,8 +57,6 @@ inline void ModListenerSet::Add(IModListener *listener) // 0x107919F0
 
 inline void ModListenerSet::Remove(IModListener *listener) // 0x10791F40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?Remove@ModListenerSet@@QAEXPAVIModListener@@@Z");
-
 	std::scoped_lock<std::shared_mutex> lock(m_lock);
 	std::erase(m_dirtyListeners, listener);
 	m_dirty = true;

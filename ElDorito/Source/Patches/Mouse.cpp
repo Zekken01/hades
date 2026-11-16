@@ -72,8 +72,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x10A8BE00
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@Mouse@Patches@@YAXXZ");
-
 			Hook(0x18AA17, AimAssistHook).Apply();
 			Hook(0x18ABAB, DualAimAssistHook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 		}
@@ -84,8 +82,6 @@ namespace Patches
 
 __declspec(naked) void AimAssistHook() // 0x10A8BDD0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?AimAssistHook@@YAXXZ");
-
 	__asm
 	{
 		mov edx, 0244DE98h
@@ -105,8 +101,6 @@ __declspec(naked) void AimAssistHook() // 0x10A8BDD0
 
 unsigned __int32 DualAimAssistHook(unsigned __int32 unitObject, short weaponIndex) // 0x10A8C040
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?DualAimAssistHook@@YAIIF@Z");
-
 	// If using a mouse, report that there's no weapon being dual wielded
 	if (!Pointer::Base(0x204DE98).Read<uint32_t>())
 		return 0xFFFFFFFF;

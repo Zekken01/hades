@@ -65,7 +65,6 @@ namespace Http
 		CWinHttpResponse(Http::CWinHttpResponse &); /* compiler_generated() */
 		CWinHttpResponse(Http::CWinHttpResponse const &); /* compiler_generated() */
 		_inline CWinHttpResponse() = default; /* compiler_generated() */
-		// mangled_x86(MANGLED_KNOWN_GOOD, "??1CWinHttpResponse@Http@@QAE@XZ"); defaulted on its declaration
 		_inline ~CWinHttpResponse() = default; // 0x108076c0
 		Http::CWinHttpResponse &operator=(Http::CWinHttpResponse &); /* compiler_generated() */
 		Http::CWinHttpResponse &operator=(Http::CWinHttpResponse const &); /* compiler_generated() */
@@ -140,36 +139,26 @@ namespace Http
 {
 	inline __int32 CWinHttpResponse::GetResponseCode() const // 0x10808B10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetResponseCode@CWinHttpResponse@Http@@UBEHXZ");
-
 		return m_responseCode;
 	}
 
 	inline Http::CHttpHeaders const &CWinHttpResponse::GetHeaders() const // 0x10808A10
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetHeaders@CWinHttpResponse@Http@@UBEABVCHttpHeaders@2@XZ");
-
 		return m_headers;
 	}
 
 	inline void *CWinHttpRequest::GetRequestHandle() // 0x10808A40
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetRequestHandle@CWinHttpRequest@Http@@QAEPAXXZ");
-
 		return m_reqHandle.get();
 	}
 
 	inline void CWinHttpRequest::SetOnCompleted(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>,bool)> &&callback) // 0x1080A5F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetOnCompleted@CWinHttpRequest@Http@@UAEX$$QAV?$function@$$A6AXV?$shared_ptr@VIHttpRequest@Http@@@std@@_N@Z@std@@@Z");
-
 		m_completedCallback = callback;
 	}
 
 	inline void CWinHttpRequest::SetOnResponse(std::function<void __cdecl(std::shared_ptr<Http::IHttpRequest>)> &&callback) // 0x1080A650
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?SetOnResponse@CWinHttpRequest@Http@@UAEX$$QAV?$function@$$A6AXV?$shared_ptr@VIHttpRequest@Http@@@std@@@Z@std@@@Z");
-
 		m_responseCallback = callback;
 	}
 }

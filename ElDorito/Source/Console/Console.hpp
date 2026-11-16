@@ -54,7 +54,6 @@ namespace Console
 {
 	inline ConsoleOutputHandler::~ConsoleOutputHandler() // 0x10950600
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??1ConsoleOutputHandler@Console@@UAE@XZ");
 	}
 }
 

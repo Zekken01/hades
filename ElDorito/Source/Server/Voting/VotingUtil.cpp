@@ -238,8 +238,6 @@ namespace Server
 	{
 		__int32 getCustomMapID(std::string mapName) // 0x10751AB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?getCustomMapID@Voting@Server@@YAHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 			std::string variantFileName = "data/map_variants/" + mapName + "/sandbox.map";
 			std::ifstream mapVariant(variantFileName, std::ios::binary);
 			if (mapVariant.is_open())
@@ -254,8 +252,6 @@ namespace Server
 
 		bool findMapInfoInModPackage(__int32 mapId, std::string const &mapName, std::string const &identifier, Server::Voting::SMapListItem *info) // 0x10751560
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?findMapInfoInModPackage@Voting@Server@@YA_NHABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0PAUSMapListItem@12@@Z");
-
 			c_mod_package_manager::s_entry packageEntry;
 			if (!c_mod_system::get_mod_info_by_identifier(identifier.c_str(), &packageEntry))
 				return false;
@@ -290,8 +286,6 @@ namespace Server
 
 		bool getMapInfo(std::string const &mapName, std::string const &modpack, Server::Voting::SMapListItem *info) // 0x10751D40
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?getMapInfo@Voting@Server@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@0PAUSMapListItem@12@@Z");
-
 			Modules::ModuleGame const &moduleGame = Modules::ModuleGame::Instance();
 			info->mapId = -1;
 			__int32 mapId = getCustomMapID(mapName);
@@ -327,8 +321,6 @@ namespace Server
 
 		unsigned __int32 FindMapByName(std::vector<Server::Voting::HaloMap> const &maps, std::string const &name) // 0x1074DDB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindMapByName@Voting@Server@@YAIABV?$vector@UHaloMap@Voting@Server@@V?$allocator@UHaloMap@Voting@Server@@@std@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
-
 			for (unsigned __int32 i = 0; i < maps.size(); i++)
 			{
 				if (maps[i].mapName == name)
@@ -339,8 +331,6 @@ namespace Server
 
 		static unsigned __int32 FindTypeByName(std::vector<Server::Voting::HaloType> const &types, std::string const &name) // 0x1074DE50
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?FindTypeByName@Voting@Server@@YAIABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@std@@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@4@@Z");
-
 			for (unsigned __int32 i = 0; i < types.size(); i++)
 			{
 				if (types[i].typeName == name)
@@ -351,8 +341,6 @@ namespace Server
 
 		void BuildRandomPlaylist(std::vector<Server::Voting::MapAndType> &playlist, unsigned __int32 size, std::vector<Server::Voting::HaloType> const &types, std::vector<Server::Voting::HaloMap> const &maps) // 0x1074DA70
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?BuildRandomPlaylist@Voting@Server@@YAXAAV?$vector@UMapAndType@Voting@Server@@V?$allocator@UMapAndType@Voting@Server@@@std@@@std@@IABV?$vector@UHaloType@Voting@Server@@V?$allocator@UHaloType@Voting@Server@@@std@@@4@ABV?$vector@UHaloMap@Voting@Server@@V?$allocator@UHaloMap@Voting@Server@@@std@@@4@@Z");
-
 			std::random_device rd;
 			std::mt19937 g(rd());
 			for (unsigned __int32 i = 0; i < std::min(size, types.size()); i++)
@@ -376,8 +364,6 @@ namespace Server
 	{
 		std::vector<Server::Voting::SMapListItem> const &GetDefaultMapList() // 0x1074DEF0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetDefaultMapList@Voting@Server@@YAABV?$vector@USMapListItem@Voting@Server@@V?$allocator@USMapListItem@Voting@Server@@@std@@@std@@XZ");
-
 			if (!MapListValid)
 			{
 				MapList.clear();
@@ -408,24 +394,18 @@ namespace Server
 			return MapList;
 		}
 
-		// mangled_x86(MANGLED_DEFAULT, "??0SMapListItem@Voting@Server@@QAE@$$QAU012@@Z"); no body to assert in
 		_inline SMapListItem::SMapListItem(Server::Voting::SMapListItem &&__that) = default; // 0x1074C140
 
-		// mangled_x86(MANGLED_DEFAULT, "??0SMapListItem@Voting@Server@@QAE@ABU012@@Z"); no body to assert in
 		_inline SMapListItem::SMapListItem(Server::Voting::SMapListItem const &__that) = default; // 0x1074C1E0
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_blf_map_information@@QAE@XZ"); no body to assert in
-
-// mangled_x86(MANGLED_DEFAULT, "??1CMapFile@@QAE@XZ"); no body to assert in
 _inline CMapFile::~CMapFile() = default; // 0x1074CD80
 
 namespace Server
 {
 	namespace Voting
 	{
-		// mangled_x86(MANGLED_DEFAULT, "??4SMapListItem@Voting@Server@@QAEAAU012@ABU012@@Z"); no body to assert in
 		_inline Server::Voting::SMapListItem &SMapListItem::operator=(Server::Voting::SMapListItem const &__that) = default; // 0x1074D140
 	}
 }

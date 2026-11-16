@@ -208,8 +208,6 @@ namespace Patches
 	{
 		void ApplyAll() // 0x107BBC90
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ApplyAll@PregameLobby@Patches@@YAXXZ");
-
 			Hook(0x7040A6, c_gui_pregame_setup_manager__handle_item_chosen_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x6FD786, c_gui_pregame_setup_manager__handle_item_chosen_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
 			Hook(0x67EEAE, c_gui_pregame_setup_manager__initialize_game_mode_hook, static_cast<__int32>(HookFlags::IsCall)).Apply();
@@ -219,8 +217,6 @@ namespace Patches
 
 		void Tick() // 0x107BC1F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Tick@PregameLobby@Patches@@YAXXZ");
-
 			lobby_update();
 		}
 	}
@@ -230,15 +226,11 @@ namespace Patches
 
 void LoadDefaultModPackageAsync(std::string const &id) // 0x107BC140
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadDefaultModPackageAsync@@YAXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	c_mod_system::load_package_by_identifier(id.c_str());
 }
 
 void __fastcall c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pregame_setup_manager *thisptr, void *unused, long ui_game_mode, long a3) // 0x107BCE00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_pregame_setup_manager__initialize_game_mode_hook@@YIXPAUc_gui_pregame_setup_manager@@PAXJJ@Z");
-
 	((void (__thiscall *)(c_gui_pregame_setup_manager *, long, long))0xAA7130)(thisptr, ui_game_mode, a3);
 	if (Utils::Singleton<ElDorito>::Instance().IsDedicated())
 		return;
@@ -333,8 +325,6 @@ void __fastcall c_gui_pregame_setup_manager__initialize_game_mode_hook(c_gui_pre
 
 void __fastcall c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_pregame_setup_manager *thisptr, void *__formal, long controller_index, c_gui_selected_item *item, char arg8, long screen_index) // 0x107BC3F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_pregame_setup_manager__handle_item_chosen_hook@@YIXPAUc_gui_pregame_setup_manager@@PAXJPAVc_gui_selected_item@@DJ@Z");
-
 	void (__thiscall *const c_gui_pregame_setup_manager__handle_item_chosen)(c_gui_pregame_setup_manager *, long, c_gui_selected_item *, char, long) = (void (__thiscall *)(c_gui_pregame_setup_manager *, long, c_gui_selected_item *, char, long))0xAA7DB0;
 	if (!ElDorito::Instance().IsDedicated())
 	{
@@ -421,8 +411,6 @@ void __fastcall c_gui_pregame_setup_manager__handle_item_chosen_hook(c_gui_prega
 
 void __fastcall c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_manager *thisptr) // 0x107BDC50
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?c_gui_pregame_setup_manager__update_hook@@YIXPAUc_gui_pregame_setup_manager@@@Z");
-
 	void (__thiscall *const restore_game_setup_internal)(c_gui_pregame_setup_manager *, void *) = reinterpret_cast<void (__thiscall *)(c_gui_pregame_setup_manager *, void *)>(0xAA72A0);
 	void (__thiscall *const c_gui_screen_pregame_lobby_campaign__restore_save_game)(void *, long) = reinterpret_cast<void (__thiscall *)(void *, long)>(0xB00000);
 	if (((bool (*)())0x5314B0)() && ((bool (*)())0x531E90)())
@@ -462,8 +450,6 @@ void __fastcall c_gui_pregame_setup_manager__update_hook(c_gui_pregame_setup_man
 
 void notify_mod_package_opened_or_closed(EModIndex index) // 0x107BE5C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?notify_mod_package_opened_or_closed@@YAXW4EModIndex@@@Z");
-
 	if (index == kGame)
 	{
 		levels_dirty = true;
@@ -472,15 +458,11 @@ void notify_mod_package_opened_or_closed(EModIndex index) // 0x107BE5C0
 
 void notify_lobby_changed() // 0x107BE510
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?notify_lobby_changed@@YAXXZ");
-
 	Modules::CommandMap::Instance().ExecuteCommand("Game.ScenarioScript lobby_updated");
 }
 
 void lobby_update() // 0x107BE3D0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?lobby_update@@YAXXZ");
-
 	c_network_session *session;
 	static long last_update_number = -1;
 
@@ -505,8 +487,6 @@ void lobby_update() // 0x107BE3D0
 
 void clear_mod_cached_map_files() // 0x107BE130
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?clear_mod_cached_map_files@@YAXXZ");
-
 	long (__cdecl *const cached_map_file_close)(long) = (long (__cdecl *const)(long))0x5ab630;
 
 	for (long i = 8; i < 15; i++)
@@ -524,14 +504,9 @@ void clear_mod_cached_map_files() // 0x107BE130
 
 _inline void ModListener::OnModChanged(EModIndex index, IMod *mod) // 0x107BC190
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnModChanged@ModListener@hades_file_local@@EAEXW4EModIndex@@PAVIMod@@@Z");
-
 	clear_mod_cached_map_files();
 	notify_mod_package_opened_or_closed(index);
 }
-
-// mangled_x86(MANGLED_DEFAULT, "??0ModListener@hades_file_local@@QAE@XZ"); no body to assert in
-
 
 /* ---------- template instantiations */
 

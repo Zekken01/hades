@@ -166,23 +166,17 @@ namespace Web
 		{
 			void Init() // 0x10C9DCE0
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Init@WebConsole@Ui@Web@@YAXXZ");
-
 				Console::RegisterHandler(std::make_shared<WebConsoleOutputHandler>());
 				Patches::Input::RegisterDefaultInputHandler(OnGameInputUpdated);
 			}
 
 			void Show() // 0x10C9DE50
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Show@WebConsole@Ui@Web@@YAXXZ");
-
 				ScreenLayer::Show(ScreenLayer::Console, "{}");
 			}
 
 			void Hide() // 0x10C9DC90
 			{
-				mangled_x86(MANGLED_KNOWN_GOOD, "?Hide@WebConsole@Ui@Web@@YAXXZ");
-
 				ScreenLayer::Hide(ScreenLayer::Console);
 			}
 		}
@@ -193,8 +187,6 @@ namespace Web
 
 void WebConsoleOutputHandler::WriteLine(std::string const &line) // 0x10C9DF20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?WriteLine@WebConsoleOutputHandler@hades_file_local@@UAEXABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 	// Create a JSON object with the line
 	rapidjson::StringBuffer jsonBuffer;
 	rapidjson::Writer<rapidjson::StringBuffer> jsonWriter(jsonBuffer);
@@ -209,12 +201,9 @@ void WebConsoleOutputHandler::WriteLine(std::string const &line) // 0x10C9DF20
 
 static void OnGameInputUpdated() // 0x10C9DDE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?OnGameInputUpdated@@YAXXZ");
-
 	if (Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeTilde, Blam::Input::eInputTypeUi) == 1 || Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeF1, Blam::Input::eInputTypeUi) == 1)
 		Show();
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0WebConsoleOutputHandler@hades_file_local@@QAE@XZ"); no body to assert in
 // _inline WebConsoleOutputHandler::WebConsoleOutputHandler() = default; // 0x10C9DA50  // hades: defaulted on its declaration
 

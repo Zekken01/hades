@@ -207,8 +207,6 @@ namespace Modules
 {
 	ModuleInput::ModuleInput() : ModuleBase("Input") /* hades-mem-init: : ModuleBase(todo_result<std::string>()) */ // 0x109C4B60
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "??0ModuleInput@Modules@@QAE@XZ");
-
 		VarInputRawInput = AddVariableInt("RawInput", "rawinput", "Enables raw mouse input with no acceleration applied", eCommandFlagsArchived, 1, VariableInputRawInputUpdate);
 		VarInputRawInput->ValueIntMin = 0;
 		VarInputRawInput->ValueIntMax = 1;
@@ -271,15 +269,11 @@ namespace Modules
 {
 	Blam::Input::BindingsTable *ModuleInput::GetBindings() // 0x109D23F0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?GetBindings@ModuleInput@Modules@@SAPAUBindingsTable@Input@Blam@@XZ");
-
 			return &bindings;
 	}
 
 	void ModuleInput::UpdateBindings() // 0x109D39A0
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?UpdateBindings@ModuleInput@Modules@@SAXXZ");
-
 		CopyBinding(Blam::Input::eGameActionUse, Blam::Input::eGameActionVehicleExit);
 		Blam::Input::SetBindings(0, bindings);
 		Patches::Input::InvalidateBindings();
@@ -291,8 +285,6 @@ namespace Modules
 {
 	std::string ModuleInput::ExportBindings() const // 0x109D0560
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?ExportBindings@ModuleInput@Modules@@QBE?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ");
-
 		std::string result;
 		for (auto const &action : gameActions)
 		{
@@ -358,8 +350,6 @@ namespace Modules
 
 	bool ModuleInput::IsCommandBound(std::string command) // 0x109D2480
 	{
-		mangled_x86(MANGLED_KNOWN_GOOD, "?IsCommandBound@ModuleInput@Modules@@QAE_NV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z");
-
 		for (__int32 i = 0; i < 109; i++)
 		{
 			CommandBinding *const binding = &commandBindings[i];
@@ -382,8 +372,6 @@ namespace Modules
 
 void CopyBinding(Blam::Input::GameAction sourceAction, Blam::Input::GameAction destAction) // 0x109D04A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CopyBinding@@YAXW4GameAction@Input@Blam@@0@Z");
-
 	bindings.ControllerButtons[(unsigned char)destAction] = bindings.ControllerButtons[(unsigned char)sourceAction];
 	bindings.ControllerHoldButtons[(unsigned char)destAction] = bindings.ControllerHoldButtons[(unsigned char)sourceAction];
 	bindings.PrimaryKeys[(unsigned char)destAction] = bindings.PrimaryKeys[(unsigned char)sourceAction];
@@ -394,8 +382,6 @@ void CopyBinding(Blam::Input::GameAction sourceAction, Blam::Input::GameAction d
 
 void LoadDefaultBindings() // 0x109D2C10
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?LoadDefaultBindings@@YAXXZ");
-
 	memset(&bindings, 0, sizeof(bindings));
 	bindings.ControllerSensitivityX = 120;
 	bindings.ControllerSensitivityY = 60;
@@ -514,8 +500,6 @@ void LoadDefaultBindings() // 0x109D2C10
 
 __int32 GetDefaultSettingsKey(__int32 action, Blam::Input::KeyCode *keys, Blam::Input::MouseButton *mouseButtons) // 0x109D2410
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?GetDefaultSettingsKey@@YAHHPAW4KeyCode@Input@Blam@@PAW4MouseButton@23@@Z");
-
 	Blam::Input::KeyCode primaryKey = keys[action];
 	if (primaryKey != Blam::Input::eKeyCode_None)
 		return primaryKey;
@@ -527,8 +511,6 @@ __int32 GetDefaultSettingsKey(__int32 action, Blam::Input::KeyCode *keys, Blam::
 
 void PopulateDefaultKeys(std::vector<Blam::Input::ConfigurableAction> *actions) // 0x109D3810
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?PopulateDefaultKeys@@YAXPAV?$vector@UConfigurableAction@Input@Blam@@V?$allocator@UConfigurableAction@Input@Blam@@@std@@@std@@@Z");
-
 	for (auto &configAction : *actions)
 	{
 		configAction.DefaultPrimaryKey = GetDefaultSettingsKey(configAction.Action, bindings.PrimaryKeys, bindings.PrimaryMouseButtons);
@@ -538,8 +520,6 @@ void PopulateDefaultKeys(std::vector<Blam::Input::ConfigurableAction> *actions) 
 
 void BuildSettingsMenu() // 0x109CD830
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?BuildSettingsMenu@@YAXXZ");
-
 	PopulateDefaultKeys(&infantryControls);
 	PopulateDefaultKeys(&vehicleControls);
 	Patches::Input::SetKeyboardSettingsMenu(infantryControls, vehicleControls);
@@ -547,8 +527,6 @@ void BuildSettingsMenu() // 0x109CD830
 
 bool VariableInputRawInputUpdate(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D3C30
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableInputRawInputUpdate@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	unsigned long value = Modules::ModuleInput::Instance().VarInputRawInput->ValueInt;
 
 	std::string status = "disabled.";
@@ -562,8 +540,6 @@ bool VariableInputRawInputUpdate(std::vector<std::string> const &Arguments, std:
 
 bool CommandBind(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CD8A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandBind@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() < 1)
 	{
 		returnInfo =  "Usage: Bind <key> [[+]command] [arguments]\n";
@@ -644,8 +620,6 @@ bool CommandBind(std::vector<std::string> const &Arguments, std::string &returnI
 
 bool IsModifierKeyDown() // 0x109D2850
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?IsModifierKeyDown@@YA_NXZ");
-
 	return Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeCtrl, Blam::Input::eInputTypeSpecial) > 0
 		|| Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeAlt, Blam::Input::eInputTypeSpecial) > 0
 		|| Blam::Input::GetKeyTicks(Blam::Input::eKeyCodeShift, Blam::Input::eInputTypeSpecial) > 0;
@@ -653,15 +627,11 @@ bool IsModifierKeyDown() // 0x109D2850
 
 bool IsModifierKey(Blam::Input::KeyCode code) // 0x109D27F0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?IsModifierKey@@YA_NW4KeyCode@Input@Blam@@@Z");
-
 	return code == Blam::Input::eKeyCodeCtrl || code == Blam::Input::eKeyCodeAlt || code == Blam::Input::eKeyCodeShift;
 }
 
 void KeyboardUpdated() // 0x109D2900
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?KeyboardUpdated@@YAXXZ");
-
 	for (__int32 i = 0; i < 109; i++)
 	{
 		CommandBinding *const binding = &commandBindings[i];
@@ -687,13 +657,10 @@ void KeyboardUpdated() // 0x109D2900
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0CommandBinding@hades_file_local@@QAE@XZ"); no body to assert in
 _inline CommandBinding::CommandBinding() = default; // 0x109C4B10
 
 bool ParseKeyOrMouseButton(std::string const &name, Blam::Input::KeyCode *resultKey, Blam::Input::MouseButton *resultMouse) // 0x109D36C0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ParseKeyOrMouseButton@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAW4KeyCode@Input@Blam@@PAW4MouseButton@45@@Z");
-
 	*resultKey = eKeyCode_None;
 	*resultMouse = eMouseButton_None;
 	if (Utils::String::ToLower(name) == "none")
@@ -705,8 +672,6 @@ bool ParseKeyOrMouseButton(std::string const &name, Blam::Input::KeyCode *result
 
 bool ParseControllerButton(std::string const &name, Blam::Input::ControllerButton *result) // 0x109D35A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?ParseControllerButton@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@PAW4ControllerButton@Input@Blam@@@Z");
-
 	*result = eControllerButton_None;
 	if (Utils::String::ToLower(name) == "none")
 		return true;
@@ -715,8 +680,6 @@ bool ParseControllerButton(std::string const &name, Blam::Input::ControllerButto
 
 bool CommandBindControllerAction(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CE4A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandBindControllerAction@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() < 1 || Arguments.size() > 2)
 		return false;
 	auto actionName = Arguments[0];
@@ -752,8 +715,6 @@ bool CommandBindControllerAction(std::vector<std::string> const &Arguments, std:
 
 bool CommandBindKeyboardAction(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CE810
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandBindKeyboardAction@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() < 1 || Arguments.size() > 3)
 		return false;
 	std::string actionName = Arguments[0];
@@ -816,8 +777,6 @@ bool CommandBindKeyboardAction(std::vector<std::string> const &Arguments, std::s
 
 bool VariableControllerSensitivityXUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D3A00
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableControllerSensitivityXUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto newSensitivity = Modules::ModuleInput::Instance().VarControllerSensitivityX->ValueFloat;
 	bindings.ControllerSensitivityX = std::max(1.f, newSensitivity);
 	Modules::ModuleInput::UpdateBindings();
@@ -826,8 +785,6 @@ bool VariableControllerSensitivityXUpdated(std::vector<std::string> const &Argum
 
 bool VariableControllerSensitivityYUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D3AE0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableControllerSensitivityYUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto newSensitivity = Modules::ModuleInput::Instance().VarControllerSensitivityY->ValueFloat;
 	bindings.ControllerSensitivityY = std::max(1.f, newSensitivity);
 	Modules::ModuleInput::UpdateBindings();
@@ -836,8 +793,6 @@ bool VariableControllerSensitivityYUpdated(std::vector<std::string> const &Argum
 
 bool VariableControllerStickLayoutUpdated(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D3BC0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?VariableControllerStickLayoutUpdated@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	auto layout = Modules::ModuleInput::Instance().VarControllerStickLayout->ValueInt;
 	bindings.JoystickLayout = layout;
 	Modules::ModuleInput::UpdateBindings();
@@ -846,8 +801,6 @@ bool VariableControllerStickLayoutUpdated(std::vector<std::string> const &Argume
 
 bool CommandDumpBindingsJson(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CF820
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDumpBindingsJson@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	returnInfo = "";
 	BindingsTable currentBindings;
 	GetBindings(0, &currentBindings);
@@ -906,8 +859,6 @@ bool CommandDumpBindingsJson(std::vector<std::string> const &Arguments, std::str
 
 bool CommandFindKeybdBinding(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CFEF0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandFindKeybdBinding@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	if (Arguments.size() < 1)
 	{
 		returnInfo = "Not enough arguments";
@@ -940,8 +891,6 @@ bool CommandFindKeybdBinding(std::vector<std::string> const &Arguments, std::str
 
 bool CommandDumpBindings(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CEF20
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandDumpBindings@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	returnInfo = "";
 	BindingsTable currentBindings;
 	GetBindings(0, &currentBindings);
@@ -968,8 +917,6 @@ bool CommandDumpBindings(std::vector<std::string> const &Arguments, std::string 
 
 bool CommandResetBindings(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D0350
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandResetBindings@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	LoadDefaultBindings();
 	returnInfo = "Default bindings restored";
 	return true;
@@ -977,8 +924,6 @@ bool CommandResetBindings(std::vector<std::string> const &Arguments, std::string
 
 bool TryParseFloat(char const *str, float *value) // 0x109D38E0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?TryParseFloat@@YA_NPBDPAM@Z");
-
 	char *endp;
 
 	*value = (float)strtod(str, &endp);
@@ -987,8 +932,6 @@ bool TryParseFloat(char const *str, float *value) // 0x109D38E0
 
 bool CommandControllerVibrationTest(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109CEE40
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandControllerVibrationTest@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	float duration = 0.5f;
 	if (Arguments.size() > 0)
 		TryParseFloat(Arguments[0].c_str(), &duration);
@@ -999,8 +942,6 @@ bool CommandControllerVibrationTest(std::vector<std::string> const &Arguments, s
 
 bool CommandSetMouseWheelEventTime(std::vector<std::string> const &Arguments, std::string &returnInfo) // 0x109D03A0
 {
-	mangled_x86(MANGLED_KNOWN_GOOD, "?CommandSetMouseWheelEventTime@@YA_NABV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@AAV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@2@@Z");
-
 	Pointer(0x512833).Write<int>(Modules::ModuleInput::Instance().VarMouseWheelInputDelay->ValueInt);
 	return true;
 }

@@ -347,8 +347,6 @@ namespace Player
 	{
 		_inline bool PlayerPlace::operator<(::Player::PlayerPodium::PlayerPlace const &other_player) const // 0x106DD530
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "??MPlayerPlace@PlayerPodium@Player@@QBE_NABU012@@Z");
-
 			if (player_place == other_player.player_place)
 				return player_session_idx < other_player.player_session_idx;
 			return player_place < other_player.player_place;
@@ -356,8 +354,6 @@ namespace Player
 
 		long GetModgCharacterIndexFromPlayer(s_player_datum *player) // 0x106DE4F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetModgCharacterIndexFromPlayer@PlayerPodium@Player@@YAJPAUs_player_datum@@@Z");
-
 			s_mod_globals_definition *mod_globals = mod_globals_get_definition();
 
 			if (mod_globals)
@@ -381,8 +377,6 @@ namespace Player
 
 		void RespawnPlayerOffset(short player_session_idx, short cutscene_camera_point_index, float distance_offset, float horizontal_offset, float vertical_offset, float yaw_offset, float pitch) // 0x106DFDA0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RespawnPlayerOffset@PlayerPodium@Player@@YAXFFMMMMM@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -430,8 +424,6 @@ namespace Player
 
 		void RespawnPlayer(short player_session_idx, real_point3d const &position, float yaw, float pitch) // 0x106DFC60
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?RespawnPlayer@PlayerPodium@Player@@YAXFABUreal_point3d@@MM@Z");
-
 			if (eldorado::game_is_authoritative())
 			{
 				if (s_player_datum *player = PlayerNetworkUtil::get_player_from_session_index(player_session_idx))
@@ -443,8 +435,6 @@ namespace Player
 
 		void ShowPlace(short desiredPlace, short stats_player_session_idx) // 0x106E0330
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ShowPlace@PlayerPodium@Player@@YAXFF@Z");
-
 			long (*const game_engine_get_player_place)(long) = (long (*)(long))0x5506F0;
 			c_network_session *session;
 			if (network_session_interface_get_squad_session(&session))
@@ -551,7 +541,6 @@ namespace Player
 	}
 }
 
-// mangled_x86(MANGLED_DEFAULT, "??0s_scenario_cutscene_camera_point@@QAE@ABU0@@Z"); no body to assert in
 _inline s_scenario_cutscene_camera_point::s_scenario_cutscene_camera_point(s_scenario_cutscene_camera_point const &__that) = default; // 0x106DCED0
 
 namespace Player
@@ -560,8 +549,6 @@ namespace Player
 	{
 		short GetPlayerAnimationCount(short player_session_idx) // 0x106DE5D0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerAnimationCount@PlayerPodium@Player@@YAFF@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -580,8 +567,6 @@ namespace Player
 
 		long GetPlayerAnimationGraph(short player_session_idx) // 0x106DE730
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerAnimationGraph@PlayerPodium@Player@@YAJF@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -600,8 +585,6 @@ namespace Player
 
 		unsigned long GetPlayerAnimationString(short player_session_idx, short animationType, short animationIndex) // 0x106DE880
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerAnimationString@PlayerPodium@Player@@YAKFFF@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -627,8 +610,6 @@ namespace Player
 
 		long GetAnimationWeaponIndex(short player_session_idx, short animationIndex, bool isPrimary) // 0x106DE2C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetAnimationWeaponIndex@PlayerPodium@Player@@YAJFF_N@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -654,8 +635,6 @@ namespace Player
 
 		float GetAnimationOffset(short player_session_idx, short animationIndex) // 0x106DE110
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetAnimationOffset@PlayerPodium@Player@@YAMFF@Z");
-
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session && session->IsEstablished())
 			{
@@ -674,8 +653,6 @@ namespace Player
 
 		void ResetStates() // 0x106DFC20
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ResetStates@PlayerPodium@Player@@YAXXZ");
-
 			s_PodiumStates.podiumInit = false;
 			s_PodiumStates.inPostGame = false;
 			s_PodiumStates.podiumStarted = false;
@@ -683,8 +660,6 @@ namespace Player
 
 		void HandleEvent(char const *eventString) // 0x106DF310
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?HandleEvent@PlayerPodium@Player@@YAXPBD@Z");
-
 			if (!strcmp(eventString, "podium_init"))
 			{
 				s_PodiumStates.podiumInit = true;
@@ -703,8 +678,6 @@ namespace Player
 
 		bool PodiumEnabled() // 0x106DF530
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumEnabled@PlayerPodium@Player@@YA_NXZ");
-
 			__int32 lobbytype = Blam::Network::GetLobbyType();
 			unsigned long PodiumEnabledValue = Utils::Singleton<Modules::ModuleServer>::Instance().VarServerPodiumEnabledClient->ValueInt;
 
@@ -718,43 +691,31 @@ namespace Player
 
 		bool PodiumStarted() // 0x106DF640
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumStarted@PlayerPodium@Player@@YA_NXZ");
-
 			return s_PodiumStates.podiumStarted;
 		}
 
 		bool PodiumhasInitialized() // 0x106DFB80
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumhasInitialized@PlayerPodium@Player@@YA_NXZ");
-
 			return s_PodiumStates.podiumInit;
 		}
 
 		bool PodiumIsReady() // 0x106DF620
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumIsReady@PlayerPodium@Player@@YA_NXZ");
-
 			return podiumReady;
 		}
 
 		bool ForgeCanOverride() // 0x106DE0F0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?ForgeCanOverride@PlayerPodium@Player@@YA_NXZ");
-
 			return forgeOverrideAllowed;
 		}
 
 		void SetForgeCanOverride(bool allowed) // 0x106E0300
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?SetForgeCanOverride@PlayerPodium@Player@@YAX_N@Z");
-
 			forgeOverrideAllowed = allowed;
 		}
 
 		void OnMapLoaded(char const *mapPath) // 0x106DF490
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?OnMapLoaded@PlayerPodium@Player@@YAXPBD@Z");
-
 			ResetStates();
 			if (!((bool(*)())0x531E90)())
 			{
@@ -764,8 +725,6 @@ namespace Player
 
 		void PodiumTick() // 0x106DF660
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?PodiumTick@PlayerPodium@Player@@YAXXZ");
-
 			static bool (*InPrematchState)(char) = (bool (*)(char))0x5523A0;
 			static bool (*IsMapLoading)() = (bool (*)())0x5670E0;
 			long roundTime = eldorado::game_engine_round_time_get();
@@ -812,8 +771,6 @@ namespace Player
 
 		short GetPlayerSessionIndexByLeaderboardPlace(short leaderboardPlace) // 0x106DEB10
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPlayerSessionIndexByLeaderboardPlace@PlayerPodium@Player@@YAFF@Z");
-
 			leaderboardPlace = leaderboardPlace - 1;
 			long (*const game_engine_get_player_place)(long) = (long (*)(long))0x5506F0;
 			c_network_session *session;
@@ -845,8 +802,6 @@ namespace Player
 
 		long GetPodiumRespawnEffectIndex(short place) // 0x106DF130
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPodiumRespawnEffectIndex@PlayerPodium@Player@@YAJF@Z");
-
 			s_game_globals *matg = game_globals_get();
 			if (matg)
 			{
@@ -864,8 +819,6 @@ namespace Player
 
 		float GetPodiumBipedOffset(char const *offset_type, short place) // 0x106DEDE0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPodiumBipedOffset@PlayerPodium@Player@@YAMPBDF@Z");
-
 			s_game_globals *matg = game_globals_get();
 			if (matg)
 			{
@@ -899,8 +852,6 @@ namespace Player
 
 		long GetPodiumBipedSpawnDelay(short place) // 0x106DF030
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPodiumBipedSpawnDelay@PlayerPodium@Player@@YAJF@Z");
-
 			s_game_globals *matg = game_globals_get();
 			if (matg)
 			{
@@ -918,8 +869,6 @@ namespace Player
 
 		long GetPodiumTickDelay() // 0x106DF240
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?GetPodiumTickDelay@PlayerPodium@Player@@YAJXZ");
-
 			s_game_globals *matg = game_globals_get();
 			if (matg)
 			{
@@ -937,8 +886,6 @@ namespace Player
 
 		void DoSpawnPlayer(long target_player_datum_index, real_point3d position, real_vector3d forward) // 0x106DD850
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?DoSpawnPlayer@PlayerPodium@Player@@YAXJUreal_point3d@@Ureal_vector3d@@@Z");
-
 			void (*const player_find_player_character_unit_and_variant_info)(long, long *, unsigned long *) = (void (*)(long, long *, unsigned long *))0x539F70;
 			void (*const player_set_unit_index)(long, long) = (void (*)(long, long))0x53CA80;
 			s_player_model_customization *(*const player_get_model_customization)(s_player_datum *) = (s_player_model_customization *(*)(s_player_datum *))0x536000;
@@ -986,8 +933,6 @@ namespace Player
 
 		void UpdatePlayer(long player_datum_index) // 0x106E0FB0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayer@PlayerPodium@Player@@YAXJ@Z");
-
 			void (*const simulation_action_object_update)(long, c_flags<long, __int64> *) = reinterpret_cast<void (*)(long, c_flags<long, __int64> *)>(0x4B3010);
 			Blam::Network::Session *session = Blam::Network::GetActiveSession();
 			if (session)
@@ -1015,7 +960,6 @@ namespace Player
 #line 1225
 		void UpdatePlayerState(long player_session_idx, real_point3d position, float yaw, float pitch, bool respawn) // 0x106E1220
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?UpdatePlayerState@PlayerPodium@Player@@YAXJUreal_point3d@@MM_N@Z");
 #line 1229
 
 			#line 1227 "C:\\Users\\Administrator\\Desktop\\eldewrito-ci\\ElDewritoCI.Blazor\\bin\\Debug\\net8.0\\staging\\ElDorito\\ElDorito\\Source\\Player\\PlayerPodium.cpp"
@@ -1031,8 +975,6 @@ namespace Player
 
 		void Init() // 0x106DF3C0
 		{
-			mangled_x86(MANGLED_KNOWN_GOOD, "?Init@PlayerPodium@Player@@YAXXZ");
-
 			Patches::Core::OnMapLoaded(Player::PlayerPodium::OnMapLoaded);
 		}
 	}
