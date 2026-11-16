@@ -82,7 +82,12 @@ function Promise:next(onFulfilled, onRejected)
 	self._handled = true
 	return Promise.new(function(resolve, reject)
 		local function run()
-			local handler = self._state == FULFILLED and onFulfilled or onRejected
+			local handler
+			if self._state == FULFILLED then
+				handler = onFulfilled
+			else
+				handler = onRejected
+			end
 			if type(handler) ~= "function" then
 				if self._state == FULFILLED then resolve(self._value) else reject(self._value) end
 				return

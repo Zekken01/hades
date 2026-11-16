@@ -24,7 +24,8 @@ Source of truth: the web UI at `C:\Users\zekken\Desktop\ui`. Each screen becomes
 - Units: pages scaled by window-resize use `dp`; unscaled pages (root/toasts) use `px`; `vh`/`vw` work.
 - `<img src>` accepts PNG/JPG/BMP/TGA/DDS and SVG (rasterised); `<svg src>` and `decorator: svg(...)` draw
   vectors directly. Never convert PNGs to SVG.
-- Colours: no `hsl()`; write hex with alpha (`#rrggbbaa`).
+- Colours: `rgba()` alpha is 0-255 in RCSS (not 0-1); hex with alpha (`#rrggbbaa`) and `hsl()` work.
+- Lua `a and b or c` returns c when b is nil or false: use if/else for handler selection.
 - RML is strict XML: close every tag, quote attributes, `&#160;` not `&nbsp;`.
 
 ## Testing

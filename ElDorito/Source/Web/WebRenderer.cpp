@@ -210,6 +210,25 @@ namespace Web
 					}
 				}
 			}
+			// The console uses Consolas, a Windows system font the browser found by name.
+			char windows[MAX_PATH] = {};
+			if (GetWindowsDirectoryA(windows, MAX_PATH))
+			{
+				for (const char *file : { "consola.ttf", "consolab.ttf", "consolai.ttf", "consolaz.ttf" })
+				{
+					const std::filesystem::path path = std::filesystem::path(windows) / "Fonts" / file;
+					if (!std::filesystem::exists(path, ec) || !::Rml::LoadFontFace(path.string(), false))
+						continue;
+					FT_Face face = nullptr;
+					if (library && FT_New_Face(library, path.string().c_str(), 0, &face) == 0)
+					{
+						faces.push_back({ path.string(), face->family_name ? face->family_name : "",
+							(face->style_flags & FT_STYLE_FLAG_ITALIC) != 0, (face->style_flags & FT_STYLE_FLAG_BOLD) != 0 });
+						FT_Done_Face(face);
+					}
+				}
+			}
+
 			if (library)
 				FT_Done_FreeType(library);
 			if (first)

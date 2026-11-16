@@ -538,8 +538,14 @@ namespace Web
 				Web::Ui::ScreenLayer::Show(overlayVisible);
 			}
 			Web::Ui::ScreenLayer::CaptureInput(capture, capturePointer);
+			// ui.js focused the topmost capturing iframe, which keeps the element focused inside
+			// it; only move focus when it is not already in that document.
 			if (topmost && topmost->document && !IsDebuggerVisible())
-				topmost->document->Focus();
+			{
+				::Rml::Element *focused = m_context->GetFocusElement();
+				if (!focused || focused->GetOwnerDocument() != topmost->document)
+					topmost->document->Focus();
+			}
 		}
 
 		UiRoot::Screen *UiRoot::FindScreen(const std::string &id)
