@@ -204,8 +204,19 @@ bool ShowLoadingScreenHook(s_game_options &options) // 0x10A84100
 	{
 		// hades: with Game.SkipIntroVideos the movies are skipped (GetBinkVideoPathHook), so
 		// the loading screen is shown as if there were none.
-		bool HasIntroBinks = Utils::Singleton<Modules::ModuleGame>::Instance().VarSkipIntroVideos->ValueInt != 1
-			&& (std::filesystem::exists("bink\\intro.bik") || std::filesystem::exists("bink\\logo_343.bik") || std::filesystem::exists("bink\\logo_microsoft.bik"));
+		static char const *const k_intro_bink_paths[] = { "bink\\intro.bik", "bink\\logo_343.bik", "bink\\logo_microsoft.bik" };
+		bool HasIntroBinks = false;
+		if (Utils::Singleton<Modules::ModuleGame>::Instance().VarSkipIntroVideos->ValueInt != 1)
+		{
+			for (char const *intro_bink_path : k_intro_bink_paths)
+			{
+				if (std::filesystem::exists(intro_bink_path))
+				{
+					HasIntroBinks = true;
+					break;
+				}
+			}
+		}
 		if (HasIntroBinks)
 		{
 			Patches::LoadingScreen::firstRun = false;
