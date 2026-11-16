@@ -12,7 +12,7 @@ index 412f9ba..a8e4f2f 100644
  
  	// The font-face handle is nulled when local font properties are set. In that case we need to retrieve a new handle.
 diff --git a/Source/Core/Elements/WidgetDropDown.cpp b/Source/Core/Elements/WidgetDropDown.cpp
-index 678c0f1..205ba51 100644
+index 678c0f1..73df4b7 100644
 --- a/Source/Core/Elements/WidgetDropDown.cpp
 +++ b/Source/Core/Elements/WidgetDropDown.cpp
 @@ -27,7 +27,7 @@ WidgetDropDown::WidgetDropDown(ElementFormControl* element)
@@ -35,23 +35,26 @@ index 678c0f1..205ba51 100644
 +			continue;
 +		const PropertyMap& local = e->GetLocalStyleProperties();
 +		auto it = local.find(PropertyId::ZIndex);
-+		raised_ancestors.push_back({e, it != local.end(), it != local.end() ? it->second : Property()});
++		raised_ancestors.push_back({e->GetObserverPtr(), it != local.end(), it != local.end() ? it->second : Property()});
 +		e->SetProperty(PropertyId::ZIndex, Property(1000000.0f, Unit::NUMBER));
 +	}
 +
  	box_visible = true;
  }
  
-@@ -625,6 +636,15 @@ void WidgetDropDown::HideSelectBox()
+@@ -625,6 +636,18 @@ void WidgetDropDown::HideSelectBox()
  	button_element->SetPseudoClass("checked", false);
  	DetachScrollEvent();
  
 +	for (auto& raised : raised_ancestors)
 +	{
++		Element* element = raised.element.get();
++		if (!element)
++			continue; // destroyed while the box was open
 +		if (raised.had_local)
-+			raised.element->SetProperty(PropertyId::ZIndex, raised.previous);
++			element->SetProperty(PropertyId::ZIndex, raised.previous);
 +		else
-+			raised.element->RemoveProperty(PropertyId::ZIndex);
++			element->RemoveProperty(PropertyId::ZIndex);
 +	}
 +	raised_ancestors.clear();
 +
@@ -59,7 +62,7 @@ index 678c0f1..205ba51 100644
  }
  
 diff --git a/Source/Core/Elements/WidgetDropDown.h b/Source/Core/Elements/WidgetDropDown.h
-index 828d90c..51dbb69 100644
+index 828d90c..b32bf6a 100644
 --- a/Source/Core/Elements/WidgetDropDown.h
 +++ b/Source/Core/Elements/WidgetDropDown.h
 @@ -1,6 +1,7 @@
@@ -70,16 +73,44 @@ index 828d90c..51dbb69 100644
  
  namespace Rml {
  
-@@ -101,6 +102,9 @@ private:
+@@ -101,6 +102,10 @@ private:
  	bool box_layout_dirty = false;
  	bool box_opened_since_last_format = false;
  	bool box_visible = false;
 +	// hades: ancestors raised while the box is open, with their previous inline z-index
-+	struct RaisedAncestor { Element* element; bool had_local; Property previous; };
++	// (observed: a change handler may rebuild the page and destroy them while the box is open)
++	struct RaisedAncestor { ObserverPtr<Element> element; bool had_local; Property previous; };
 +	Vector<RaisedAncestor> raised_ancestors;
  };
  
  } // namespace Rml
+diff --git a/Source/Core/Elements/WidgetSlider.cpp b/Source/Core/Elements/WidgetSlider.cpp
+index 0a01d4a..769cfac 100644
+--- a/Source/Core/Elements/WidgetSlider.cpp
++++ b/Source/Core/Elements/WidgetSlider.cpp
+@@ -600,6 +600,12 @@ float WidgetSlider::SetValueInternal(float new_value, bool force_submit_change_e
+ 
+ 	const bool value_changed = (value != GetParent()->GetAttribute("value", 0.0f));
+ 
++	// hades: store the value before announcing it, as a browser does (input.value is already the
++	// new value in its change handler).  It was set after the event, so every change listener that
++	// read the value attribute saw the previous one.
++	if (value_changed)
++		GetParent()->SetAttribute("value", value);
++
+ 	if (force_submit_change_event || value_changed)
+ 	{
+ 		Dictionary parameters;
+@@ -607,9 +613,6 @@ float WidgetSlider::SetValueInternal(float new_value, bool force_submit_change_e
+ 		GetParent()->DispatchEvent(EventId::Change, parameters);
+ 	}
+ 
+-	if (value_changed)
+-		GetParent()->SetAttribute("value", value);
+-
+ 	return (value - min_value) / (max_value - min_value);
+ }
+ 
 diff --git a/Source/Core/Elements/WidgetTextInput.cpp b/Source/Core/Elements/WidgetTextInput.cpp
 index 1ff0750..1a91e70 100644
 --- a/Source/Core/Elements/WidgetTextInput.cpp

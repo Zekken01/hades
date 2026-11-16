@@ -634,7 +634,12 @@ function PropertyItemViewFactory.spinner(model)
 			local value = select:GetAttribute("value")
 			if value == written then return end
 			written = value
-			model.setValue(math.tointeger(tonumber(value)) or tonumber(value))
+			-- Not from inside the event: a new value can rebuild the grid (Texture Scale shows or
+			-- hides the custom rows), which destroys this select while RmlUi's dropdown code is
+			-- still running on it further up the stack.
+			dew.setTimeout(function()
+				model.setValue(math.tointeger(tonumber(value)) or tonumber(value))
+			end, 0)
 		end)
 	end
 
@@ -707,9 +712,11 @@ function PropertyItemViewFactory.range(model)
 		range = document:GetElementById(rangeId)
 		apply(model.getValue(), false)
 
-		range:AddEventListener("change", function()
-			local value = range:GetAttribute("value")
-			if value == writtenRange then return end
+		-- The slider dispatches change before it stores the new value attribute, so the
+		-- value comes from the event; the attribute still holds the previous one.
+		range:AddEventListener("change", function(event)
+			local value = tonumber(event.parameters.value)
+			if value == nil or value == current then return end
 			apply(value, true)
 		end)
 
