@@ -39,7 +39,8 @@ THIRD_PARTY = ["detours/lib.X86/detours.lib", "discord-rpc/lib/Debug/discord-rpc
                "miniupnpc/lib/miniupnpc.lib", "oggvorbis/lib/Debug/ogg.lib", "oggvorbis/lib/Debug/vorbis.lib",
                "oggvorbis/lib/Debug/vorbisfile.lib", "openssl-1.1.0e/lib/libeay32MTd.lib",
                "openssl-1.1.0e/lib/ssleay32MTd.lib", "rmlui/lib/rmlui.lib", "rmlui/lib/rmlui_debugger.lib",
-               "rmlui/lib/rmlui_lua.lib", "freetype/lib/freetyped.lib", "lua-5.4/lib/lua.lib"]
+               "rmlui/lib/rmlui_lua.lib", "freetype/lib/freetyped.lib", "lua-5.4/lib/lua.lib",
+               "lunasvg/lib/lunasvg.lib", "lunasvg/lib/plutovg.lib"]
 WINDOWS = ("kernel32 user32 gdi32 advapi32 shell32 ole32 oleaut32 uuid ws2_32 winhttp wininet iphlpapi psapi "
            "shlwapi crypt32 winmm dbghelp version comctl32 bcrypt urlmon synchronization dwmapi").split()
 # The Windows SDK the matching build uses, when it is installed.

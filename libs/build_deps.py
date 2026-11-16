@@ -14,7 +14,8 @@ Results:
                                                        unwinds as a C++ exception)
   libs/freetype/include, libs/freetype/lib/freetyped.lib  internal zlib (WOFF works), no
                                                        png/bzip2/harfbuzz/brotli
-  libs/rmlui/include, libs/rmlui/lib/*.lib             RmlUi core, debugger, Lua plugin
+  libs/lunasvg/lib/*.lib                               lunasvg + plutovg for RmlUi's SVG plugin
+  libs/rmlui/include, libs/rmlui/lib/*.lib             RmlUi core (with the SVG plugin), debugger, Lua plugin
 """
 import argparse
 import glob
@@ -31,6 +32,7 @@ import build  # noqa: E402  (find_vs_root, run, SDK)
 PINS = {
     "lua": ("https://github.com/lua/lua.git", "v5.4.8"),
     "freetype": ("https://github.com/freetype/freetype.git", "VER-2-13-3"),
+    "lunasvg": ("https://github.com/sammycage/lunasvg.git", "v3.5.0"),
     "rmlui": ("https://github.com/mikke89/RmlUi.git", "6.3"),
 }
 GENERATOR = ["-G", "Visual Studio 17 2022", "-A", "Win32", "-T", "v142"]
@@ -51,7 +53,7 @@ def fetch(src):
         dest = os.path.join(src, name)
         if os.path.isdir(os.path.join(dest, ".git")):
             continue
-        sh(["git", "clone", "-q", "--depth", "1", "--branch", tag, url, dest])
+        sh(["git", "clone", "-q", "--depth", "1", "--branch", tag, "--recurse-submodules", "--shallow-submodules", url, dest])
 
 
 def build_lua(vcvars, src, out, jobs):
@@ -104,18 +106,29 @@ def main():
         "-DFT_DISABLE_ZLIB=ON", "-DFT_DISABLE_BZIP2=ON", "-DFT_DISABLE_PNG=ON",
         "-DFT_DISABLE_HARFBUZZ=ON", "-DFT_DISABLE_BROTLI=ON"], args.jobs)
 
+    # lunasvg (with its plutovg submodule) backs RmlUi's SVG plugin: <svg src> and decorator: svg().
+    svg_prefix = os.path.join(ROOT, "libs", "lunasvg")
+    cmake_build(os.path.join(args.src, "lunasvg"), args.out, svg_prefix, [
+        "-DLUNASVG_BUILD_EXAMPLES=OFF", "-DLUNASVG_DISABLE_LOAD_SYSTEM_FONTS=ON", "-DUSE_SYSTEM_PLUTOVG=OFF"], args.jobs)
+
+    # plutovg's installed config links Threads::Threads without finding it; declare it first.
+    threads = os.path.join(args.out, "find_threads.cmake")
+    with open(threads, "w") as f:
+        f.write("find_package(Threads REQUIRED)\n")
+
     lua_dir = os.path.join(ROOT, "libs", "lua-5.4")
     cmake_build(os.path.join(args.src, "rmlui"), args.out, os.path.join(ROOT, "libs", "rmlui"), [
-        "-DCMAKE_PREFIX_PATH=" + ft_prefix,
+        "-DCMAKE_PROJECT_INCLUDE=" + threads.replace("\\", "/"),
+        "-DCMAKE_PREFIX_PATH=" + ft_prefix + ";" + svg_prefix,
         "-DLUA_INCLUDE_DIR=" + os.path.join(lua_dir, "include"),
         "-DLUA_LIBRARY=" + os.path.join(lua_dir, "lib", "lua.lib"),
         "-DLUA_LIBRARIES=" + os.path.join(lua_dir, "lib", "lua.lib"),
         "-DRMLUI_LUA_BINDINGS=ON", "-DRMLUI_LUA_BINDINGS_LIBRARY=lua_as_cxx",
         "-DRMLUI_FONT_ENGINE=freetype", "-DRMLUI_SAMPLES=OFF", "-DRMLUI_PRECOMPILED_HEADERS=OFF",
-        "-DRMLUI_SVG_PLUGIN=OFF", "-DCMAKE_CXX_STANDARD=20"], args.jobs)
+        "-DRMLUI_SVG_PLUGIN=ON", "-DCMAKE_CXX_STANDARD=20"], args.jobs)
 
     for lib in glob.glob(os.path.join(ROOT, "libs", "rmlui", "lib", "*.lib")) + \
-            glob.glob(os.path.join(ft_prefix, "lib", "*.lib")):
+            glob.glob(os.path.join(ft_prefix, "lib", "*.lib")) + glob.glob(os.path.join(svg_prefix, "lib", "*.lib")):
         print("built", lib)
 
 

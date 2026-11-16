@@ -4,7 +4,7 @@
  *    animation's values when it ends).
  *  - --center (calc(50vw - 29.3vh)) is done with layout: the sliding blocks are positioned
  *    at left: 50%, margin-left: -29.3vh; the slide offsets are relative to that.
- *  - The option hover bar (buttonhover.svg) is drawn with a gradient decorator.
+ *  - The option hover bar is buttonhover.svg through the SVG plugin's decorator.
  */
 
 body {
@@ -189,7 +189,7 @@ ul.dialog-list li .focusbar {
 	top: 0;
 	width: 60.41667vh;
 	height: 3.88888vh;
-	decorator: linear-gradient(to right, #eda46894 0%, #eda46885 70%, #e5b48e5e 100%);
+	decorator: svg(dew://assets/ux/buttonhover.svg);
 	opacity: 0;
 	transition: opacity 0.12s linear-in-out;
 	z-index: -1;
@@ -198,6 +198,16 @@ ul.dialog-list li .focusbar {
 ul.dialog-list li.hilite .focusbar {
 	opacity: 1;
 	transition: none;
+}
+
+/* buttonhover.svg's own button-pulse animation (CSS inside the SVG) */
+@keyframes button-pulse {
+	0%   { opacity: 1; }
+	100% { opacity: 0.8; }
+}
+
+ul.dialog-list li.hilite .focusbar {
+	animation: 1s cubic-in-out infinite alternate button-pulse;
 }
 
 ul.dialog-list li .option-label {
