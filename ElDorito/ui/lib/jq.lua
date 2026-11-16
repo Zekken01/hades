@@ -13,10 +13,13 @@
 local Selection = {}
 Selection.__index = Selection
 
--- display value to restore on show(), per element
-local savedDisplay = setmetatable({}, { __mode = "k" })
+-- Per-element state lives in attributes: RmlLua hands out a new userdata for every access,
+-- so Lua tables keyed by element never match twice.
 -- element -> pending fade timer id
-local fadeTimers = setmetatable({}, { __mode = "k" })
+local function getFadeTimer(element) return tonumber(element:GetAttribute("data-jq-fade")) end
+local function setFadeTimer(element, id)
+	if id then element:SetAttribute("data-jq-fade", tostring(id)) else element:RemoveAttribute("data-jq-fade") end
+end
 
 local function wrap(list)
 	return setmetatable({ elements = list }, Selection)
@@ -76,9 +79,15 @@ function Selection:find(selector)
 	return wrap(list)
 end
 
-local function computedDisplay(element)
-	local display = element.style.display
-	return display ~= nil and display ~= "" and display or "block"
+-- jQuery's show(): drop the inline display so the stylesheet's value (flex, inline-block...)
+-- applies again; only when the stylesheet itself says none, fall back to data-display/block.
+-- (Reading the display back on hide() is not reliable: before the first update after load
+-- RmlUi has not applied the stylesheets and reports the default, inline.)
+local function restoreDisplay(element)
+	element.style.display = nil
+	if element.style.display == "none" then
+		element.style.display = element:GetAttribute("data-display") or "block"
+	end
 end
 
 local function isHidden(element)
@@ -86,10 +95,10 @@ local function isHidden(element)
 end
 
 local function cancelFade(element)
-	local id = fadeTimers[element]
+	local id = getFadeTimer(element)
 	if id then
 		dew.clearTimeout(id)
-		fadeTimers[element] = nil
+		setFadeTimer(element, nil)
 	end
 end
 
@@ -97,8 +106,10 @@ function Selection:show(display)
 	return self:each(function(element)
 		cancelFade(element)
 		element.style.opacity = "1"
-		if isHidden(element) or display then
-			element.style.display = display or savedDisplay[element] or element:GetAttribute("data-display") or "block"
+		if display then
+			element.style.display = display
+		elseif isHidden(element) then
+			restoreDisplay(element)
 		end
 	end)
 end
@@ -106,9 +117,6 @@ end
 function Selection:hide()
 	return self:each(function(element)
 		cancelFade(element)
-		if not isHidden(element) then
-			savedDisplay[element] = computedDisplay(element)
-		end
 		element.style.display = "none"
 	end)
 end
@@ -141,21 +149,18 @@ local function fade(self, show, milliseconds, done)
 			if wasHidden then
 				element.style.transition = "none"
 				element.style.opacity = "0"
-				element.style.display = savedDisplay[element] or element:GetAttribute("data-display") or "block"
+				restoreDisplay(element)
 			end
 			dew.requestAnimationFrame(function()
 				element.style.transition = string.format("opacity %.3fs linear-in-out", milliseconds / 1000)
 				element.style.opacity = "1"
 			end)
 		else
-			if not isHidden(element) then
-				savedDisplay[element] = computedDisplay(element)
-			end
 			element.style.transition = string.format("opacity %.3fs linear-in-out", milliseconds / 1000)
 			element.style.opacity = "0"
 		end
-		fadeTimers[element] = dew.setTimeout(function()
-			fadeTimers[element] = nil
+		setFadeTimer(element, dew.setTimeout(function()
+			setFadeTimer(element, nil)
 			if not show then
 				element.style.display = "none"
 			end
@@ -164,7 +169,7 @@ local function fade(self, show, milliseconds, done)
 			if count == 0 and done then
 				done()
 			end
-		end, milliseconds + 16)
+		end, milliseconds + 16))
 	end
 	return self
 end

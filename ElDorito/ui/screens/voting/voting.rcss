@@ -1,0 +1,422 @@
+/* Port of screens/voting/voting.css (px -> dp inside the scaled .page_content). */
+
+body {
+	color: #FFF;
+	font-family: "Conduit ITC";
+	font-weight: 500;
+}
+
+#window {
+	position: relative;
+	width: 515dp;
+	height: 590dp;
+	margin-top: 92dp;
+	margin-left: 81dp;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.top {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 520dp;
+	decorator: linear-gradient(to bottom, rgb(39,58,94) 0%, rgb(10,18,38) 91%, rgb(9,18,43) 100%);
+}
+
+.top div {
+	width: 100%;
+}
+
+/* the 1px gradient rules (::before/::after of the web page) */
+.rule {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 1dp;
+	decorator: linear-gradient(to right, #626f7900 0%, #626f7982 50%, #626f7900 100%);
+}
+.rule-top { top: 0; }
+.rule-bottom { bottom: 0; }
+#votingDescRule { top: 51dp; }
+
+#votingDesc {
+	decorator: linear-gradient(to bottom, #06090cb3 0%, #06090c40 100%);
+	font-size: 20dp;
+	padding-top: 20dp;
+	box-sizing: border-box;
+	width: 100%;
+	height: 52dp;
+	position: relative;
+	color: #f0f0f0bf;
+	text-transform: uppercase;
+	padding-left: 10dp;
+	padding-right: 10dp;
+}
+
+#timer, #voteCount, #vetoTimer {
+	font-size: 20dp;
+	float: right;
+	color: #94A4B7;
+	line-height: 24dp;
+}
+
+#vetoGameTimer {
+	font-size: 20dp;
+	line-height: 24dp;
+}
+
+.top div#vetoCount, .top div#vetoCountDown {
+	width: 75%;
+	padding-left: 10dp;
+	padding-right: 10dp;
+	box-sizing: border-box;
+	font-size: 20dp;
+	padding-top: 5dp;
+}
+#vetoCount {
+	padding-bottom: 4dp;
+}
+
+.vetoBox {
+	background-color: #00000066;
+	padding-top: 26dp;
+	height: 55dp;
+	width: 100%;
+	padding-left: 6dp;
+	padding-right: 10dp;
+	box-sizing: border-box;
+}
+
+.vetoBox a {
+	font-size: 20dp;
+	padding-left: 2dp;
+	cursor: pointer;
+}
+
+#vetoStatus {
+	font-size: 22.5dp;
+	padding-left: 10dp;
+	line-height: 30dp;
+	color: #94A4B7;
+}
+
+.vetoCountBox {
+	position: relative;
+	background-color: #0000002e;
+	height: 60dp;
+	box-sizing: border-box;
+}
+
+.vetoBox .button {
+	margin-top: -6dp;
+}
+
+#votingOptions {
+	text-transform: uppercase;
+}
+
+.votingOption {
+	position: relative;
+	z-index: 0;
+	height: 70dp;
+	width: 100%;
+	padding-left: 10dp;
+	padding-right: 10dp;
+	box-sizing: border-box;
+	margin-bottom: 10dp;
+	margin-top: 10dp;
+}
+
+/* .votingOption::before: the hover/selection bar behind the option */
+.votingOption .hoverbar {
+	position: absolute;
+	top: 0;
+	left: -10%;
+	width: 110%;
+	height: 100%;
+	decorator: svg(dew://assets/ux/buttonhover.svg);
+	opacity: 0;
+	transition: opacity 0.12s linear-in-out;
+	z-index: -1;
+}
+
+.selected .hoverbar, .winner .hoverbar, .myVote .hoverbar {
+	opacity: 1;
+	transition: none;
+}
+
+.winner {
+	opacity: 1;
+}
+
+.votingOption .mapImage {
+	display: block;
+	height: 70dp;
+	width: 214dp;
+	float: left;
+	margin-right: 10dp;
+}
+
+#vetoMapInfo {
+	bottom: 54dp;
+	position: absolute;
+	left: 0;
+}
+
+#vetoMapInfo .mapInfo {
+	display: block;
+	position: absolute;
+	top: 167dp;
+	left: 0;
+	font-size: 22dp;
+	margin-left: 12dp;
+	letter-spacing: 0.4dp;
+	color: #94A4B7;
+	white-space: nowrap;
+}
+
+.modInfo {
+	display: block;
+	font-size: 15dp;
+	color: #b5b5b5bf;
+}
+
+#vetoMapInfo .mapImage {
+	display: block;
+	height: 167dp;
+	width: 100%;
+}
+
+.votingOption .gameType, .votingOption .mapName, .votingOption .modName, .votingOption .gameTypeCentered, .votingOption .mapNameCentered {
+	position: absolute;
+	white-space: nowrap;
+}
+
+/* Browsers put these absolute spans at their static position, after the floated vote box
+   and map image; RmlUi places them at the line start, so pin left to the same spot
+   (10dp padding + 214dp image + 10dp margin; the selected vote box pushes it 36dp right). */
+.votingOption .gameType, .votingOption .mapName, .votingOption .modName, .votingOption .gameTypeCentered, .votingOption .mapNameCentered {
+	left: 234dp;
+	transition: left 0.2s quadratic-in-out;
+}
+.selected .gameType, .selected .mapName, .selected .modName, .selected .gameTypeCentered, .selected .mapNameCentered,
+.myVote .gameType, .myVote .mapName, .myVote .modName, .myVote .gameTypeCentered, .myVote .mapNameCentered {
+	left: 270dp;
+}
+
+.votingOption .gameTypeCentered {
+	top: 12dp;
+	color: #F0F0F0;
+	font-size: 20dp;
+}
+
+.votingOption .mapNameCentered {
+	bottom: 15dp;
+	color: #94A4B7;
+	font-size: 16dp;
+}
+
+.votingOption .gameType {
+	top: 8dp;
+	color: #F0F0F0;
+	font-size: 20dp;
+}
+
+.votingOption .mapName {
+	bottom: 23dp;
+	color: #94A4B7;
+	font-size: 16dp;
+}
+
+.votingOption .modName {
+	bottom: 6dp;
+	color: #94A4B7;
+	font-size: 16dp;
+}
+
+.votingOption .selector {
+	position: relative;
+	font-size: 30dp;
+	width: 37dp;
+	text-align: center;
+	border: 2dp #ffffff00;
+	float: right;
+	line-height: 30dp;
+	top: 18dp; /* calc(50% - 17px) of 70px */
+}
+
+.myVote .selector {
+	width: 35dp;
+}
+
+/* box-shadow 0 0 0 2px white: a 2dp border outside the 16dp box, kept out of the layout
+   with negative margins */
+.votebox {
+	display: block;
+	border: 2dp #ffffff;
+	width: 16dp;
+	height: 16dp;
+	position: relative;
+	top: 25dp; /* calc(50% - 8px) - 2 */
+	float: left;
+	margin-left: -38dp;
+	margin-right: 8dp;
+	margin-bottom: -4dp;
+	opacity: 0;
+	transition: opacity margin-left margin-right 0.2s quadratic-in-out;
+}
+
+.selected .votebox, .myVote .votebox {
+	opacity: 1;
+	margin-left: 8dp;
+	margin-right: 8dp;
+}
+
+/* .myVote .votebox:after */
+.votebox .votecheck {
+	display: none;
+	position: absolute;
+	width: 60%;
+	height: 60%;
+	top: 20%;
+	left: 20%;
+	background-color: white;
+}
+.myVote .votebox .votecheck {
+	display: block;
+}
+
+.none {
+	width: 100%;
+	height: 35dp;
+	line-height: 35dp;
+	font-size: 18dp;
+}
+
+.none .selector {
+	top: 0dp;
+}
+
+.none .votebox {
+	height: 16.5dp;
+	top: 7.5dp; /* calc(50% - 8px) of 35px - 2 */
+}
+
+.bottomBar {
+	position: absolute;
+	bottom: 4dp;
+	left: 0;
+	height: 66dp;
+	width: 100%;
+	background-color: #06090C;
+}
+
+button {
+	color: #f3f3f3;
+	background-color: transparent;
+	border-width: 0;
+	font-size: 18dp;
+	font-weight: 500;
+	text-align: left;
+	line-height: 35dp;
+	margin-top: 24dp;
+	min-width: 50dp;
+	float: left;
+	font-family: "Conduit ITC";
+	cursor: pointer;
+}
+
+.button {
+	position: relative;
+	height: 29dp;
+	float: left;
+	top: 3dp;
+}
+
+button:hover {
+	text-decoration: underline;
+}
+
+#vetoButton {
+	display: none;
+}
+
+.window-compact {
+	background-color: #101c37d9;
+	width: 515dp;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	position: absolute;
+	left: 81dp;
+	top: 388dp;
+	font-size: 21dp;
+	padding: 3dp 10dp 3dp 10dp;
+	box-sizing: border-box;
+	overflow: hidden;
+	height: 35dp;
+}
+
+.left .button {
+	height: 26dp;
+	padding-right: 2dp;
+	top: 0dp;
+}
+
+.window-compact .left {
+	display: flex;
+	box-sizing: border-box;
+	flex: 1;
+	flex-direction: row;
+	align-items: center;
+	height: 100%;
+	overflow: hidden;
+}
+
+.window-compact button {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	float: none;
+	font-size: 21dp;
+	min-width: 0;
+}
+
+.window-compact .compact-timer {
+	color: #94A4B7;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.veto-flash {
+	animation: 1.3s cubic-in-out infinite flash;
+}
+
+@keyframes flash {
+	0% { opacity: 1; }
+	50% { opacity: 0.2; }
+	100% { opacity: 1; }
+}
+
+#vetoedX {
+	position: absolute;
+	display: none;
+	top: 28.5dp;
+}
+
+img:not([src]) {
+	visibility: hidden;
+}
+
+.vetoBox a {
+	text-transform: none;
+}

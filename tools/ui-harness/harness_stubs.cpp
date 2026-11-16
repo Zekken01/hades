@@ -1,6 +1,7 @@
 // Stand-ins for the game-side functions the UI host calls, so the real UI host
 // (Web/WebRenderer.cpp, Web/Rml/*) can run outside eldorado.exe.
 
+#include <filesystem>
 #include "hades/hades.h"
 
 #include "CommandMap.hpp"
@@ -245,7 +246,20 @@ namespace Web
 						}
 						if (method == "getAssetUrl" && args.HasMember("path") && args["path"].IsString())
 						{
-							*result = std::string("dew://") + args["path"].GetString();
+							// like WebAssetService: the first existing <path>.<fileType> under ui/ (or "")
+							const std::string path = args["path"].GetString();
+							result->clear();
+							if (args.HasMember("fileTypes") && args["fileTypes"].IsArray())
+							{
+								for (auto &type : args["fileTypes"].GetArray())
+									if (type.IsString() && std::filesystem::exists("ui/" + path + "." + type.GetString()))
+									{
+										*result = "dew://" + path + "." + type.GetString();
+										break;
+									}
+							}
+							else
+								*result = "dew://" + path;
 							return QueryError_Ok;
 						}
 						auto it = Harness::g_methodResults.find(method);
