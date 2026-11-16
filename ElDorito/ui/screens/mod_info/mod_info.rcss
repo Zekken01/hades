@@ -1,0 +1,199 @@
+/* Port of screens/mod_info/mod_info.css (unscaled page: vh units as on the web page). */
+
+body {
+	width: 100%;
+	height: 100%;
+	font-family: "Conduit ITC";
+}
+
+#overlay {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #00000080;
+	opacity: 0;
+}
+
+#container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+#screen_widget {
+	width: 100%;
+	height: 75vh;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	opacity: 0;
+	color: #D8D8D8;
+}
+
+.screen_widget_header, .screen_widget_footer {
+	width: 100%;
+	background-color: #0a0e14cc;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	border-top: 0.208vh #ffffff33;
+	border-bottom: 0.208vh #ffffff1f;
+	box-sizing: border-box;
+}
+
+.screen_widget_header {
+	height: 6.388vh;
+}
+
+.screen_widget_title {
+	width: 124.444vh;
+	height: 100%;
+	font-size: 6.32vh;
+	line-height: 6.4vh;
+	margin-top: -0.694vh;
+}
+
+.screen_widget_body {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	position: relative;
+	flex: 1;
+	decorator: linear-gradient(to bottom, #445e8dbd, #11203bd9);
+}
+
+.screen_widget_row {
+	width: 124.444vh;
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+
+.mod_details {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	font-size: 2.2vh;
+	overflow: hidden;
+}
+
+.mod_details_top {
+	display: block;
+}
+
+.mod_details img#mod_preview_img {
+	display: inline-block;
+	width: 64.583vh;
+	height: 21.388vh;
+	margin-top: 1.2vh;
+	border: 0.2vh #00000080;
+}
+
+.mod_details_side {
+	display: block;
+	font-size: 1.98vh;
+	float: right;
+	width: 47%;
+	margin-top: 1.8%;
+}
+
+.mod_details_author {
+	width: 100%;
+	background-color: #0000001a;
+	border-top: 0.138vh #ffffff26;
+	border-bottom: 0.138vh #ffffff26;
+	display: flex;
+	padding: 0.8% 2%;
+	flex-direction: row;
+	box-sizing: border-box;
+}
+
+.mod_details_size {
+	width: 100%;
+	padding: 0.3%;
+	padding-left: 2%;
+	display: flex;
+	flex-direction: row;
+	box-sizing: border-box;
+}
+
+.mod_details_attr_label {
+	color: #aac0da;
+	width: 28%;
+}
+
+.mod_source {
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.mod_details_body {
+	color: #aac0da;
+	overflow-y: auto;
+	flex: 1;
+	margin-top: 2%;
+	margin-bottom: 1%;
+	padding: 1%;
+	border-top: 0.138vh #ffffff26;
+	border-bottom: 0.138vh #ffffff26;
+	background-color: #0000004d;
+	box-sizing: border-box;
+}
+
+.mod_details_body scrollbarvertical {
+	width: 1.388vh;
+}
+.mod_details_body scrollbarvertical sliderbar {
+	background-color: #dddddd22;
+}
+.mod_details_body scrollbarvertical sliderbar:hover {
+	background-color: #dddddd55;
+}
+.mod_details_body scrollbarvertical sliderarrowdec, .mod_details_body scrollbarvertical sliderarrowinc {
+	height: 0;
+}
+
+.mod_details_body_desc {
+	display: block;
+	margin: 0;
+}
+
+a {
+	color: #77879A;
+	cursor: pointer;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.button_key {
+	width: 124.444vh;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	font-size: 2.9vh;
+}
+
+.button_key_button {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 0.694vh;
+	cursor: pointer;
+}
+
+.button_key_button:hover {
+	text-decoration: underline;
+}
+
+.button_icon {
+	width: 3.888vh;
+	height: 3.888vh;
+	margin: 0 0.277vh;
+}
