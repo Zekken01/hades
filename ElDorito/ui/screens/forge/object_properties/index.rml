@@ -1,0 +1,83 @@
+<rml>
+<head>
+	<title>Forge - Object Properties</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://lib/style-global.rcss"/>
+	<link type="text/rcss" href="dew://screens/forge/shared/forge.rcss"/>
+	<link type="text/rcss" href="object_properties.rcss"/>
+	<link type="text/rcss" href="materials.rcss"/>
+	<script src="dew://lib/input.lua"></script>
+	<script src="dew://lib/color_picker.lua"></script>
+	<script src="dew://screens/forge/shared/forge.lua"></script>
+	<script src="materials.lua"></script>
+	<script src="object_properties.lua"></script>
+</head>
+<body onload="init()">
+	<div class="modal-overlay hidden"></div>
+	<div class="toast-container">
+		<div class="toast info">
+			<div class="toast-bar"></div>
+			<div class="toast-content"></div>
+		</div>
+	</div>
+	<div class="container" id="main_container">
+		<div class="window save-prefab-screen" id="save_prefab_screen">
+			<div class="window-header">
+				<div class="window-title">PREFAB NAME</div>
+				<div class="hline"></div>
+			</div>
+			<div class="window-body">
+				<p>Enter a name for your prefab.</p>
+				<div>
+					<input type="text" class="modal-input" maxlength="15" value=""/>
+				</div>
+				<span class="error"></span>
+			</div>
+			<div class="window-footer">
+				<div class="hline"></div>
+				<div class="legend">
+					<div class="legend-item"><img src="dew://assets/buttons/360_A.png"/><span>Confirm</span></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_B.png"/><span>Cancel</span></div>
+				</div>
+			</div>
+		</div>
+		<div class="window" id="main_window">
+			<div class="window-header">
+				<div class="window-title">OBJECT PROPERTIES</div>
+				<div class="window-subtitle"></div>
+				<div class="hline"></div>
+			</div>
+			<div class="window-body">
+				<div class="screen main-screen" id="main_screen">
+					<div class="list property-grid main-property-grid"></div>
+				</div>
+				<div class="screen color-picker-screen" id="color_picker_screen">
+					<div class="color-picker"></div>
+				</div>
+				<div class="screen summary-screen" id="summary_screen">
+					<div class="summary-property-grid property-grid"></div>
+				</div>
+				<div class="screen material-picker-screen" id="material_picker_screen">
+					<div class="tree material-category-tree"></div>
+				</div>
+				<div class="screen list material-picker-list-screen">
+					<div class="material-list"></div>
+				</div>
+				<div class="screen engine-flags-screen" id="engine_flags_screen">
+					<div class="list engine-list flag-list"></div>
+				</div>
+				<div class="screen team-flags-screen" id="team_flags_screen">
+					<div class="list team_list flag-list"></div>
+				</div>
+			</div>
+			<div class="window-info-box"><div class="hline"></div><span class="info-text"></span></div>
+			<div class="window-footer legend">
+				<div class="hline"></div>
+				<div class="legend-item"><img src="dew://assets/buttons/360_A.png"/><span>Select</span></div>
+				<div class="legend-item"><img src="dew://assets/buttons/360_B.png"/><span>Back</span></div>
+				<div class="legend-item"><img src="dew://assets/buttons/360_X.png"/><span>Hide</span></div>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>

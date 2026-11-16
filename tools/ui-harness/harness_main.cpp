@@ -13,6 +13,8 @@
 //   controller <json>                  one controller tick (ui.sendControllerInput)
 //   mouse <x> <y> | click <x> <y> | rclick <x> <y> | wheel <delta>
 //   key <vk> | char <text>
+//   keydown <vk> | keyup <vk>          hold / release a key
+//   ticks <0|1>                        send a controller tick every frame (as the game does)
 //   wait <seconds>                     run frames for this long
 //   shot <file.png>
 //   expect-call <substring>            fail unless a bridge call contains this text
@@ -99,11 +101,19 @@ namespace
 		g_device->PresentEx(nullptr, nullptr, nullptr, nullptr, 0);
 	}
 
+	bool g_ticks = false;
+	long long g_gameTicks = 0;
+
 	void RunFor(double seconds)
 	{
 		auto end = std::chrono::steady_clock::now() + std::chrono::microseconds((long long)(seconds * 1e6));
 		do
 		{
+			if (g_ticks)
+			{
+				if (auto *root = Web::RmlUi::UiRoot::Get())
+					root->SendControllerInput("{\"secondsPerTick\":0.016666,\"gameTicks\":" + std::to_string(++g_gameTicks) + "}");
+			}
 			Frame();
 			std::this_thread::sleep_for(std::chrono::milliseconds(16));
 		} while (std::chrono::steady_clock::now() < end);
@@ -263,6 +273,18 @@ namespace
 				in >> vk;
 				PostInput(WM_KEYDOWN, vk, 0);
 				PostInput(WM_KEYUP, vk, 0);
+			}
+			else if (op == "keydown" || op == "keyup")
+			{
+				int vk = 0;
+				in >> vk;
+				PostInput(op == "keydown" ? WM_KEYDOWN : WM_KEYUP, vk, 0);
+			}
+			else if (op == "ticks")
+			{
+				int on = 0;
+				in >> on;
+				g_ticks = on != 0;
 			}
 			else if (op == "char")
 			{

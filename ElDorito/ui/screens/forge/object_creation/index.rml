@@ -1,0 +1,88 @@
+<rml>
+<head>
+	<title>Forge - Object Browser</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://screens/forge/shared/forge.rcss"/>
+	<link type="text/rcss" href="object_creation.rcss"/>
+	<script src="dew://lib/input.lua"></script>
+	<script src="dew://screens/forge/shared/forge.lua"></script>
+	<script src="object_creation.lua"></script>
+</head>
+<body onload="init()">
+	<div class="container" id="container">
+		<div class="window" id="main_window">
+			<div class="window-header">
+				<div class="window-title">BJECT BROWSER</div>
+				<div class="object-quota"></div>
+				<div class="hline"></div>
+			</div>
+			<div class="window-body">
+				<div class="screen main-screen">
+					<div class="category-header"></div>
+					<div class="category-tree"></div>
+					<div class="window-info-box empty"><div class="hline"></div><span class="info-text"></span></div>
+				</div>
+				<div class="screen items-screen">
+					<div class="category-header no-transition"></div>
+					<div class="item-list"></div>
+					<div class="window-info-box empty"><div class="hline"></div><span class="info-text"></span></div>
+				</div>
+				<div class="screen search-screen">
+					<div class="search-box">
+						<input type="text" class="search-textbox" value=""/>
+						<span class="search-placeholder">Fusion Coil...</span>
+						<div class="hline"></div>
+					</div>
+					<div class="item-list search-results"></div>
+				</div>
+				<div class="screen prefabs-screen">
+					<div class="prefab-list"></div>
+				</div>
+				<div class="screen modal-screen">
+					<div class="modal-box">
+						<div class="modal-header">
+							<div class="modal-title"></div>
+						</div>
+						<div class="modal-body"></div>
+						<div class="modal-footer"></div>
+					</div>
+				</div>
+				<div class="screen tool-settings-screen">
+					<div class="property-grid"></div>
+					<div class="window-info-box empty"><div class="hline"></div><span class="info-text"></span></div>
+				</div>
+			</div>
+			<div class="window-footer">
+				<div class="hline"></div>
+				<div class="legend main-legend hidden">
+					<div class="legend-item"><img src="dew://assets/buttons/360_A.png" class="controller-only"/><span>Select</span></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_B.png" class="controller-only"/><a rel="back">Back</a></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_X.png" class="controller-only"/><a rel="hide">Hide</a></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_Y.png" class="controller-only"/><a rel="tool_settings">Tool Settings</a></div>
+				</div>
+				<div class="legend list-legend hidden">
+					<div class="legend-item"><img src="dew://assets/buttons/360_A.png" class="controller-only"/><span>Place</span></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_B.png" class="controller-only"/><a rel="back">Back</a></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_X.png" class="controller-only"/><a rel="hide">Hide</a></div>
+				</div>
+				<div class="legend prefab-legend hidden">
+					<div class="legend-item"><img src="dew://assets/buttons/360_A.png" class="controller-only"/><span>Place</span></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_B.png" class="controller-only"/><a rel="back">Back</a></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_X.png" class="controller-only"/><a rel="hide">Hide</a></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_Y.png" class="controller-only"/><span>Delete</span><span class="kbm-only"> [DELETE]</span></div>
+				</div>
+				<div class="legend confirm-legend hidden">
+					<div class="legend-item"><img src="dew://assets/buttons/360_A.png" class="controller-only"/><a rel="confirm">Confirm<span class="kbm-only"> [ENTER]</span></a></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_B.png" class="controller-only"/><a rel="cancel">Cancel<span class="kbm-only"> [ESC]</span></a></div>
+				</div>
+				<div class="legend tool-settings-legend hidden">
+					<div class="legend-item controller-only"><img src="dew://assets/buttons/360_A.png" class="controller-only"/><span>Select</span></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_B.png" class="controller-only"/><a rel="back">Back</a></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_X.png" class="controller-only"/><a rel="hide">Hide</a></div>
+					<div class="legend-item"><img src="dew://assets/buttons/360_Y.png" class="controller-only"/><a rel="save_settings">Save Settings</a></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>

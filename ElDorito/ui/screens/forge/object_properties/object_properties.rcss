@@ -1,0 +1,216 @@
+/*
+ * Port of screens/forge/object_properties/object_properties.css (--max-list-height 470dp).
+ * Inactive screens are display: none (the web version faded them out with opacity 0 and
+ * pointer-events: none; its transitions were commented out).
+ */
+
+#main_window {
+	position: absolute;
+	right: 100dp;
+	top: 50%;
+	margin-top: -335dp;
+}
+
+#main_window .window-body {
+	height: 470dp;
+	min-height: 470dp;
+}
+
+#main_window .window-header {
+	height: 80dp;
+}
+
+#main_window .window-footer {
+	height: 60dp;
+}
+
+.screen {
+	display: none;
+	flex-direction: column;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 2;
+}
+
+.screen.active {
+	display: flex;
+}
+
+.tree {
+	display: block;
+	max-height: 470dp;
+	overflow-y: auto;
+}
+
+.tree .item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 38dp;
+	box-sizing: border-box;
+	padding: 10dp 10dp;
+	text-transform: uppercase;
+	font-size: 1.1em;
+}
+
+.tree .item.selected,
+.material-list .item.selected,
+.flag-list .item.selected {
+	decorator: linear-gradient(to right, #c8782880, #c878282a);
+	color: #cccccc;
+}
+
+.material-list {
+	display: block;
+	max-height: 470dp;
+	height: 470dp;
+	overflow-y: auto;
+}
+
+.material-list .item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 0 10dp;
+	height: 72dp;
+	box-sizing: border-box;
+	text-transform: uppercase;
+	font-size: 1.1em;
+}
+
+.material-list .item .name {
+	margin-right: auto;
+}
+
+.material-list .item .mute {
+	color: #77879A;
+}
+
+.material-list .item .preview {
+	width: 58dp;
+	height: 58dp;
+	margin: 3dp;
+	border-radius: 2dp;
+}
+
+.flag-list {
+	display: block;
+}
+
+.flag-list .item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	font-size: 1.1em;
+	text-transform: uppercase;
+	height: 38dp;
+	box-sizing: border-box;
+	padding: 10dp 10dp;
+}
+
+.flag-list .checkbox {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 18dp;
+	height: 18dp;
+	box-sizing: border-box;
+	margin-right: 15dp;
+	background-color: #00000080;
+	border: 1dp rgb(136, 136, 136);
+}
+
+.flag-list .checkbox .mark {
+	display: none;
+	width: 10dp;
+	height: 10dp;
+	background-color: #d1d1d1;
+}
+
+.flag-list .item.checked .checkbox .mark {
+	display: block;
+}
+
+.modal-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background-color: #000000bf;
+	opacity: 1;
+	transition: opacity 0.32s quadratic-in-out;
+	pointer-events: none;
+}
+
+.modal-overlay.hidden {
+	display: block;
+	opacity: 0;
+}
+
+#save_prefab_screen {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -210dp;
+	margin-top: -110dp;
+	z-index: 99999;
+	opacity: 1;
+	transform: translateY(0dp);
+	transition: opacity transform 0.3s quadratic-out;
+}
+
+#save_prefab_screen.inactive {
+	opacity: 0;
+	transform: translateY(-100dp);
+	pointer-events: none;
+}
+
+#save_prefab_screen.shake {
+	transform: translateX(-4dp);
+	transition: transform 0.06s linear-in-out;
+}
+
+#save_prefab_screen .window-header {
+	font-size: 1.2em;
+	height: 60dp;
+}
+
+#save_prefab_screen .window-body {
+	padding: 15dp;
+	font-size: 1.1em;
+	color: #efefefef;
+	display: block;
+}
+
+#save_prefab_screen input.text {
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	font-size: 20dp;
+	margin-top: 10dp;
+	margin-bottom: 5dp;
+	background-color: #efefef;
+	color: black;
+	padding: 5dp;
+}
+
+#save_prefab_screen .error {
+	color: rgb(240, 67, 67);
+}
+#save_prefab_screen .error.hidden {
+	display: none;
+}
+
+.window-info-box .info-text {
+	display: block;
+}
+
+.color-picker-screen .color-picker {
+	display: block;
+	width: 100%;
+}

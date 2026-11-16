@@ -35,6 +35,12 @@ Source of truth: the web UI at `C:\Users\zekken\Desktop\ui`. Each screen becomes
 - `<select>`/`<input>` raise "change" for values set from script too (once at once, once on the next
   update). Remember what the page wrote and ignore change events that report it. The select API
   (options, 1-based `selection`) needs `Element.As.ElementFormControlSelect(element)`.
+- Setting an input's `value` leaves the caret at 0; the Lua bindings have no selection API, so use
+  `dew_core.setSelectionRange(input, start, end)`.
+- `document:CreateElement(tag)` returns an owning pointer, not an element: insert it with
+  `AppendChild`/`InsertBefore` and use the element those return.
+- Input actions (`dew.input`) come from the per-tick "controllerinput" stream; the harness sends it
+  only after `ticks 1`, and held keys need `keydown`/`keyup`.
 
 ## Testing
 `python tools/ui-harness/build_harness.py`, then

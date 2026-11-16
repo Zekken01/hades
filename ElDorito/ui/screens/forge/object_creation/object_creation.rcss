@@ -1,0 +1,294 @@
+/*
+ * Port of screens/forge/object_creation/object_creation.css.  --max-list-height is
+ * 38 * 14 + 8 = 540dp here; ":empty" and ":not(:empty)" are the classes "empty"/"filled".
+ */
+
+.window {
+	position: absolute;
+	right: 100dp;
+	top: 50%;
+	margin-top: -332.5dp;
+}
+
+.window-body {
+	height: 540dp;
+}
+
+.window-header {
+	height: 65dp;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	width: 100%;
+}
+
+.window-header .window-title {
+	display: block;
+	flex: 1;
+}
+
+.window-header .object-quota {
+	flex-shrink: 0;
+	white-space: nowrap;
+	color: #77879A;
+	font-size: 0.96em;
+}
+
+.screen {
+	display: none;
+	flex-direction: column;
+	width: 100%;
+	position: relative;
+	z-index: 2;
+	height: 100%;
+}
+
+.screen.active {
+	display: flex;
+}
+
+.category-tree,
+.item-list,
+.prefab-list {
+	display: block;
+	max-height: 540dp;
+	height: 540dp;
+	flex-shrink: 1;
+	overflow-y: auto;
+}
+
+.category-tree .item,
+.item-list .item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 10dp 10dp;
+	height: 38dp;
+	box-sizing: border-box;
+	font-size: 1.1em;
+	color: #adadad;
+}
+
+.category-tree .item.selected,
+.item-list .item.selected,
+.prefab-list .item.selected {
+	color: #cccccc;
+	decorator: svg(dew://assets/ux/buttonhover.svg);
+}
+
+.item .quota,
+.item .type {
+	color: #77879A;
+}
+
+.item .type {
+	text-transform: uppercase;
+	margin-right: 10dp;
+}
+
+.item-list .item {
+	height: 40dp;
+	overflow: hidden;
+}
+
+.item-list .item .title {
+	display: block;
+	max-width: 280dp;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-right: auto;
+}
+
+.item-list .item .quota {
+	margin-right: 10dp;
+	text-transform: uppercase;
+}
+
+.item-list .item.selected .type,
+.item-list .item.selected .quota {
+	color: #a5b2c3;
+}
+
+/* ---- search */
+
+.search-screen .search-box {
+	position: relative;
+	padding: 5dp;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-shrink: 0;
+	background-color: #00000033;
+}
+.search-screen .search-box .hline {
+	bottom: 1dp;
+}
+
+.search-screen .search-textbox {
+	flex: 1;
+	padding: 10dp 7dp;
+	color: #adadad;
+	font-size: 1em;
+	text-transform: uppercase;
+}
+
+.search-screen .search-placeholder {
+	position: absolute;
+	left: 12dp;
+	top: 15dp;
+	color: #ffffff33;
+	text-transform: uppercase;
+	pointer-events: none;
+}
+.search-screen .search-placeholder.hidden {
+	display: none;
+}
+
+.search-screen .search-results {
+	flex-grow: 1;
+	height: 540dp;
+}
+
+/* ---- prefabs */
+
+.prefab-list {
+	text-transform: uppercase;
+}
+
+.prefab-list .item {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding: 10dp 10dp;
+	height: 60dp;
+	box-sizing: border-box;
+	font-size: 1.1em;
+	border-bottom: 1dp #64646433;
+}
+
+.prefab-list .item .left-side {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.prefab-list .item .item-name {
+	display: block;
+}
+
+.prefab-list .item .item-author {
+	display: block;
+	text-transform: none;
+	color: #77879A;
+	margin-top: 2dp;
+}
+
+.prefab-list .item .item-object-count {
+	color: #77879A;
+}
+
+/* ---- info box */
+
+.window-info-box {
+	transition: height 0.2s quadratic-in-out;
+}
+
+.window-info-box.empty {
+	height: 0dp;
+	padding: 0dp 10dp;
+}
+
+/* ---- modal */
+
+.modal-screen {
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.2em;
+	z-index: 999;
+	position: absolute;
+	top: 0;
+	left: 0;
+	decorator: linear-gradient(to bottom, #1b2946f2 0%, #182745e6 20%, #182745e6 20%, #061025b2 100%);
+}
+
+.modal-header {
+	padding: 10dp;
+	font-size: 1.4em;
+	text-align: center;
+}
+
+.modal-body {
+	text-align: center;
+}
+
+.modal-box {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.property-grid {
+	max-height: 540dp;
+	height: 100%;
+	flex-shrink: 1;
+}
+
+/* ---- breadcrumbs */
+
+.category-header {
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	flex-shrink: 0;
+	height: 0dp;
+	padding: 0 10dp;
+	overflow: hidden;
+	opacity: 0;
+	transform: translateX(-200dp);
+	transition: height transform opacity 0.25s quadratic-in-out;
+}
+
+.category-header.filled {
+	padding: 10dp 10dp;
+	height: 40dp;
+	opacity: 1;
+	transform: translateX(0dp);
+}
+
+.category-header .hline {
+	bottom: 1dp;
+}
+
+.category-header .crumbs {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.category-header .crumb {
+	display: block;
+	color: #77879A;
+}
+
+.category-header .crumb.last {
+	color: #adadad;
+}
+
+.category-header .sep {
+	display: block;
+	min-width: 28dp;
+	text-align: center;
+	color: #77879A;
+	font-size: 0.7em;
+}
+
+.no-transition {
+	transition: none;
+}
+
+.kbm-only {
+	display: none;
+}

@@ -1,0 +1,334 @@
+/* Generated from screens/forge/object_properties/materials.css: 64x64 cells of materials.png. */
+
+@spritesheet materials {
+	src: materials.png;
+	material-0: 0px 0px 64px 64px;
+	material-1: 64px 0px 64px 64px;
+	material-2: 128px 0px 64px 64px;
+	material-3: 192px 0px 64px 64px;
+	material-4: 256px 0px 64px 64px;
+	material-5: 320px 0px 64px 64px;
+	material-6: 384px 0px 64px 64px;
+	material-7: 448px 0px 64px 64px;
+	material-8: 512px 0px 64px 64px;
+	material-9: 576px 0px 64px 64px;
+	material-10: 640px 0px 64px 64px;
+	material-11: 704px 0px 64px 64px;
+	material-12: 768px 0px 64px 64px;
+	material-13: 832px 0px 64px 64px;
+	material-14: 896px 0px 64px 64px;
+	material-15: 960px 0px 64px 64px;
+	material-16: 0px 64px 64px 64px;
+	material-17: 64px 64px 64px 64px;
+	material-18: 128px 64px 64px 64px;
+	material-19: 192px 64px 64px 64px;
+	material-20: 256px 64px 64px 64px;
+	material-21: 320px 64px 64px 64px;
+	material-22: 384px 64px 64px 64px;
+	material-23: 448px 64px 64px 64px;
+	material-24: 512px 64px 64px 64px;
+	material-25: 576px 64px 64px 64px;
+	material-26: 640px 64px 64px 64px;
+	material-27: 704px 64px 64px 64px;
+	material-28: 768px 64px 64px 64px;
+	material-29: 832px 64px 64px 64px;
+	material-30: 896px 64px 64px 64px;
+	material-31: 960px 64px 64px 64px;
+	material-32: 0px 128px 64px 64px;
+	material-33: 64px 128px 64px 64px;
+	material-34: 128px 128px 64px 64px;
+	material-35: 192px 128px 64px 64px;
+	material-36: 256px 128px 64px 64px;
+	material-37: 320px 128px 64px 64px;
+	material-38: 384px 128px 64px 64px;
+	material-39: 448px 128px 64px 64px;
+	material-40: 512px 128px 64px 64px;
+	material-41: 576px 128px 64px 64px;
+	material-42: 640px 128px 64px 64px;
+	material-43: 704px 128px 64px 64px;
+	material-44: 768px 128px 64px 64px;
+	material-45: 832px 128px 64px 64px;
+	material-46: 896px 128px 64px 64px;
+	material-47: 960px 128px 64px 64px;
+	material-48: 0px 192px 64px 64px;
+	material-49: 64px 192px 64px 64px;
+	material-50: 128px 192px 64px 64px;
+	material-51: 192px 192px 64px 64px;
+	material-52: 256px 192px 64px 64px;
+	material-53: 320px 192px 64px 64px;
+	material-54: 384px 192px 64px 64px;
+	material-55: 448px 192px 64px 64px;
+	material-56: 512px 192px 64px 64px;
+	material-57: 576px 192px 64px 64px;
+	material-58: 640px 192px 64px 64px;
+	material-59: 704px 192px 64px 64px;
+	material-60: 768px 192px 64px 64px;
+	material-61: 832px 192px 64px 64px;
+	material-62: 896px 192px 64px 64px;
+	material-63: 960px 192px 64px 64px;
+	material-64: 0px 256px 64px 64px;
+	material-65: 64px 256px 64px 64px;
+	material-66: 128px 256px 64px 64px;
+	material-67: 192px 256px 64px 64px;
+	material-68: 256px 256px 64px 64px;
+	material-69: 320px 256px 64px 64px;
+	material-70: 384px 256px 64px 64px;
+	material-71: 448px 256px 64px 64px;
+	material-72: 512px 256px 64px 64px;
+	material-73: 576px 256px 64px 64px;
+	material-74: 640px 256px 64px 64px;
+	material-75: 704px 256px 64px 64px;
+	material-76: 768px 256px 64px 64px;
+	material-77: 832px 256px 64px 64px;
+	material-78: 896px 256px 64px 64px;
+	material-79: 960px 256px 64px 64px;
+	material-80: 0px 320px 64px 64px;
+	material-81: 64px 320px 64px 64px;
+	material-82: 128px 320px 64px 64px;
+	material-83: 192px 320px 64px 64px;
+	material-84: 256px 320px 64px 64px;
+	material-85: 320px 320px 64px 64px;
+	material-86: 384px 320px 64px 64px;
+	material-87: 448px 320px 64px 64px;
+	material-88: 512px 320px 64px 64px;
+	material-89: 576px 320px 64px 64px;
+	material-90: 640px 320px 64px 64px;
+	material-91: 704px 320px 64px 64px;
+	material-92: 768px 320px 64px 64px;
+	material-93: 832px 320px 64px 64px;
+	material-94: 896px 320px 64px 64px;
+	material-95: 960px 320px 64px 64px;
+	material-96: 0px 384px 64px 64px;
+	material-97: 64px 384px 64px 64px;
+	material-98: 128px 384px 64px 64px;
+	material-99: 192px 384px 64px 64px;
+	material-100: 256px 384px 64px 64px;
+	material-101: 320px 384px 64px 64px;
+	material-102: 384px 384px 64px 64px;
+	material-103: 448px 384px 64px 64px;
+	material-104: 512px 384px 64px 64px;
+	material-105: 576px 384px 64px 64px;
+	material-106: 640px 384px 64px 64px;
+	material-107: 704px 384px 64px 64px;
+	material-108: 768px 384px 64px 64px;
+	material-109: 832px 384px 64px 64px;
+	material-110: 896px 384px 64px 64px;
+	material-111: 960px 384px 64px 64px;
+	material-112: 0px 448px 64px 64px;
+	material-113: 64px 448px 64px 64px;
+	material-114: 128px 448px 64px 64px;
+	material-115: 192px 448px 64px 64px;
+	material-116: 256px 448px 64px 64px;
+	material-117: 320px 448px 64px 64px;
+	material-118: 384px 448px 64px 64px;
+	material-119: 448px 448px 64px 64px;
+	material-120: 512px 448px 64px 64px;
+	material-121: 576px 448px 64px 64px;
+	material-122: 640px 448px 64px 64px;
+	material-123: 704px 448px 64px 64px;
+	material-124: 768px 448px 64px 64px;
+	material-125: 832px 448px 64px 64px;
+	material-126: 896px 448px 64px 64px;
+	material-127: 960px 448px 64px 64px;
+	material-128: 0px 512px 64px 64px;
+	material-129: 64px 512px 64px 64px;
+	material-130: 128px 512px 64px 64px;
+	material-131: 192px 512px 64px 64px;
+	material-132: 256px 512px 64px 64px;
+	material-133: 320px 512px 64px 64px;
+	material-134: 384px 512px 64px 64px;
+	material-135: 448px 512px 64px 64px;
+	material-136: 512px 512px 64px 64px;
+	material-137: 576px 512px 64px 64px;
+	material-138: 640px 512px 64px 64px;
+	material-139: 704px 512px 64px 64px;
+	material-140: 768px 512px 64px 64px;
+	material-141: 832px 512px 64px 64px;
+	material-142: 896px 512px 64px 64px;
+	material-143: 960px 512px 64px 64px;
+	material-144: 0px 576px 64px 64px;
+	material-145: 64px 576px 64px 64px;
+	material-146: 128px 576px 64px 64px;
+	material-147: 192px 576px 64px 64px;
+	material-148: 256px 576px 64px 64px;
+	material-149: 320px 576px 64px 64px;
+	material-150: 384px 576px 64px 64px;
+	material-151: 448px 576px 64px 64px;
+	material-152: 512px 576px 64px 64px;
+	material-153: 576px 576px 64px 64px;
+	material-154: 640px 576px 64px 64px;
+	material-155: 704px 576px 64px 64px;
+	material-156: 768px 576px 64px 64px;
+	material-157: 832px 576px 64px 64px;
+	material-158: 896px 576px 64px 64px;
+	material-159: 960px 576px 64px 64px;
+	material-160: 0px 640px 64px 64px;
+	material-161: 64px 640px 64px 64px;
+	material-162: 128px 640px 64px 64px;
+	material-163: 192px 640px 64px 64px;
+}
+
+.material-thumb-0 { decorator: image(material-0); }
+.material-thumb-1 { decorator: image(material-1); }
+.material-thumb-2 { decorator: image(material-2); }
+.material-thumb-3 { decorator: image(material-3); }
+.material-thumb-4 { decorator: image(material-4); }
+.material-thumb-5 { decorator: image(material-5); }
+.material-thumb-6 { decorator: image(material-6); }
+.material-thumb-7 { decorator: image(material-7); }
+.material-thumb-8 { decorator: image(material-8); }
+.material-thumb-9 { decorator: image(material-9); }
+.material-thumb-10 { decorator: image(material-10); }
+.material-thumb-11 { decorator: image(material-11); }
+.material-thumb-12 { decorator: image(material-12); }
+.material-thumb-13 { decorator: image(material-13); }
+.material-thumb-14 { decorator: image(material-14); }
+.material-thumb-15 { decorator: image(material-15); }
+.material-thumb-16 { decorator: image(material-16); }
+.material-thumb-17 { decorator: image(material-17); }
+.material-thumb-18 { decorator: image(material-18); }
+.material-thumb-19 { decorator: image(material-19); }
+.material-thumb-20 { decorator: image(material-20); }
+.material-thumb-21 { decorator: image(material-21); }
+.material-thumb-22 { decorator: image(material-22); }
+.material-thumb-23 { decorator: image(material-23); }
+.material-thumb-24 { decorator: image(material-24); }
+.material-thumb-25 { decorator: image(material-25); }
+.material-thumb-26 { decorator: image(material-26); }
+.material-thumb-27 { decorator: image(material-27); }
+.material-thumb-28 { decorator: image(material-28); }
+.material-thumb-29 { decorator: image(material-29); }
+.material-thumb-30 { decorator: image(material-30); }
+.material-thumb-31 { decorator: image(material-31); }
+.material-thumb-32 { decorator: image(material-32); }
+.material-thumb-33 { decorator: image(material-33); }
+.material-thumb-34 { decorator: image(material-34); }
+.material-thumb-35 { decorator: image(material-35); }
+.material-thumb-36 { decorator: image(material-36); }
+.material-thumb-37 { decorator: image(material-37); }
+.material-thumb-38 { decorator: image(material-38); }
+.material-thumb-39 { decorator: image(material-39); }
+.material-thumb-40 { decorator: image(material-40); }
+.material-thumb-41 { decorator: image(material-41); }
+.material-thumb-42 { decorator: image(material-42); }
+.material-thumb-43 { decorator: image(material-43); }
+.material-thumb-44 { decorator: image(material-44); }
+.material-thumb-45 { decorator: image(material-45); }
+.material-thumb-46 { decorator: image(material-46); }
+.material-thumb-47 { decorator: image(material-47); }
+.material-thumb-48 { decorator: image(material-48); }
+.material-thumb-49 { decorator: image(material-49); }
+.material-thumb-50 { decorator: image(material-50); }
+.material-thumb-51 { decorator: image(material-51); }
+.material-thumb-52 { decorator: image(material-52); }
+.material-thumb-53 { decorator: image(material-53); }
+.material-thumb-54 { decorator: image(material-54); }
+.material-thumb-55 { decorator: image(material-55); }
+.material-thumb-56 { decorator: image(material-56); }
+.material-thumb-57 { decorator: image(material-57); }
+.material-thumb-58 { decorator: image(material-58); }
+.material-thumb-59 { decorator: image(material-59); }
+.material-thumb-60 { decorator: image(material-60); }
+.material-thumb-61 { decorator: image(material-61); }
+.material-thumb-62 { decorator: image(material-62); }
+.material-thumb-63 { decorator: image(material-63); }
+.material-thumb-64 { decorator: image(material-64); }
+.material-thumb-65 { decorator: image(material-65); }
+.material-thumb-66 { decorator: image(material-66); }
+.material-thumb-67 { decorator: image(material-67); }
+.material-thumb-68 { decorator: image(material-68); }
+.material-thumb-69 { decorator: image(material-69); }
+.material-thumb-70 { decorator: image(material-70); }
+.material-thumb-71 { decorator: image(material-71); }
+.material-thumb-72 { decorator: image(material-72); }
+.material-thumb-73 { decorator: image(material-73); }
+.material-thumb-74 { decorator: image(material-74); }
+.material-thumb-75 { decorator: image(material-75); }
+.material-thumb-76 { decorator: image(material-76); }
+.material-thumb-77 { decorator: image(material-77); }
+.material-thumb-78 { decorator: image(material-78); }
+.material-thumb-79 { decorator: image(material-79); }
+.material-thumb-80 { decorator: image(material-80); }
+.material-thumb-81 { decorator: image(material-81); }
+.material-thumb-82 { decorator: image(material-82); }
+.material-thumb-83 { decorator: image(material-83); }
+.material-thumb-84 { decorator: image(material-84); }
+.material-thumb-85 { decorator: image(material-85); }
+.material-thumb-86 { decorator: image(material-86); }
+.material-thumb-87 { decorator: image(material-87); }
+.material-thumb-88 { decorator: image(material-88); }
+.material-thumb-89 { decorator: image(material-89); }
+.material-thumb-90 { decorator: image(material-90); }
+.material-thumb-91 { decorator: image(material-91); }
+.material-thumb-92 { decorator: image(material-92); }
+.material-thumb-93 { decorator: image(material-93); }
+.material-thumb-94 { decorator: image(material-94); }
+.material-thumb-95 { decorator: image(material-95); }
+.material-thumb-96 { decorator: image(material-96); }
+.material-thumb-97 { decorator: image(material-97); }
+.material-thumb-98 { decorator: image(material-98); }
+.material-thumb-99 { decorator: image(material-99); }
+.material-thumb-100 { decorator: image(material-100); }
+.material-thumb-101 { decorator: image(material-101); }
+.material-thumb-102 { decorator: image(material-102); }
+.material-thumb-103 { decorator: image(material-103); }
+.material-thumb-104 { decorator: image(material-104); }
+.material-thumb-105 { decorator: image(material-105); }
+.material-thumb-106 { decorator: image(material-106); }
+.material-thumb-107 { decorator: image(material-107); }
+.material-thumb-108 { decorator: image(material-108); }
+.material-thumb-109 { decorator: image(material-109); }
+.material-thumb-110 { decorator: image(material-110); }
+.material-thumb-111 { decorator: image(material-111); }
+.material-thumb-112 { decorator: image(material-112); }
+.material-thumb-113 { decorator: image(material-113); }
+.material-thumb-114 { decorator: image(material-114); }
+.material-thumb-115 { decorator: image(material-115); }
+.material-thumb-116 { decorator: image(material-116); }
+.material-thumb-117 { decorator: image(material-117); }
+.material-thumb-118 { decorator: image(material-118); }
+.material-thumb-119 { decorator: image(material-119); }
+.material-thumb-120 { decorator: image(material-120); }
+.material-thumb-121 { decorator: image(material-121); }
+.material-thumb-122 { decorator: image(material-122); }
+.material-thumb-123 { decorator: image(material-123); }
+.material-thumb-124 { decorator: image(material-124); }
+.material-thumb-125 { decorator: image(material-125); }
+.material-thumb-126 { decorator: image(material-126); }
+.material-thumb-127 { decorator: image(material-127); }
+.material-thumb-128 { decorator: image(material-128); }
+.material-thumb-129 { decorator: image(material-129); }
+.material-thumb-130 { decorator: image(material-130); }
+.material-thumb-131 { decorator: image(material-131); }
+.material-thumb-132 { decorator: image(material-132); }
+.material-thumb-133 { decorator: image(material-133); }
+.material-thumb-134 { decorator: image(material-134); }
+.material-thumb-135 { decorator: image(material-135); }
+.material-thumb-136 { decorator: image(material-136); }
+.material-thumb-137 { decorator: image(material-137); }
+.material-thumb-138 { decorator: image(material-138); }
+.material-thumb-139 { decorator: image(material-139); }
+.material-thumb-140 { decorator: image(material-140); }
+.material-thumb-141 { decorator: image(material-141); }
+.material-thumb-142 { decorator: image(material-142); }
+.material-thumb-143 { decorator: image(material-143); }
+.material-thumb-144 { decorator: image(material-144); }
+.material-thumb-145 { decorator: image(material-145); }
+.material-thumb-146 { decorator: image(material-146); }
+.material-thumb-147 { decorator: image(material-147); }
+.material-thumb-148 { decorator: image(material-148); }
+.material-thumb-149 { decorator: image(material-149); }
+.material-thumb-150 { decorator: image(material-150); }
+.material-thumb-151 { decorator: image(material-151); }
+.material-thumb-152 { decorator: image(material-152); }
+.material-thumb-153 { decorator: image(material-153); }
+.material-thumb-154 { decorator: image(material-154); }
+.material-thumb-155 { decorator: image(material-155); }
+.material-thumb-156 { decorator: image(material-156); }
+.material-thumb-157 { decorator: image(material-157); }
+.material-thumb-158 { decorator: image(material-158); }
+.material-thumb-159 { decorator: image(material-159); }
+.material-thumb-160 { decorator: image(material-160); }
+.material-thumb-161 { decorator: image(material-161); }
+.material-thumb-162 { decorator: image(material-162); }
+.material-thumb-163 { decorator: image(material-163); }

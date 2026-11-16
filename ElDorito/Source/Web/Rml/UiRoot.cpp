@@ -26,6 +26,8 @@
 #include <RmlUi/Core/Context.h>
 #include <RmlUi/Core/Core.h>
 #include <RmlUi/Core/ElementDocument.h>
+#include <RmlUi/Core/Elements/ElementFormControlInput.h>
+#include <RmlUi/Lua/LuaType.h>
 #include <RmlUi/Core/Factory.h>
 #include <RmlUi/Debugger/Debugger.h>
 
@@ -791,6 +793,7 @@ namespace Web
 				{ "getScreenState", L_getScreenState },
 				{ "setToastActive", L_setToastActive },
 				{ "getTime", L_getTime },
+				{ "setSelectionRange", L_setSelectionRange },
 				{ nullptr, nullptr },
 			};
 			luaL_newlib(L, functions);
@@ -1305,6 +1308,18 @@ namespace Web
 		int UiRoot::L_getTime(lua_State *L)
 		{
 			lua_pushnumber(L, Get()->m_now);
+			return 1;
+		}
+
+		// dew_core.setSelectionRange(inputElement, start, end) -- caret/selection of a text input
+		// (the Lua bindings do not expose ElementFormControlInput::SetSelectionRange)
+		int UiRoot::L_setSelectionRange(lua_State *L)
+		{
+			auto *element = ::Rml::Lua::LuaType<::Rml::Element>::check(L, 1);
+			auto *input = dynamic_cast<::Rml::ElementFormControlInput *>(element);
+			if (input)
+				input->SetSelectionRange((int)luaL_checkinteger(L, 2), (int)luaL_optinteger(L, 3, luaL_checkinteger(L, 2)));
+			lua_pushboolean(L, input != nullptr);
 			return 1;
 		}
 	}
