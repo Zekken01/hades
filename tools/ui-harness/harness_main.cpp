@@ -145,6 +145,25 @@ namespace
 		return start == std::string::npos ? std::string() : rest.substr(start);
 	}
 
+	// `var` and `result` lines apply before the UI starts, so screens see them while loading.
+	void PreloadScript(const std::string &path)
+	{
+		std::ifstream file(path);
+		std::string line;
+		while (std::getline(file, line))
+		{
+			if (!line.empty() && line.back() == '')
+				line.pop_back();
+			std::istringstream in(line);
+			std::string op, key;
+			in >> op >> key;
+			if (op == "var")
+				Harness::g_variables[key] = Rest(in);
+			else if (op == "result")
+				Harness::g_methodResults[key] = Rest(in);
+		}
+	}
+
 	void RunScript(const std::string &path)
 	{
 		std::ifstream file(path);
@@ -332,6 +351,7 @@ int main(int argc, char **argv)
 	const std::string script = std::filesystem::absolute(argv[2]).string();
 	std::filesystem::current_path(argv[1]);
 
+	PreloadScript(script);
 	if (!CreateDevice())
 		return 3;
 	auto renderer = Web::Browser::WebRenderer::GetInstance();

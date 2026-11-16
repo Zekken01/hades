@@ -1,0 +1,20 @@
+<rml>
+<head>
+	<title>ElDewrito Chat</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://lib/window-resize.rcss"/>
+	<link type="text/rcss" href="chat.rcss"/>
+	<script src="dew://lib/jq.lua"></script>
+	<script src="chat.lua"></script>
+</head>
+<body>
+	<div id="container">
+		<div class="page_content">
+			<div id="chat">
+				<div id="chatWindow"></div>
+				<input type="text" class="input" id="chatBox" maxlength="128"/>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>

@@ -22,11 +22,15 @@
 #include <RmlUi/Debugger.h>
 #include <RmlUi/Lua.h>
 
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 #include <Windows.h>
 
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
+#include <vector>
 
 /* ---------- private code */
 
@@ -159,6 +163,19 @@ namespace Web
 		void WebRenderer::LoadFonts()
 		{
 			// Every font under ui/lib and ui/fonts; the first one found is also the fallback face.
+			// Browsers synthesise bold/italic when a family has no such face; RmlUi does not and
+			// skips the text, so missing variants are registered from the regular face.
+			struct FaceInfo
+			{
+				std::string path;
+				std::string family;
+				bool italic = false;
+				bool bold = false;
+			};
+			std::vector<FaceInfo> faces;
+			FT_Library library = nullptr;
+			FT_Init_FreeType(&library);
+
 			bool first = true;
 			std::error_code ec;
 			for (const char *folder : { "lib", "fonts" })
@@ -173,14 +190,51 @@ namespace Web
 						c = (char)std::tolower((unsigned char)c);
 					if (extension != ".ttf" && extension != ".otf" && extension != ".woff")
 						continue;
-					if (::Rml::LoadFontFace(entry.path().string(), first))
-						first = false;
-					else
-						LogRenderer(Utils::LogLevel::Warning, "failed to load font " + entry.path().string());
+					const std::string path = entry.path().string();
+					if (!::Rml::LoadFontFace(path, first))
+					{
+						LogRenderer(Utils::LogLevel::Warning, "failed to load font " + path);
+						continue;
+					}
+					first = false;
+					FT_Face face = nullptr;
+					if (library && FT_New_Face(library, path.c_str(), 0, &face) == 0)
+					{
+						FaceInfo info;
+						info.path = path;
+						info.family = face->family_name ? face->family_name : "";
+						info.italic = (face->style_flags & FT_STYLE_FLAG_ITALIC) != 0;
+						info.bold = (face->style_flags & FT_STYLE_FLAG_BOLD) != 0;
+						faces.push_back(info);
+						FT_Done_Face(face);
+					}
 				}
 			}
+			if (library)
+				FT_Done_FreeType(library);
 			if (first)
 				LogRenderer(Utils::LogLevel::Warning, "no fonts found under ui/lib or ui/fonts");
+
+			auto has = [&](const std::string &family, bool italic, bool bold) {
+				for (auto &face : faces)
+					if (face.family == family && face.italic == italic && face.bold == bold)
+						return true;
+				return false;
+			};
+			for (auto &face : std::vector<FaceInfo>(faces))
+			{
+				if (face.family.empty() || face.italic || face.bold)
+					continue;
+				for (int variant = 1; variant < 4; variant++)
+				{
+					const bool italic = (variant & 1) != 0, bold = (variant & 2) != 0;
+					if (has(face.family, italic, bold))
+						continue;
+					if (::Rml::LoadFontFace(face.path, face.family, italic ? ::Rml::Style::FontStyle::Italic : ::Rml::Style::FontStyle::Normal,
+							bold ? ::Rml::Style::FontWeight::Bold : ::Rml::Style::FontWeight::Normal))
+						faces.push_back({ face.path, face.family, italic, bold });
+				}
+			}
 		}
 
 		bool WebRenderer::Init(std::string const &, bool debugEnable)

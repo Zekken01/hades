@@ -1,0 +1,138 @@
+/*
+ * Port of screens/chat/chat.css.  #chat had zoom: 75%; its px values are scaled by 0.75
+ * here (percentages left as they were).
+ */
+
+#chat {
+	position: absolute;
+	font-size: 14.25dp;
+	line-height: 19.5dp;
+	color: white;
+	overflow: hidden;
+	height: 37.5%;
+	display: none;
+}
+
+.inGame #chat {
+	bottom: 40%;
+	left: 5%;
+	width: 27%;
+}
+
+.inLobby #chat {
+	bottom: 0%;
+	left: 32.5%;
+	width: 35%;
+}
+
+#chatWindow {
+	position: absolute;
+	bottom: 19.5dp;
+	left: 0;
+	width: 100%;
+	font-effect: outline(1px black);
+	word-break: break-word;
+	overflow-y: auto;
+	max-height: 65%;
+}
+
+.inLobby #chatWindow {
+	background-color: #00000080;
+	padding-top: 0;
+	padding-bottom: 1.5dp;
+}
+
+#chatWindow p {
+	display: block;
+	margin: 0;
+	padding-top: 1.5dp;
+}
+
+#chatWindow p:first-child {
+	padding-top: 0;
+}
+
+#chatWindow p:last-child {
+	padding-bottom: 1.5dp;
+}
+
+#chatBox {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	border: 1.5dp #a9d4fe;
+	background-color: #00000080;
+	color: white;
+	width: 100%;
+	box-sizing: border-box;
+	display: none;
+	font-size: 11.25dp;
+	height: 18.75dp;
+	padding: 1.5dp;
+	cursor: text;
+}
+
+#chatBox:focus {
+	color: white;
+}
+
+.nameCard {
+	padding: 1.5dp 3.75dp;
+	color: white;
+	margin-right: 3dp;
+}
+
+.GLOBAL, .TEAM, .link {
+	color: #a9d4fe;
+}
+
+.link {
+	cursor: pointer;
+}
+
+.link:hover {
+	text-decoration: underline;
+}
+
+.SERVER {
+	color: #ffff00;
+}
+
+.WHISPER {
+	color: #ff0000;
+}
+
+.emote, .nameCard.emote {
+	background-color: transparent;
+	font-style: italic;
+	color: white;
+}
+
+.nameCard.emote {
+	margin-right: 0;
+}
+
+#chatBox.mentions, .mentions {
+	color: #18a0f0;
+}
+
+.mention {
+	color: #33c11e;
+}
+
+#chatWindow scrollbarvertical {
+	width: 15dp;
+}
+
+#chatWindow scrollbarvertical sliderbar {
+	background-color: #a9d4fe;
+	border-radius: 0;
+}
+
+#chatWindow scrollbarvertical slidertrack {
+	background-color: transparent;
+}
+
+#chatWindow.hide-scrollbar scrollbarvertical sliderbar {
+	visibility: hidden;
+}

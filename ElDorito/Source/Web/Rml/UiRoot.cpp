@@ -138,12 +138,8 @@ namespace Web
 			if (Screen *toast = FindScreen(kToastScreenId))
 				ShowScreen(*toast, true);
 
-			if (m_debugging && m_context)
-			{
-				m_debuggerInitialised = ::Rml::Debugger::Initialise(m_context);
-				if (m_debuggerInitialised)
-					::Rml::Debugger::SetVisible(false);
-			}
+			// The debugger (F7) is created on first use: once initialised it shows a warning
+			// beacon over the game whenever anything logs a warning.
 			m_ready = true;
 			return true;
 		}
