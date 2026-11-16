@@ -1,0 +1,198 @@
+/* Port of screens/weapon_offset/weapons.css (px -> dp inside the scaled .page_content;
+   the 2vh/2vw offsets and the vh-sized slider parts as their 720p dp values). */
+
+body {
+	color: #FFF;
+	font-family: "Conduit ITC";
+	font-weight: 500;
+}
+
+#weaponOffsets {
+	width: 430dp;
+	position: absolute;
+	top: 14.4dp;
+	left: 25.6dp;
+	font-size: 17dp;
+	font-weight: 500;
+	line-height: 29dp;
+	text-transform: uppercase;
+	decorator: linear-gradient(to bottom, #1b2946f2 0%, #182745e6 20%, #061025d9 100%);
+	padding: 11dp;
+	padding-bottom: 0dp;
+}
+
+.header {
+	background-color: #0000008f;
+	margin: -10dp;
+	margin-bottom: 5dp;
+	padding: 4dp;
+	padding-left: 13dp;
+	font-size: 19dp;
+}
+
+.item {
+	display: block;
+	position: relative;
+	z-index: 0;
+	width: 424dp;
+	height: 30dp;
+	margin-left: -10dp;
+	padding: 0dp 14dp;
+	margin-bottom: 1dp;
+	box-sizing: border-box;
+}
+
+/* .item::before */
+.item .hoverbar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	margin-left: -15dp;
+	decorator: svg(dew://assets/ux/buttonhover.svg);
+	opacity: 0;
+	transition: opacity 0.12s linear-in-out;
+	z-index: -1;
+}
+
+.item.selectedElement .hoverbar {
+	opacity: 1;
+	transition: none;
+}
+
+.item.selectedElement {
+	color: #e8edf7;
+}
+
+.setting {
+	width: 223dp;
+	margin-top: 5dp;
+	height: 20dp;
+	float: right;
+	color: #98b3d3;
+	background-color: transparent;
+	border-width: 0;
+}
+
+input.range.setting {
+	margin-top: 4dp;
+}
+
+.hasTiny {
+	width: 225dp;
+	float: right;
+	margin-right: 0dp;
+	margin-left: 3dp;
+}
+
+.tinySetting {
+	float: right;
+	width: 60dp;
+	height: 18dp;
+	margin-top: 4dp;
+	margin-bottom: -2dp;
+	background-color: transparent;
+	text-align: left;
+	font-weight: 300;
+	color: #98b3d3;
+	border-width: 0;
+	padding-left: 4dp;
+	line-height: 18dp;
+}
+
+/* range: a 0.4vh track and a 0.6vh x 1.2vh thumb */
+input.range {
+	height: 20dp;
+}
+input.range slidertrack {
+	height: 2.9dp;
+	margin-top: 8.55dp;
+	background-color: #98b3d359;
+}
+input.range sliderprogress {
+	height: 0;
+}
+input.range sliderbar {
+	width: 4.3dp;
+	height: 8.6dp;
+	margin-top: 5.7dp;
+	background-color: #98b3d3;
+}
+input.range sliderarrowdec, input.range sliderarrowinc {
+	width: 0;
+	height: 0;
+}
+.selectedElement input.range sliderbar {
+	background-color: white;
+}
+.selectedElement input.range.disabled sliderbar, input.range.disabled sliderbar {
+	background-color: hsl(213, 20%, 40%);
+}
+
+select selectvalue {
+	color: #98b3d3;
+	line-height: 20dp;
+}
+select selectarrow {
+	width: 0;
+	height: 0;
+}
+select selectbox {
+	background-color: #141c28;
+}
+select selectbox option {
+	font-size: 16.56dp;
+	color: #aac0da;
+	line-height: 22dp;
+}
+
+button {
+	position: relative;
+	height: 35dp;
+	line-height: 35dp;
+	font-size: 15dp;
+	font-weight: 100;
+	color: white;
+	background-color: transparent;
+	border-width: 0;
+	text-align: left;
+	vertical-align: middle;
+	box-sizing: border-box;
+	padding: 0;
+	padding-right: 4dp;
+	cursor: pointer;
+}
+
+button:hover {
+	text-decoration: underline;
+}
+
+button img {
+	position: relative;
+	height: 30dp;
+	float: left;
+	margin-right: 4dp;
+	top: 2dp;
+}
+
+#buttonBar {
+	margin-top: 5dp;
+	background-color: black;
+	padding: 2dp 15dp;
+	margin-left: -11dp;
+	width: 422dp;
+}
+
+#weaponTypeName {
+	text-align: center;
+	overflow: hidden;
+}
+
+.disabled {
+	color: hsl(213, 20%, 48%);
+}
+
+.disabled:hover {
+	text-decoration: none;
+}

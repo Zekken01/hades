@@ -1,0 +1,44 @@
+<rml>
+<head>
+	<title>Weapon Offsets</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://lib/window-resize.rcss"/>
+	<link type="text/rcss" href="weapons.rcss"/>
+	<script src="dew://lib/jq.lua"></script>
+	<script src="weapons.lua"></script>
+</head>
+<body>
+	<div id="container">
+		<div class="page_content">
+			<div id="weaponOffsets">
+				<div class="header">Weapon Offset Settings</div>
+				<div id="weaponTypeName"></div>
+				<div class="item">
+					<div class="hoverbar"></div>
+					<label for="weaponI">Forward / Back</label>
+					<input type="text" class="tinySetting" id="weaponIText"/>
+					<input type="range" class="setting hasTiny" min="-0.1" max="0.1" step="0.001" value="0" id="weaponI"/>
+				</div>
+				<div class="item">
+					<div class="hoverbar"></div>
+					<label for="weaponJ">Left / Right</label>
+					<input type="text" class="tinySetting" id="weaponJText"/>
+					<input type="range" class="setting hasTiny" min="-0.1" max="0.1" step="0.001" value="0" id="weaponJ"/>
+				</div>
+				<div class="item">
+					<div class="hoverbar"></div>
+					<label for="weaponK">Up / Down</label>
+					<input type="text" class="tinySetting" id="weaponKText"/>
+					<input type="range" class="setting hasTiny" min="-0.1" max="0.1" step="0.001" value="0" id="weaponK"/>
+				</div>
+				<div class="item">
+					<div class="hoverbar"></div>
+					<label for="wOffsetConfigList">Config</label>
+					<select id="wOffsetConfigList" class="setting"></select>
+				</div>
+				<div id="buttonBar"><button id="newButton"><img/>New</button><button id="deleteButton"><img/>Delete</button><button id="resetButton"><img/>Reset</button><button id="saveButton"><img/>Save</button><button id="closeButton"><img/>Close</button></div>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>
