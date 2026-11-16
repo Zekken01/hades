@@ -27,6 +27,14 @@ Source of truth: the web UI at `C:\Users\zekken\Desktop\ui`. Each screen becomes
 - Colours: `rgba()` alpha is 0-255 in RCSS (not 0-1); hex with alpha (`#rrggbbaa`) and `hsl()` work.
 - Lua `a and b or c` returns c when b is nil or false: use if/else for handler selection.
 - RML is strict XML: close every tag, quote attributes, `&#160;` not `&nbsp;`.
+- Never use RmlUi's data-binding attribute names for your own data: `data-for`, `data-if`, `data-visible`,
+  `data-value`, `data-checked`, `data-rml`, `data-model`, `data-alias`, `data-attr-*`, `data-class-*`,
+  `data-style-*`, `data-event-*`. A `data-for` element silently loses its children.
+- Lua element userdata are new objects on every access: never key tables by element or compare elements
+  with `==`; put an id or attribute on them instead.
+- `<select>`/`<input>` raise "change" for values set from script too (once at once, once on the next
+  update). Remember what the page wrote and ignore change events that report it. The select API
+  (options, 1-based `selection`) needs `Element.As.ElementFormControlSelect(element)`.
 
 ## Testing
 `python tools/ui-harness/build_harness.py`, then

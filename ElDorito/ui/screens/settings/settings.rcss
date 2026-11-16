@@ -1,0 +1,580 @@
+/*
+ * Port of screens/settings/settings.css.  This page is not scaled by window-resize: it is
+ * laid out in vh/vw like the web page.  calc() widths are precomputed for the 120vh page
+ * (rows: 1.8vh + 3.96vh padding, so "50%" of a row is 57.12vh); ::before/::after pieces are
+ * real elements (.headerFill, .bottomBarFill, .backgroundFill, the select/range arrows).
+ */
+
+body {
+	width: 100%;
+	height: 100%;
+	color: #aac0da;
+	font-family: "Conduit ITC";
+	font-weight: 300;
+}
+
+#overlay {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #00000066;
+	opacity: 0;
+	pointer-events: none;
+}
+
+#settingsWindow {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 71.48vh;
+	top: 50%;
+	margin-top: -38.54vh; /* translate(-50%) - 2.8vh */
+	opacity: 0;
+}
+
+.headerFill {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 6.48vh;
+	border-top: 1px #FFFFFF55;
+	border-bottom: 1px #FFFFFF33;
+	box-sizing: border-box;
+	background-color: #0a0e14cc;
+}
+
+.header, .tabs {
+	position: relative;
+	left: 50%;
+	margin-left: -60vh;
+	width: 120vh;
+}
+
+.header {
+	display: block;
+	height: 6.48vh;
+	font-size: 6vh;
+	line-height: 6.48vh;
+	color: #D8D8D8;
+	margin-top: 0;
+	margin-bottom: 0;
+	text-align: left;
+	font-weight: 100;
+	text-transform: uppercase;
+}
+
+.tabs {
+	display: flex;
+	height: 5vh;
+	z-index: 5;
+	padding: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+	text-transform: uppercase;
+	box-sizing: border-box;
+	border-bottom: 0.15vh #839ebe33;
+}
+
+.tabs li {
+	display: flex;
+}
+
+.tabs li a {
+	display: block;
+	color: #d8d8d86b;
+	padding: 0.5vh;
+	margin-right: 0.5vh;
+	font-size: 3vh;
+	line-height: 3.5vh;
+	cursor: pointer;
+}
+
+.tabs li.selected a, .tabs li a:hover {
+	color: #D8D8D8;
+}
+
+.tabs img {
+	display: block;
+	position: relative;
+	width: 3.75vh;
+	height: 3.75vh;
+	top: 0.3vh;
+}
+
+.page {
+	display: none;
+	position: absolute;
+	left: 50%;
+	margin-left: -60vh;
+	width: 120vh;
+	top: 11.48vh;
+	height: 60vh;
+	box-sizing: border-box;
+}
+
+.page.active {
+	display: block;
+	z-index: 3;
+}
+
+.page.active .buttonContainer {
+	animation: 0.3s linear-out page-fade-in;
+}
+
+@keyframes page-fade-in {
+	0% { transform: translateX(-100%); opacity: 0; }
+	80% { transform: translateX(-20%); opacity: 0.4; }
+	100% { transform: translateX(0%); opacity: 1; }
+}
+
+.page.active #controllerGraphic {
+	animation: 0.4s cubic-out controller-fade-in;
+}
+
+@keyframes controller-fade-in {
+	0% { transform: translateY(6vh) scale(0.9); opacity: 0; }
+	70% { transform: translateY(1.8vh) scale(1); opacity: 1; }
+	100% { transform: translateY(0vh) scale(1); opacity: 1; }
+}
+
+.backgroundFill {
+	position: absolute;
+	left: 50%;
+	margin-left: -50vw;
+	width: 100vw;
+	height: 65vh;
+	top: -5vh;
+	z-index: -10;
+	decorator: linear-gradient(to bottom, #445e8dbd, #11203bd9);
+}
+
+.buttonContainer {
+	overflow-y: auto;
+	overflow-x: hidden;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	padding-bottom: 1.5vh;
+}
+
+.inputSettingsPage {
+	max-height: 43%;
+}
+
+.buttonContainer scrollbarvertical {
+	width: 15px;
+}
+.buttonContainer scrollbarvertical slidertrack {
+	background-color: transparent;
+}
+.buttonContainer scrollbarvertical sliderbar {
+	background-color: #dddddd22;
+	border-radius: 2px;
+}
+.buttonContainer scrollbarvertical sliderbar:hover {
+	background-color: #dddddd55;
+}
+.buttonContainer scrollbarvertical sliderarrowdec, .buttonContainer scrollbarvertical sliderarrowinc {
+	height: 0;
+}
+
+/* ---- rows */
+
+.row {
+	display: block;
+	width: 100%;
+	position: relative;
+	padding-left: 1.8vh;
+	padding-right: 3.96vh;
+	box-sizing: border-box;
+	margin-top: 0.5vh;
+	margin-bottom: 0.5vh;
+	min-height: 2.5vh;
+}
+
+/* span::before, the hover bar */
+.row.selectedElement {
+	decorator: svg(dew://assets/ux/buttonhover.svg);
+}
+
+.subHeader {
+	display: block;
+	font-size: 3vh;
+	margin: 0;
+	padding: 0.7vh 0vh 0.4vh 0vh;
+	text-transform: uppercase;
+	text-align: center;
+	color: #D8D8D8;
+	font-weight: 300;
+}
+
+label, .setting {
+	height: 2.5vh;
+	font-size: 2.5vh;
+	line-height: 2.5vh;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+label {
+	display: inline-block;
+}
+
+.setting {
+	display: block;
+	width: 53.16vh;
+	float: right;
+	padding: 0 2vh;
+	margin: 0;
+	border-width: 0;
+	background-color: transparent;
+	box-sizing: border-box;
+}
+
+.toggle {
+	cursor: pointer;
+}
+
+.selectWrap {
+	position: relative;
+}
+
+.selectWrap select.inner {
+	display: block;
+	width: 100%;
+	height: 100%;
+	text-transform: uppercase;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+select selectvalue {
+	line-height: 2.5vh;
+}
+
+select selectarrow {
+	width: 0;
+	height: 0;
+}
+
+select selectbox {
+	background-color: #141c28;
+	max-height: 30vh;
+	overflow-y: auto;
+}
+
+select selectbox option {
+	font-size: 2.3vh;
+	line-height: 2.8vh;
+	color: #aac0da;
+	padding: 0 1vh;
+}
+
+select selectbox option:hover, select selectbox option:checked {
+	background-color: #2b4a70;
+	color: #e8edf7;
+}
+
+#sScreenResolution, .selectWrap[data-control=sScreenResolution] select.inner {
+	text-transform: none;
+}
+
+.selectedElement label, .selectedElement .setting, .selectedElement .tinySetting {
+	color: #e8edf7;
+}
+
+/* .selectedElement select/.rangeSetting: arrow_left/right at the edges, 1.2vh */
+.arrow {
+	display: none;
+	position: absolute;
+	top: 50%;
+	margin-top: -0.6vh;
+	width: 1.2vh;
+	height: 1.2vh;
+}
+.arrow.left { left: 0; }
+.arrow.right { right: 0; }
+.selectedElement .arrow {
+	display: block;
+}
+
+/* ---- ranges */
+
+.rangeSetting {
+	position: relative;
+	display: block;
+	width: 53.16vh;
+	height: 2.5vh;
+	padding: 0 2vh;
+	margin: 0;
+	float: right;
+	box-sizing: border-box;
+}
+
+.tinySetting {
+	margin-left: -2vh;
+	padding-left: 2vh;
+	width: 8.2vh;
+	height: 2.5vh;
+	font-size: 2.5vh;
+	line-height: 2.5vh;
+	text-align: left;
+	font-weight: 300;
+	border-width: 0;
+	color: #aac0da;
+	background-color: transparent;
+	box-sizing: border-box;
+}
+
+input.tinySetting {
+	display: inline-block;
+}
+
+.hasTiny {
+	position: absolute;
+	right: 1vh;
+	top: 0;
+	width: 43.16vh;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	z-index: 2;
+	box-sizing: border-box;
+}
+
+.hasEdit.hasTiny {
+	margin-left: 10px;
+}
+
+/* lists with an edit button */
+.selectWrap.hasEdit.wheelable {
+	position: absolute;
+	width: 43.82vh;
+	height: 2.5vh;
+	right: 10.4vh;
+	top: 0;
+	z-index: 2;
+}
+
+.looksensitivity .rangeSetting {
+	width: 44.52vh;
+	left: -4vh;
+}
+
+button.tinySetting {
+	display: block;
+	padding: 0;
+	float: right;
+	margin: 0;
+	margin-right: 2vh;
+	text-align: right;
+	width: 4.6vh;
+	cursor: pointer;
+}
+
+button.tinySetting:hover {
+	color: white;
+	text-decoration: underline;
+}
+
+input.range {
+	height: 2.5vh;
+}
+input.range slidertrack {
+	height: 0.4vh;
+	margin-top: 1.05vh;
+	background-color: #98b3d359;
+}
+input.range sliderprogress {
+	height: 0;
+}
+input.range sliderbar {
+	width: 0.6vh;
+	height: 1.2vh;
+	margin-top: 0.65vh;
+	background-color: #98b3d3;
+}
+input.range sliderarrowdec, input.range sliderarrowinc {
+	width: 0;
+	height: 0;
+}
+.selectedElement input.range sliderbar {
+	background-color: white;
+}
+
+/* ---- bottom bar */
+
+.bottomBar {
+	position: absolute;
+	left: 50%;
+	margin-left: -60vh;
+	width: 120vh;
+	bottom: -6vh;
+	height: 6vh;
+	z-index: 1;
+}
+
+.bottomBarFill {
+	position: absolute;
+	left: 50%;
+	margin-left: -50vw;
+	width: 100vw;
+	top: 0;
+	height: 6vh;
+	background-color: #0a0e14cc;
+	border-top: 1px #FFFFFF33;
+	border-bottom: 1px #FFFFFF33;
+	box-sizing: border-box;
+}
+
+#applyButton, #cancelButton, #resetButton {
+	position: absolute;
+	top: 1vh;
+	height: 4vh;
+	line-height: 3.9vh;
+	font-size: 3vh;
+	font-weight: 100;
+	color: #D8D8D8;
+	background-color: transparent;
+	border-width: 0;
+	z-index: 3;
+	text-align: left;
+	box-sizing: border-box;
+	padding: 0;
+	cursor: pointer;
+}
+
+#applyButton img, #cancelButton img, #resetButton img {
+	display: block;
+	position: relative;
+	height: 4vh;
+	width: 4vh;
+	float: left;
+}
+
+#applyButton:hover, #cancelButton:hover, #resetButton:hover {
+	text-decoration: underline;
+	color: white;
+}
+
+#applyButton {
+	display: none;
+	right: 0%;
+}
+
+#resetButton {
+	left: 10%;
+}
+
+#cancelButton {
+	left: 0%;
+}
+
+/* ---- keyboard bindings (page5) */
+
+#bindBox {
+	margin-left: auto;
+	margin-right: auto;
+	width: 70vh;
+	font-size: 2.5vh;
+}
+
+#bindBox thead th {
+	font-weight: 700;
+	font-size: 3vh;
+	color: #d8d8d8;
+	text-align: left;
+}
+
+#bindBox td {
+	padding-top: 0.3vh;
+}
+
+#bindBox td.action {
+	text-align: left;
+	padding-right: 20px;
+}
+
+#bindBox td.primary {
+	padding-right: 20px;
+}
+
+#bindBox .keybind {
+	display: block;
+	padding: 0.2vh 0.2vh 0.2vh 0.7vh;
+	width: 22vh;
+	height: 3vh;
+	line-height: 2.6vh;
+	background-color: #00000026;
+	color: #d8d8d8;
+	text-transform: capitalize;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+#bindBox .keybind:focus {
+	padding: 0.2vh;
+	text-align: center;
+	background-color: #c0c0da26;
+	border: 1px #ffffff30;
+	animation: 1.2s cubic-in-out infinite pulse;
+}
+
+@keyframes pulse {
+	0% { color: #aac0da24; }
+	50% { color: #aac0da5C; }
+	100% { color: #aac0da24; }
+}
+
+.bindSpacer {
+	height: 2.5vh;
+}
+
+/* ---- controller (page8/page9) */
+
+.bind {
+	float: right;
+	width: 10vh;
+}
+
+#controllerGraphic {
+	position: absolute;
+	left: 39.75vh; /* calc(50% - 20.25vh) of the 120vh page */
+	top: 30vh;
+	width: 40.5vh;
+}
+
+#controllerGraphic div {
+	height: 3.009vh;
+	line-height: 1.4691vh;
+	position: absolute;
+	width: 23.01vh;
+	z-index: -1;
+	font-size: 1.6vh;
+}
+
+#controllerPic {
+	position: relative;
+	top: -1vh;
+	width: 40.5vh;
+}
+
+#A { left: 40.71vh; top: 15.93vh; }
+#B { left: 40.179vh; top: 13.098vh; }
+#X { left: 38.763vh; top: 7.08vh; }
+#Y { left: 39.471vh; top: 9.912vh; }
+#RS { left: 40.71vh; top: 19.824vh; }
+#RB { left: 36.462vh; top: 1.947vh; }
+#RT { left: 29.913vh; top: -2.832vh; }
+#LT { right: 29.559vh; text-align: right; top: -2.832vh; }
+#LB { right: 35.931vh; text-align: right; top: 1.947vh; }
+#controllerGraphic div#Start { height: 1.77vh; right: 37.878vh; text-align: right; top: 7.08vh; }
+#controllerGraphic div#Back { height: 1.77vh; right: 40.002vh; text-align: right; top: 9.204vh; }
+#LS { right: 40.887vh; text-align: right; top: 11.682vh; }
+#Left { right: 40.887vh; text-align: right; top: 18.408vh; }
+#Right { left: 16.638vh; top: 24.249vh; }
+#Up { right: 40.887vh; text-align: right; top: 15.222vh; }
+#Down { right: 40.356vh; text-align: right; top: 21.594vh; }

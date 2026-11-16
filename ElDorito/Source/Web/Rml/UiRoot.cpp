@@ -32,6 +32,8 @@
 #include <Windows.h>
 #include <psapi.h>
 #include <shellapi.h>
+#include <mmdeviceapi.h>
+#include <functiondiscoverykeys_devpkey.h>
 
 #include <algorithm>
 #include <fstream>
@@ -1229,10 +1231,49 @@ namespace Web
 		}
 
 		// {{id=, name=}, ...} = dew_core.enumerateAudioInputs()
+		// names = dew_core.enumerateAudioInputs() -- active capture endpoints' friendly names, the
+		// labels navigator.mediaDevices.enumerateDevices() gave the settings page.
 		int UiRoot::L_enumerateAudioInputs(lua_State *L)
 		{
-			// Filled in with the native VoIP work; the settings screen shows an empty list until then.
-			lua_newtable(L);
+			std::vector<std::string> names;
+			const HRESULT init = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+			IMMDeviceEnumerator *enumerator = nullptr;
+			if (SUCCEEDED(CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_INPROC_SERVER, __uuidof(IMMDeviceEnumerator), (void **)&enumerator)))
+			{
+				IMMDeviceCollection *devices = nullptr;
+				if (SUCCEEDED(enumerator->EnumAudioEndpoints(eCapture, DEVICE_STATE_ACTIVE, &devices)))
+				{
+					UINT count = 0;
+					devices->GetCount(&count);
+					for (UINT i = 0; i < count; i++)
+					{
+						IMMDevice *device = nullptr;
+						if (FAILED(devices->Item(i, &device)))
+							continue;
+						IPropertyStore *store = nullptr;
+						if (SUCCEEDED(device->OpenPropertyStore(STGM_READ, &store)))
+						{
+							PROPVARIANT name;
+							PropVariantInit(&name);
+							if (SUCCEEDED(store->GetValue(PKEY_Device_FriendlyName, &name)) && name.vt == VT_LPWSTR && name.pwszVal)
+								names.push_back(Utils::String::ThinString(name.pwszVal));
+							PropVariantClear(&name);
+							store->Release();
+						}
+						device->Release();
+					}
+					devices->Release();
+				}
+				enumerator->Release();
+			}
+			if (SUCCEEDED(init))
+				CoUninitialize();
+			lua_createtable(L, (int)names.size(), 0);
+			for (size_t i = 0; i < names.size(); i++)
+			{
+				lua_pushlstring(L, names[i].data(), names[i].size());
+				lua_rawseti(L, -2, (lua_Integer)i + 1);
+			}
 			LuaJson::MarkArray(L, -1);
 			return 1;
 		}

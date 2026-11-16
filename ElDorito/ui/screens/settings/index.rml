@@ -1,0 +1,750 @@
+<rml>
+<head>
+	<title>Settings</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="settings.rcss"/>
+	<script src="dew://lib/jq.lua"></script>
+	<script src="dew://lib/input.lua"></script>
+	<script src="settings.lua"></script>
+</head>
+<body>
+<div id="overlay"></div>
+    <div id="settingsWindow">
+        <div class="headerFill"></div>
+        <h1 class="header">Settings</h1>
+        <ul class="tabs">
+            <img class="button"/>
+            <li><a data-page="#page1">Game</a></li>
+            <li><a data-page="#page2">Controls</a></li>
+            <li><a data-page="#page3">Video</a></li>
+            <li><a data-page="#page10">Sound</a></li>
+            <img class="button"/>
+        </ul>
+        <div id="page1" class="page"> 
+            <div class="buttonContainer">
+				<div class="row">
+                    <h3 class="subHeader">Default Mod Packs</h3>
+                </div>
+				<div class="row">
+                <label for="sMainmenuMod">Main Menu Mod</label>
+                <div class="selectWrap setting" data-control="sMainmenuMod"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sMainmenuMod" class="inner">
+                    <option value="">None</option>
+                </select></div>
+				</div>
+				<div class="row">
+				<label for="sMultiplayerMod">Multiplayer Mod</label>
+                <div class="selectWrap setting" data-control="sMultiplayerMod"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sMultiplayerMod" class="inner">
+                    <option value="">None</option>
+                </select></div>
+				</div>
+				<div class="row">
+                <label for="sCampaignMod">Campaign Mod</label>
+                <div class="selectWrap setting" data-control="sCampaignMod"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sCampaignMod" class="inner">
+                    <option value="">None</option>
+                </select></div>
+				</div>
+				<div class="row">
+				<label for="sFirefightMod">Firefight Mod</label>
+                <div class="selectWrap setting" data-control="sFirefightMod"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sFirefightMod" class="inner">
+                    <option value="">None</option>
+                </select></div>
+                </div>
+                <div class="row">
+                    <h3 class="subHeader">First Person</h3>
+                </div>
+                <div class="row">
+                    <label for="wOffsetConfig">Viewmodel Config</label>
+                    <button class="tinySetting" onclick="showWeaponOffsets()">EDIT</button>
+                    <div class="selectWrap setting hasEdit wheelable" data-control="wOffsetConfig"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="wOffsetConfig" class="inner"></select></div>
+                </div>
+                <div class="row">
+                    <label for="sHoFpAnimations">Jump &amp; Land Animations</label>
+                    <div class="setting toggle" id="sHoFpAnimations" data-state="0">Disabled</div>
+                </div>
+                <div class="row">
+                    <h3 class="subHeader">HUD</h3>
+                </div>
+                <div class="row">
+                    <label for="cCenteredCrosshairFirst">Centered Crosshair (First Person)</label>
+                    <div class="setting toggle" id="cCenteredCrosshairFirst" data-state="0">Disabled</div>
+                </div>
+                <div class="row">
+                    <label for="cCenteredCrosshairThird">Centered Crosshair (Third Person)</label>
+                    <div class="setting toggle" id="cCenteredCrosshairThird" data-state="0">Disabled</div>
+                </div>
+                <div class="row">
+                    <label for="sHudShake">Hud Shake</label>
+                    <div class="setting toggle" id="sHudShake" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="cHideHUD">Show HUD</label>
+                    <div class="setting inverted-checkbox toggle" id="cHideHUD" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="sPlayerMarkerColors">Player Marker Colors</label>
+                    <div class="selectWrap setting" data-control="sPlayerMarkerColors"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sPlayerMarkerColors" class="inner">
+                        <option value="default">Default</option>
+                        <option value="blue">Ally Blue</option>
+                        <option value="armor">Armor Colors</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="tDisableHitmarkers">Hitmarkers</label>
+                    <div class="setting inverted-checkbox toggle" id="tDisableHitmarkers" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="tDisableWeapOutline">Item Outlines</label>
+                    <div class="setting inverted-checkbox toggle" id="tDisableWeapOutline" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="sCenteredHudScaling">Centered HUD Scaling</label>
+                    <div class="setting checkbox toggle" id="sCenteredHudScaling" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <h3 class="subHeader">Interface</h3>
+                </div>
+				<div class="row">
+                    <label for="gExpandScoreboard">Always Expand Scoreboard</label>
+                    <div class="setting toggle" id="gExpandScoreboard" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="gHideChat">Show Chat</label>
+                    <div class="setting inverted-checkbox toggle" id="gHideChat" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="sChatMessageLimit">Chat message history limit</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sChatMessageLimitText"/>
+                        <input type="range" class="setting hasTiny" min="1" max="1000" id="sChatMessageLimit"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sSkipTitleSplash">Show Title Splash Screen</label>
+                    <div class="setting inverted-checkbox toggle" id="sSkipTitleSplash" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <h3 class="subHeader">Discord</h3>
+                </div>
+				<div class="row">
+                    <label for="gdEnabled">Discord Rich Presence</label>
+                    <div class="setting checkbox toggle" id="gdEnabled" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="gdAutoAccept">Auto Accept Join Requests</label>
+                    <div class="setting checkbox toggle" id="gdAutoAccept" data-state="0">Disabled</div>
+                </div>
+            </div>
+            <div class="backgroundFill"></div>
+        </div>
+        <div id="page2" class="page"> 
+            <div class="buttonContainer">
+				<div class="row">
+                    <h3 class="subHeader">Input</h3>
+                </div>
+                <div class="row">
+                    <label for="sControlsMethod">Control Method</label>
+                    <button class="tinySetting" onclick="editControls(selectValue('sControlsMethod'))">EDIT</button>
+                    <div class="selectWrap setting hasEdit wheelable" data-control="sControlsMethod"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sControlsMethod" class="inner">
+                        <option value="0">Keyboard</option>
+                        <option value="1">Gamepad</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="sToggleCrouch">Toggle Crouch</label>
+                    <div class="setting toggle" id="sToggleCrouch" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="iDisableSprint">Toggle Sprint</label>
+                    <div class="setting toggle" id="iDisableSprint" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <h3 class="subHeader">Keyboard &amp; Mouse</h3>
+                </div>
+				<div class="row">
+                    <label for="sInfantryMouseSensV">Look Vertical Mouse Sensitivity</label>
+                        <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                            <input type="text" class="tinySetting" id="sInfantryMouseSensVText"/>
+                            <input type="range" class="setting hasTiny" min="0" max="100" id="sInfantryMouseSensV"/>
+                        </div>
+                </div>
+				<div class="row">
+                    <label for="sInfantryMouseSensH">Look Horizontal Mouse Sensitivity</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sInfantryMouseSensHText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sInfantryMouseSensH"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sVehicleMouseSensV">Vehicle Look Vertical Mouse Sensitivity</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sVehicleMouseSensVText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sVehicleMouseSensV"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sVehicleMouseSensH">Vehicle Look Horizontal Mouse Sensitivity</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sVehicleMouseSensHText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sVehicleMouseSensH"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="iSpectateSens">Spectator Camera Sensitivity</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="iSpectateSensText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="2" step="0.1" id="iSpectateSens"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sInvertMouse">Invert Mouse</label>
+                    <div class="setting toggle" id="sInvertMouse" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="inputRaw">Raw Input</label>
+                    <div class="setting toggle" id="inputRaw" data-state="0">Disabled</div>
+                </div>
+				<div class="row NormalInput">
+                    <label for="sMouseAcceleration">Mouse Acceleration</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sMouseAccelerationText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sMouseAcceleration"/>
+                    </div>
+                </div>
+            </div>
+            <div class="backgroundFill"></div>
+        </div>
+        <div id="page5" class="page">
+            <div class="buttonContainer">
+                <table id="bindBox">
+                <thead>
+                    <tr><th>Action</th><th>Primary Bind</th><th>Secondary Bind</th></tr>
+                </thead>
+                <tbody class="Infantry"></tbody>
+                <tbody class="Vehicle"></tbody>
+                <tbody class="UI"></tbody>
+                </table>
+            </div>
+            <div class="backgroundFill"></div>
+        </div>
+        <div id="page3" class="page"> 
+            <div class="buttonContainer">
+				<div class="row">
+                    <h3 class="subHeader">Video</h3>
+                </div>
+				<div class="row">
+                    <label for="sFullscreen">Windowed Mode</label>
+                    <div class="setting inverted-checkbox toggle" id="sFullscreen" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="sScreenResolution">Screen Resolution</label>
+                    <div class="selectWrap setting" data-control="sScreenResolution"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sScreenResolution" class="inner">
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="sCameraFOV">Field of View</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sCameraFOVText"/>
+                        <input type="range" class="setting hasTiny" min="55" max="120" id="sCameraFOV"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sVehiCameraFOV">Vehicle Field of View</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sVehiCameraFOVText"/>
+                        <input type="range" class="setting hasTiny" min="55" max="120" id="sVehiCameraFOV"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sBrightness">Brightness</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sBrightnessText"/>
+                        <input type="range" class="setting hasTiny" min="1" max="100" id="sBrightness"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sContrast">Contrast</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sContrastText"/>
+                        <input type="range" class="setting hasTiny" min="1" max="100" id="sContrast"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sGamma">Gamma</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sGammaText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="5" id="sGamma" step="0.1"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <h3 class="subHeader">Advanced Video</h3>
+                </div>
+				<div class="row">
+                    <label for="sQualityPreset">Graphics Quality</label>
+                    <button class="tinySetting" onclick="switchPage('#page4')">EDIT</button>
+                    <div class="selectWrap setting hasEdit wheelable" data-control="sQualityPreset"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sQualityPreset" class="inner">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                        <option value="custom">Custom</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="sAntiAliasing">Anti-Aliasing</label>
+                    <div class="selectWrap setting wheelable" data-control="sAntiAliasing"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sAntiAliasing" class="inner">
+                        <option value="0">disabled</option>
+                        <option value="1">FXAA</option>
+                        <!-- option value="2">SMAA</option -->
+                    </select></div>
+                </div>
+                <div class="row">
+                    <label for="sAnisotropicFiltering">Anisotropic Filtering</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sAnisotropicFilteringText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="16" id="sAnisotropicFiltering"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sVsync">VSync</label>
+                    <div class="setting toggle" id="sVsync" data-state="0">Disabled</div>
+                </div>
+                <div class="row">
+                    <label for="tExposureCpu">CPU Exposure (Bloom Patch)</label>
+                    <div class="setting toggle" id="tExposureCpu" data-state="0">Disabled</div>
+                </div>
+            </div>
+            <div class="backgroundFill"></div>
+        </div>
+        <div id="page4" class="page">
+            <div class="buttonContainer">
+                <div class="row">
+                    <h3 class="subHeader">Advanced Video</h3>
+                </div>
+				<div class="row">
+                    <label for="sTextureResolution">Texture Resolution</label>
+                    <div class="selectWrap setting video" data-control="sTextureResolution"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sTextureResolution" class="inner">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="sTextureFiltering">Texture Filtering</label>
+                    <div class="selectWrap setting video" data-control="sTextureFiltering"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sTextureFiltering" class="inner">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="sLightningQuality">Lighting Quality</label>
+                    <div class="selectWrap setting video" data-control="sLightningQuality"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sLightningQuality" class="inner">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="sEffectsQuality">Effects Quality</label>
+                    <div class="selectWrap setting video" data-control="sEffectsQuality"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sEffectsQuality" class="inner">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select></div>
+                </div>
+                <div class="row">
+                    <label for="sShadowResolution">Shadow Resolution</label>
+                    <div class="selectWrap setting video" data-control="sShadowResolution"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sShadowResolution" class="inner">
+                        <option value="512">512</option>
+                        <option value="1024">1024</option>
+                        <option value="2048">2048</option>
+                        <option value="4096">4096</option>
+                        <option value="8192">8192</option>
+                        <option value="16384">16384</option>
+                    </select></div>
+                </div>
+                <div class="row">
+                    <label for="sShadowQuality">Shadow Count</label>
+                    <div class="selectWrap setting video" data-control="sShadowQuality"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sShadowQuality" class="inner">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="sDetailsLevel">Details Level</label>
+                    <div class="selectWrap setting video" data-control="sDetailsLevel"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sDetailsLevel" class="inner">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="sPostprocessing">Postprocessing</label>
+                    <div class="selectWrap setting video" data-control="sPostprocessing"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sPostprocessing" class="inner">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="sReflections">Reflections</label>
+                    <div class="setting video toggle" id="sReflections" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="sMotionBlur">Motion Blur</label>
+                    <div class="setting video toggle" id="sMotionBlur" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="sMotionBlurStrength">Motion Blur Strength</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sMotionBlurStrengthText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="1" id="sMotionBlurStrength" step="0.025"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sMotionBlurAlways">Motion Blur Always</label>
+					<div class="setting video toggle" id="sMotionBlurAlways" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="sSSAOEnabled">SSAO</label>
+					<div class="setting video toggle" id="sSSAOEnabled" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="sDecoratorDistance">Decorator Visibility Radius</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sDecoratorDistanceText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="5" id="sDecoratorDistance" step="1"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sLODDistance">LOD Distance</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sLODDistanceText"/>
+                        <input type="range" class="setting hasTiny" min="1" max="10" id="sLODDistance" step="0.5"/>
+                    </div>
+                </div>
+            </div>
+            <div class="backgroundFill"></div>
+        </div>
+        <div id="page8" class="page">
+            <div class="buttonContainer inputSettingsPage">
+                <div class="row">
+                    <label for="presetMenu">Button Layout</label>
+                    <button class="tinySetting" onclick="switchPage('#page9')">EDIT</button>
+                    <div class="selectWrap setting hasEdit wheelable" data-control="presetMenu"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="presetMenu" class="inner"></select></div>
+                </div>
+				<div class="row">
+                    <label for="stickLayout">Stick Layout</label>
+                    <div class="selectWrap setting" data-control="stickLayout"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="stickLayout" class="inner">
+                        <option value="0">Default</option>
+                        <option value="1">Southpaw</option>
+                        <option value="2">Legacy</option>
+                        <option value="3">Legacy Southpaw</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="aimingType">Aim Control</label>
+                    <div class="selectWrap setting" data-control="aimingType"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="aimingType" class="inner">
+                        <option value="0">Classic</option>
+                        <option value="1">Modern</option>
+                    </select></div>
+                </div>
+				<div class="row ModernAimingType axialDeadzone">
+                    <label for="axialDeadzone">Axial Deadzone</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="axialDeadzoneText"/>
+                        <input type="range" min="0" max="20" step="1" id="axialDeadzone" class="setting hasTiny"/>
+                    </div>
+                </div>
+				<div class="row ModernAimingType radialDeadzone">
+                    <label for="radialDeadzone">Radial Deadzone</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="radialDeadzoneText"/>
+                        <input type="range" min="0" max="20" step="1" id="radialDeadzone" class="setting hasTiny"/>
+                    </div>
+                </div>
+				<div class="row looksensitivity">
+                    <label for="lookSensitivity">Look Sensitivity</label>
+                    <button class="tinySetting" onclick="switchPage('#page11')">EDIT</button>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="lookSensitivityText"/>
+                        <input type="range" min="1" max="15" id="lookSensitivity" class="setting hasTiny hasEdit"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="invertLook">Invert Look</label>
+                    <div class="setting toggle" id="invertLook" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="controllerPort">Port Number (Default is 0)</label>
+                    <div class="selectWrap setting" data-control="controllerPort"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="controllerPort" class="inner">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <label for="controllerVibration">Controller Vibration (Default is 1)</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="controllerVibrationText"/>
+                        <input type="range" min="0" max="1" step="0.05" id="controllerVibration" class="setting hasTiny"/>
+                    </div>
+                </div>
+            </div>
+            <div id="controllerGraphic">
+                <img id="controllerPic" src="dew://assets/settings/controller.png"/>
+                <div id="A"></div>
+                <div id="B"></div>
+                <div id="X"></div>
+                <div id="Y"></div>
+                <div id="RB"></div>
+                <div id="LB"></div>
+                <div id="LT"></div>
+                <div id="RT"></div>
+                <div id="Start"></div>
+                <div id="Back"></div>
+                <div id="LS"></div>
+                <div id="RS"></div>
+                <div id="Left"></div>
+                <div id="Right"></div>
+                <div id="Up"></div>
+                <div id="Down"></div>
+            </div>
+            <div class="backgroundFill"></div>
+        </div>
+        <div id="page11" class="page">
+            <div class="buttonContainer">
+                <div class="row">
+                    <h3 class="subHeader">Advanced Controller Sensitivity</h3>
+                </div>
+				<div class="row">
+                    <label for="xSens">X Axis</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="xSensText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="300" step="1" id="xSens"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="ySens">Y Axis</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="ySensText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="300" step="1" id="ySens"/>
+                    </div>
+                </div>
+            </div>
+            <div class="backgroundFill"></div>
+				</div>
+        <div id="page9" class="page">
+            <div class="buttonContainer">
+                <div class="row">
+                    <label for="Jump">Jump</label>
+                    <div class="selectWrap bind setting" data-control="Jump"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Jump" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Melee">Melee</label>
+                    <div class="selectWrap bind setting" data-control="Melee"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Melee" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Reload">Reload</label>
+                    <div class="selectWrap bind setting" data-control="Reload"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Reload" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Use">Use</label>
+                    <div class="selectWrap bind setting" data-control="Use"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Use" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="SwitchWeapons">Switch Weapons</label>
+                    <div class="selectWrap bind setting" data-control="SwitchWeapons"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="SwitchWeapons" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Crouch">Crouch</label>
+                    <div class="selectWrap bind setting" data-control="Crouch"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Crouch" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Zoom">Zoom</label>
+                    <div class="selectWrap bind setting" data-control="Zoom"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Zoom" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Fire">Fire</label>
+                    <div class="selectWrap bind setting" data-control="Fire"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Fire" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Grenade">Grenade</label>
+                    <div class="selectWrap bind setting" data-control="Grenade"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Grenade" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="SwitchGrenades">Switch Grenades</label>
+                    <div class="selectWrap bind setting" data-control="SwitchGrenades"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="SwitchGrenades" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Sprint">Sprint</label>
+                    <div class="selectWrap bind setting" data-control="Sprint"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Sprint" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="DualWield">Dual Wield</label>
+                    <div class="selectWrap bind setting" data-control="DualWield"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="DualWield" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="FireLeft">Fire Dual</label>
+                    <div class="selectWrap bind setting" data-control="FireLeft"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="FireLeft" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="ReloadLeft">Reload Dual</label>
+                    <div class="selectWrap bind setting" data-control="ReloadLeft"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="ReloadLeft" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="UseEquipment">Use Equipment</label>
+                    <div class="selectWrap bind setting" data-control="UseEquipment"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="UseEquipment" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="VehicleAccelerate">Vehicle Accelerate</label>
+                    <div class="selectWrap bind setting" data-control="VehicleAccelerate"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="VehicleAccelerate" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="VehicleBrake">Vehicle Brake</label>
+                    <div class="selectWrap bind setting" data-control="VehicleBrake"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="VehicleBrake" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="VehicleBoost">Vehicle Boost</label>
+                    <div class="selectWrap bind setting" data-control="VehicleBoost"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="VehicleBoost" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="VehicleRaise">Vehicle Raise</label>
+                    <div class="selectWrap bind setting" data-control="VehicleRaise"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="VehicleRaise" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="VehicleDive">Vehicle Dive</label>
+                    <div class="selectWrap bind setting" data-control="VehicleDive"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="VehicleDive" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="VehicleFire">Vehicle Fire</label>
+                    <div class="selectWrap bind setting" data-control="VehicleFire"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="VehicleFire" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="VehicleAltFire">Vehicle Alt Fire</label>
+                    <div class="selectWrap bind setting" data-control="VehicleAltFire"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="VehicleAltFire" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="BansheeBomb">Banshee Bomb</label>
+                    <div class="selectWrap bind setting" data-control="BansheeBomb"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="BansheeBomb" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Chat">Chat</label>
+                    <div class="selectWrap bind setting" data-control="Chat"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Chat" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="TeamChat">Team Chat</label>
+                    <div class="selectWrap bind setting" data-control="TeamChat"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="TeamChat" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Menu">Menu</label>
+                    <div class="selectWrap bind setting" data-control="Menu"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Menu" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Scoreboard">Scoreboard</label>
+                    <div class="selectWrap bind setting" data-control="Scoreboard"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Scoreboard" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="VoiceChat">Voice Chat</label>
+                    <div class="selectWrap bind setting" data-control="VoiceChat"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="VoiceChat" class="inner"></select></div>
+                </div><div class="row">
+                    <label for="Flashlight">Flashlight</label>
+                    <div class="selectWrap bind setting" data-control="Flashlight"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Flashlight" class="inner"></select></div>
+                </div>
+                <div class="row">
+                    <label for="Emote">Emote</label>
+                    <div class="selectWrap bind setting" data-control="Emote"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="Emote" class="inner"></select></div>
+                </div>
+            </div>
+            <div class="backgroundFill"></div>
+        </div>
+        <div id="page10" class="page"> 
+            <div class="buttonContainer">
+				<div class="row">
+                    <h3 class="subHeader">Volume</h3>
+                </div>
+				<div class="row">
+                    <label for="sAudioDevice">Audio Device</label>
+                    <div class="selectWrap setting" data-control="sAudioDevice"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sAudioDevice" class="inner"></select></div>
+                </div>
+				<div class="row">
+                    <label for="sMasterVolume">Master Volume</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sMasterVolumeText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sMasterVolume"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sSFXVolume">SFX Volume</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sSFXVolumeText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sSFXVolume"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sMusicVolume">Game Music Volume</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sMusicVolumeText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sMusicVolume"/>
+                    </div>
+                </div>
+				<div class="row">
+                    <label for="sMainMenuMusicVolume">Main Menu Music Volume</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="sMainMenuMusicVolumeText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="100" id="sMainMenuMusicVolume"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <h3 class="subHeader">SUBTITLES</h3>
+                </div>
+                <div class="row">
+                    <label for="sSubtitlesDisplay">Subtitles</label>
+                    <div class="selectWrap setting" data-control="sSubtitlesDisplay"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="sSubtitlesDisplay" class="inner">
+                        <option value="0">AUTOMATIC</option>
+                        <option value="1">ENABLED</option>
+                        <option value="2">DISABLED</option>
+                    </select></div>
+                </div>
+				<div class="row">
+                    <h3 class="subHeader">VOIP</h3>
+                </div>
+				<div class="row">
+                    <label for="vEnabled">Voice Chat</label>
+                    <div class="setting voip toggle" id="vEnabled" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="vPTTEnable">Push To Talk</label>
+                    <div class="setting voip toggle" id="vPTTEnable" data-state="0">Disabled</div>
+                </div>
+                <div class="row">
+                    <label for="vPTTSound">Push To Talk UI Sounds</label>
+                    <div class="setting voip toggle" id="vPTTSound" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="vMicrophoneID">Microphone Device</label>
+                    <div class="selectWrap setting voip" data-control="vMicrophoneID"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="vMicrophoneID" class="inner"></select></div>
+                </div>
+				<div class="row">
+                    <label for="vEchoCancelation">Echo Cancelation</label>
+                    <div class="setting voip toggle" id="vEchoCancelation" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="vAGC">Automatic Gain Control</label>
+                    <div class="setting voip toggle" id="vAGC" data-state="0">Disabled</div>
+                </div>
+				<div class="row">
+                    <label for="vNoiseSupress">Noise Suppression</label>
+                    <div class="setting voip toggle" id="vNoiseSupress" data-state="0">Disabled</div>
+                </div>
+                <div class="row">
+                    <label for="vIncomingVolume">Voice Chat Volume</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="vIncomingVolumeText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="2" step="0.05" id="vIncomingVolume"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="vOutgoingVolume">Input Voice Volume</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="vOutgoingVolumeText"/>
+                        <input type="range" class="setting hasTiny" min="0" max="2" step="0.05" id="vOutgoingVolume"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <label for="vListenToMicrophone">Listen To Microphone</label>
+                    <div class="setting voip toggle" id="vListenToMicrophone" data-state="0">Disabled</div>
+                </div>
+                <div class="row">
+                    <label for="vMaximumBitrate">VoIP Bitrate</label>
+                    <div class="rangeSetting"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/>
+                        <input type="text" class="tinySetting" id="vMaximumBitrateText" style="z-index: 1000;"/>
+                        <input type="range" class="setting hasTiny" min="9000" max="64000" step="1000" id="vMaximumBitrate"/>
+                    </div>
+                </div>
+            </div>
+            <div class="backgroundFill"></div>
+        </div>
+        <div class="bottomBar">
+            <div class="bottomBarFill"></div>
+            <button id="applyButton"><img class="button"/><span id="applyButtonText">Apply</span></button>
+            <button id="resetButton"><img class="button"/><span id="resetButtonText">Reset</span></button>
+            <button id="cancelButton"><img class="button"/><span id="cancelButtonText">Close</span></button>
+        </div>
+    </div>
+</body>
+</rml>
