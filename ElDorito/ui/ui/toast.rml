@@ -17,7 +17,7 @@
 			flex-direction: column;
 			align-items: flex-start;
 			justify-content: flex-start;
-			padding-top: 40dp;
+			padding-top: 40px;
 			pointer-events: none;
 		}
 
@@ -26,11 +26,11 @@
 			flex-direction: column;
 			justify-content: center;
 			overflow: hidden;
-			min-width: 200dp;
-			border-radius: 4dp;
+			min-width: 200px;
+			border-radius: 4px;
 			background-color: #061324e6;
-			padding: 15dp 40dp 15dp 15dp;
-			margin-bottom: 10dp;
+			padding: 15px 40px 15px 15px;
+			margin-bottom: 10px;
 			transform: translateX(-200%);
 			transition: transform 0.3s cubic-in-out;
 			position: relative;
@@ -50,8 +50,11 @@
 			background-color: #449ed133;
 		}
 
+		/* .toast-show:after's toastIn animation: the bar collapses to the right edge.
+		   Transitions (declared only while shown) keep the end state, as fill-mode did. */
 		.toast-show .toast-bar {
-			animation: 0.42s 0.15s cubic-in-out toastIn;
+			width: 10px;
+			transition: width 0.42s 0.15s cubic-in-out;
 		}
 
 		.toast-content {
@@ -60,30 +63,12 @@
 		}
 
 		.toast-show .toast-content {
-			animation: 0.32s 0.5s quadratic-in toastContentIn;
-		}
-
-		@keyframes toastIn {
-			0%   { width: 100%; }
-			50%  { width: 100%; }
-			100% { width: 10dp; }
-		}
-
-		@keyframes toastContentIn {
-			0%   { opacity: 0; }
-			100% { opacity: 1; }
+			opacity: 1;
+			transition: opacity 0.32s 0.5s quadratic-in;
 		}
 	</style>
 	<script>
 		local active = 0
-
-		local function finish(element)
-			-- animations end on their last keyframe but do not persist; pin the end state
-			local bar = element:QuerySelector(".toast-bar")
-			if bar then bar.style.width = "10dp" end
-			local content = element:QuerySelector(".toast-content")
-			if content then content.style.opacity = "1" end
-		end
 
 		local function show(toast)
 			local container = document:GetElementById("toast_container")
@@ -100,7 +85,6 @@
 			dew.requestAnimationFrame(function()
 				added:SetClass("toast-show", true)
 			end)
-			dew.setTimeout(function() finish(added) end, 820)
 			dew.setTimeout(function()
 				added:SetClass("toast-show", false)
 				dew.setTimeout(function()

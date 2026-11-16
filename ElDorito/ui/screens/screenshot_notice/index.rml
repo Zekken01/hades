@@ -1,0 +1,26 @@
+<rml>
+<head>
+	<title>Screenshot Taken!</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<script>
+		-- The page itself is never shown; screenshots are announced with a toast.
+		local lastTime = dew_core.getTime() * 1000
+
+		dew.on("screenshot_taken", function(e)
+			local currentTime = dew_core.getTime() * 1000
+			if currentTime - lastTime > 2500 then
+				dew.setTimeout(function()
+					lastTime = currentTime
+					dew.toast({
+						body = '<div style="margin-bottom: 7dp;">SCREENSHOT SAVED</div>'
+							.. '<div style="font-size: 0.75em;">&quot;' .. dew.escape(e.data.filepath or "") .. '&quot;</div>',
+					})
+				end, 2500)
+				lastTime = dew_core.getTime() * 1000
+			end
+		end)
+	</script>
+</head>
+<body>
+</body>
+</rml>

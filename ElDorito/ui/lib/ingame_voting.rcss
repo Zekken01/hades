@@ -1,0 +1,64 @@
+/* Port of lib/ingame_voting/ingame_voting.css */
+
+.chat_vote_widget {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	height: 38dp;
+}
+
+.chat_vote_widget > span:first-child {
+	margin-right: 10dp;
+}
+
+.chat_vote_widget span {
+	position: relative;
+	margin-right: 2dp;
+}
+
+.chat_vote_button {
+	background-color: #00000085;
+	color: white;
+	border: 1dp #ffffff00;
+	transition: border-color color 0.25s cubic-in-out;
+	margin-top: 2dp;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	border-radius: 2dp;
+	margin-left: -5dp;
+	padding: 2dp 10dp;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.chat_vote_button:hover {
+	border-color: #1e90ff;
+	color: #1e90ff;
+}
+
+.chat_vote_button:active {
+	border-color: white;
+}
+
+.chat_vote_button img {
+	height: 20dp;
+	margin-right: 5dp;
+}
+
+.chat_vote_text_secondary {
+	color: #1e90ff;
+}
+
+#chatVotesNeeded {
+	position: relative;
+	top: 2dp;
+	margin-right: 4dp;
+	font-size: 107%;
+}
+
+#chatVoteAction {
+	margin-left: 2dp;
+}

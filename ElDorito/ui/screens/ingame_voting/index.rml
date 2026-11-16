@@ -1,0 +1,26 @@
+<rml>
+<head>
+	<title>In-game Voting</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://lib/window-resize.rcss"/>
+	<link type="text/rcss" href="dew://lib/ingame_voting.rcss"/>
+	<style>
+		body { color: #fff; }
+	</style>
+	<script src="dew://lib/ingame_voting.lua"></script>
+	<script>
+		document:AddEventListener("load", function()
+			local widget = dew.ingameVoting.makeWidget(document:GetElementById("voteWidget"))
+			widget.on("vote_started", function() dew.show() end)
+			widget.on("vote_ended", function() dew.hide() end)
+		end)
+	</script>
+</head>
+<body>
+	<div id="container">
+		<div class="page_content">
+			<div id="voteWidget" class="chat_vote_widget"></div>
+		</div>
+	</div>
+</body>
+</rml>

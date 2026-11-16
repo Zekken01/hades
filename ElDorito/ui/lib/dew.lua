@@ -544,6 +544,11 @@ return function(screenId, document)
 		end
 	end
 
+	-- JavaScript truthiness (0, "", nil, false and json null are false; "0" is true).
+	function dew.truthy(value)
+		return value ~= nil and value ~= false and value ~= 0 and value ~= "" and value ~= json.null
+	end
+
 	function dew.escape(text)
 		return (tostring(text or ""):gsub("[&<>\"']", {
 			["&"] = "&amp;", ["<"] = "&lt;", [">"] = "&gt;", ['"'] = "&quot;", ["'"] = "&#39;",

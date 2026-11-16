@@ -1,0 +1,26 @@
+/*
+ * Port of lib/window-resize.css + window-resize.js: a 1280x720 page centred in the
+ * viewport and scaled by min(w/1280, h/720).  The scale is the context's dp ratio, so
+ * screens author their layout in dp inside .page_content.
+ */
+
+#container {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.page_content {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 1280dp;
+	height: 720dp;
+	margin-left: -640dp;
+	margin-top: -360dp;
+	box-sizing: border-box;
+	overflow: hidden;
+	font-size: 16dp;
+}
