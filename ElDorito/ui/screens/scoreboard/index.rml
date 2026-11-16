@@ -1,0 +1,64 @@
+<rml>
+<head>
+	<title>ElDewrito Scoreboard</title>
+	<link type="text/rcss" href="dew://lib/html.rcss"/>
+	<link type="text/rcss" href="dew://lib/window-resize.rcss"/>
+	<link type="text/rcss" href="scoreboard.rcss"/>
+	<link type="text/rcss" href="dew://lib/ingame_voting.rcss"/>
+	<script src="dew://lib/jq.lua"></script>
+	<script src="dew://lib/pak_aware.lua"></script>
+	<script src="dew://lib/ingame_voting.lua"></script>
+	<script src="scoreboard.lua"></script>
+</head>
+<body>
+	<div id="container">
+		<div class="page_content" id="app">
+			<div id="chatVoteWidget" class="chat_vote_widget"></div>
+			<!-- #window is rendered from Lua (the Vue app) -->
+			<div id="window" style="display: none;"></div>
+			<!-- context menu -->
+			<div id="contextMenuOverlay" class="contextMenuOverlay" style="display: none;">
+				<div class="scoreboardContextMenu" id="scoreboardContextMenu">
+					<div class="scoreboardContextMenuItem" id="menuBan">Ban</div>
+					<div class="scoreboardContextMenuItem" id="menuKick">Kick</div>
+					<div class="scoreboardContextMenuItem" id="menuVoteKick">Vote To Kick</div>
+					<div class="scoreboardContextMenuItem" id="menuMute">Mute</div>
+					<div class="scoreboardContextMenuItem" id="menuVolume">
+						Voice Volume
+						<input type="range" id="menuVolumeSlider" min="0" max="200" step="1" value="100"/>
+					</div>
+				</div>
+			</div>
+			<div id="playerBreakdown">
+				<div class="statsHeader">PLAYER STATS</div>
+				<div id="playerName"></div>
+				<div id="playerKills"></div>
+				<div id="playerDeaths"></div>
+				<div id="playerKDSpread"></div>
+				<div id="playerSuicides"></div>
+				<br/>
+				<div id="toolOfDestruction"><table><thead><tr><td colspan="2">Tool of Destruction:</td></tr></thead><tbody></tbody></table></div>
+				<br/>
+				<table id="killedMost"><thead><tr><td>Killed Most</td><td class="killsHeader">Kills</td></tr></thead><tbody></tbody></table>
+				<table id="killedMostBy"><thead><tr><td>Killed Most By</td><td class="killsHeader">Kills</td></tr></thead><tbody></tbody></table>
+				<div id="bigMedal">
+					<img id="bigMedalImage" data-pak="game" data-url=""/>
+					<span class="medalName"></span>
+					<span class="medalDesc"></span>
+				</div>
+				<div id="medalBox"></div>
+				<div class="bottomBar">
+					<button id="previousPlayer"><img class="button"/>Previous Player</button>
+					<button id="nextPlayer"><img class="button"/>Next Player</button>
+					<button id="windowClose"><img class="button"/>Close</button>
+				</div>
+			</div>
+			<div id="serverName"></div>
+			<div id="mapName"></div>
+			<div id="modName"></div>
+			<div id="modInfoButton"><img class="button"/>Mod Info</div>
+			<div id="closeButton"><img class="button"/>Close</div>
+		</div>
+	</div>
+</body>
+</rml>

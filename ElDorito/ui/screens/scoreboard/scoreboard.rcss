@@ -1,0 +1,522 @@
+/*
+ * Port of screens/scoreboard/scoreboard.css (px -> dp inside the scaled .page_content).
+ * box-shadow highlights are background overlays; the 8-way text-shadow is an outline.
+ */
+
+body {
+	color: #FFF;
+	font-family: "Conduit ITC";
+	width: 100%;
+	height: 100%;
+	background-color: #00000033;
+}
+
+#window {
+	position: absolute;
+	left: 31%;
+	top: 5%;
+	width: 35%;
+}
+
+#window.expanded {
+	width: 62%;
+	left: 18%;
+}
+
+#window table {
+	width: 100%;
+}
+
+#window table tbody tr td {
+	background-color: #fafafa1f;
+}
+
+#header {
+	background-color: #000000cc;
+	height: 25dp;
+	font-size: 15dp;
+	line-height: 23dp;
+	letter-spacing: 0.5dp;
+}
+
+#header th {
+	font-weight: normal;
+	text-align: center;
+}
+
+#winnerText, #roundText {
+	font-size: 18dp;
+	padding-left: 3dp;
+}
+
+.rank {
+	width: 25dp;
+	text-align: center;
+}
+
+.player {
+	text-align: center;
+	height: 22dp;
+	font-size: 18dp;
+	line-height: 22dp;
+	font-effect: outline(1px #00000099);
+	letter-spacing: 1dp;
+	cursor: default;
+}
+
+.player td {
+	text-align: center;
+}
+
+/* .clickable:hover / .selected: inset box-shadow 22px white 20% over the row */
+#window table tbody tr.clickable:hover td, #window table tbody tr.clickable.selected td, #window table tbody tr.clickable.gpselected td {
+	background-color: #ffffff4b;
+}
+#window table tbody tr.clickable:hover td.score, #window table tbody tr.clickable:hover td.playerRank, #window table tbody tr.clickable:hover td.serviceTag,
+#window table tbody tr.clickable.selected td.score, #window table tbody tr.clickable.selected td.playerRank, #window table tbody tr.clickable.selected td.serviceTag,
+#window table tbody tr.clickable.gpselected td.score, #window table tbody tr.clickable.gpselected td.playerRank, #window table tbody tr.clickable.gpselected td.serviceTag {
+	background-color: #ffffff33;
+}
+
+.teamName {
+	padding-left: 5dp;
+}
+
+#window table tbody tr td.score, #window table tbody tr td.playerRank, #window table tbody tr td.serviceTag {
+	background-color: transparent;
+}
+
+.serviceTag {
+	width: 58dp;
+}
+
+.playerRank {
+	width: 30dp;
+}
+
+.stat {
+	width: 70dp;
+}
+
+.player td.name, th.name, .name {
+	text-align: left;
+}
+
+.playerName {
+	font-size: 17dp;
+	width: 264dp;
+	position: relative;
+}
+
+.emblem, .player-emblem {
+	padding-right: 2dp;
+}
+
+td.score {
+	position: relative;
+}
+
+.player-ping {
+	position: absolute;
+	height: 24dp;
+	right: -8dp;
+	top: -1dp;
+}
+
+.rankimg {
+	height: 22dp;
+	margin-right: 1dp;
+	margin-bottom: -5dp;
+}
+
+.emblem {
+	height: 22dp;
+	width: 22dp;
+	margin-bottom: -5dp;
+}
+
+.gameObjective {
+	position: absolute;
+	left: -25dp;
+	top: 0;
+	opacity: 0.8;
+}
+
+.speaker {
+	position: absolute;
+	left: -23dp;
+	top: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.hasSpokenObjective {
+	left: -50dp;
+}
+
+.speaker:hover {
+	opacity: 1;
+}
+
+.speaker.talking {
+	opacity: 1;
+}
+
+.crown {
+	float: right;
+	padding-right: 3dp;
+}
+
+#modInfoButton, #closeButton {
+	position: absolute;
+	background-color: #ffffff40;
+	border: 1dp #7aafd1cc;
+	color: #7aafd1e6;
+	width: 5%;
+	height: 35dp;
+	line-height: 35dp;
+	right: 5%;
+	bottom: 2%;
+	text-align: center;
+	display: none;
+	cursor: pointer;
+}
+
+#modInfoButton img, #closeButton img {
+	display: none;
+	width: 26dp;
+	position: absolute;
+	top: 5dp;
+	left: 3dp;
+}
+
+#modInfoButton:hover, #closeButton:hover {
+	background-color: #ffffff66;
+	border-color: #7aafd1e6;
+	color: #a0c7de;
+}
+
+#playerBreakdown {
+	position: absolute;
+	left: 20%;
+	top: 20%;
+	width: 60%;
+	height: 58%;
+	decorator: linear-gradient(to bottom, #1b2946f2 0%, #182745e6 20%, #061025d9 100%);
+	border: 1dp #000;
+	display: none;
+	padding-left: 19dp;
+	font-weight: 300;
+	box-sizing: content-box;
+}
+
+.statsHeader {
+	height: 32dp;
+	background-color: #000;
+	color: #FFF;
+	line-height: 32dp;
+	font-size: 18dp;
+	padding-left: 7dp;
+	margin-left: -19dp;
+	margin-bottom: 10dp;
+	font-weight: 500;
+}
+
+#playerName {
+	font-size: 29dp;
+	font-weight: 500;
+	height: 50dp;
+	line-height: 50dp;
+	width: 53%;
+	margin-top: 7dp;
+	margin-left: -19dp;
+	margin-bottom: 4dp;
+	padding-left: 19dp;
+	font-effect: outline(1px #00000099);
+	border: 1dp #000;
+	border-left-width: 0;
+}
+
+#playerName .emblem {
+	height: 44dp;
+	width: 44dp;
+	margin-bottom: -12dp;
+	margin-right: 6dp;
+}
+
+.player-rank {
+	width: 38dp;
+	height: 38dp;
+	margin-top: 6dp;
+	margin-right: 6dp;
+	float: right;
+}
+
+.medal {
+	position: relative;
+	text-align: right;
+	width: 64dp;
+	height: 64dp;
+	margin: 2dp;
+	background-color: #0000004d;
+	float: left;
+}
+
+.medal.gpselected {
+	background-color: #ffffff4d;
+}
+
+.medal .medalCount {
+	position: absolute;
+	bottom: 0;
+	right: 3dp;
+}
+
+/* background-size 45px centred */
+.medalImage {
+	position: absolute;
+	left: 9.5dp;
+	top: 9.5dp;
+	width: 45dp;
+	height: 45dp;
+}
+
+#bigMedal {
+	position: absolute;
+	top: 9.5%;
+	right: 15dp;
+	height: 56%;
+	width: 336dp;
+	background-color: #0000004d;
+}
+
+/* background-size 68% 68% top centre */
+#bigMedalImage {
+	position: absolute;
+	left: 16%;
+	top: 0;
+	width: 68%;
+	height: 68%;
+}
+
+#bigMedal .medalName {
+	position: absolute;
+	text-align: center;
+	bottom: 45dp;
+	width: 100%;
+	height: 22dp;
+	font-size: 22dp;
+	border-top: 4dp #18274580;
+}
+
+#bigMedal .medalDesc {
+	position: absolute;
+	text-align: center;
+	bottom: 6dp;
+	width: 90%;
+	left: 5%;
+	font-size: 16dp;
+}
+
+#medalBox {
+	position: absolute;
+	top: 66%;
+	right: 13dp;
+	width: 340dp;
+	height: 132dp;
+}
+
+#previousPlayer, #nextPlayer, #windowClose {
+	position: relative;
+	height: 35dp;
+	line-height: 35dp;
+	font-size: 15dp;
+	font-weight: 100;
+	color: white;
+	background-color: transparent;
+	border-width: 0;
+	text-align: left;
+	box-sizing: border-box;
+	padding: 0;
+	padding-right: 8dp;
+	float: left;
+	cursor: pointer;
+}
+
+#windowClose:hover, #previousPlayer:hover, #nextPlayer:hover {
+	text-decoration: underline;
+}
+
+#previousPlayer.disabled, #nextPlayer.disabled {
+	color: #ffffff66;
+}
+
+#playerBreakdown .button {
+	display: none;
+	position: relative;
+	height: 30dp;
+	float: left;
+	margin-right: 8dp;
+	top: 2dp;
+}
+
+.bottomBar {
+	position: absolute;
+	bottom: 15dp;
+	left: 0;
+	padding-left: 13dp;
+}
+
+#killedMost, #killedMostBy {
+	width: 40%;
+	margin-bottom: 4dp;
+}
+
+#killedMost tbody tr td, #killedMostBy tbody tr td {
+	border-top: 1dp black;
+	border-bottom: 1dp black;
+	cursor: pointer;
+}
+
+#killedMost tbody tr td.killName, #killedMostBy tbody tr td.killName {
+	padding-left: 19dp;
+	text-align: left;
+	border-left: 1dp black;
+}
+
+#killedMost tbody tr td.killCount, #killedMostBy tbody tr td.killCount {
+	border-right: 1dp black;
+}
+
+#killedMost tbody tr:hover td.killName, #killedMostBy tbody tr:hover td.killName {
+	text-decoration: underline;
+}
+
+.killsHeader, .killCount {
+	width: 20%;
+	text-align: center;
+}
+
+#toolOfDestruction td {
+	padding-right: 8dp;
+}
+
+#serverName, #mapName, #modName {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	font-size: 18dp;
+	color: #a0c7de;
+	padding: 0;
+}
+
+#serverName { bottom: 4%; }
+#mapName { bottom: 1.3%; }
+#modName { bottom: 0%; }
+#serverName.serverNameOffset { bottom: 5%; }
+#mapName.mapNameOffset { bottom: 2.5%; }
+
+.scoreboardContextMenu {
+	decorator: linear-gradient(to bottom, #1b2946f2 0%, #182745e6 20%, #061025d9 100%);
+	border: 1dp #000;
+	width: 200dp;
+	position: absolute;
+	margin: 0;
+	padding: 0;
+}
+
+.scoreboardContextMenuItem {
+	display: block;
+	color: #A0C7DE;
+	padding: 4dp 6dp;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.scoreboardContextMenuItem:hover {
+	background-color: #fffaf526;
+	color: #FFFFFF;
+}
+
+.contextMenuOverlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 10;
+}
+
+#menuVolumeSlider {
+	display: block;
+	width: 100%;
+	height: 14dp;
+	margin-top: 2dp;
+}
+#menuVolumeSlider slidertrack {
+	height: 6dp;
+	margin-top: 4dp;
+	background-color: #98b3d359;
+}
+#menuVolumeSlider sliderprogress {
+	height: 0;
+}
+#menuVolumeSlider sliderbar {
+	width: 6dp;
+	height: 14dp;
+	background-color: white;
+	border: 1dp #08060647;
+}
+#menuVolumeSlider sliderarrowdec, #menuVolumeSlider sliderarrowinc {
+	width: 0;
+	height: 0;
+}
+
+#gameStarting {
+	position: relative;
+	margin: 2dp 0dp 0dp 3dp;
+	height: 25dp;
+	display: none;
+}
+
+#outerring {
+	width: 25dp;
+	height: 25dp;
+	position: absolute;
+	animation: 2.5s linear infinite rotation;
+}
+
+#innerring {
+	width: 25dp;
+	height: 25dp;
+	position: absolute;
+	animation: 2.5s linear infinite counterrotation;
+}
+
+#startingText {
+	margin-left: 32dp;
+	font-size: 20dp;
+}
+
+@keyframes rotation {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(359deg); }
+}
+
+@keyframes counterrotation {
+	from { transform: rotate(359deg); }
+	to { transform: rotate(0deg); }
+}
+
+.disconnected {
+	opacity: 0.5;
+}
+
+/* rows waiting for the reveal animation */
+#window tr.hidden {
+	opacity: 0;
+}
+
+img:not([src]) {
+	visibility: hidden;
+}
