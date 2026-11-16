@@ -101,9 +101,54 @@ static_assert(sizeof(c_decomposed_poop_shape_impl) == 1, "Invalid c_decomposed_p
 
 /* ---------- globals */
 
-s_havok_convex_shape_vtable c_scaled_convex_vertices_shape_impl::g_vtable_for_hkpShape; // 0x1135A338
-s_havok_shape_vtable c_decomposed_poop_shape_impl::g_vtable_for_hkpShape; // 0x1135A380
-s_havok_shape_container_vtable c_decomposed_poop_shape_impl::g_vtable_for_hkpShapeContainer; // 0x1135A3A8
+// The original carries these vtables as initialised data: the slots below hold our overrides
+// or the game's own hkpConvexShape members, the rest are null (never called).  Left
+// zero-initialised, a call through one jumps to address 0 (Forge maps with instanced geometry
+// crashed in c_environment_surface_shape__getChildShape_hook).
+template <typename t_function>
+static void havok_vtable_slot(unsigned char (&slot)[4], t_function function)
+{
+	void *address = reinterpret_cast<void *>(function);
+	memcpy(slot, &address, sizeof(address));
+}
+
+static void havok_vtable_slot(unsigned char (&slot)[4], unsigned long address)
+{
+	memcpy(slot, &address, sizeof(address));
+}
+
+s_havok_convex_shape_vtable c_scaled_convex_vertices_shape_impl::g_vtable_for_hkpShape = [] // 0x1135A338
+{
+	s_havok_convex_shape_vtable vtable{};
+	havok_vtable_slot(vtable.shape_vtable.getMaximumProjection, 0xC44950ul);
+	havok_vtable_slot(vtable.shape_vtable.castRayWithCollector, 0xC449C0ul);
+	havok_vtable_slot(vtable.shape_vtable.getContainer, 0x5C2DB0ul);
+	havok_vtable_slot(vtable.shape_vtable.getAabbImpl, &getAabbImpl);
+	havok_vtable_slot(vtable.shape_vtable.castRayImpl, &castRayImpl);
+	havok_vtable_slot(vtable.getNumCollisionSpheresImpl, &getNumCollisionSpheresImpl);
+	havok_vtable_slot(vtable.getCollisionSpheresImpl, &getCollisionSpheresImpl);
+	havok_vtable_slot(vtable.getFirstVertex, &getFirstVertex);
+	havok_vtable_slot(vtable.getSupportingVertexImpl, &getSupportingVertexImpl);
+	havok_vtable_slot(vtable.convertVertexIdsToVerticesImpl, &convertVertexIdsToVerticesImpl);
+	havok_vtable_slot(vtable.weldContactPointImpl, 0xC44AC0ul);
+	havok_vtable_slot(vtable.getCentreImpl, 0xC44AD0ul);
+	return vtable;
+}();
+
+s_havok_shape_vtable c_decomposed_poop_shape_impl::g_vtable_for_hkpShape = [] // 0x1135A380
+{
+	s_havok_shape_vtable vtable{};
+	havok_vtable_slot(vtable.getContainer, &getContainer);
+	return vtable;
+}();
+
+s_havok_shape_container_vtable c_decomposed_poop_shape_impl::g_vtable_for_hkpShapeContainer = [] // 0x1135A3A8
+{
+	s_havok_shape_container_vtable vtable{};
+	havok_vtable_slot(vtable.getNumChildShapes, &getNumChildShapes);
+	havok_vtable_slot(vtable.getChildShape, &getChildShape);
+	return vtable;
+}();
 
 /* ---------- private variables */
 
