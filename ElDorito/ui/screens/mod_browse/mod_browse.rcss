@@ -175,17 +175,21 @@ body {
 	clip: always;
 }
 
+/* class mod_details_body_desc in the original: its padding-top too.  Header and footer keep
+   their height (a browser's flex min-height: auto); the description takes what is left. */
 .mod_details_head {
 	display: block;
 	padding-left: 2%;
 	padding-right: 1%;
+	padding-top: 0.45vw; /* 1.2% of the 37.5vw panel: RmlUi drops % padding when it sizes flex items */
+	flex-shrink: 0;
 }
 
 .mod_details img#mod_preview_img {
 	display: block;
 	width: 64.583vh;
 	height: 21.388vh;
-	margin-top: 2%;
+	margin-top: 0.7275vw; /* 2% of the head's 36.375vw content width; RmlUi resolved the % short */
 	border: 0.2vh #00000080;
 	box-sizing: border-box;
 }
@@ -217,6 +221,7 @@ body {
 	display: flex;
 	width: 100%;
 	flex-direction: column;
+	flex-shrink: 0;
 	font-size: 1.98vh;
 }
 
@@ -226,15 +231,15 @@ body {
 	border-top: 0.138vh #ffffff26;
 	border-bottom: 0.138vh #ffffff26;
 	display: flex;
-	padding: 0.8% 2%;
+	padding: 0.3vw 0.75vw; /* 0.8% 2% of the 37.5vw panel (see .mod_details_head) */
 	flex-direction: row;
 	box-sizing: border-box;
 }
 
 .mod_details_size {
 	width: 100%;
-	padding: 0.3%;
-	padding-left: 2%;
+	padding: 0.1125vw; /* 0.3%, then 2% left, of the 37.5vw panel (see .mod_details_head) */
+	padding-left: 0.75vw;
 	display: flex;
 	flex-direction: row;
 	box-sizing: border-box;
@@ -312,6 +317,7 @@ a:hover {
 	flex-direction: row;
 	align-items: center;
 	margin: 0.694vh;
+	text-transform: capitalize;
 	cursor: pointer;
 }
 

@@ -11,6 +11,46 @@ index 412f9ba..a8e4f2f 100644
  	}
  
  	// The font-face handle is nulled when local font properties are set. In that case we need to retrieve a new handle.
+diff --git a/Source/Core/ElementText.cpp b/Source/Core/ElementText.cpp
+index fe1dd2e..1cd079b 100644
+--- a/Source/Core/ElementText.cpp
++++ b/Source/Core/ElementText.cpp
+@@ -573,6 +573,10 @@ static bool BuildToken(String& token, const char*& token_begin, const char* stri
+ {
+ 	RMLUI_ASSERT(token_begin != string_end);
+ 
++	// hades: text-transform: capitalize (parsed but not implemented): the first letter of each
++	// word, past any leading punctuation ("[all]" -> "[All]"), as in a browser.
++	bool capitalize_next = true;
++
+ 	token.reserve(string_end - token_begin + token.size());
+ 
+ 	// Check what the first character of the token is; all we need to know is if it is white-space or not.
+@@ -673,12 +677,23 @@ static bool BuildToken(String& token, const char*& token_begin, const char* stri
+ 		// sections of white-space.
+ 		if (white_space)
+ 		{
++			capitalize_next = true;
+ 			if (!collapse_white_space)
+ 				token += ' ';
+ 		}
+ 		else
+ 		{
+-			if (text_transformation == Style::TextTransform::Uppercase)
++			if (text_transformation == Style::TextTransform::Capitalize && capitalize_next)
++			{
++				if (character >= 'a' && character <= 'z')
++				{
++					character += ('A' - 'a');
++					capitalize_next = false;
++				}
++				else if ((character >= 'A' && character <= 'Z') || (character >= '0' && character <= '9') || (unsigned char)character >= 0x80)
++					capitalize_next = false;
++			}
++			else if (text_transformation == Style::TextTransform::Uppercase)
+ 			{
+ 				if (character >= 'a' && character <= 'z')
+ 					character += ('A' - 'a');
 diff --git a/Source/Core/Elements/WidgetDropDown.cpp b/Source/Core/Elements/WidgetDropDown.cpp
 index 678c0f1..73df4b7 100644
 --- a/Source/Core/Elements/WidgetDropDown.cpp
