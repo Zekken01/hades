@@ -75,7 +75,7 @@ namespace Utils
 	{
 		std::string GetVersionString() // 0x10C60DB0
 		{
-			return "0.7.2-1759537232.debug";
+			return "0.7.1.1";
 		}
 	}
 }
@@ -87,7 +87,7 @@ namespace Utils
 	{
 		std::string GetCompatibleVersionString() // 0x10C60D20
 		{
-			return "0.7.2-1759537232.debug";
+			return "0.7.1";
 		}
 
 		bool IsVersionCompatible(std::string const &versionString) // 0x10C60E20
