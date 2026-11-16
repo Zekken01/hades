@@ -5,6 +5,7 @@
 #include "ThirdParty/rapidjson/document.h"
 #include "Web/Ui/Screen.hpp"
 #include "Web/WebRenderer.hpp"
+#include "Voip/VoipClient.hpp"
 
 /* ---------- prototypes */
 
@@ -93,6 +94,22 @@ namespace Web
 				handler.AddMethod("submitDialogResult", ClientFunctions::OnSubmitDialogResult);
 				handler.AddMethod("getAssetUrl", ClientFunctions::OnGetAssetUrl);
 				handler.AddMethod("showScoreboard", ClientFunctions::OnShowScoreboard);
+
+				// native VoIP (Source/Voip): the voip screen forwards the scoreboard volume slider
+				// and the settings screen's "voip-reload"
+				handler.AddMethod("voipSetPeerVolume", [](rapidjson::Value const &args, std::string *result) -> QueryError {
+					if (!args.IsObject() || !args.HasMember("uid") || !args["uid"].IsString() || !args.HasMember("volume") || !args["volume"].IsNumber())
+					{
+						*result = "Bad query : \"uid\" (string) and \"volume\" (number) are required";
+						return QueryError_BadQuery;
+					}
+					Voip::SetPeerVolume(args["uid"].GetString(), (float)args["volume"].GetDouble());
+					return QueryError_Ok;
+				});
+				handler.AddMethod("voipReload", [](rapidjson::Value const &, std::string *) -> QueryError {
+					Voip::Reload();
+					return QueryError_Ok;
+				});
 			}
 		}
 	}

@@ -31,16 +31,21 @@ TREES = {
 }
 COMMON = ["/nologo", "/c", "/W0", "/MTd", "/Od", "/Ob0", "/ZI", "/GS", "/RTC1", "/EHsc", "/std:c++20", "/permissive-"]
 DEFINES = ["_WINDOWS", "_USRDLL", "WIN32", "_DEBUG", "MINIUPNP_STATICLIB", "NOMINMAX", "_CRT_SECURE_NO_WARNINGS",
-           "_WINSOCK_DEPRECATED_NO_WARNINGS", "MATCHING", "RMLUI_STATIC_LIB", "LUNASVG_BUILD_STATIC", "RMLUI_LUA_AS_CXX"]
+           "_WINSOCK_DEPRECATED_NO_WARNINGS", "MATCHING", "RMLUI_STATIC_LIB", "LUNASVG_BUILD_STATIC", "RMLUI_LUA_AS_CXX",
+           "RTC_STATIC", "RTC_ENABLE_WEBSOCKET=1", "RTC_ENABLE_MEDIA=1"]
 INCLUDES = ["", "ElDorito/Source", "blamlib/source", "libs/boost-1.76/include", "libs/detours/include", "libs/directx/Include", "libs/discord-rpc/include", "libs/fmod/inc",
             "libs/miniupnpc/include", "libs/oggvorbis/include", "libs/openssl-1.1.0e/include", "libs/steam/Include",
-            "libs/websocketpp/include", "libs/rmlui/include", "libs/lunasvg/include", "libs/lua-5.4/include", "libs/freetype/include/freetype2"]
+            "libs/websocketpp/include", "libs/rmlui/include", "libs/lunasvg/include", "libs/lua-5.4/include", "libs/freetype/include/freetype2", "libs/voip/include"]
 THIRD_PARTY = ["detours/lib.X86/detours.lib", "discord-rpc/lib/Debug/discord-rpc.lib",
                "miniupnpc/lib/miniupnpc.lib", "oggvorbis/lib/Debug/ogg.lib", "oggvorbis/lib/Debug/vorbis.lib",
                "oggvorbis/lib/Debug/vorbisfile.lib", "openssl-1.1.0e/lib/libeay32MTd.lib",
                "openssl-1.1.0e/lib/ssleay32MTd.lib", "rmlui/lib/rmlui.lib", "rmlui/lib/rmlui_debugger.lib",
                "rmlui/lib/rmlui_lua.lib", "freetype/lib/freetyped.lib", "lua-5.4/lib/lua.lib",
-               "lunasvg/lib/lunasvg.lib", "lunasvg/lib/plutovg.lib"]
+               "lunasvg/lib/lunasvg.lib", "lunasvg/lib/plutovg.lib",
+               # native VoIP (libs/build_voip_deps.py)
+               "voip/lib/datachannel.lib", "voip/lib/juice.lib", "voip/lib/usrsctp.lib", "voip/lib/srtp2.lib",
+               "voip/lib/mbedtls.lib", "voip/lib/mbedx509.lib", "voip/lib/mbedcrypto.lib", "voip/lib/everest.lib",
+               "voip/lib/p256m.lib", "voip/lib/opus.lib"]
 WINDOWS = ("kernel32 user32 gdi32 advapi32 shell32 ole32 oleaut32 uuid ws2_32 winhttp wininet iphlpapi psapi "
            "shlwapi crypt32 winmm dbghelp version comctl32 bcrypt urlmon synchronization dwmapi").split()
 # The Windows SDK the matching build uses, when it is installed.

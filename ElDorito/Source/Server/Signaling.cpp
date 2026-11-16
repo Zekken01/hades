@@ -1,5 +1,6 @@
 /* ---------- headers */
 
+#include "Voip/VoipClient.hpp"
 #include "hades/hades.h"
 
 #include "Blam/BitStream.hpp"
@@ -465,6 +466,7 @@ namespace Server
 			currentPassword = authStrings[session->MembershipInfo.HostPeerIndex];
 			port = Utils::Singleton<Modules::ModuleServer>::Instance().VarSignalServerPort->ValueInt;
 			Web::Ui::ScreenLayer::Notify("signal-ready", ServerPortJson(), true);
+	Voip::OnSignalReady(ServerPortJson());
 			if (Utils::Singleton<Modules::ModuleUPnP>::Instance().VarUPnPEnabled->ValueInt)
 				Utils::Singleton<Modules::ModuleUPnP>::Instance().UPnPForwardPort(true, port, port, "Eldewrito Signal Server");
 			if (!signalServer.is_listening())
@@ -595,6 +597,7 @@ void WebSocketPacketHandler::HandlePacket(Blam::Network::ObserverChannel *sender
 	port = packet->Data.serverPort;
 
 	Web::Ui::ScreenLayer::Notify("signal-ready", ServerPortJson(), true);
+	Voip::OnSignalReady(ServerPortJson());
 }
 
 std::string ServerPortJson() // 0x10C2FE80

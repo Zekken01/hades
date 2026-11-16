@@ -34,6 +34,7 @@
 #include "Web/Ui/Screen.hpp"
 
 #include "Web/Ui/ScreenLayer.hpp"  // hades: added for 0x10A258C0
+#include "Voip/VoipClient.hpp"
 
 #include "Patches/Core.hpp"  // hades: added for 0x10A24050
 
@@ -203,12 +204,14 @@ namespace Modules
 					isChatting = false;
 					Patches::Ui::TogglePTTSound(false);
 					Web::Ui::ScreenLayer::Notify("voip-ptt", "{\"talk\":0}", true);
+					Voip::SetTalking(false);
 				}
 				else if (!isChatting && (kbmKeyPrimary || kbmKeySecondary || mousePrimary || mouseSeconday) && infocus && !Web::Ui::WebChat::IsChatBoxVisible())
 				{
 					isChatting = true;
 					Patches::Ui::TogglePTTSound(true);
 					Web::Ui::ScreenLayer::Notify("voip-ptt", "{\"talk\":1}", true);
+					Voip::SetTalking(true);
 				}
 			}
 			else
@@ -218,12 +221,14 @@ namespace Modules
 					isChatting = false;
 					Patches::Ui::TogglePTTSound(false);
 					Web::Ui::ScreenLayer::Notify("voip-ptt", "{\"talk\":0}", true);
+					Voip::SetTalking(false);
 				}
 				else if (!isChatting && Blam::Input::GetActionState(Blam::Input::eGameActionVoiceChat)->Ticks == 1)
 				{
 					isChatting = true;
 					Patches::Ui::TogglePTTSound(true);
 					Web::Ui::ScreenLayer::Notify("voip-ptt", "{\"talk\":1}", true);
+					Voip::SetTalking(true);
 				}
 			}
 		}
@@ -268,6 +273,7 @@ namespace Modules
 		VarListenToMicrophone->ValueIntMax = 1;
 		VarMaximumBitrate = AddVariableInt("MaximumBitrate", "max_bitrate", "Set the maximum bitrate for each voip peer", eCommandFlagsArchived, 0x7D00);
 		Patches::Core::OnMapLoaded(RendererStarted);
+		Patches::Core::OnShutdown(Voip::Shutdown);
 	}
 
 	bool ModuleVoIP::IsChatting() // 0x10A24D90
@@ -308,6 +314,7 @@ bool UpdateVoip(std::vector<std::string> const &Arguments, std::string &returnIn
 	writer.Int(Modules::ModuleVoIP::Instance().VarMaximumBitrate->ValueInt);
 	writer.EndObject();
 	Web::Ui::ScreenLayer::Notify("voip-settings", buffer.GetString(), true);
+	Voip::ApplySettings();
 	returnInfo = "";
 	return true;
 }
@@ -330,6 +337,7 @@ bool VariableListenToMicrophone(std::vector<std::string> const &arguments, std::
 	writer.Bool(Modules::ModuleVoIP::Instance().VarListenToMicrophone->ValueInt);
 	writer.EndObject();
 	Web::Ui::ScreenLayer::Notify("voip-toggle-test-audio", buffer.GetString(), true);
+	Voip::SetListenToMicrophone(Modules::ModuleVoIP::Instance().VarListenToMicrophone->ValueInt != 0);
 	return true;
 }
 

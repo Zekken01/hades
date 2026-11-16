@@ -6,3 +6,5 @@ libs/freetype/lib/
 libs/rmlui/lib/
 ElDorito/data/
 libs/lunasvg/
+# built by libs/build_voip_deps.py
+libs/voip/

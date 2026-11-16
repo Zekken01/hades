@@ -1,8 +1,8 @@
 --[[
 	voip.lua -- the overlay half of screens/voip (rtc.js speaking list + voip_stats.js).
 
-	The WebRTC transport of rtc.js moves to native code (Phase 5).  That module feeds this
-	screen with two events and leaves the presentation logic of rtc.js here:
+	The WebRTC transport of rtc.js is native (Source/Voip).  It feeds this screen with two
+	events and leaves the presentation logic of rtc.js here:
 
 	  voip-peer-speaking { user, isSpeaking, volume, muted }
 	      speak()/stopSpeak(): notify "voip-speaking", call playerSpeaking, and show the
@@ -221,6 +221,19 @@ function init()
 				toggleStats(tonumber(variable.value) == 1)
 			end
 		end
+	end)
+
+	-- per-player volume from the scoreboard (dew.show("voip", { volume = { uid, vol } }))
+	dew.on("show", function(e)
+		local volume = (e.data or {}).volume
+		if volume and volume.uid then
+			dew.callMethod("voipSetPeerVolume", { uid = tostring(volume.uid), volume = tonumber(volume.vol) or 1 })
+		end
+	end)
+
+	-- settings changed the microphone or processing options
+	dew.on("voip-reload", function()
+		dew.callMethod("voipReload", {})
 	end)
 
 	dew.command("voip.update", {})

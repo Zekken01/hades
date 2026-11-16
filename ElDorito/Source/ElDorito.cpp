@@ -1,5 +1,6 @@
 /* ---------- headers */
 
+#include "Voip/VoipClient.hpp"
 #include "ElDorito.hpp"
 #include "hades/hades.h"
 
@@ -666,6 +667,7 @@ void ElDorito::Tick() // 0x10966BD0
 	Discord::DiscordRPC::Instance().Update();
 	Server::HsGlobalSync::Tick();
 	Modules::ModuleVoIP::Instance().Tick();
+	Voip::Tick();
 	::Audio::CAudioDeviceManager::Instance().Update();
 	CServerConnectManager::Instance().Update();
 	CModBrowserManager::Instance().Update();
