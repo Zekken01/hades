@@ -102,6 +102,7 @@ local settingsToLoad = {
 	{ "sMotionBlurAlways", "Settings.MotionBlurAlways" },
 	{ "sCenteredHudScaling", "Graphics.CenteredHUD" },
 	{ "sSkipTitleSplash", "Game.SkipTitleSplash" },
+	{ "sSkipIntroVideos", "Game.SkipIntroVideos" },
 	{ "sSSAOEnabled", "Settings.SSAO" },
 	{ "sDecoratorDistance", "Settings.DecoratorDistance" },
 	{ "sLODDistance", "Settings.LODDistance" },

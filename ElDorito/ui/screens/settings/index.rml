@@ -123,6 +123,10 @@
                     <div class="setting inverted-checkbox toggle" id="sSkipTitleSplash" data-state="0">Enabled</div>
                 </div>
 				<div class="row">
+                    <label for="sSkipIntroVideos">Show Intro Videos</label>
+                    <div class="setting inverted-checkbox toggle" id="sSkipIntroVideos" data-state="0">Enabled</div>
+                </div>
+				<div class="row">
                     <h3 class="subHeader">Discord</h3>
                 </div>
 				<div class="row">
