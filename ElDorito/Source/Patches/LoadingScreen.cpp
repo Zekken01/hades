@@ -200,11 +200,18 @@ namespace Patches
 
 bool ShowLoadingScreenHook(s_game_options &options) // 0x10A84100
 {
-	if (strcmp(options.scenario_path, "maps\\mainmenu") == 0 && Patches::LoadingScreen::firstRun)
+	// hades: was strcmp(options.scenario_path, "maps\\mainmenu") == 0. The startup movies
+	// cover whichever map loads while main_globals.startup_sequence is pending
+	// (main_kick_startup_masking_sequence), a mod's main menu too, and the engine then
+	// never runs the loading progress whose end hides the loading screen
+	// (HideLoadingScreenHook), so a loading screen shown for that load stayed up for good.
+	bool const startup_sequence_pending = *reinterpret_cast<bool const *>(0x22B4738);
+	if (startup_sequence_pending && Patches::LoadingScreen::firstRun)
 	{
 		// hades: with Game.SkipIntroVideos the movies are skipped (GetBinkVideoPathHook), so
-		// the loading screen is shown as if there were none.
-		static char const *const k_intro_bink_paths[] = { "bink\\intro.bik", "bink\\logo_343.bik", "bink\\logo_microsoft.bik" };
+		// the loading screen is shown as if there were none. The loading loop masks the load
+		// on its own as well.
+		static char const *const k_intro_bink_paths[] = { "bink\\intro.bik", "bink\\logo_343.bik", "bink\\logo_microsoft.bik", "bink\\loading_loop.bik" };
 		bool HasIntroBinks = false;
 		if (Utils::Singleton<Modules::ModuleGame>::Instance().VarSkipIntroVideos->ValueInt != 1)
 		{
