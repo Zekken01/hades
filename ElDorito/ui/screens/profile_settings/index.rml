@@ -13,6 +13,14 @@
 </head>
 <body>
 	<div id="blackLayer"></div>
+	<!-- fills the screen left of the 16:9 page on wider screens (index.html: #background_left,
+	     #background_left_header, #tab-gradient, #background_left_footer) -->
+	<div id="leftFiller">
+		<div id="background_left_box"><img id="background_left" data-pak="mainmenu" data-url="assets/blur/blur_left" data-fallback="dew://assets/blur/blur_left.png"/></div>
+		<div id="background_left_header"></div>
+		<div id="tab-gradient"></div>
+		<div id="background_left_footer"></div>
+	</div>
 	<div id="container">
 		<div class="page_content">
 			<img id="background" data-pak="mainmenu" data-url="assets/blur/customization-blur" data-fallback="dew://assets/blur/customization-blur.png"/>

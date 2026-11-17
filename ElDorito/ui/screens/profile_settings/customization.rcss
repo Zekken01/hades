@@ -18,6 +18,61 @@
 	display: none;
 }
 
+/* customization.css #background_left & co. RCSS has no calc(): the original's
+   width: calc(50vw - 88.8vh) is a box in the left half of the screen that stops 640dp (half
+   the page) short of its right side; the header, footer and tab gradient were centred boxes
+   whose right edges land 88.8vh and 81.8vh left of the screen's centre. */
+#leftFiller {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 50%;
+	height: 100%;
+	z-index: -101;
+	overflow: hidden;
+}
+#background_left_box {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 640dp;
+	height: 100%;
+}
+#background_left {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+/* the page's own .header and .bottomBar gradients, so the bands run on unbroken into the
+   strip (the original's own gradients here, 58.17%-119% and 19%--140.71%, left a step at
+   the page edge) */
+#background_left_header {
+	position: absolute;
+	right: 640dp;
+	top: 0;
+	width: 89vh;
+	height: 13.3vh;
+	decorator: linear-gradient(to bottom, #00000000 76%, #00000066 140%);
+}
+#background_left_footer {
+	position: absolute;
+	right: 640dp;
+	bottom: 0;
+	width: 89vh;
+	height: 10vh;
+	decorator: linear-gradient(to top, #00000000 20%, #00000066 140%);
+}
+/* the inset box-shadow is left out (no box-shadow in RCSS) */
+#tab-gradient {
+	position: absolute;
+	right: 81.8vh;
+	top: 13.3vh;
+	width: 11vh;
+	height: 6.1vh;
+	background-color: #00000040;
+	transform: skewX(-45deg);
+}
+
 .tabpage-container {
 	position: relative;
 	float: left;

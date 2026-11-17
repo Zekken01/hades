@@ -1000,6 +1000,7 @@ local function selectTab(index, sound)
 	local tab = tabs[index + 1]
 	if not tab then return end
 	PAGE_HOOKS[index + 1]()
+	el("tab-gradient").style.display = index == 0 and "none" or "block"
 	for i, other in ipairs(tabs) do
 		other:SetClass("selected", i == index + 1)
 		other:SetClass("right", i > index + 1)
@@ -1024,6 +1025,14 @@ local function nextPage()
 	if tabIndex < 2 then selectTab(tabIndex + 1, true) end
 end
 
+-- $('#background_left'), $('#background_left_header, #background_left_footer'): shown and hidden
+-- with #background
+local function showLeftFiller(visible)
+	for _, id in ipairs({ "background_left_box", "background_left_header", "background_left_footer" }) do
+		el(id).style.display = visible and "block" or "none"
+	end
+end
+
 local function effectReset(quick)
 	if exiting then return end -- prevent escape spamming
 	exiting = true
@@ -1033,6 +1042,7 @@ local function effectReset(quick)
 			el("blackLayer").style.display = "block"
 			jq("#blackLayer"):fadeIn(quick and 0 or 170, function()
 				jq("#background"):hide()
+				showLeftFiller(false)
 				if not quick then
 					dew.command("Game.ScenarioScript leave_settings")
 					dew.command("Player.Armor.ReturnCustomizationBiped")
@@ -1362,6 +1372,8 @@ dew.on("show", function()
 	setRepresentation()
 
 	jq("#background"):hide()
+	showLeftFiller(false)
+	el("tab-gradient").style.display = "none"
 	jq("#settingsWindow"):hide()
 	hideForms(".form")
 	for i = 1, 3 do
@@ -1381,6 +1393,7 @@ dew.on("show", function()
 							initGamepad()
 							updateEmblemDisplay(true)
 							jq("#background"):show()
+							showLeftFiller(true)
 							showing = false
 							dew.setTimeout(function()
 								dew.command("Game.DisableScreenEffect 0 1")
