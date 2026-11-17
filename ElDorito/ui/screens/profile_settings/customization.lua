@@ -1028,7 +1028,8 @@ end
 -- $('#background_left'), $('#background_left_header, #background_left_footer'): shown and hidden
 -- with #background
 local function showLeftFiller(visible)
-	for _, id in ipairs({ "background_left_box", "background_left_header", "background_left_footer" }) do
+	for _, id in ipairs({ "background_left_box", "background_left_header", "background_left_footer",
+		"background_right_box", "background_right_header", "background_right_footer" }) do
 		el(id).style.display = visible and "block" or "none"
 	end
 end

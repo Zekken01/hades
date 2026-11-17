@@ -21,6 +21,15 @@
 		<div id="tab-gradient"></div>
 		<div id="background_left_footer"></div>
 	</div>
+	<!-- not in the original: the header and bottom bar carried on to the right edge, over the
+	     3D view, on screens wider than 16:9 -->
+	<div id="rightFiller">
+		<!-- a pack may supply assets/blur/blur_right for this side; there is no default, so
+		     the 3D view stays clear without one -->
+		<div id="background_right_box"><img id="background_right" data-pak="mainmenu" data-url="assets/blur/blur_right"/></div>
+		<div id="background_right_header"></div>
+		<div id="background_right_footer"></div>
+	</div>
 	<div id="container">
 		<div class="page_content">
 			<img id="background" data-pak="mainmenu" data-url="assets/blur/customization-blur" data-fallback="dew://assets/blur/customization-blur.png"/>
