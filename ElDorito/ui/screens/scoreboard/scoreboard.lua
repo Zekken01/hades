@@ -406,11 +406,8 @@ local function renderWindow()
 		end
 	end
 	parts[#parts + 1] = "</tbody></table>"
-	parts[#parts + 1] = '<div id="gameStarting"' .. (appState.pregame and ' style="display: block;"' or "") .. '>'
-		.. '<img id="outerring" src="dew://assets/scoreboard/outer_ring.png"/>'
-		.. '<img id="innerring" src="dew://assets/scoreboard/inner_ring.png"/>'
-		.. '<span id="startingText">Starting Game...</span></div>'
-	window.inner_rml = table.concat(parts)
+	el("windowContent").inner_rml = table.concat(parts)
+	el("gameStarting").style.display = appState.pregame and "block" or "none"
 	wireRows()
 	for _, image in ipairs(window:QuerySelectorAll(".rankimg")) do
 		pakAwareContext.invalidateElement(image)
