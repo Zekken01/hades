@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Imported by the Visual Studio projects of mtndew.dll and ui-harness.exe in place of the
+  per-user Microsoft.Cpp.Win32.user.props (CMake's VS_USER_PROPS), after Microsoft.Cpp.props.
+
+  Microsoft.Cpp.props gives every ClCompile item default defines: _WINDLL for a DLL
+  (Microsoft.Cpp.WinDLL.props) and _MBCS or _UNICODE from the character set. cl alone does
+  not define them, and _WINDLL changes OpenSSL's e_os2.h, so they are dropped here; the
+  project's own defines (CMakeLists.txt) are all the code is compiled with.
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions></PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+</Project>

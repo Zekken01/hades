@@ -1,5 +1,5 @@
 build/
-# built by libs/CMakeLists.txt from the submodules under libs/src (build.py runs it)
+# built by libs/CMakeLists.txt from the submodules under libs/src
 libs/lua-5.4/
 libs/freetype/
 libs/lunasvg/

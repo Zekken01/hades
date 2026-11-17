@@ -4,7 +4,7 @@
 // auto-negotiation off.  Signaling is a direct in-process hand-off.  Passes when Opus
 // frames arrive both ways and the data channel carries the bitrate request.
 //
-// build: python tools/voip-test/build_voip_test.py
+// build: cmake --build --preset default --target peer_test (build/voip-test/peer_test.exe)
 
 #include <rtc/rtc.hpp>
 #include <opus/opus.h>

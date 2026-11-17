@@ -43,6 +43,6 @@ Source of truth: the web UI at `C:\Users\zekken\Desktop\ui`. Each screen becomes
   only after `ticks 1`, and held keys need `keydown`/`keyup`.
 
 ## Testing
-`python tools/ui-harness/build_harness.py`, then
+`cmake --build --preset default --target ui-harness`, then
 `build/ui-harness/ui-harness.exe ElDorito <script>` (see harness_main.cpp for the script ops);
 `python tools/deploy_test.py F:\ElDewrito` to try it in the game.
