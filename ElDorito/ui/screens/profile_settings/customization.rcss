@@ -171,15 +171,29 @@ img:not([src]) {
 	height: 63dp;
 	width: 63dp;
 }
+/* customization.css: the image is 185px wide at its own proportions (405x124 art: 185x56.64)
+   and the tile is as tall as the image */
 .nameplate-tile span.tile {
-	height: 40dp;
+	height: 56.64dp;
 }
 .nameplate-tile img {
 	position: absolute;
 	right: 5dp;
-	top: 2dp;
+	top: 0;
 	width: 185dp;
-	height: 36dp;
+	height: 56.64dp;
+}
+/* deliberate change from the original (12px off the bottom): the name is centred on the
+   tile's height, level with the logo */
+.nameplate-tile label {
+	padding-top: 0;
+	padding-bottom: 0;
+	line-height: 56.64dp;
+}
+/* the ring is a box-shadow outside the tile in the original (see .armorForm span.tile) */
+.nameplate-tile span.tile.selectedElement, .nameplate-tile span.tile.chosenElement {
+	box-sizing: content-box;
+	margin: -3dp -3dp 5dp -3dp;
 }
 
 .pickerHost.hide {
