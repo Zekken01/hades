@@ -196,8 +196,8 @@ body {
 
 .mod_details_title {
 	font-size: 3.3vh;
-	margin-top: 2%;
-	padding-bottom: 1%;
+	margin-top: 0.7275vw; /* 2% and 1% of the head's 36.375vw content width (see .mod_details_head) */
+	padding-bottom: 0.36375vw;
 	margin-bottom: 0;
 }
 
@@ -275,7 +275,7 @@ a:hover {
 	position: absolute;
 	right: 50%;
 	margin-right: -62.222vh;
-	top: 0.8vh;
+	top: 1.833vh; /* the original's flow position: the title's bottom less 3.58vh */
 	height: 100%;
 	font-size: 3.333vh;
 	text-align: center;

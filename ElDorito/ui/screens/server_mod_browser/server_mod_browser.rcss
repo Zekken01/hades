@@ -36,6 +36,11 @@
 	width: 20%;
 }
 
+/* server_mod_browser.css gives the footer a quarter of the panel (the rows leave a gap below) */
+.mod_details_footer {
+	height: 25%;
+}
+
 .mod_selection_list .li .downloadedIcon {
 	position: absolute;
 	left: 0.4vh;

@@ -93,6 +93,7 @@ body {
 	height: 21.388vh;
 	margin-top: 2.489vh; /* 2% of the 124.444vh row (RmlUi resolves % margins of inline/float boxes against the wrong width) */
 	border: 0.2vh #00000080;
+	box-sizing: border-box; /* the original's ring is a box-shadow: it takes no room */
 }
 
 .mod_details_side {
@@ -138,9 +139,11 @@ body {
 	color: #aac0da;
 	overflow-y: auto;
 	flex: 1;
-	margin-top: 2%;
-	margin-bottom: 1%;
-	padding: 1%;
+	/* 2%, 1% and 1% of the 70vw row: RmlUi resolved these short on a flex item, which left
+	   the box 9px high and running 4px under the button bar */
+	margin-top: 1.4vw;
+	margin-bottom: 0.7vw;
+	padding: 0.7vw;
 	border-top: 0.138vh #ffffff26;
 	border-bottom: 0.138vh #ffffff26;
 	background-color: #0000004d;
