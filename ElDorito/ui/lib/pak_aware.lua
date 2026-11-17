@@ -20,7 +20,11 @@ local function split(text, separator)
 end
 
 local function maybeSetImage(img, newSrc)
-	if (img:GetAttribute("src") or "") ~= newSrc then
+	if newSrc == "" then
+		-- nothing found and no fallback: no src at all (a browser's empty src shows nothing,
+		-- RmlUi's draws a white box; img:not([src]) hides it)
+		if img:HasAttribute("src") then img:RemoveAttribute("src") end
+	elseif (img:GetAttribute("src") or "") ~= newSrc then
 		img:SetAttribute("src", newSrc)
 	end
 end
