@@ -550,7 +550,7 @@ local function render()
 		content = string.format([[
 			<div class="dialog-message-input%s"><div>%s</div></div>
 			<div class="dialog_input_container">
-				<div>%s</div>
+				<div class="dialog_input_wrap">%s</div>
 				<div id="inputError" class="dialog_input_error" style="display: none;"></div>
 			</div>]], iconOffset, d.formattedBody, inputMarkup)
 	else

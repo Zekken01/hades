@@ -100,7 +100,8 @@ body {
 	left: 0;
 	padding-left: 0.41667vh;
 	width: 100%;
-	box-sizing: border-box;
+	/* content-box as in the original: the 0.83vh of vertical padding adds to the height */
+	box-sizing: content-box;
 	decorator: linear-gradient(to bottom, #0d254ad9, #061023d9);
 	font-size: 3.19444vh;
 	height: 37.08334vh;
@@ -133,6 +134,8 @@ body {
 	display: flex;
 	flex-direction: row;
 	white-space: nowrap;
+	/* the original's buttons are inline-flex on a text line: its descent leaves this below them */
+	padding-bottom: 0.5556vh;
 }
 
 .button-key .button {
@@ -232,6 +235,21 @@ ul.dialog-list li .option-label {
 	color: #adc4df;
 	padding: 0.69444vh 0.69444vh 0.69444vh 1.11112vh;
 	font-size: 2.77778vh;
+	/* content-box as in the original: width: 100% of the 61.11vh column, the padding outside it */
+	box-sizing: content-box;
+}
+
+/* a browser input's line is never shorter than the font's normal height (1.153em for
+   Conduit ITC), and its text is centred in it */
+input.dialog_input {
+	height: 1.153em;
+	line-height: 1.153em;
+}
+
+/* the original's counter sat against .dialog-content (transformed, so its containing block),
+   whose right and bottom edges are the input column's: this wrapper is that box here */
+.dialog_input_wrap {
+	position: relative;
 }
 
 .dialog_input:focus {
