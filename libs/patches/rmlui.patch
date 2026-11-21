@@ -1,3 +1,52 @@
+diff --git a/Source/Core/Context.cpp b/Source/Core/Context.cpp
+index 6af67fb..0c8861e 100644
+--- a/Source/Core/Context.cpp
++++ b/Source/Core/Context.cpp
+@@ -362,6 +362,19 @@ void Context::UnloadDocument(ElementDocument* _document)
+ 		active = nullptr;
+ 	}
+ 
++	// hades: the document's descendants are not detached one by one (their owner stays the
++	// document), so drop them from the chains here; they are destroyed with the document and a
++	// later mouse-up would otherwise reset the pseudo-classes of freed elements.
++	active_chain.erase(std::remove_if(active_chain.begin(), active_chain.end(),
++		[document](Element* element) { return element->GetOwnerDocument() == document; }), active_chain.end());
++	for (auto it = drag_hover_chain.begin(); it != drag_hover_chain.end();)
++	{
++		if ((*it)->GetOwnerDocument() == document)
++			it = drag_hover_chain.erase(it);
++		else
++			++it;
++	}
++
+ 	// Clear other pointers to elements whose owner was deleted
+ 	if (drag && drag->GetOwnerDocument() == document)
+ 	{
+@@ -641,6 +654,10 @@ bool Context::ProcessMouseButtonDown(int button_index, int key_modifier_state)
+ 			}
+ 		}
+ 
++		// hades: a press whose release never arrived (input capture dropped mid-press) left its
++		// chain behind; start over instead of appending a second copy of the hover chain.
++		ResetActiveChain();
++
+ 		// Save the just-pressed-on element as the pressed element.
+ 		active = new_focus;
+ 
+@@ -1128,10 +1145,11 @@ void Context::OnElementDetach(Element* element)
+ 			hover = nullptr;
+ 	}
+ 
+-	auto it_active = std::find(active_chain.begin(), active_chain.end(), element);
++	// hades: every copy (the chain can hold an element twice, see ProcessMouseButtonDown)
++	auto it_active = std::remove(active_chain.begin(), active_chain.end(), element);
+ 	if (it_active != active_chain.end())
+ 	{
+-		active_chain.erase(it_active);
++		active_chain.erase(it_active, active_chain.end());
+ 
+ 		if (active == element)
+ 			active = nullptr;
 diff --git a/Source/Core/ElementStyle.cpp b/Source/Core/ElementStyle.cpp
 index 412f9ba..8fe552d 100644
 --- a/Source/Core/ElementStyle.cpp
