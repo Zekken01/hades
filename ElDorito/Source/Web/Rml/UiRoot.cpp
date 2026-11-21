@@ -227,6 +227,7 @@ namespace Web
 				if (m_context->GetHoverElement() != hovered)
 					m_context->Update();
 			}
+			UpdatePointerRegions();
 			m_lua.CollectGarbageStep();
 		}
 
@@ -550,6 +551,42 @@ namespace Web
 				screen.document->SetProperty("pointer-events", (screen.captureInput || screen.capturePointer) ? "auto" : "none");
 		}
 
+		// Screens with a pointer region (the voting window over the lobby) give up their input
+		// capture while the cursor is outside that element, so the game's own UI behind them
+		// (the lobby player cards) can be clicked; back over it, they capture again.
+		void UiRoot::UpdatePointerRegions()
+		{
+			bool track = false;
+			bool changed = false;
+			int mouseX, mouseY;
+			const bool mouseKnown = Input::GetMousePosition(&mouseX, &mouseY);
+			::Rml::Element *hovered = m_context->GetHoverElement();
+			for (auto &screen : m_screens)
+			{
+				if (screen->pointerRegion.empty() || !screen->document || screen->state != ScreenState::Visible)
+				{
+					if (screen->pointerOutside)
+					{
+						screen->pointerOutside = false;
+						changed = true;
+					}
+					continue;
+				}
+				track = true;
+				bool inside = !mouseKnown; // no cursor yet: keep capturing
+				for (::Rml::Element *e = hovered; e && !inside; e = e->GetParentNode())
+					inside = e->GetOwnerDocument() == screen->document && e->GetId() == screen->pointerRegion;
+				if (screen->pointerOutside == inside)
+				{
+					screen->pointerOutside = !inside;
+					changed = true;
+				}
+			}
+			Input::SetTrackPointer(track);
+			if (changed)
+				UpdateOverlay();
+		}
+
 		void UiRoot::UpdateOverlay()
 		{
 			int visible = 0;
@@ -561,6 +598,8 @@ namespace Web
 				if (screen->state != ScreenState::Visible || screen->overlayOnly)
 					continue;
 				visible++;
+				if (screen->pointerOutside)
+					continue; // cursor outside its pointer region: the game has the input
 				if (screen->capturePointer)
 					capturePointer = true;
 				if (screen->captureInput)
@@ -799,6 +838,7 @@ namespace Web
 				{ "notifyScreen", L_notifyScreen },
 				{ "captureInput", L_captureInput },
 				{ "capturePointer", L_capturePointer },
+				{ "setPointerRegion", L_setPointerRegion },
 				{ "toast", L_toast },
 				{ "setTimer", L_setTimer },
 				{ "clearTimer", L_clearTimer },
@@ -1054,6 +1094,18 @@ namespace Web
 		}
 
 		// dew_core.capturePointer(screenId, capture)
+		// dew_core.setPointerRegion(screenId, elementId | nil)
+		int UiRoot::L_setPointerRegion(lua_State *L)
+		{
+			UiRoot *self = Get();
+			if (Screen *screen = self->FindScreen(CheckString(L, 1)))
+			{
+				screen->pointerRegion = lua_isstring(L, 2) ? lua_tostring(L, 2) : "";
+				self->UpdatePointerRegions();
+			}
+			return 0;
+		}
+
 		int UiRoot::L_capturePointer(lua_State *L)
 		{
 			UiRoot *self = Get();

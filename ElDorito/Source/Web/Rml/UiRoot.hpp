@@ -93,6 +93,10 @@ namespace Web
 				std::string variable;      // cvar that holds the url, if any
 				bool captureInput = false;
 				bool capturePointer = false;
+				// dew.setPointerRegion(id): the screen captures only while the cursor is over the
+				// element with this id; elsewhere the game gets the mouse (and keyboard)
+				std::string pointerRegion;
+				bool pointerOutside = false;
 				int zIndex = 0;
 				bool overlayOnly = false;  // the toast layer: always shown, never counts as "visible UI"
 				ScreenState state = ScreenState::Hidden;
@@ -122,6 +126,7 @@ namespace Web
 			void SetState(Screen &screen, ScreenState state);
 			void UpdateOverlay();
 			void ApplyPointerEvents(Screen &screen);
+			void UpdatePointerRegions();
 			void DeliverEvent(Screen &screen, const std::string &event, const std::string &dataJson);
 			void DeliverEventToSubscribed(const std::string &event, const std::string &dataJson, bool broadcast);
 			void DeliverEventTable(Screen &screen, const std::string &event, int dataRef);
@@ -147,6 +152,7 @@ namespace Web
 			static int L_notifyScreen(lua_State *L);
 			static int L_captureInput(lua_State *L);
 			static int L_capturePointer(lua_State *L);
+			static int L_setPointerRegion(lua_State *L);
 			static int L_toast(lua_State *L);
 			static int L_setTimer(lua_State *L);
 			static int L_clearTimer(lua_State *L);

@@ -69,7 +69,15 @@ local function winnerChosen()
 	return #document:QuerySelectorAll(".winner") > 0
 end
 
+-- Not in the original: in the main menu lobby the full voting window lets the game have the
+-- mouse while the cursor is outside it, so the lobby's player cards stay usable.
+local inLobby = false
+local function applyPointerRegion()
+	dew.setPointerRegion((inLobby and not compactMode) and "window" or nil)
+end
+
 local function onShow()
+	applyPointerRegion()
 	if compactMode then
 		jq("#window"):fadeOut(200)
 		jq(".window-compact"):fadeIn(200)
@@ -294,6 +302,8 @@ dew.on("show", function(event)
 	dew.notify("voting_update")
 	dew.getSessionInfo():next(function(info)
 		isHost = info.isHost
+		inLobby = info.mapName == "mainmenu"
+		applyPointerRegion()
 	end)
 
 	if gamepadEnabled() then itemNumber = 1 else itemNumber = 0 end

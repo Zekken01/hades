@@ -700,8 +700,16 @@ void GetMsgHookImpl(__int32 code, unsigned __int32 wParam, long lParam) // 0x10C
 
 	// Ignore messages if the web renderer isn't active or if input isn't captured
 	auto webRenderer = WebRenderer::GetInstance();
-	if ((!InputCaptured && !PointerCaptured) || !webRenderer->IsRendering())
+	if (!webRenderer->IsRendering())
 		return;
+	if (!InputCaptured && !PointerCaptured)
+	{
+		// hades: a screen with a pointer region released its capture while the cursor is
+		// outside it; keep feeding the cursor so it can take it back
+		if (msg->message == WM_MOUSEMOVE && Web::RmlUi::Input::IsTrackingPointer())
+			HandleMouseMessage(msg);
+		return;
+	}
 
 	switch (msg->message)
 	{

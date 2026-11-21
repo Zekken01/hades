@@ -390,6 +390,12 @@ return function(screenId, document)
 		core.capturePointer(screenId, capture and true or false)
 	end
 
+	-- Capture only while the cursor is over the element with this id (nil: everywhere);
+	-- outside it the game gets the input.
+	function dew.setPointerRegion(id)
+		core.setPointerRegion(screenId, id)
+	end
+
 	-- dew.toast({ body = "<b>Hello World</b>" })
 	function dew.toast(toast)
 		core.toast(toast)

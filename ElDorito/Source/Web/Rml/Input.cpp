@@ -10,6 +10,7 @@
 #include <Windows.h>
 #include <windowsx.h>
 
+#include <atomic>
 #include <deque>
 #include <mutex>
 
@@ -24,6 +25,7 @@ namespace
 	bool g_mouseActive = false;
 	int g_mouseX = 0;
 	int g_mouseY = 0;
+	std::atomic<bool> g_trackPointer = false;
 }
 
 /* ---------- public code */
@@ -62,6 +64,16 @@ namespace Web
 				std::lock_guard<std::mutex> lock(g_queueMutex);
 				g_queue.clear();
 				g_highSurrogate = 0;
+			}
+
+			void SetTrackPointer(bool track)
+			{
+				g_trackPointer = track;
+			}
+
+			bool IsTrackingPointer()
+			{
+				return g_trackPointer;
 			}
 
 			bool GetMousePosition(int *x, int *y)
