@@ -29,20 +29,35 @@ local function maybeSetImage(img, newSrc)
 	end
 end
 
+-- The answer arrives on a later frame, by which time the element may be gone (a list rebuilt
+-- through inner_rml) and its Lua handle dangling.  Each request tags the element with a token
+-- and the answer looks it up again; a destroyed element, or one asked for again since, is not
+-- found and the answer is dropped.
+local nextRequest = 0
+
 local function invalidateImage(img)
 	local url = img:GetAttribute("data-url") or ""
 	local pak = img:GetAttribute("data-pak")
 	local fallback = img:GetAttribute("data-fallback") or ""
 	local fileTypes = img:GetAttribute("data-file-types")
 	fileTypes = fileTypes and split(fileTypes, ",") or { "jpg", "png", "svg" }
+	nextRequest = nextRequest + 1
+	local token = tostring(nextRequest)
+	img:SetAttribute("data-pak-request", token)
+	local function apply(src)
+		local live = document:QuerySelector('[data-pak-request="' .. token .. '"]')
+		if live then
+			maybeSetImage(live, src)
+		end
+	end
 	dew.getAssetUrl(url, { fileTypes = json.array(fileTypes), pak = pak }):next(function(resolved)
 		-- the browser's onerror fallback: use it when nothing resolved or the file is missing
 		if resolved == nil or resolved == "" or not dew.fileExists(resolved) then
 			resolved = fallback
 		end
-		maybeSetImage(img, resolved)
+		apply(resolved)
 	end, function()
-		maybeSetImage(img, fallback)
+		apply(fallback)
 	end)
 end
 
