@@ -394,9 +394,43 @@ static int __cdecl ReportHook(int type, char *message, int *returnValue)
 	return TRUE;
 }
 
+// A crash prints the faulting stack (walked from the exception context) before the process dies.
+static LONG WINAPI CrashFilter(EXCEPTION_POINTERS *info)
+{
+	printf("[harness] crash: exception 0x%08lX at %p\n", info->ExceptionRecord->ExceptionCode, info->ExceptionRecord->ExceptionAddress);
+	HANDLE process = GetCurrentProcess();
+	HANDLE thread = GetCurrentThread();
+	SymSetOptions(SYMOPT_UNDNAME | SYMOPT_DEFERRED_LOADS | SYMOPT_LOAD_LINES);
+	SymInitialize(process, nullptr, TRUE);
+	CONTEXT context = *info->ContextRecord;
+	STACKFRAME64 frame = {};
+	frame.AddrPC.Offset = context.Eip;
+	frame.AddrPC.Mode = AddrModeFlat;
+	frame.AddrFrame.Offset = context.Ebp;
+	frame.AddrFrame.Mode = AddrModeFlat;
+	frame.AddrStack.Offset = context.Esp;
+	frame.AddrStack.Mode = AddrModeFlat;
+	for (int i = 0; i < 48 && StackWalk64(IMAGE_FILE_MACHINE_I386, process, thread, &frame, &context, nullptr, SymFunctionTableAccess64, SymGetModuleBase64, nullptr); i++)
+	{
+		char buffer[sizeof(SYMBOL_INFO) + 256] = {};
+		auto *symbol = reinterpret_cast<SYMBOL_INFO *>(buffer);
+		symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+		symbol->MaxNameLen = 255;
+		DWORD64 displacement = 0;
+		IMAGEHLP_LINE64 line = { sizeof(line) };
+		DWORD lineDisplacement = 0;
+		const bool named = SymFromAddr(process, frame.AddrPC.Offset, &displacement, symbol);
+		const bool lined = SymGetLineFromAddr64(process, frame.AddrPC.Offset, &lineDisplacement, &line);
+		printf("  %s  %s:%lu\n", named ? symbol->Name : "?", lined ? line.FileName : "", lined ? line.LineNumber : 0);
+	}
+	fflush(stdout);
+	return EXCEPTION_EXECUTE_HANDLER;
+}
+
 int main(int argc, char **argv)
 {
 	_CrtSetReportHook2(_CRT_RPTHOOK_INSTALL, ReportHook);
+	SetUnhandledExceptionFilter(CrashFilter);
 	if (argc < 3)
 	{
 		printf("usage: ui-harness <ui root dir> <script> [--verbose] [--size WxH]\n");
