@@ -534,8 +534,7 @@ namespace Modules
 
 	bool ModulePlayer::ValidServiceTag(std::string const &tag) // 0x109F6BC0
 	{
-		static const std::unordered_set<std::string> filter = { "ANUS", "ARSE", "CLIT", "COCK", "COON", "CUNT", "DAGO", "DAMN", "DICK", "DIKE", "DYKE", "FUCK", "GOOK", "HEEB", "HELL", "HOMO", "JIZZ", "KIKE", "KUNT", "KYKE", "MICK", "MUFF", "PAKI", "PISS", "POON", "PUTO", "SHIT", "SHIZ", "SLUT", "SMEG", "SPIC", "TARD", "TITS", "TWAT", "WANK", "NIGA", "NIGG", "NIGR", "N1GG", "N1GR", "NIG", "N1G", "RAPE", "GAY", "GAYY" };
-		return tag.length() > 2 && tag.length() < 5 && std::all_of(tag.begin(), tag.end(), [](auto c) { return c >= '0' && c <= 'Z'; }) && filter.find(tag) == filter.end();
+		return tag.length() > 2 && tag.length() < 5 && std::all_of(tag.begin(), tag.end(), [](auto c) { return c >= '0' && c <= 'Z'; });
 	}
 
 	bool ModulePlayer::ValidPlayerName(std::string const &name) // 0x109F6A50
