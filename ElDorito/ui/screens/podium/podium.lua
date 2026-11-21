@@ -27,9 +27,20 @@ local function slideIn(id)
 	end)
 end
 
+-- playersInfo is a JSON object keyed by the player index as a string ({"0": {...}}): the JS
+-- read playersInfo[playerIndex]; an array form is accepted too
+local function playerInfoAt(list, playerIndex)
+	playerIndex = tonumber(playerIndex)
+	if type(list) ~= "table" or not playerIndex then return nil end
+	local info = list[tostring(playerIndex)]
+	if info == nil then info = list[playerIndex + 1] end
+	if type(info) ~= "table" then return nil end
+	return info
+end
+
 local function setEmblem(imageId, data, playersInfo)
 	local emblemPath = "dew://assets/emblems/generic.png"
-	local info = playersInfo[(tonumber(data.playerIndex) or -1) + 1]
+	local info = playerInfoAt(playersInfo, data.playerIndex)
 	if info then
 		if dew.truthy(info.e) then
 			emblemPath = info.e

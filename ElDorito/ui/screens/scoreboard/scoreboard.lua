@@ -251,6 +251,17 @@ local function spreadRowColor(rml)
 	return '<tr' .. attrs .. '>' .. (rest:gsub('<td', '<td style="background-color: ' .. color .. ';"'))
 end
 
+-- playersInfo is a JSON object keyed by the player index as a string ({"0": {...}}): the JS
+-- read playersInfo[playerIndex]; an array form is accepted too
+local function playerInfoAt(list, playerIndex)
+	playerIndex = tonumber(playerIndex)
+	if type(list) ~= "table" or not playerIndex then return nil end
+	local info = list[tostring(playerIndex)]
+	if info == nil then info = list[playerIndex + 1] end
+	if type(info) ~= "table" then return nil end
+	return info
+end
+
 local function renderTeamRow(row)
 	local parts = {}
 	parts[#parts + 1] = string.format('<tr class="%s" style="background-color: %s;">', rowClasses(row, "player teamHeader"), row.color)
@@ -596,7 +607,7 @@ playerBreakdown = function(name)
 	local currentPlayer = appState.playerRows[playerIndex + 1]
 	local color = hexToRgb(currentPlayer.color, cardOpacity)
 	local emblemPath = currentPlayer.emblem
-	local info = cachedPlayersInfo and cachedPlayersInfo[(tonumber(currentPlayer.playerIndex) or -1) + 1]
+	local info = playerInfoAt(cachedPlayersInfo, currentPlayer.playerIndex)
 	if info and truthy(info.e) then
 		emblemPath = info.e
 	end
@@ -892,8 +903,7 @@ local function handleUpdate(update, animate)
 	for x, player in ipairs(players) do
 		local playerScores = (update.scores.playerScores or {})[x] or {}
 		local playerIndex = tonumber(player.playerIndex) or -1
-		local playersInfo = cachedPlayersInfo[playerIndex + 1]
-		if type(playersInfo) ~= "table" then playersInfo = nil end
+		local playersInfo = playerInfoAt(cachedPlayersInfo, playerIndex)
 
 		local showPing, ping = false, ""
 		if type(pingPlayers) == "table" then
