@@ -121,6 +121,7 @@ namespace Web
 			void ShowScreen(Screen &screen, bool show);
 			void SetState(Screen &screen, ScreenState state);
 			void UpdateOverlay();
+			void ApplyPointerEvents(Screen &screen);
 			void DeliverEvent(Screen &screen, const std::string &event, const std::string &dataJson);
 			void DeliverEventToSubscribed(const std::string &event, const std::string &dataJson, bool broadcast);
 			void DeliverEventTable(Screen &screen, const std::string &event, int dataRef);

@@ -473,6 +473,7 @@ namespace Web
 			// (no SetId: screens use their own ids, e.g. the dialog screen has an element "dialog")
 			// Documents with a numeric z-index stack by value under the context root.
 			document->SetProperty("z-index", std::to_string(screen.zIndex));
+			ApplyPointerEvents(screen);
 			screen.envRef = screen.document->GetEnvRef();
 			screen.loaded = true;
 			if (screen.state == ScreenState::Waiting)
@@ -538,6 +539,15 @@ namespace Web
 				DeliverEvent(screen, "hide", "{}");
 			}
 			UpdateOverlay();
+		}
+
+		// ui.js gave each screen's iframe pointer-events: none unless the screen captures input
+		// (or just the pointer), so a visible overlay such as the chat's message list never took
+		// clicks meant for a screen below it (the emote wheel).
+		void UiRoot::ApplyPointerEvents(Screen &screen)
+		{
+			if (screen.document)
+				screen.document->SetProperty("pointer-events", (screen.captureInput || screen.capturePointer) ? "auto" : "none");
 		}
 
 		void UiRoot::UpdateOverlay()
@@ -1028,6 +1038,7 @@ namespace Web
 			{
 				screen->captureInput = lua_toboolean(L, 2) != 0;
 				screen->capturePointer = false; // as ui.js: pointer capture is dropped either way
+				self->ApplyPointerEvents(*screen);
 				self->UpdateOverlay();
 				rapidjson::StringBuffer buffer;
 				rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
@@ -1049,6 +1060,7 @@ namespace Web
 			if (Screen *screen = self->FindScreen(CheckString(L, 1)))
 			{
 				screen->capturePointer = lua_toboolean(L, 2) != 0;
+				self->ApplyPointerEvents(*screen);
 				self->UpdateOverlay();
 			}
 			return 0;
