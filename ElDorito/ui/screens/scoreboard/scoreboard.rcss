@@ -114,15 +114,13 @@ body {
 	padding-right: 2dp;
 }
 
-td.score {
-	position: relative;
-}
-
+/* as the original: placed against #window (the score cell is not positioned), so it sits past
+   the table's right edge whichever column is last, and at its own line's height */
 .player-ping {
 	position: absolute;
 	height: 24dp;
 	right: -8dp;
-	top: -1dp;
+	margin-top: -1dp;
 }
 
 .rankimg {
