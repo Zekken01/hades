@@ -108,6 +108,13 @@
                     <div class="setting toggle" id="gExpandScoreboard" data-state="0">Disabled</div>
                 </div>
 				<div class="row">
+                    <label for="gScoreboardPing">Scoreboard Ping</label>
+                    <div class="selectWrap setting" data-control="gScoreboardPing"><img class="arrow left" src="dew://assets/ux/arrow_left.svg"/><img class="arrow right" src="dew://assets/ux/arrow_right.svg"/><select id="gScoreboardPing" class="inner">
+                        <option value="0">Bars</option>
+                        <option value="1">Numbers</option>
+                    </select></div>
+                </div>
+				<div class="row">
                     <label for="gHideChat">Show Chat</label>
                     <div class="setting inverted-checkbox toggle" id="gHideChat" data-state="0">Enabled</div>
                 </div>

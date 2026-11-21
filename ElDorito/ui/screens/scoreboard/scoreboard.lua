@@ -139,6 +139,7 @@ local medalDetails = {
 
 local appState = {
 	valid = false,
+	pingNumbers = false, -- Game.ScoreboardPingDisplay 1: a Ping column (the ping_display mod) instead of bars
 	gameId = -1,
 	rows = {},
 	playerRows = {},
@@ -271,6 +272,9 @@ local function renderTeamRow(row)
 	if appState.multiround then
 		parts[#parts + 1] = '<td class="score">' .. esc(row.score) .. "</td>"
 	end
+	if appState.pingNumbers then
+		parts[#parts + 1] = '<td class="score ping"></td>'
+	end
 	parts[#parts + 1] = "</tr>"
 	return table.concat(parts)
 end
@@ -339,7 +343,7 @@ local function renderPlayerRow(row, clickIndex)
 		end
 	end
 	local ping = ""
-	if row.showPing and row.ping ~= "" then
+	if row.showPing and row.ping ~= "" and not appState.pingNumbers then
 		ping = '<img class="player-ping" src="' .. esc(row.ping) .. '"/>'
 	end
 	if not isLobby() then
@@ -347,6 +351,10 @@ local function renderPlayerRow(row, clickIndex)
 	end
 	if appState.multiround then
 		parts[#parts + 1] = '<td class="score">' .. esc(row.score) .. ping .. "</td>"
+	end
+	if appState.pingNumbers then
+		local ms = row.showPing and tonumber(row.pingMs) or nil
+		parts[#parts + 1] = '<td class="score ping">' .. ((ms and ms >= 0) and esc(math.floor(ms)) or "") .. "</td>"
 	end
 	parts[#parts + 1] = "</tr>"
 	return table.concat(parts)
@@ -407,6 +415,9 @@ local function renderWindow()
 	end
 	if appState.multiround then
 		parts[#parts + 1] = '<th class="headerText score">Round</th>'
+	end
+	if appState.pingNumbers then
+		parts[#parts + 1] = '<th class="headerText score ping">Ping</th>'
 	end
 	parts[#parts + 1] = '</tr></thead><tbody id="playerList">'
 	for _, row in ipairs(appState.rows) do
@@ -905,11 +916,12 @@ local function handleUpdate(update, animate)
 		local playerIndex = tonumber(player.playerIndex) or -1
 		local playersInfo = playerInfoAt(cachedPlayersInfo, playerIndex)
 
-		local showPing, ping = false, ""
+		local showPing, ping, pingMs = false, "", nil
 		if type(pingPlayers) == "table" then
 			local pingInfo = pingPlayers[playerIndex + 1]
 			showPing = true
-			ping = pingImage(type(pingInfo) == "table" and pingInfo.ping or nil)
+			pingMs = type(pingInfo) == "table" and tonumber(pingInfo.ping) or nil
+			ping = pingImage(pingMs)
 		end
 
 		local teamIndex = tonumber(player.teamIndex) or -1
@@ -922,6 +934,7 @@ local function handleUpdate(update, animate)
 				emblem = (playersInfo and truthy(playersInfo.e)) and playersInfo.e or player.emblem,
 				showPing = showPing,
 				ping = ping,
+				pingMs = pingMs,
 				rank = playersInfo and (playersInfo.r ~= nil and playersInfo.r or -1) or -1,
 				isDead = bit(update.scores.deadPlayerMask, playerIndex),
 				hasObjective = bit(update.scores.objectivePlayerMask, playerIndex),
@@ -1215,6 +1228,14 @@ dew.on("show", function(e)
 		appState.expanded = locked
 	end
 	appState.locked = locked
+
+	dew.command("Game.ScoreboardPingDisplay"):next(function(result)
+		local numbers = result == "1"
+		if numbers ~= appState.pingNumbers then
+			appState.pingNumbers = numbers
+			renderWindow()
+		end
+	end)
 
 	dew.command("Game.ExpandedScoreboard"):next(function(result)
 		if result == "1" and not isLobby() then

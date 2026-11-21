@@ -471,6 +471,11 @@ namespace Modules
 		VarExpandedScoreboard = AddVariableInt("ExpandedScoreboard", "expanded_scoreboard", "Always show full scoreboard, instead of just while locked/postgame", eCommandFlagsArchived, 0);
 		VarExpandedScoreboard->ValueIntMin = 0;
 		VarExpandedScoreboard->ValueIntMax = 1;
+
+		// hades: from the ping_display UI mod; read by the scoreboard screen only
+		Modules::Command *pingDisplay = AddVariableInt("ScoreboardPingDisplay", "scoreboard_ping_display", "How the scoreboard shows ping: 0 = bars, 1 = numbers", eCommandFlagsArchived, 0);
+		pingDisplay->ValueIntMin = 0;
+		pingDisplay->ValueIntMax = 1;
 		VarHideChat = AddVariableInt("HideChat", "hide_chat", "Hide in-game chat screen", eCommandFlagsArchived, 0);
 		VarHideChat->ValueIntMin = 0;
 		VarHideChat->ValueIntMax = 1;

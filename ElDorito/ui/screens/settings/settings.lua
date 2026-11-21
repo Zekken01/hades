@@ -61,6 +61,7 @@ local settingsToLoad = {
 	{ "lookSensitivity", "Input.ControllerSensitivityY" },
 	{ "controllerPort", "Input.ControllerPort" },
 	{ "gExpandScoreboard", "Game.ExpandedScoreboard" },
+	{ "gScoreboardPing", "Game.ScoreboardPingDisplay" },
 	{ "invertLook", "Input.ControllerInvertY" },
 	{ "gHideChat", "Game.HideChat" },
 	{ "gSuppressJuggling", "Game.SuppressJuggling" },
