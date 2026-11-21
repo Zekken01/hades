@@ -17,6 +17,7 @@
 #include "Web/Rml/SystemInterface.hpp"
 #include "Web/Rml/UiRoot.hpp"
 #include "Web/Ui/Screen.hpp"
+#include "Web/Ui/ScreenLayer.hpp"
 
 #include <RmlUi/Core.h>
 #include <RmlUi/Debugger.h>
@@ -153,6 +154,11 @@ namespace Web
 
 			m_QueryHandler = std::make_unique<Bridge::WebRendererQueryHandler>();
 			Bridge::RegisterClientFunctions(*m_QueryHandler);
+			// The registered WebScreens add their own bridge methods here (mod_download's
+			// modDownloadAction, the server mod browser's modDownloadActionSingle). The CEF
+			// handler did this once the browser existed; without it those methods were missing
+			// and the mod download dialog's buttons did nothing.
+			Web::Ui::ScreenLayer::CreateScreens();
 
 			m_UiRoot = std::make_unique<Web::RmlUi::UiRoot>(*m_Lua, m_Context, *m_FileInterface, *m_AsyncTextures);
 			m_UiRoot->OnResize((int)m_Width, (int)m_Height);

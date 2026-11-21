@@ -97,6 +97,12 @@ namespace Web
 	{
 		namespace ScreenLayer
 		{
+			// the game's WebScreens add their bridge methods here; the harness answers every
+			// bridge call from the test script instead
+			void CreateScreens()
+			{
+			}
+
 			void Show(bool show)
 			{
 				Web::Browser::WebRenderer::GetInstance()->ShowRenderer(show, true);
